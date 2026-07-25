@@ -1,0 +1,3048 @@
+[
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 1,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 1,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 1,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 1,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 2,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 2,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 2,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 2,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 3,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 3,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 3,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 3,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 4,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 4,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 4,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 4,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 5,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 5,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 5,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 5,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 6,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 6,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 6,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 6,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add Usuario",
+    "content_type": 7,
+    "codename": "add_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change Usuario",
+    "content_type": 7,
+    "codename": "change_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete Usuario",
+    "content_type": 7,
+    "codename": "delete_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view Usuario",
+    "content_type": 7,
+    "codename": "view_usuario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add Categoría",
+    "content_type": 8,
+    "codename": "add_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change Categoría",
+    "content_type": 8,
+    "codename": "change_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete Categoría",
+    "content_type": 8,
+    "codename": "delete_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view Categoría",
+    "content_type": 8,
+    "codename": "view_categoria"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add Producto",
+    "content_type": 9,
+    "codename": "add_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change Producto",
+    "content_type": 9,
+    "codename": "change_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete Producto",
+    "content_type": 9,
+    "codename": "delete_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view Producto",
+    "content_type": 9,
+    "codename": "view_producto"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add Mesa",
+    "content_type": 10,
+    "codename": "add_mesa"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change Mesa",
+    "content_type": 10,
+    "codename": "change_mesa"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete Mesa",
+    "content_type": 10,
+    "codename": "delete_mesa"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view Mesa",
+    "content_type": 10,
+    "codename": "view_mesa"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add Pedido",
+    "content_type": 11,
+    "codename": "add_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change Pedido",
+    "content_type": 11,
+    "codename": "change_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete Pedido",
+    "content_type": 11,
+    "codename": "delete_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view Pedido",
+    "content_type": 11,
+    "codename": "view_pedido"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add Configuración",
+    "content_type": 12,
+    "codename": "add_configuracion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change Configuración",
+    "content_type": 12,
+    "codename": "change_configuracion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete Configuración",
+    "content_type": 12,
+    "codename": "delete_configuracion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view Configuración",
+    "content_type": 12,
+    "codename": "view_configuracion"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 49,
+  "fields": {
+    "name": "Can add Timbrado",
+    "content_type": 13,
+    "codename": "add_timbrado"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 50,
+  "fields": {
+    "name": "Can change Timbrado",
+    "content_type": 13,
+    "codename": "change_timbrado"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 51,
+  "fields": {
+    "name": "Can delete Timbrado",
+    "content_type": 13,
+    "codename": "delete_timbrado"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 52,
+  "fields": {
+    "name": "Can view Timbrado",
+    "content_type": 13,
+    "codename": "view_timbrado"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 53,
+  "fields": {
+    "name": "Can add Factura",
+    "content_type": 14,
+    "codename": "add_factura"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 54,
+  "fields": {
+    "name": "Can change Factura",
+    "content_type": 14,
+    "codename": "change_factura"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 55,
+  "fields": {
+    "name": "Can delete Factura",
+    "content_type": 14,
+    "codename": "delete_factura"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 56,
+  "fields": {
+    "name": "Can view Factura",
+    "content_type": 14,
+    "codename": "view_factura"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 57,
+  "fields": {
+    "name": "Can add Movimiento de Inventario",
+    "content_type": 15,
+    "codename": "add_movimientoinventario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 58,
+  "fields": {
+    "name": "Can change Movimiento de Inventario",
+    "content_type": 15,
+    "codename": "change_movimientoinventario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 59,
+  "fields": {
+    "name": "Can delete Movimiento de Inventario",
+    "content_type": 15,
+    "codename": "delete_movimientoinventario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 60,
+  "fields": {
+    "name": "Can view Movimiento de Inventario",
+    "content_type": 15,
+    "codename": "view_movimientoinventario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 61,
+  "fields": {
+    "name": "Can add Inventario",
+    "content_type": 16,
+    "codename": "add_inventario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 62,
+  "fields": {
+    "name": "Can change Inventario",
+    "content_type": 16,
+    "codename": "change_inventario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 63,
+  "fields": {
+    "name": "Can delete Inventario",
+    "content_type": 16,
+    "codename": "delete_inventario"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 64,
+  "fields": {
+    "name": "Can view Inventario",
+    "content_type": 16,
+    "codename": "view_inventario"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 1,
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 2,
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 3,
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 4,
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 5,
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 6,
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 7,
+  "fields": {
+    "app_label": "usuarios",
+    "model": "usuario"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 8,
+  "fields": {
+    "app_label": "productos",
+    "model": "categoria"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 9,
+  "fields": {
+    "app_label": "productos",
+    "model": "producto"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 10,
+  "fields": {
+    "app_label": "mesas",
+    "model": "mesa"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 11,
+  "fields": {
+    "app_label": "pedidos",
+    "model": "pedido"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 12,
+  "fields": {
+    "app_label": "facturacion",
+    "model": "configuracion"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 13,
+  "fields": {
+    "app_label": "facturacion",
+    "model": "timbrado"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 14,
+  "fields": {
+    "app_label": "facturacion",
+    "model": "factura"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 15,
+  "fields": {
+    "app_label": "inventario",
+    "model": "movimientoinventario"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "pk": 16,
+  "fields": {
+    "app_label": "inventario",
+    "model": "inventario"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "pk": 1,
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "nombre": "Administrador",
+    "pin": "1234",
+    "rol": "administrador",
+    "telefono": null,
+    "activo": true,
+    "creado_por": null,
+    "created_at": "2026-05-01T19:25:35.404Z",
+    "updated_at": "2026-05-01T19:25:35.404Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "pk": 2,
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "nombre": "Admin",
+"pin": "0000",
+    "rol": "administrador",
+    "telefono": null,
+    "activo": true,
+    "creado_por": null,
+    "created_at": "2026-05-01T20:31:53.528Z",
+    "updated_at": "2026-05-01T20:31:53.528Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 22,
+  "fields": {
+    "nombre": "Hamburguesas",
+    "icono": "lunch_dining",
+    "orden": 1,
+    "created_at": "2026-05-02T15:51:33.143Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 23,
+  "fields": {
+    "nombre": "Hot Dogs",
+    "icono": "dinner_dining",
+    "orden": 2,
+    "created_at": "2026-05-02T15:51:33.237Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 24,
+  "fields": {
+    "nombre": "Lomitos",
+    "icono": "kebab_dining",
+    "orden": 3,
+    "created_at": "2026-05-02T15:51:33.370Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 25,
+  "fields": {
+    "nombre": "Bebidas",
+    "icono": "local_cafe",
+    "orden": 4,
+    "created_at": "2026-05-02T15:51:33.470Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 26,
+  "fields": {
+    "nombre": "Platos",
+    "icono": "category",
+    "orden": 10,
+    "created_at": "2026-05-04T07:03:10.030Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 27,
+  "fields": {
+    "nombre": "Comida_rapida",
+    "icono": "category",
+    "orden": 10,
+    "created_at": "2026-05-04T07:03:10.753Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 28,
+  "fields": {
+    "nombre": "Entrada",
+    "icono": "category",
+    "orden": 10,
+    "created_at": "2026-05-04T07:03:12.864Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 29,
+  "fields": {
+    "nombre": "Ensaladas",
+    "icono": "category",
+    "orden": 10,
+    "created_at": "2026-05-04T07:03:14.819Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 30,
+  "fields": {
+    "nombre": "Postres",
+    "icono": "category",
+    "orden": 10,
+    "created_at": "2026-05-04T07:03:15.541Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 51,
+  "fields": {
+    "nombre": "Hamburguesa",
+    "descripcion": "Deliciosa hamburguesa",
+    "precio": "25000",
+    "categoria": 22,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300",
+    "variantes": {
+      "tipos": [
+        {
+          "nombre": "Simple",
+          "precio_extra": 0
+        },
+        {
+          "nombre": "Doble",
+          "precio_extra": 10000
+        },
+        {
+          "nombre": "Especial",
+          "precio_extra": 20000
+        }
+      ],
+      "queso": {
+        "nombre": "Con Queso",
+        "precio_extra": 5000
+      },
+      "huevo": {
+        "nombre": "Con Huevo",
+        "precio_extra": 5000
+      },
+      "tocineta": {
+        "nombre": "Con Tocineta",
+        "precio_extra": 7000
+      },
+      "clasica": [
+        {
+          "nombre": "Simple",
+          "precio": 12000
+        },
+        {
+          "nombre": "Doble",
+          "precio": 18000
+        },
+        {
+          "nombre": "Triple",
+          "precio": 24000
+        }
+      ]
+    },
+    "created_at": "2026-05-02T15:51:33.571Z",
+    "updated_at": "2026-05-04T07:48:38.047Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 52,
+  "fields": {
+    "nombre": "Hot Dog",
+    "descripcion": "Salchicha premium",
+    "precio": "15000",
+    "categoria": 23,
+    "disponible": true,
+    "imagen": "productos/hotdog.jpg",
+    "variantes": {
+      "tipos": [
+        {
+          "nombre": "Simple",
+          "precio_extra": 0
+        },
+        {
+          "nombre": "Completo",
+          "precio_extra": 10000
+        },
+        {
+          "nombre": "Especial",
+          "precio_extra": 15000
+        }
+      ],
+      "palta": {
+        "nombre": "Con Palta",
+        "precio_extra": 5000
+      },
+      "chucrut": {
+        "nombre": "Con Chucrut",
+        "precio_extra": 3000
+      }
+    },
+    "created_at": "2026-05-02T15:51:33.682Z",
+    "updated_at": "2026-05-02T15:51:33.683Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 53,
+  "fields": {
+    "nombre": "Lomito",
+    "descripcion": "Lomo de cerdo",
+    "precio": "30000",
+    "categoria": 24,
+    "disponible": true,
+    "imagen": "productos/lomito.jpg",
+    "variantes": {
+      "tipos": [
+        {
+          "nombre": "Simple",
+          "precio_extra": 0
+        },
+        {
+          "nombre": "Completo",
+          "precio_extra": 10000
+        },
+        {
+          "nombre": "Especial",
+          "precio_extra": 18000
+        }
+      ],
+      "queso": {
+        "nombre": "Con Queso",
+        "precio_extra": 5000
+      },
+      "huevo": {
+        "nombre": "Con Huevo",
+        "precio_extra": 5000
+      },
+      "jamon": {
+        "nombre": "Con Jamón",
+        "precio_extra": 5000
+      }
+    },
+    "created_at": "2026-05-02T15:51:33.826Z",
+    "updated_at": "2026-05-02T15:51:33.826Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 54,
+  "fields": {
+    "nombre": "Coca Cola",
+    "descripcion": "Bebida gaseosa 500ml",
+    "precio": "8000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "productos/cocacola.png",
+    "variantes": {
+      "tamaños": [
+        {
+          "nombre": "500ml",
+          "precio_extra": 0
+        },
+        {
+          "nombre": "1.5L",
+          "precio_extra": 7000
+        }
+      ]
+    },
+    "created_at": "2026-05-02T15:51:33.981Z",
+    "updated_at": "2026-05-02T15:51:33.981Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 55,
+  "fields": {
+    "nombre": "Pepsi",
+    "descripcion": "Bebida gaseosa 500ml",
+    "precio": "7000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "productos/cocacola.png",
+    "variantes": null,
+    "created_at": "2026-05-02T15:51:34.084Z",
+    "updated_at": "2026-05-02T15:51:34.084Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 56,
+  "fields": {
+    "nombre": "Agua Mineral",
+    "descripcion": "Agua sin gas 500ml",
+    "precio": "5000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1523362628745-0c100150b504?w=300",
+    "variantes": null,
+    "created_at": "2026-05-02T15:51:34.203Z",
+    "updated_at": "2026-05-04T07:47:07.241Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 57,
+  "fields": {
+    "nombre": "Pizza Margherita",
+    "descripcion": "Delicioso Pizza Margherita listo para servir",
+    "precio": "45000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=300",
+    "variantes": [
+      {
+        "nombre": "Personal",
+        "precio": 15000
+      },
+      {
+        "nombre": "Mediana",
+        "precio": 30000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 45000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:10.161Z",
+    "updated_at": "2026-05-04T07:03:10.161Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 58,
+  "fields": {
+    "nombre": "Pizza Pepperoni",
+    "descripcion": "Delicioso Pizza Pepperoni listo para servir",
+    "precio": "50000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=300",
+    "variantes": [
+      {
+        "nombre": "Personal",
+        "precio": 17000
+      },
+      {
+        "nombre": "Mediana",
+        "precio": 35000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 50000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:10.339Z",
+    "updated_at": "2026-05-04T07:03:10.339Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 59,
+  "fields": {
+    "nombre": "Pizza 4 Quesos",
+    "descripcion": "Delicioso Pizza 4 Quesos listo para servir",
+    "precio": "55000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=300",
+    "variantes": [
+      {
+        "nombre": "Personal",
+        "precio": 18000
+      },
+      {
+        "nombre": "Mediana",
+        "precio": 38000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 55000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:10.486Z",
+    "updated_at": "2026-05-04T07:03:10.486Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 60,
+  "fields": {
+    "nombre": "Pizza Hawaiana",
+    "descripcion": "Delicioso Pizza Hawaiana listo para servir",
+    "precio": "48000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1604382355076-af4b0eb60143?w=300",
+    "variantes": [
+      {
+        "nombre": "Personal",
+        "precio": 16000
+      },
+      {
+        "nombre": "Mediana",
+        "precio": 32000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 48000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:10.609Z",
+    "updated_at": "2026-05-04T07:03:10.609Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 62,
+  "fields": {
+    "nombre": "Hamburguesa BBQ",
+    "descripcion": "Delicioso Hamburguesa BBQ listo para servir",
+    "precio": "22000",
+    "categoria": 27,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300",
+    "variantes": [
+      {
+        "nombre": "Simple",
+        "precio": 15000
+      },
+      {
+        "nombre": "Doble",
+        "precio": 22000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:10.974Z",
+    "updated_at": "2026-05-04T07:03:10.974Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 63,
+  "fields": {
+    "nombre": "Hamburguesa Vegetariana",
+    "descripcion": "Delicioso Hamburguesa Vegetariana listo para servir",
+    "precio": "20000",
+    "categoria": 27,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300",
+    "variantes": [
+      {
+        "nombre": "Simple",
+        "precio": 14000
+      },
+      {
+        "nombre": "Doble",
+        "precio": 20000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:11.097Z",
+    "updated_at": "2026-05-04T07:03:11.097Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 64,
+  "fields": {
+    "nombre": "Hot Dog Clásico",
+    "descripcion": "Delicioso Hot Dog Clásico listo para servir",
+    "precio": "8000",
+    "categoria": 27,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 8000
+      },
+      {
+        "nombre": "Grande",
+        "precio": 12000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:11.208Z",
+    "updated_at": "2026-05-04T07:03:11.208Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 65,
+  "fields": {
+    "nombre": "Hot Dog Especial",
+    "descripcion": "Delicioso Hot Dog Especial listo para servir",
+    "precio": "12000",
+    "categoria": 27,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 12000
+      },
+      {
+        "nombre": "Grande",
+        "precio": 15000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:11.319Z",
+    "updated_at": "2026-05-04T07:03:11.319Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 66,
+  "fields": {
+    "nombre": "Lomito de Cerdo",
+    "descripcion": "Delicioso Lomito de Cerdo listo para servir",
+    "precio": "25000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 25000
+      },
+      {
+        "nombre": "Con queso",
+        "precio": 30000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:11.430Z",
+    "updated_at": "2026-05-04T07:03:11.430Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 67,
+  "fields": {
+    "nombre": "Lomito de Pollo",
+    "descripcion": "Delicioso Lomito de Pollo listo para servir",
+    "precio": "22000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 22000
+      },
+      {
+        "nombre": "Con queso",
+        "precio": 27000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:11.553Z",
+    "updated_at": "2026-05-04T07:03:11.553Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 68,
+  "fields": {
+    "nombre": "Lomito de Res",
+    "descripcion": "Delicioso Lomito de Res listo para servir",
+    "precio": "28000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 28000
+      },
+      {
+        "nombre": "Con queso",
+        "precio": 33000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:11.830Z",
+    "updated_at": "2026-05-04T07:03:11.830Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 69,
+  "fields": {
+    "nombre": "Milanesa de Pollo",
+    "descripcion": "Delicioso Milanesa de Pollo listo para servir",
+    "precio": "20000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 20000
+      },
+      {
+        "nombre": "Napolitana",
+        "precio": 25000
+      },
+      {
+        "nombre": "A la plancha",
+        "precio": 18000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:12.053Z",
+    "updated_at": "2026-05-04T07:03:12.053Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 70,
+  "fields": {
+    "nombre": "Milanesa de Carne",
+    "descripcion": "Delicioso Milanesa de Carne listo para servir",
+    "precio": "22000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 22000
+      },
+      {
+        "nombre": "Napolitana",
+        "precio": 27000
+      },
+      {
+        "nombre": "A la plancha",
+        "precio": 20000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:12.241Z",
+    "updated_at": "2026-05-04T07:03:12.241Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 71,
+  "fields": {
+    "nombre": "Vori Vori",
+    "descripcion": "Delicioso Vori Vori listo para servir",
+    "precio": "18000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1574484284002-952c9248c0a1?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción individual",
+        "precio": 18000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 45000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:12.386Z",
+    "updated_at": "2026-05-04T07:03:12.386Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 72,
+  "fields": {
+    "nombre": "Sancocho",
+    "descripcion": "Delicioso Sancocho listo para servir",
+    "precio": "20000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción individual",
+        "precio": 20000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 50000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:12.508Z",
+    "updated_at": "2026-05-04T07:03:12.508Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 73,
+  "fields": {
+    "nombre": "Caldo de Gallina",
+    "descripcion": "Delicioso Caldo de Gallina listo para servir",
+    "precio": "15000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción",
+        "precio": 15000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:12.619Z",
+    "updated_at": "2026-05-04T07:03:12.619Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 74,
+  "fields": {
+    "nombre": "Mbutuco",
+    "descripcion": "Delicioso Mbutuco listo para servir",
+    "precio": "22000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción individual",
+        "precio": 22000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 55000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:12.752Z",
+    "updated_at": "2026-05-04T07:03:12.752Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 75,
+  "fields": {
+    "nombre": "Chipa",
+    "descripcion": "Delicioso Chipa listo para servir",
+    "precio": "5000",
+    "categoria": 28,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300",
+    "variantes": [
+      {
+        "nombre": "Unidad",
+        "precio": 500
+      },
+      {
+        "nombre": "Docena",
+        "precio": 5000
+      },
+      {
+        "nombre": "25 unidades",
+        "precio": 10000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:12.972Z",
+    "updated_at": "2026-05-04T07:03:12.972Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 76,
+  "fields": {
+    "nombre": "Empanada de Carne",
+    "descripcion": "Delicioso Empanada de Carne listo para servir",
+    "precio": "3500",
+    "categoria": 28,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1604467794349-0b74285de7e7?w=300",
+    "variantes": [
+      {
+        "nombre": "Unidad",
+        "precio": 3500
+      },
+      {
+        "nombre": "Docena",
+        "precio": 35000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:13.119Z",
+    "updated_at": "2026-05-04T07:03:13.119Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 77,
+  "fields": {
+    "nombre": "Empanada de Queso",
+    "descripcion": "Delicioso Empanada de Queso listo para servir",
+    "precio": "3000",
+    "categoria": 28,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1604467794349-0b74285de7e7?w=300",
+    "variantes": [
+      {
+        "nombre": "Unidad",
+        "precio": 3000
+      },
+      {
+        "nombre": "Docena",
+        "precio": 30000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:13.241Z",
+    "updated_at": "2026-05-04T07:03:13.241Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 78,
+  "fields": {
+    "nombre": "Spaghetti Bolognese",
+    "descripcion": "Delicioso Spaghetti Bolognese listo para servir",
+    "precio": "22000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 22000
+      },
+      {
+        "nombre": "Con pollo",
+        "precio": 27000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:13.374Z",
+    "updated_at": "2026-05-04T07:03:13.374Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 79,
+  "fields": {
+    "nombre": "Lasagna",
+    "descripcion": "Delicioso Lasagna listo para servir",
+    "precio": "28000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción",
+        "precio": 14000
+      },
+      {
+        "nombre": "Familiar",
+        "precio": 45000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:13.541Z",
+    "updated_at": "2026-05-04T07:03:13.541Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 80,
+  "fields": {
+    "nombre": "Ravioles",
+    "descripcion": "Delicioso Ravioles listo para servir",
+    "precio": "24000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=300",
+    "variantes": [
+      {
+        "nombre": "Con salsa",
+        "precio": 24000
+      },
+      {
+        "nombre": "Con relleno especial",
+        "precio": 28000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:13.675Z",
+    "updated_at": "2026-05-04T07:03:13.675Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 81,
+  "fields": {
+    "nombre": "Cerveza Nacional",
+    "descripcion": "Delicioso Cerveza Nacional listo para servir",
+    "precio": "8000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1608270586620-248524c67de9?w=300",
+    "variantes": [
+      {
+        "nombre": "Botella 330ml",
+        "precio": 6000
+      },
+      {
+        "nombre": "Botella 500ml",
+        "precio": 8000
+      },
+      {
+        "nombre": "Litro",
+        "precio": 15000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:13.841Z",
+    "updated_at": "2026-05-04T07:03:13.841Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 82,
+  "fields": {
+    "nombre": "Cerveza Importada",
+    "descripcion": "Delicioso Cerveza Importada listo para servir",
+    "precio": "12000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1608270586620-248524c67de9?w=300",
+    "variantes": [
+      {
+        "nombre": "Botella 330ml",
+        "precio": 10000
+      },
+      {
+        "nombre": "Botella 500ml",
+        "precio": 12000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:13.963Z",
+    "updated_at": "2026-05-04T07:03:13.963Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 83,
+  "fields": {
+    "nombre": "Chicha Paraguaya",
+    "descripcion": "Delicioso Chicha Paraguaya listo para servir",
+    "precio": "6000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2f7?w=300",
+    "variantes": [
+      {
+        "nombre": "Vaso 300ml",
+        "precio": 4000
+      },
+      {
+        "nombre": "Jarra 1L",
+        "precio": 12000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:14.086Z",
+    "updated_at": "2026-05-04T07:03:14.086Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 84,
+  "fields": {
+    "nombre": "Tereré",
+    "descripcion": "Delicioso Tereré listo para servir",
+    "precio": "5000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=300",
+    "variantes": [
+      {
+        "nombre": "Vaso",
+        "precio": 3000
+      },
+      {
+        "nombre": "Jarra",
+        "precio": 8000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:14.196Z",
+    "updated_at": "2026-05-04T07:03:14.196Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 85,
+  "fields": {
+    "nombre": "Refresco",
+    "descripcion": "Delicioso Refresco listo para servir",
+    "precio": "4000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1581006852262-e4307cf6283a?w=300",
+    "variantes": [
+      {
+        "nombre": "Vaso",
+        "precio": 3000
+      },
+      {
+        "nombre": "Botella 500ml",
+        "precio": 5000
+      },
+      {
+        "nombre": "Botella 1L",
+        "precio": 8000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:14.341Z",
+    "updated_at": "2026-05-04T07:03:14.341Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 86,
+  "fields": {
+    "nombre": "Jugo Natural",
+    "descripcion": "Delicioso Jugo Natural listo para servir",
+    "precio": "6000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=300",
+    "variantes": [
+      {
+        "nombre": "Vaso",
+        "precio": 5000
+      },
+      {
+        "nombre": "Jarra",
+        "precio": 15000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:14.452Z",
+    "updated_at": "2026-05-04T07:03:14.452Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 87,
+  "fields": {
+    "nombre": "Café",
+    "descripcion": "Delicioso Café listo para servir",
+    "precio": "5000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300",
+    "variantes": [
+      {
+        "nombre": "Expresso",
+        "precio": 3500
+      },
+      {
+        "nombre": "Americano",
+        "precio": 5000
+      },
+      {
+        "nombre": "Con leche",
+        "precio": 6000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:14.575Z",
+    "updated_at": "2026-05-04T07:03:14.575Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 88,
+  "fields": {
+    "nombre": "Batido",
+    "descripcion": "Delicioso Batido listo para servir",
+    "precio": "8000",
+    "categoria": 25,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=300",
+    "variantes": [
+      {
+        "nombre": "Leche con cocoa",
+        "precio": 7000
+      },
+      {
+        "nombre": "Leche con plátano",
+        "precio": 8000
+      },
+      {
+        "nombre": "Leche con fresa",
+        "precio": 8000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:14.696Z",
+    "updated_at": "2026-05-04T07:47:07.037Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 89,
+  "fields": {
+    "nombre": "Ensalada Mixta",
+    "descripcion": "Delicioso Ensalada Mixta listo para servir",
+    "precio": "12000",
+    "categoria": 29,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 12000
+      },
+      {
+        "nombre": "Con pollo",
+        "precio": 16000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:14.928Z",
+    "updated_at": "2026-05-04T07:03:14.928Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 90,
+  "fields": {
+    "nombre": "Ensalada César",
+    "descripcion": "Delicioso Ensalada César listo para servir",
+    "precio": "15000",
+    "categoria": 29,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 15000
+      },
+      {
+        "nombre": "Con pollo",
+        "precio": 19000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:15.052Z",
+    "updated_at": "2026-05-04T07:03:15.052Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 91,
+  "fields": {
+    "nombre": "Alitas BBQ",
+    "descripcion": "Delicioso Alitas BBQ listo para servir",
+    "precio": "18000",
+    "categoria": 28,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=300",
+    "variantes": [
+      {
+        "nombre": "6 unidades",
+        "precio": 12000
+      },
+      {
+        "nombre": "12 unidades",
+        "precio": 18000
+      },
+      {
+        "nombre": "20 unidades",
+        "precio": 28000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:15.174Z",
+    "updated_at": "2026-05-04T07:03:15.175Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 92,
+  "fields": {
+    "nombre": "Nachos con Queso",
+    "descripcion": "Delicioso Nachos con Queso listo para servir",
+    "precio": "14000",
+    "categoria": 28,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción pequeña",
+        "precio": 10000
+      },
+      {
+        "nombre": "Porción grande",
+        "precio": 18000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:15.286Z",
+    "updated_at": "2026-05-04T07:03:15.286Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 93,
+  "fields": {
+    "nombre": "Papas Fritas",
+    "descripcion": "Delicioso Papas Fritas listo para servir",
+    "precio": "8000",
+    "categoria": 28,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción pequeña",
+        "precio": 5000
+      },
+      {
+        "nombre": "Porción mediana",
+        "precio": 8000
+      },
+      {
+        "nombre": "Porción grande",
+        "precio": 12000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:15.408Z",
+    "updated_at": "2026-05-04T07:03:15.408Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 94,
+  "fields": {
+    "nombre": "Flan",
+    "descripcion": "Delicioso Flan listo para servir",
+    "precio": "8000",
+    "categoria": 30,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300",
+    "variantes": [
+      {
+        "nombre": "Normal",
+        "precio": 8000
+      },
+      {
+        "nombre": "Con dulce de leche",
+        "precio": 10000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:15.650Z",
+    "updated_at": "2026-05-04T07:03:15.650Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 95,
+  "fields": {
+    "nombre": "Helado",
+    "descripcion": "Delicioso Helado listo para servir",
+    "precio": "6000",
+    "categoria": 30,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1497034825429-c343d7c6a68b?w=300",
+    "variantes": [
+      {
+        "nombre": "Bola",
+        "precio": 4000
+      },
+      {
+        "nombre": "3 bolas",
+        "precio": 10000
+      },
+      {
+        "nombre": "1/2 Litro",
+        "precio": 15000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:15.774Z",
+    "updated_at": "2026-05-04T07:03:15.774Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 96,
+  "fields": {
+    "nombre": "Brownie",
+    "descripcion": "Delicioso Brownie listo para servir",
+    "precio": "10000",
+    "categoria": 30,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción",
+        "precio": 10000
+      },
+      {
+        "nombre": "Con helado",
+        "precio": 14000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:15.896Z",
+    "updated_at": "2026-05-04T07:03:15.896Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 97,
+  "fields": {
+    "nombre": "Tiramisú",
+    "descripcion": "Delicioso Tiramisú listo para servir",
+    "precio": "12000",
+    "categoria": 30,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción",
+        "precio": 12000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.019Z",
+    "updated_at": "2026-05-04T07:03:16.019Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 98,
+  "fields": {
+    "nombre": "Alfajores",
+    "descripcion": "Delicioso Alfajores listo para servir",
+    "precio": "3000",
+    "categoria": 30,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300",
+    "variantes": [
+      {
+        "nombre": "Unidad",
+        "precio": 3000
+      },
+      {
+        "nombre": "Pack de 6",
+        "precio": 15000
+      },
+      {
+        "nombre": "Pack de 12",
+        "precio": 25000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.129Z",
+    "updated_at": "2026-05-04T07:03:16.129Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 99,
+  "fields": {
+    "nombre": "Tacos",
+    "descripcion": "Delicioso Tacos listo para servir",
+    "precio": "15000",
+    "categoria": 27,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300",
+    "variantes": [
+      {
+        "nombre": "3 tacos",
+        "precio": 12000
+      },
+      {
+        "nombre": "5 tacos",
+        "precio": 18000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.253Z",
+    "updated_at": "2026-05-04T07:03:16.253Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 100,
+  "fields": {
+    "nombre": "Burrito",
+    "descripcion": "Delicioso Burrito listo para servir",
+    "precio": "18000",
+    "categoria": 27,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300",
+    "variantes": [
+      {
+        "nombre": "Pollo",
+        "precio": 16000
+      },
+      {
+        "nombre": "Carne",
+        "precio": 18000
+      },
+      {
+        "nombre": "Mixto",
+        "precio": 20000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.374Z",
+    "updated_at": "2026-05-04T07:03:16.374Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 101,
+  "fields": {
+    "nombre": "Sandwich",
+    "descripcion": "Delicioso Sandwich listo para servir",
+    "precio": "10000",
+    "categoria": 27,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300",
+    "variantes": [
+      {
+        "nombre": "Pollo",
+        "precio": 10000
+      },
+      {
+        "nombre": "Jamón y queso",
+        "precio": 9000
+      },
+      {
+        "nombre": "Vegetariano",
+        "precio": 11000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.508Z",
+    "updated_at": "2026-05-04T07:03:16.508Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 102,
+  "fields": {
+    "nombre": "Panes de Agua",
+    "descripcion": "Delicioso Panes de Agua listo para servir",
+    "precio": "25000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300",
+    "variantes": [
+      {
+        "nombre": "Docena",
+        "precio": 25000
+      },
+      {
+        "nombre": "20 unidades",
+        "precio": 40000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.620Z",
+    "updated_at": "2026-05-04T07:03:16.620Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 103,
+  "fields": {
+    "nombre": "Pescado Frito",
+    "descripcion": "Delicioso Pescado Frito listo para servir",
+    "precio": "28000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción",
+        "precio": 28000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.741Z",
+    "updated_at": "2026-05-04T07:03:16.741Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 104,
+  "fields": {
+    "nombre": "Carne a la Parrilla",
+    "descripcion": "Delicioso Carne a la Parrilla listo para servir",
+    "precio": "35000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300",
+    "variantes": [
+      {
+        "nombre": "Porción individual",
+        "precio": 35000
+      },
+      {
+        "nombre": "Parrillada para 2",
+        "precio": 60000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.862Z",
+    "updated_at": "2026-05-04T07:03:16.863Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 105,
+  "fields": {
+    "nombre": "Pollo a la Brasa",
+    "descripcion": "Delicioso Pollo a la Brasa listo para servir",
+    "precio": "22000",
+    "categoria": 26,
+    "disponible": true,
+    "imagen": "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=300",
+    "variantes": [
+      {
+        "nombre": "1/2 Pollo",
+        "precio": 15000
+      },
+      {
+        "nombre": "Pollo entero",
+        "precio": 28000
+      }
+    ],
+    "created_at": "2026-05-04T07:03:16.964Z",
+    "updated_at": "2026-05-04T07:03:16.964Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 7,
+  "fields": {
+    "numero": 12,
+    "nombre": "Mesa 12",
+    "capacidad": 4,
+    "area": "vip",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T03:16:55.447Z",
+    "updated_at": "2026-05-04T04:05:58.120Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 8,
+  "fields": {
+    "numero": 6,
+    "nombre": "Mesa 6",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T03:58:44.025Z",
+    "updated_at": "2026-05-04T16:47:24.343Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 11,
+  "fields": {
+    "numero": 3,
+    "nombre": "Mesa 3",
+    "capacidad": -4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T03:59:07.023Z",
+    "updated_at": "2026-05-04T03:59:07.023Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 12,
+  "fields": {
+    "numero": 5,
+    "nombre": "Mesa 5",
+    "capacidad": 12,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:32.884Z",
+    "updated_at": "2026-05-04T04:07:32.884Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 14,
+  "fields": {
+    "numero": 8,
+    "nombre": "Mesa 8",
+    "capacidad": 6,
+    "area": "vip",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.001Z",
+    "updated_at": "2026-05-04T04:07:34.001Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 15,
+  "fields": {
+    "numero": 9,
+    "nombre": "Mesa 9",
+    "capacidad": 8,
+    "area": "exterior",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.111Z",
+    "updated_at": "2026-05-04T04:07:34.111Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 16,
+  "fields": {
+    "numero": 10,
+    "nombre": "Mesa 10",
+    "capacidad": 10,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.233Z",
+    "updated_at": "2026-05-04T05:19:22.014Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 17,
+  "fields": {
+    "numero": 11,
+    "nombre": "Mesa 11",
+    "capacidad": 12,
+    "area": "patio",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.358Z",
+    "updated_at": "2026-05-04T04:09:07.120Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 18,
+  "fields": {
+    "numero": 13,
+    "nombre": "Mesa 13",
+    "capacidad": 4,
+    "area": "vip",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.478Z",
+    "updated_at": "2026-05-04T05:06:56.810Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 19,
+  "fields": {
+    "numero": 14,
+    "nombre": "Mesa 14",
+    "capacidad": 6,
+    "area": "exterior",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.620Z",
+    "updated_at": "2026-05-04T05:07:01.258Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 20,
+  "fields": {
+    "numero": 15,
+    "nombre": "Mesa 15",
+    "capacidad": 8,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.730Z",
+    "updated_at": "2026-05-04T04:07:34.731Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 21,
+  "fields": {
+    "numero": 16,
+    "nombre": "Mesa 16",
+    "capacidad": 10,
+    "area": "patio",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:34.988Z",
+    "updated_at": "2026-05-04T04:07:34.988Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 22,
+  "fields": {
+    "numero": 17,
+    "nombre": "Mesa 17",
+    "capacidad": 12,
+    "area": "interior",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:35.186Z",
+    "updated_at": "2026-05-04T04:07:35.186Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 23,
+  "fields": {
+    "numero": 18,
+    "nombre": "Mesa 18",
+    "capacidad": 2,
+    "area": "vip",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:35.413Z",
+    "updated_at": "2026-05-04T04:07:35.413Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 24,
+  "fields": {
+    "numero": 19,
+    "nombre": "Mesa 19",
+    "capacidad": 4,
+    "area": "exterior",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:35.584Z",
+    "updated_at": "2026-05-04T04:07:35.584Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 25,
+  "fields": {
+    "numero": 20,
+    "nombre": "Mesa 20",
+    "capacidad": 6,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:35.740Z",
+    "updated_at": "2026-05-04T04:07:35.740Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 26,
+  "fields": {
+    "numero": 21,
+    "nombre": "Mesa 21",
+    "capacidad": 8,
+    "area": "patio",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:35.934Z",
+    "updated_at": "2026-05-04T04:07:35.934Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 27,
+  "fields": {
+    "numero": 22,
+    "nombre": "Mesa 22",
+    "capacidad": 10,
+    "area": "interior",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:36.075Z",
+    "updated_at": "2026-05-04T04:07:36.075Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 28,
+  "fields": {
+    "numero": 23,
+    "nombre": "Mesa 23",
+    "capacidad": 12,
+    "area": "vip",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:36.247Z",
+    "updated_at": "2026-05-04T04:07:36.247Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 29,
+  "fields": {
+    "numero": 24,
+    "nombre": "Mesa 24",
+    "capacidad": 2,
+    "area": "exterior",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T04:07:36.410Z",
+    "updated_at": "2026-05-04T04:10:25.360Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 31,
+  "fields": {
+    "numero": 680,
+    "nombre": "Mesa 680",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T06:06:21.457Z",
+    "updated_at": "2026-05-04T06:06:21.457Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 33,
+  "fields": {
+    "numero": 1,
+    "nombre": "Mesa 1",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "ocupada",
+    "comensales": 0,
+    "created_at": "2026-05-04T06:10:26.664Z",
+    "updated_at": "2026-05-04T16:57:06.089Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 34,
+  "fields": {
+    "numero": 2,
+    "nombre": "Mesa 2",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T06:10:34.154Z",
+    "updated_at": "2026-05-04T16:47:21.292Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 35,
+  "fields": {
+    "numero": 4,
+    "nombre": "Mesa 4",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-05-04T06:10:47.655Z",
+    "updated_at": "2026-05-04T06:10:47.655Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 1,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "pagado",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 1,
+        "producto_nombre": "Coca Cola",
+        "cantidad": 2,
+        "precio": "5000"
+      }
+    ],
+    "total": "10000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "001",
+    "created_at": "2026-05-01T19:27:48.871Z",
+    "updated_at": "2026-05-04T05:44:10.974Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 2,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 1,
+        "producto_nombre": "Coca Cola",
+        "cantidad": 2,
+        "precio": "5000"
+      }
+    ],
+    "total": "10000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "002",
+    "created_at": "2026-05-02T14:28:21.336Z",
+    "updated_at": "2026-05-04T05:44:10.874Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 3,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "pagado",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 1,
+        "producto_nombre": "Coca Cola",
+        "cantidad": 2,
+        "precio": "5000"
+      }
+    ],
+    "total": "10000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "003",
+    "created_at": "2026-05-02T14:28:23.628Z",
+    "updated_at": "2026-05-04T05:44:10.763Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 4,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": true,
+    "nombre_cliente": "martin perez",
+    "telefono_cliente": "0992609484",
+    "direccion": "av monserrat ",
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 4,
+        "producto_nombre": " Flan",
+        "cantidad": 1,
+        "precio": "12000"
+      },
+      {
+        "producto_id": 3,
+        "producto_nombre": "Pizza Margarita",
+        "cantidad": 1,
+        "precio": "45000"
+      },
+      {
+        "producto_id": 2,
+        "producto_nombre": "Coca Cola",
+        "cantidad": 2,
+        "precio": "5000"
+      }
+    ],
+    "total": "67000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "004",
+    "created_at": "2026-05-02T14:29:42.800Z",
+    "updated_at": "2026-05-04T05:44:10.641Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 5,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "pagado",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 2,
+        "producto_nombre": "Coca Cola",
+        "cantidad": 2,
+        "precio": "5000"
+      }
+    ],
+    "total": "10000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "005",
+    "created_at": "2026-05-02T14:31:39.901Z",
+    "updated_at": "2026-05-04T05:44:10.541Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 6,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "pagado",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 7,
+        "producto_nombre": "Hamburguesa Especial",
+        "cantidad": 1,
+        "precio": "45000"
+      }
+    ],
+    "total": "45000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "006",
+    "created_at": "2026-05-02T15:32:59.060Z",
+    "updated_at": "2026-05-04T05:44:10.441Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 7,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": true,
+    "nombre_cliente": "martin perez",
+    "telefono_cliente": "",
+    "direccion": "av monserrat ",
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 51,
+        "producto_nombre": "Hamburguesa",
+        "cantidad": 1,
+        "precio": "25000"
+      }
+    ],
+    "total": "25000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "007",
+    "created_at": "2026-05-02T16:48:14.947Z",
+    "updated_at": "2026-05-04T05:44:10.352Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 8,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": true,
+    "nombre_cliente": "martin perez",
+    "telefono_cliente": "",
+    "direccion": "av monserrat ",
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 51,
+        "producto_nombre": "Hamburguesa",
+        "cantidad": 1,
+        "precio": "25000"
+      }
+    ],
+    "total": "25000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "008",
+    "created_at": "2026-05-02T16:48:16.250Z",
+    "updated_at": "2026-05-04T05:44:10.240Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 9,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 53,
+        "producto_nombre": "Lomito",
+        "cantidad": 1,
+        "precio": "30000"
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "009",
+    "created_at": "2026-05-04T05:36:12.658Z",
+    "updated_at": "2026-05-04T05:54:29.685Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 10,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 51,
+        "producto_nombre": "Hamburguesa",
+        "cantidad": 1,
+        "precio": "25000"
+      },
+      {
+        "producto_id": 56,
+        "producto_nombre": "Agua Mineral",
+        "cantidad": 1,
+        "precio": "5000"
+      },
+      {
+        "producto_id": 55,
+        "producto_nombre": "Pepsi",
+        "cantidad": 1,
+        "precio": "7000"
+      }
+    ],
+    "total": "37000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "010",
+    "created_at": "2026-05-04T05:45:44.079Z",
+    "updated_at": "2026-05-04T05:54:32.105Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 11,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 51,
+        "producto_nombre": "Hamburguesa",
+        "cantidad": 2,
+        "precio": "25000"
+      },
+      {
+        "producto_id": 53,
+        "producto_nombre": "Lomito",
+        "cantidad": 1,
+        "precio": "30000"
+      },
+      {
+        "producto_id": 55,
+        "producto_nombre": "Pepsi",
+        "cantidad": 1,
+        "precio": "7000"
+      }
+    ],
+    "total": "87000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "011",
+    "created_at": "2026-05-04T05:47:21.761Z",
+    "updated_at": "2026-05-04T05:54:33.986Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 12,
+  "fields": {
+    "mesa": null,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 51,
+        "producto_nombre": "Hamburguesa",
+        "cantidad": 2,
+        "precio": "25000"
+      },
+      {
+        "producto_id": 56,
+        "producto_nombre": "Agua Mineral",
+        "cantidad": 1,
+        "precio": "5000"
+      }
+    ],
+    "total": "55000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "012",
+    "created_at": "2026-05-04T06:02:19.231Z",
+    "updated_at": "2026-05-04T06:02:48.569Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 13,
+  "fields": {
+    "mesa": 33,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 52,
+        "producto_nombre": "Hot Dog",
+        "cantidad": 2,
+        "precio": "15000"
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "013",
+    "created_at": "2026-05-04T06:15:37.765Z",
+    "updated_at": "2026-05-04T06:28:48.280Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 14,
+  "fields": {
+    "mesa": 34,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 53,
+        "producto_nombre": "Lomito",
+        "cantidad": 1,
+        "precio": "30000"
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "014",
+    "created_at": "2026-05-04T06:28:38.918Z",
+    "updated_at": "2026-05-04T06:28:52.724Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 15,
+  "fields": {
+    "mesa": 33,
+    "mesero": null,
+    "estado": "listo",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "notas": "",
+    "items": [
+      {
+        "producto_id": 56,
+        "producto_nombre": "Agua Mineral",
+        "cantidad": 1,
+        "precio": "5000"
+      },
+      {
+        "producto_id": 63,
+        "producto_nombre": "Hamburguesa Vegetariana",
+        "cantidad": 2,
+        "precio": "20000"
+      }
+    ],
+    "total": "45000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "015",
+    "created_at": "2026-05-04T16:57:05.969Z",
+    "updated_at": "2026-05-04T16:57:21.701Z"
+  }
+},
+{
+  "model": "facturacion.configuracion",
+  "pk": 1,
+  "fields": {
+    "nombre_empresa": "Mi Restaurante",
+    "ruc": "1234567-8",
+    "direccion": null,
+    "telefono": "",
+    "tasa_iva": "10.00",
+    "estado": "demo",
+    "fecha_inicio": null,
+    "fecha_vencimiento": null,
+    "created_at": "2026-05-01T20:31:53.958Z",
+    "updated_at": "2026-05-01T20:31:53.958Z"
+  }
+}
+]

@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Env
+config.env
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+backend/logs/
+*.log
+
+# Media (local)
+backend/media/
+
+# Django
+*.sqlite3
+db.sqlite3
+
+# Frontend
+frontend-react/node_modules/
+frontend-react/build/

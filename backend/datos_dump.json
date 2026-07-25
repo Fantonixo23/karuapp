@@ -1,0 +1,1472 @@
+[
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "Admin",
+    "pin": "0000",
+    "rol": "administrador",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T12:38:46.596Z",
+    "created_at": "2026-07-24T12:19:19.997Z",
+    "updated_at": "2026-07-24T12:19:19.997Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "mesero2",
+    "pin": "2222",
+    "rol": "mesero",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": null,
+    "created_at": "2026-07-24T12:19:20.011Z",
+    "updated_at": "2026-07-24T12:19:20.011Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "cocina",
+    "pin": "3333",
+    "rol": "cocina",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": null,
+    "created_at": "2026-07-24T12:19:20.017Z",
+    "updated_at": "2026-07-24T12:19:20.017Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 2,
+    "nombre": "Mozo A",
+    "pin": "1234",
+    "rol": "mesero",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": null,
+    "created_at": "2026-07-24T12:26:27.875Z",
+    "updated_at": "2026-07-24T12:26:27.875Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 3,
+    "nombre": "Mozo B",
+    "pin": "1234",
+    "rol": "mesero",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": null,
+    "created_at": "2026-07-24T12:26:27.882Z",
+    "updated_at": "2026-07-24T12:26:27.882Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "Mozo Nuevo",
+    "pin": "6666",
+    "rol": "mesero",
+    "telefono": "",
+    "email": "",
+    "activo": false,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T12:39:45.141Z",
+    "created_at": "2026-07-24T12:39:45.134Z",
+    "updated_at": "2026-07-24T12:39:45.153Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$XCewaHGFDbPjSi6Nffhz0E$Cu0N6ZhyoptJWF0gth7GCug0tWpFyfM2wBK95+vxrGc=",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "Admin",
+    "pin": "9999",
+    "rol": "administrador",
+    "telefono": null,
+    "email": "a@t.com",
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T12:41:25.734Z",
+    "created_at": "2026-07-24T12:41:24.333Z",
+    "updated_at": "2026-07-24T12:41:24.778Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "Mozo",
+    "pin": "8888",
+    "rol": "mesero",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T12:41:25.724Z",
+    "created_at": "2026-07-24T12:41:24.793Z",
+    "updated_at": "2026-07-24T12:41:24.793Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 14,
+    "nombre": "Mozo Otro",
+    "pin": "8888",
+    "rol": "mesero",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T12:41:24.859Z",
+    "created_at": "2026-07-24T12:41:24.798Z",
+    "updated_at": "2026-07-24T12:41:24.798Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "Nuevo",
+    "pin": "5555",
+    "rol": "mesero",
+    "telefono": "",
+    "email": "",
+    "activo": false,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T12:41:25.754Z",
+    "created_at": "2026-07-24T12:41:25.740Z",
+    "updated_at": "2026-07-24T12:41:25.759Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$o559s4wzXaGc3Lwt1y1nvN$ZtM7OBerHSHJBF1nvMgXRyL6M0QexMrtTlkNkaj4cJw=",
+    "last_login": null,
+    "restaurante": 15,
+    "nombre": "Admin Nuevo",
+    "pin": "1111",
+    "rol": "administrador",
+    "telefono": null,
+    "email": "nuevo@t.com",
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T12:41:26.652Z",
+    "created_at": "2026-07-24T12:41:26.201Z",
+    "updated_at": "2026-07-24T12:41:26.201Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 1,
+    "nombre": "mesero1",
+    "pin": "1111",
+    "rol": "mesero",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": null,
+    "created_at": "2026-07-24T13:01:59.812Z",
+    "updated_at": "2026-07-24T13:01:59.812Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 16,
+    "nombre": "Admin",
+    "pin": "0000",
+    "rol": "administrador",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T13:21:58.206Z",
+    "created_at": "2026-07-24T13:03:57.039Z",
+    "updated_at": "2026-07-24T13:03:57.039Z"
+  }
+},
+{
+  "model": "usuarios.usuario",
+  "fields": {
+    "password": "",
+    "last_login": null,
+    "restaurante": 17,
+    "nombre": "Admin",
+    "pin": "0000",
+    "rol": "administrador",
+    "telefono": null,
+    "email": null,
+    "activo": true,
+    "creado_por": null,
+    "ultimo_acceso": "2026-07-24T13:21:58.231Z",
+    "created_at": "2026-07-24T13:03:57.053Z",
+    "updated_at": "2026-07-24T13:03:57.053Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "nombre": "Bebidas",
+    "icono": "category",
+    "orden": 0,
+    "created_at": "2026-07-24T12:26:27.665Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "nombre": "Bebidas",
+    "icono": "category",
+    "orden": 0,
+    "created_at": "2026-07-24T12:26:27.672Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "nombre": "Coca Cola",
+    "descripcion": null,
+    "precio": "5000",
+    "categoria": 1,
+    "disponible": true,
+    "imagen": null,
+    "imagen_archivo": "",
+    "variantes": null,
+    "iva": 10,
+    "created_at": "2026-07-24T12:26:27.681Z",
+    "updated_at": "2026-07-24T12:26:27.681Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "nombre": "Coca Cola",
+    "descripcion": null,
+    "precio": "6000",
+    "categoria": 2,
+    "disponible": true,
+    "imagen": null,
+    "imagen_archivo": "",
+    "variantes": null,
+    "iva": 10,
+    "created_at": "2026-07-24T12:26:27.687Z",
+    "updated_at": "2026-07-24T12:26:27.687Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "nombre": "Pizza",
+    "descripcion": "",
+    "precio": "30000",
+    "categoria": null,
+    "disponible": true,
+    "imagen": "",
+    "imagen_archivo": "",
+    "variantes": null,
+    "iva": 10,
+    "created_at": "2026-07-24T13:09:08.733Z",
+    "updated_at": "2026-07-24T13:09:08.733Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 4,
+  "fields": {
+    "restaurante": 17,
+    "nombre": "Pizza",
+    "descripcion": "",
+    "precio": "30000",
+    "categoria": null,
+    "disponible": true,
+    "imagen": "",
+    "imagen_archivo": "",
+    "variantes": null,
+    "iva": 10,
+    "created_at": "2026-07-24T13:10:06.625Z",
+    "updated_at": "2026-07-24T13:10:06.625Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "numero": 1,
+    "nombre": "Mesa 1",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-07-24T12:26:27.697Z",
+    "updated_at": "2026-07-24T12:26:27.697Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "numero": 1,
+    "nombre": "Mesa 1 bis",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-07-24T12:26:27.702Z",
+    "updated_at": "2026-07-24T12:26:27.702Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "numero": 1,
+    "nombre": "Mesa 1",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "disponible",
+    "comensales": 0,
+    "created_at": "2026-07-24T13:09:45.117Z",
+    "updated_at": "2026-07-24T13:22:01.044Z"
+  }
+},
+{
+  "model": "mesas.mesa",
+  "pk": 4,
+  "fields": {
+    "restaurante": 17,
+    "numero": 1,
+    "nombre": "Mesa 1",
+    "capacidad": 4,
+    "area": "principal",
+    "estado": "ocupada",
+    "comensales": 2,
+    "created_at": "2026-07-24T13:10:13.310Z",
+    "updated_at": "2026-07-24T13:21:59.345Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "mesa": 1,
+    "mesero": null,
+    "estado": "pendiente",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": null,
+    "items": [],
+    "total": "10000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "001",
+    "propina": "0",
+    "comprobante_nro": null,
+    "marca_tarjeta": null,
+    "marca_qr": null,
+    "cuotas": 1,
+    "ultimos_4": null,
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T12:26:27.736Z",
+    "updated_at": "2026-07-24T12:26:27.736Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "mesa": 2,
+    "mesero": null,
+    "estado": "pendiente",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": null,
+    "items": [],
+    "total": "20000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "001",
+    "propina": "0",
+    "comprobante_nro": null,
+    "marca_tarjeta": null,
+    "marca_qr": null,
+    "cuotas": 1,
+    "ultimos_4": null,
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T12:26:27.743Z",
+    "updated_at": "2026-07-24T12:26:27.743Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "mesa": 3,
+    "mesero": null,
+    "estado": "pagado",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": "Test MT",
+    "items": [
+      {
+        "producto_id": 3,
+        "producto_nombre": "Pizza",
+        "categoria_nombre": null,
+        "cantidad": 1,
+        "precio": "30000",
+        "variante": null,
+        "nota": ""
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "001",
+    "propina": "0",
+    "comprobante_nro": "",
+    "marca_tarjeta": "",
+    "marca_qr": "",
+    "cuotas": 1,
+    "ultimos_4": "",
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T13:16:00.920Z",
+    "updated_at": "2026-07-24T13:16:02.070Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 4,
+  "fields": {
+    "restaurante": 16,
+    "mesa": 3,
+    "mesero": null,
+    "estado": "pendiente",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": "Test multi-cliente",
+    "items": [
+      {
+        "producto_id": 3,
+        "producto_nombre": "Pizza",
+        "categoria_nombre": null,
+        "cantidad": 1,
+        "precio": "30000",
+        "variante": null,
+        "nota": ""
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "002",
+    "propina": "0",
+    "comprobante_nro": null,
+    "marca_tarjeta": null,
+    "marca_qr": null,
+    "cuotas": 1,
+    "ultimos_4": null,
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T13:16:03.158Z",
+    "updated_at": "2026-07-24T13:16:03.158Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 5,
+  "fields": {
+    "restaurante": 16,
+    "mesa": 3,
+    "mesero": null,
+    "estado": "pagado",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": "Test MT",
+    "items": [
+      {
+        "producto_id": 3,
+        "producto_nombre": "Pizza",
+        "categoria_nombre": null,
+        "cantidad": 1,
+        "precio": "30000",
+        "variante": null,
+        "nota": ""
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "003",
+    "propina": "0",
+    "comprobante_nro": "",
+    "marca_tarjeta": "",
+    "marca_qr": "",
+    "cuotas": 1,
+    "ultimos_4": "",
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T13:19:12.379Z",
+    "updated_at": "2026-07-24T13:19:13.506Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 6,
+  "fields": {
+    "restaurante": 16,
+    "mesa": 3,
+    "mesero": null,
+    "estado": "pendiente",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": "Test multi-cliente",
+    "items": [
+      {
+        "producto_id": 3,
+        "producto_nombre": "Pizza",
+        "categoria_nombre": null,
+        "cantidad": 1,
+        "precio": "30000",
+        "variante": null,
+        "nota": ""
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "004",
+    "propina": "0",
+    "comprobante_nro": null,
+    "marca_tarjeta": null,
+    "marca_qr": null,
+    "cuotas": 1,
+    "ultimos_4": null,
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T13:19:14.573Z",
+    "updated_at": "2026-07-24T13:19:14.573Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 7,
+  "fields": {
+    "restaurante": 16,
+    "mesa": 3,
+    "mesero": null,
+    "estado": "pagado",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": "Test MT",
+    "items": [
+      {
+        "producto_id": 3,
+        "producto_nombre": "Pizza",
+        "categoria_nombre": null,
+        "cantidad": 1,
+        "precio": "30000",
+        "variante": null,
+        "nota": ""
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "005",
+    "propina": "0",
+    "comprobante_nro": "",
+    "marca_tarjeta": "",
+    "marca_qr": "",
+    "cuotas": 1,
+    "ultimos_4": "",
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T13:21:58.823Z",
+    "updated_at": "2026-07-24T13:21:59.947Z"
+  }
+},
+{
+  "model": "pedidos.pedido",
+  "pk": 8,
+  "fields": {
+    "restaurante": 16,
+    "mesa": 3,
+    "mesero": null,
+    "estado": "pendiente",
+    "delivery": false,
+    "nombre_cliente": null,
+    "telefono_cliente": null,
+    "direccion": null,
+    "tipo_pedido": "mesa",
+    "notas": "Test multi-cliente",
+    "items": [
+      {
+        "producto_id": 3,
+        "producto_nombre": "Pizza",
+        "categoria_nombre": null,
+        "cantidad": 1,
+        "precio": "30000",
+        "variante": null,
+        "nota": ""
+      }
+    ],
+    "total": "30000",
+    "metodo_pago": "efectivo",
+    "sincronizado": true,
+    "numero_orden": "006",
+    "propina": "0",
+    "comprobante_nro": null,
+    "marca_tarjeta": null,
+    "marca_qr": null,
+    "cuotas": 1,
+    "ultimos_4": null,
+    "detalle_pagos": null,
+    "cliente_tipo": "consumidor",
+    "cliente_ruc": "44444444-7",
+    "cliente_nombre": "Consumidor Final",
+    "generar_comanda": false,
+    "generar_factura": false,
+    "tipo_iva": 10,
+    "motivo_cancelacion": null,
+    "cancelado_en_estado": null,
+    "created_at": "2026-07-24T13:22:01.043Z",
+    "updated_at": "2026-07-24T13:22:01.043Z"
+  }
+},
+{
+  "model": "facturacion.configuracion",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "nombre_empresa": "Empresa A",
+    "ruc": "1111111-1",
+    "direccion": null,
+    "telefono": null,
+    "tasa_iva": "10.00",
+    "timbrado_numero": "001-001-0000001",
+    "establecimiento": "001",
+    "punto_expedicion": "001",
+    "estado": "demo",
+    "fecha_inicio": null,
+    "fecha_vencimiento": null,
+    "ambiente_sifen": "test",
+    "certificado_pkcs12": "",
+    "csc": null,
+    "csc_pin": null,
+    "csc_id": 1,
+    "cDepEmi": "1",
+    "cCiuEmi": "1",
+    "dDesDepEmi": "CAPITAL",
+    "dDesCiuEmi": "ASUNCION (DISTRITO)",
+    "cDirEmi": "",
+    "dNumCas": 0,
+    "dEmailE": "",
+    "gActEco_codigo": "47111",
+    "gActEco_descripcion": "Venta al por menor en comercios no especializados",
+    "tamano_papel": "58mm",
+    "sifen_habilitado": false,
+    "created_at": "2026-07-24T12:26:27.781Z",
+    "updated_at": "2026-07-24T12:26:27.781Z"
+  }
+},
+{
+  "model": "facturacion.configuracion",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "nombre_empresa": "Empresa B",
+    "ruc": "2222222-2",
+    "direccion": null,
+    "telefono": null,
+    "tasa_iva": "10.00",
+    "timbrado_numero": "001-001-0000001",
+    "establecimiento": "001",
+    "punto_expedicion": "001",
+    "estado": "demo",
+    "fecha_inicio": null,
+    "fecha_vencimiento": null,
+    "ambiente_sifen": "test",
+    "certificado_pkcs12": "",
+    "csc": null,
+    "csc_pin": null,
+    "csc_id": 1,
+    "cDepEmi": "1",
+    "cCiuEmi": "1",
+    "dDesDepEmi": "CAPITAL",
+    "dDesCiuEmi": "ASUNCION (DISTRITO)",
+    "cDirEmi": "",
+    "dNumCas": 0,
+    "dEmailE": "",
+    "gActEco_codigo": "47111",
+    "gActEco_descripcion": "Venta al por menor en comercios no especializados",
+    "tamano_papel": "58mm",
+    "sifen_habilitado": false,
+    "created_at": "2026-07-24T12:26:27.787Z",
+    "updated_at": "2026-07-24T12:26:27.787Z"
+  }
+},
+{
+  "model": "facturacion.timbrado",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "establecimiento": "001",
+    "punto_expedicion": "001",
+    "numero_inicio": 1,
+    "numero_fin": 100,
+    "numero_actual": 0,
+    "fecha_vencimiento": "2027-01-01",
+    "activo": true,
+    "created_at": "2026-07-24T12:26:27.794Z"
+  }
+},
+{
+  "model": "facturacion.timbrado",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "establecimiento": "001",
+    "punto_expedicion": "001",
+    "numero_inicio": 1,
+    "numero_fin": 100,
+    "numero_actual": 0,
+    "fecha_vencimiento": "2027-01-01",
+    "activo": true,
+    "created_at": "2026-07-24T12:26:27.801Z"
+  }
+},
+{
+  "model": "facturacion.factura",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "numero": "001-001-0000001",
+    "pedido": null,
+    "ruc_cliente": "44444444-7",
+    "nombre_cliente": "Cliente A",
+    "xml": "",
+    "cdc": "",
+    "kude": "",
+    "qr_base64": "",
+    "sifen_estado": "pendiente",
+    "sifen_mensaje": "",
+    "protocolo": "",
+    "estado": "borrador",
+    "total": "10000",
+    "created_at": "2026-07-24T12:26:27.808Z"
+  }
+},
+{
+  "model": "facturacion.factura",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "numero": "001-001-0000001",
+    "pedido": null,
+    "ruc_cliente": "44444444-7",
+    "nombre_cliente": "Cliente B",
+    "xml": "",
+    "cdc": "",
+    "kude": "",
+    "qr_base64": "",
+    "sifen_estado": "pendiente",
+    "sifen_mensaje": "",
+    "protocolo": "",
+    "estado": "borrador",
+    "total": "20000",
+    "created_at": "2026-07-24T12:26:27.815Z"
+  }
+},
+{
+  "model": "facturacion.metodopago",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "nombre": "efectivo",
+    "etiqueta": "Efectivo",
+    "icono": "payments",
+    "color": "#4CAF50",
+    "activo": true,
+    "orden": 0
+  }
+},
+{
+  "model": "facturacion.metodopago",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "nombre": "efectivo",
+    "etiqueta": "Efectivo",
+    "icono": "payments",
+    "color": "#4CAF50",
+    "activo": true,
+    "orden": 0
+  }
+},
+{
+  "model": "inventario.inventario",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "producto": 1,
+    "stock_actual": 10,
+    "stock_minimo": 5,
+    "unidad_medida": "und",
+    "precio_costo": "0",
+    "fecha_actualizacion": "2026-07-24T12:26:27.751Z",
+    "created_at": "2026-07-24T12:26:27.751Z"
+  }
+},
+{
+  "model": "inventario.inventario",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "producto": 2,
+    "stock_actual": 20,
+    "stock_minimo": 5,
+    "unidad_medida": "und",
+    "precio_costo": "0",
+    "fecha_actualizacion": "2026-07-24T12:26:27.759Z",
+    "created_at": "2026-07-24T12:26:27.759Z"
+  }
+},
+{
+  "model": "inventario.inventario",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "producto": 3,
+    "stock_actual": 397,
+    "stock_minimo": 5,
+    "unidad_medida": "und",
+    "precio_costo": "0",
+    "fecha_actualizacion": "2026-07-24T13:21:59.948Z",
+    "created_at": "2026-07-24T13:09:08.743Z"
+  }
+},
+{
+  "model": "inventario.inventario",
+  "pk": 4,
+  "fields": {
+    "restaurante": 17,
+    "producto": 4,
+    "stock_actual": 400,
+    "stock_minimo": 5,
+    "unidad_medida": "und",
+    "precio_costo": "0",
+    "fecha_actualizacion": "2026-07-24T13:21:58.290Z",
+    "created_at": "2026-07-24T13:10:06.642Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "inventario": 1,
+    "tipo": "entrada",
+    "cantidad": 5,
+    "motivo": null,
+    "notas": null,
+    "created_at": "2026-07-24T12:26:27.767Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "inventario": 2,
+    "tipo": "entrada",
+    "cantidad": 10,
+    "motivo": null,
+    "notas": null,
+    "created_at": "2026-07-24T12:26:27.774Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "inventario": 3,
+    "tipo": "entrada",
+    "cantidad": 100,
+    "motivo": "compra",
+    "notas": "Stock test",
+    "created_at": "2026-07-24T13:16:00.352Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 4,
+  "fields": {
+    "restaurante": 17,
+    "inventario": 4,
+    "tipo": "entrada",
+    "cantidad": 100,
+    "motivo": "compra",
+    "notas": "Stock test",
+    "created_at": "2026-07-24T13:16:00.367Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 5,
+  "fields": {
+    "restaurante": 16,
+    "inventario": 3,
+    "tipo": "salida",
+    "cantidad": 1,
+    "motivo": "venta",
+    "notas": "Venta - Pedido",
+    "created_at": "2026-07-24T13:16:02.073Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 6,
+  "fields": {
+    "restaurante": 16,
+    "inventario": 3,
+    "tipo": "entrada",
+    "cantidad": 100,
+    "motivo": "compra",
+    "notas": "Stock test",
+    "created_at": "2026-07-24T13:19:11.820Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 7,
+  "fields": {
+    "restaurante": 17,
+    "inventario": 4,
+    "tipo": "entrada",
+    "cantidad": 100,
+    "motivo": "compra",
+    "notas": "Stock test",
+    "created_at": "2026-07-24T13:19:11.836Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 8,
+  "fields": {
+    "restaurante": 16,
+    "inventario": 3,
+    "tipo": "salida",
+    "cantidad": 1,
+    "motivo": "venta",
+    "notas": "Venta - Pedido",
+    "created_at": "2026-07-24T13:19:13.509Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 9,
+  "fields": {
+    "restaurante": 16,
+    "inventario": 3,
+    "tipo": "entrada",
+    "cantidad": 100,
+    "motivo": "compra",
+    "notas": "Stock test",
+    "created_at": "2026-07-24T13:21:58.277Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 10,
+  "fields": {
+    "restaurante": 17,
+    "inventario": 4,
+    "tipo": "entrada",
+    "cantidad": 100,
+    "motivo": "compra",
+    "notas": "Stock test",
+    "created_at": "2026-07-24T13:21:58.292Z"
+  }
+},
+{
+  "model": "inventario.movimientoinventario",
+  "pk": 11,
+  "fields": {
+    "restaurante": 16,
+    "inventario": 3,
+    "tipo": "salida",
+    "cantidad": 1,
+    "motivo": "venta",
+    "notas": "Venta - Pedido",
+    "created_at": "2026-07-24T13:21:59.949Z"
+  }
+},
+{
+  "model": "caja.cajasession",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "usuario": null,
+    "fondo_inicial": "100000",
+    "apertura_en": "2026-07-24T12:26:27.835Z",
+    "cierre_en": null,
+    "estado": "abierta",
+    "notas_apertura": "",
+    "notas_cierre": "",
+    "created_at": "2026-07-24T12:26:27.835Z"
+  }
+},
+{
+  "model": "caja.cajasession",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "usuario": null,
+    "fondo_inicial": "200000",
+    "apertura_en": "2026-07-24T12:26:27.843Z",
+    "cierre_en": null,
+    "estado": "abierta",
+    "notas_apertura": "",
+    "notas_cierre": "",
+    "created_at": "2026-07-24T12:26:27.843Z"
+  }
+},
+{
+  "model": "caja.cajasession",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "usuario": null,
+    "fondo_inicial": "500000",
+    "apertura_en": "2026-07-24T13:16:02.036Z",
+    "cierre_en": "2026-07-24T13:16:02.104Z",
+    "estado": "cerrada",
+    "notas_apertura": "",
+    "notas_cierre": "",
+    "created_at": "2026-07-24T13:16:02.036Z"
+  }
+},
+{
+  "model": "caja.cajasession",
+  "pk": 4,
+  "fields": {
+    "restaurante": 16,
+    "usuario": null,
+    "fondo_inicial": "500000",
+    "apertura_en": "2026-07-24T13:19:13.493Z",
+    "cierre_en": null,
+    "estado": "abierta",
+    "notas_apertura": "",
+    "notas_cierre": "",
+    "created_at": "2026-07-24T13:19:13.493Z"
+  }
+},
+{
+  "model": "caja.movimientocaja",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "session": 1,
+    "tipo": "venta",
+    "metodo_pago": "efectivo",
+    "monto": "50000",
+    "moneda": "PYG",
+    "monto_pyg": "50000",
+    "pedido": null,
+    "detalle_pagos": null,
+    "motivo": "",
+    "usuario": null,
+    "propina": "0",
+    "vuelto": "0",
+    "created_at": "2026-07-24T12:26:27.850Z"
+  }
+},
+{
+  "model": "caja.movimientocaja",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "session": 2,
+    "tipo": "venta",
+    "metodo_pago": "efectivo",
+    "monto": "50000",
+    "moneda": "PYG",
+    "monto_pyg": "50000",
+    "pedido": null,
+    "detalle_pagos": null,
+    "motivo": "",
+    "usuario": null,
+    "propina": "0",
+    "vuelto": "0",
+    "created_at": "2026-07-24T12:26:27.855Z"
+  }
+},
+{
+  "model": "caja.movimientocaja",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "session": 3,
+    "tipo": "venta",
+    "metodo_pago": "efectivo",
+    "monto": "30000",
+    "moneda": "PYG",
+    "monto_pyg": "30000",
+    "pedido": 3,
+    "detalle_pagos": null,
+    "motivo": "",
+    "usuario": null,
+    "propina": "0",
+    "vuelto": "0",
+    "created_at": "2026-07-24T13:16:02.075Z"
+  }
+},
+{
+  "model": "caja.movimientocaja",
+  "pk": 4,
+  "fields": {
+    "restaurante": 16,
+    "session": 4,
+    "tipo": "venta",
+    "metodo_pago": "efectivo",
+    "monto": "30000",
+    "moneda": "PYG",
+    "monto_pyg": "30000",
+    "pedido": 5,
+    "detalle_pagos": null,
+    "motivo": "",
+    "usuario": null,
+    "propina": "0",
+    "vuelto": "0",
+    "created_at": "2026-07-24T13:19:13.510Z"
+  }
+},
+{
+  "model": "caja.movimientocaja",
+  "pk": 5,
+  "fields": {
+    "restaurante": 16,
+    "session": 4,
+    "tipo": "venta",
+    "metodo_pago": "efectivo",
+    "monto": "30000",
+    "moneda": "PYG",
+    "monto_pyg": "30000",
+    "pedido": 7,
+    "detalle_pagos": null,
+    "motivo": "",
+    "usuario": null,
+    "propina": "0",
+    "vuelto": "0",
+    "created_at": "2026-07-24T13:21:59.950Z"
+  }
+},
+{
+  "model": "caja.cortecaja",
+  "pk": 1,
+  "fields": {
+    "restaurante": 2,
+    "session": 1,
+    "usuario_cierre": null,
+    "fondo_inicial": "100000",
+    "total_ventas_efectivo": "0",
+    "total_ventas_tarjeta": "0",
+    "total_ventas_transferencia": "0",
+    "total_ventas_qr": "0",
+    "total_ingresos_extra": "0",
+    "total_retiros": "0",
+    "total_propinas": "0",
+    "total_ventas": "50000",
+    "denominaciones": null,
+    "total_contado_efectivo": "0",
+    "total_esperado": "0",
+    "diferencia": "0",
+    "tipo_diferencia": "",
+    "observaciones": "",
+    "created_at": "2026-07-24T12:26:27.862Z"
+  }
+},
+{
+  "model": "caja.cortecaja",
+  "pk": 2,
+  "fields": {
+    "restaurante": 3,
+    "session": 2,
+    "usuario_cierre": null,
+    "fondo_inicial": "200000",
+    "total_ventas_efectivo": "0",
+    "total_ventas_tarjeta": "0",
+    "total_ventas_transferencia": "0",
+    "total_ventas_qr": "0",
+    "total_ingresos_extra": "0",
+    "total_retiros": "0",
+    "total_propinas": "0",
+    "total_ventas": "50000",
+    "denominaciones": null,
+    "total_contado_efectivo": "0",
+    "total_esperado": "0",
+    "diferencia": "0",
+    "tipo_diferencia": "",
+    "observaciones": "",
+    "created_at": "2026-07-24T12:26:27.869Z"
+  }
+},
+{
+  "model": "caja.cortecaja",
+  "pk": 3,
+  "fields": {
+    "restaurante": 16,
+    "session": 3,
+    "usuario_cierre": null,
+    "fondo_inicial": "500000",
+    "total_ventas_efectivo": "30000",
+    "total_ventas_tarjeta": "0",
+    "total_ventas_transferencia": "0",
+    "total_ventas_qr": "0",
+    "total_ingresos_extra": "0",
+    "total_retiros": "0",
+    "total_propinas": "0",
+    "total_ventas": "30000",
+    "denominaciones": [
+      {
+        "valor": 50000,
+        "cantidad": 1
+      }
+    ],
+    "total_contado_efectivo": "50000",
+    "total_esperado": "530000",
+    "diferencia": "-480000",
+    "tipo_diferencia": "faltante",
+    "observaciones": "Cierre test MT",
+    "created_at": "2026-07-24T13:16:02.097Z"
+  }
+},
+{
+  "model": "tenants.restaurante",
+  "pk": 1,
+  "fields": {
+    "nombre": "Restaurante por defecto",
+    "slug": "default",
+    "activo": true,
+    "plan": "free",
+    "fecha_alta": "2026-07-24T12:17:14.842Z",
+    "created_at": "2026-07-24T12:17:14.842Z",
+    "updated_at": "2026-07-24T12:17:14.842Z"
+  }
+},
+{
+  "model": "tenants.restaurante",
+  "pk": 2,
+  "fields": {
+    "nombre": "Restaurante A",
+    "slug": "rest-a",
+    "activo": true,
+    "plan": "basic",
+    "fecha_alta": "2026-07-24T12:26:27.651Z",
+    "created_at": "2026-07-24T12:26:27.651Z",
+    "updated_at": "2026-07-24T12:26:27.651Z"
+  }
+},
+{
+  "model": "tenants.restaurante",
+  "pk": 3,
+  "fields": {
+    "nombre": "Restaurante B",
+    "slug": "rest-b",
+    "activo": true,
+    "plan": "pro",
+    "fecha_alta": "2026-07-24T12:26:27.656Z",
+    "created_at": "2026-07-24T12:26:27.656Z",
+    "updated_at": "2026-07-24T12:26:27.656Z"
+  }
+},
+{
+  "model": "tenants.restaurante",
+  "pk": 14,
+  "fields": {
+    "nombre": "Otro",
+    "slug": "test-otro",
+    "activo": true,
+    "plan": "free",
+    "fecha_alta": "2026-07-24T12:41:24.326Z",
+    "created_at": "2026-07-24T12:41:24.326Z",
+    "updated_at": "2026-07-24T12:41:24.326Z"
+  }
+},
+{
+  "model": "tenants.restaurante",
+  "pk": 15,
+  "fields": {
+    "nombre": "Nuevo",
+    "slug": "test-nuevo",
+    "activo": true,
+    "plan": "free",
+    "fecha_alta": "2026-07-24T12:41:25.767Z",
+    "created_at": "2026-07-24T12:41:25.767Z",
+    "updated_at": "2026-07-24T12:41:25.767Z"
+  }
+},
+{
+  "model": "tenants.restaurante",
+  "pk": 16,
+  "fields": {
+    "nombre": "Pizzeria Juan",
+    "slug": "pizzeria-juan",
+    "activo": true,
+    "plan": "free",
+    "fecha_alta": "2026-07-24T13:03:57.030Z",
+    "created_at": "2026-07-24T13:03:57.030Z",
+    "updated_at": "2026-07-24T13:03:57.030Z"
+  }
+},
+{
+  "model": "tenants.restaurante",
+  "pk": 17,
+  "fields": {
+    "nombre": "Pizzeria Ana",
+    "slug": "pizzeria-ana",
+    "activo": true,
+    "plan": "free",
+    "fecha_alta": "2026-07-24T13:03:57.044Z",
+    "created_at": "2026-07-24T13:03:57.044Z",
+    "updated_at": "2026-07-24T13:03:57.044Z"
+  }
+}
+]
