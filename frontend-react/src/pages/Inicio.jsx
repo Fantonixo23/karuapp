@@ -91,6 +91,7 @@ export default function Inicio() {
   const saludo = horas < 12 ? 'Buenos dias' : horas < 18 ? 'Buenas tardes' : 'Buenas noches'
   const fechaStr = hora.toLocaleDateString('es-PY', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
   const horaStr = hora.toLocaleTimeString('es-PY', { hour: '2-digit', minute: '2-digit' })
+  const allowedModulos = MODULOS_POR_ROL[user?.rol] || MODULOS_POR_ROL['administrador']
 
   return (
     <div style={s.container(darkMode)}>
@@ -154,7 +155,6 @@ export default function Inicio() {
         )}
 
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '12px' }}>
-          const allowedModulos = MODULOS_POR_ROL[user?.rol] || MODULOS_POR_ROL['administrador']
           {ALL_AREAS.filter(area => allowedModulos.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))).map((area, i) => (
             <Link key={i} to={area.path} style={{
               borderRadius: '14px', padding: '18px 10px',
