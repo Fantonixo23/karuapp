@@ -7,7 +7,7 @@ export default defineConfig({
   ],
   base: '/',
   build: {
-    outDir: '../backend/frontend',
+    outDir: 'dist',
     emptyOutDir: true,
   },
   server: {

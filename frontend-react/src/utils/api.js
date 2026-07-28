@@ -1,4 +1,5 @@
 const getBaseUrl = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
   if (typeof window === 'undefined') return 'http://localhost:8000'
   const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:'
   const hostname = window.location.hostname
