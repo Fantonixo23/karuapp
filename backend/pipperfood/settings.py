@@ -57,6 +57,7 @@ MIDDLEWARE = [
     'pipperfood.licencia.VerificarLicenciaMiddleware',
     'apps.usuarios.auth_middleware.JWTAuthMiddleware',
     'pipperfood.middleware.TenantMiddleware',
+    'pipperfood.session_middleware.SessionAuthMiddleware',
 ]
 
 ROOT_URLCONF = 'pipperfood.urls'
@@ -162,3 +163,21 @@ SIMPLE_JWT = {
 }
 
 PRINT_API_TOKEN = os.environ.get('PRINT_API_TOKEN', 'pipper-print-token-default')
+
+# Session config (cookie-based auth for SaaS panel)
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 86400 * 30  # 30 días
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/app/'
+
+# Email config (SMTP for password reset, verification codes)
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)

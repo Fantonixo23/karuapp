@@ -20,12 +20,6 @@ function getRestauranteSlug() {
   return params.get('restaurante') || ''
 }
 
-function getRestauranteSlug() {
-  if (typeof window === 'undefined') return ''
-  const params = new URLSearchParams(window.location.search)
-  return params.get('restaurante') || ''
-}
-
 export async function apiFetch(url, options = {}) {
   const headers = {
     'Content-Type': 'application/json',

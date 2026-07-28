@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Inicio from './pages/Inicio'
+import Funcionarios from './pages/Funcionarios'
 import NuevaVenta from './pages/NuevaVenta'
 import Cocina from './pages/Cocina'
 import Caja from './pages/Caja'
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/app/productos" element={<Productos />} />
         <Route path="/app/inventario" element={<Inventario />} />
         <Route path="/app/configuracion" element={<MobileGuard><Configuracion /></MobileGuard>} />
+        <Route path="/app/funcionarios" element={<Funcionarios />} />
         <Route path="/app/sifen" element={<SifenConfig />} />
         <Route path="/app/config" element={<Config />} />
         <Route path="/app/mesero" element={<Mesero />} />

@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store/useStore'
+import { ALL_AREAS, MODULOS_POR_ROL } from '../constants'
 import { getApiUrl } from '../utils/api'
 import { formatGuarani } from '../utils/currency'
 import Sidebar from '../components/Sidebar'
+import UserButton from '../components/UserButton'
 
 const API_URL = getApiUrl()
 
@@ -42,22 +44,13 @@ const s = {
 
 import { MOBILE_HIDDEN_MODULES } from '../constants'
 
-const ALL_AREAS = [
-  { path: '/app/mesas', icon: 'table_restaurant', label: 'Mesas', desc: 'Gestionar mesas', modulo: 'mesas' },
-  { path: '/app/cocina', icon: 'restaurant', label: 'Cocina', desc: 'Pedidos en cocina', modulo: 'cocina' },
-  { path: '/app/caja', icon: 'point_of_sale', label: 'Caja', desc: 'Cobros y facturas', modulo: 'caja' },
-  { path: '/app/delivery', icon: 'delivery_dining', label: 'Delivery', desc: 'Pedidos a domicilio', modulo: 'delivery' },
-  { path: '/app/informes', icon: 'analytics', label: 'Informes', desc: 'Reportes y ventas', modulo: 'informes' },
-  { path: '/app/productos', icon: 'inventory_2', label: 'Productos', desc: 'Catalogo y stock', modulo: 'productos' },
-  { path: '/app/inventario', icon: 'warehouse', label: 'Inventario', desc: 'Control de stock', modulo: 'inventario' },
-]
-
 export default function Inicio() {
   const darkMode = useStore((state) => state.darkMode)
   const toggleDarkMode = useStore((state) => state.toggleDarkMode)
   const initDarkMode = useStore((state) => state.initDarkMode)
   const syncDarkMode = useStore((state) => state.syncDarkMode)
   const isMobile = useStore((state) => state.isMobile)
+  const user = useStore((s) => s.user)
   useEffect(() => { initDarkMode(); syncDarkMode() }, [])
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [hora, setHora] = useState(new Date())
@@ -113,6 +106,7 @@ export default function Inicio() {
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#F44336', lineHeight: 1.2 }}>{horaStr}</div>
             <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
+          <UserButton />
           <button onClick={toggleDarkMode} style={s.btnHeader}>
             <span className="material-icons">{darkMode ? 'dark_mode' : 'light_mode'}</span>
           </button>
@@ -160,7 +154,8 @@ export default function Inicio() {
         )}
 
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '12px' }}>
-          {ALL_AREAS.filter(area => !isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo)).map((area, i) => (
+          const allowedModulos = MODULOS_POR_ROL[user?.rol] || MODULOS_POR_ROL['administrador']
+          {ALL_AREAS.filter(area => allowedModulos.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))).map((area, i) => (
             <Link key={i} to={area.path} style={{
               borderRadius: '14px', padding: '18px 10px',
               display: 'flex', flexDirection: 'column', alignItems: 'center',
@@ -278,7 +273,7 @@ export default function Inicio() {
               <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
             </div>
 
-            {ALL_AREAS.filter(area => !isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo)).map((area, i) => (
+            {ALL_AREAS.filter(area => allowedModulos.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))).map((area, i) => (
               <Link key={i} to={area.path} onClick={() => setSidebarOpen(false)} style={{
                 display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px',
                 border: 'none', background: 'none', color: '#ccc', fontSize: '14px',

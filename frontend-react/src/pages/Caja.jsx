@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
+import UserButton from '../components/UserButton'
 import { useStore } from '../store/useStore'
 
 import { formatGuarani } from '../utils/currency'
@@ -599,6 +600,7 @@ export default function Caja() {
             <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
           {!isMobile && <FullscreenButton />}
+          <UserButton />
           <span className="material-icons" style={{ color: '#aaa', cursor: 'pointer' }} onClick={toggleDarkMode}>dark_mode</span>
 
         </div>

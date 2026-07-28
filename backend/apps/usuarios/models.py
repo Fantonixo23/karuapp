@@ -88,8 +88,28 @@ class Usuario(AbstractBaseUser):
     @property
     def modulos_acceso(self):
         return MODULOS_POR_ROL.get(self.rol, [])
-    
-    def puede_acceder(self, modulo):
-        return modulo in self.modulos_acceso
+
+
+class VerificationCode(models.Model):
+    PURPOSES = [
+        ('password_reset', 'Restablecer contraseña'),
+        ('owner_access', 'Acceso de dueño'),
+    ]
+    email = models.EmailField()
+    code = models.CharField(max_length=6)
+    purpose = models.CharField(max_length=20, choices=PURPOSES)
+    expires_at = models.DateTimeField()
+    used = models.BooleanField(default=False)
+    attempts = models.IntegerField(default=0)
+    blocked_until = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'verification_codes'
+        verbose_name = 'Código de verificación'
+        verbose_name_plural = 'Códigos de verificación'
+
+    def __str__(self):
+        return f"{self.code} ({self.purpose}) - {self.email}"
 
 

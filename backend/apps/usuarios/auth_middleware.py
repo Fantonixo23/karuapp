@@ -24,4 +24,14 @@ class JWTAuthMiddleware:
                         pass
             except TokenError:
                 pass
+        elif request.user.is_authenticated:
+            email = request.user.email
+            if email:
+                try:
+                    usuario = Usuario.objects.get(email=email, activo=True)
+                    request.usuario = usuario
+                    request.restaurante_id = usuario.restaurante_id
+                    request.usuario_rol = usuario.rol
+                except Usuario.DoesNotExist:
+                    pass
         return self.get_response(request)

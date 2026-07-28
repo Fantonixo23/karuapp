@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>karuAPP - Acceso Empleados</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #0f172a; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.container { width: 100%; max-width: 400px; padding: 20px; }
+.card { background: #1e293b; border-radius: 16px; padding: 40px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); text-align: center; }
+.logo { margin-bottom: 24px; }
+.logo h1 { color: #f8fafc; font-size: 22px; }
+.logo span { color: #f97316; }
+.step { display: none; flex-direction: column; gap: 16px; }
+.step.active { display: flex; }
+h2 { color: #f8fafc; font-size: 16px; font-weight: 600; }
+p { color: #94a3b8; font-size: 13px; }
+.select-wrap { position: relative; }
+.select-wrap select { width: 100%; padding: 14px; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: #f8fafc; font-size: 16px; outline: none; appearance: none; cursor: pointer; }
+.select-wrap::after { content: '▼'; position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 12px; pointer-events: none; }
+.pin-input { width: 100%; padding: 16px; background: #0f172a; border: 1px solid #334155; border-radius: 10px; color: #f8fafc; font-size: 28px; text-align: center; letter-spacing: 12px; outline: none; }
+.pin-input:focus { border-color: #f97316; }
+.btn { padding: 14px; background: #f97316; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s; }
+.btn:hover { background: #ea580c; }
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+.error { background: #7f1d1d; color: #fca5a5; padding: 10px 14px; border-radius: 8px; font-size: 13px; display: none; }
+.error.show { display: block; }
+.loading { display: none; }
+.loading.show { display: inline-block; }
+.spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid #475569; border-top-color: #f97316; border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+<div class="logo"><h1>karu<span>APP</span></h1></div>
+
+<div id="errorMsg" class="error"></div>
+
+<div id="step1" class="step active">
+  <span class="material-icons" style="font-size:40px; color:#f97316;">person_pin</span>
+  <h2>Acceso empleados</h2>
+  <p>Seleccioná tu nombre para ingresar</p>
+  <div class="select-wrap">
+    <select id="funcionarioSelect" onchange="selectFuncionario()">
+      <option value="">— Seleccioná tu nombre —</option>
+    </select>
+  </div>
+  <div id="loadingFunc" class="loading show"><div class="spinner"></div> Cargando...</div>
+</div>
+
+<div id="step2" class="step">
+  <span class="material-icons" style="font-size:40px; color:#4CAF50;">lock</span>
+  <h2 id="step2Name"></h2>
+  <p>Ingresá tu PIN de 4 dígitos</p>
+  <input type="password" id="pinInput" class="pin-input" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,4)" onkeydown="if(event.key==='Enter') doPinLogin()">
+  <button class="btn" onclick="doPinLogin()" id="pinLoginBtn">Ingresar</button>
+  <button onclick="goBack()" style="background:none; border:none; color:#64748b; cursor:pointer; font-size:13px; text-decoration:underline; margin-top:4px;">Volver</button>
+</div>
+
+</div>
+</div>
+
+<script>
+var API = '/api';
+
+async function cargarFuncionarios() {
+  var slug = window.location.pathname.split('/').pop();
+  if (!slug) { showError('URL inválida'); return; }
+  try {
+    var r = await fetch(API + '/mobile/funcionarios/' + slug);
+    var d = await r.json();
+    if (d.success && d.funcionarios.length > 0) {
+      var sel = document.getElementById('funcionarioSelect');
+      sel.innerHTML = '<option value="">— Seleccioná tu nombre —</option>';
+      d.funcionarios.forEach(function(f) {
+        var opt = document.createElement('option');
+        opt.value = f.id;
+        opt.textContent = f.nombre;
+        sel.appendChild(opt);
+      });
+      document.getElementById('loadingFunc').classList.remove('show');
+    } else {
+      showError('No hay funcionarios disponibles para este restaurante');
+    }
+  } catch(e) { showError('Error al cargar funcionarios'); }
+}
+
+function selectFuncionario() {
+  var sel = document.getElementById('funcionarioSelect');
+  if (sel.value) {
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    document.getElementById('step2Name').textContent = sel.options[sel.selectedIndex].textContent;
+    document.getElementById('pinInput').value = '';
+    document.getElementById('pinInput').focus();
+    hideError();
+  }
+}
+
+function goBack() {
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('step1').classList.add('active');
+  hideError();
+}
+
+function showError(msg) { var el = document.getElementById('errorMsg'); el.textContent = msg; el.classList.add('show'); }
+function hideError() { document.getElementById('errorMsg').classList.remove('show'); }
+
+async function doPinLogin() {
+  var pin = document.getElementById('pinInput').value.trim();
+  if (!pin || pin.length !== 4) { showError('Ingresá tu PIN de 4 dígitos'); return; }
+  var funcionarioId = document.getElementById('funcionarioSelect').value;
+  document.getElementById('pinLoginBtn').disabled = true;
+  hideError();
+  try {
+    var r = await fetch(API + '/auth/login-pin-mobile', {
+      method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({funcionario_id: funcionarioId, pin: pin})
+    });
+    var d = await r.json();
+    if (d.success && d.access_token) {
+      localStorage.setItem('karu_jwt', d.access_token);
+      localStorage.setItem('karu_user', JSON.stringify(d.user));
+      window.location.href = '/mobile/' + window.location.pathname.split('/').pop() + '/inicio';
+    } else {
+      showError(d.error || 'PIN incorrecto');
+    }
+  } catch(e) { showError('Error de conexión'); }
+  document.getElementById('pinLoginBtn').disabled = false;
+}
+
+cargarFuncionarios();
+</script>
+</body>
+</html>

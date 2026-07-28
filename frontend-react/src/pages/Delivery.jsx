@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
+import UserButton from '../components/UserButton'
 import { useStore } from '../store/useStore'
 import { formatGuarani } from '../utils/currency'
 
@@ -411,6 +412,7 @@ export default function Delivery() {
             <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
           <FullscreenButton />
+          <UserButton />
           <button onClick={toggleDarkMode} style={s.btnHeader}><span className="material-icons">{darkMode ? 'dark_mode' : 'light_mode'}</span></button>
         </div>
       </header>

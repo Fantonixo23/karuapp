@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store/useStore'
 import Sidebar from '../components/Sidebar'
+import UserButton from '../components/UserButton'
 import { formatGuarani } from '../utils/currency'
 import { getApiUrl } from '../utils/api'
 
@@ -257,6 +258,7 @@ export default function Configuracion() {
           <span style={s.title}>Configuracion</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <UserButton />
           <button onClick={toggleDarkMode} style={s.btnHeader}><span className="material-icons">{darkMode ? 'dark_mode' : 'light_mode'}</span></button>
         </div>
       </header>

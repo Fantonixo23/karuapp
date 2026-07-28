@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
+import UserButton from '../components/UserButton'
 import TomarPedido from '../components/TomarPedido'
 import { useStore } from '../store/useStore'
 import { useSocketStore, useRealTime } from '../store/useSocketStore'
@@ -416,6 +417,7 @@ export default function NuevaVenta() {
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           {!isMobile && <FullscreenButton />}
+          <UserButton />
           <button onClick={toggleDarkMode} style={s.btnHeader}>
             <span className="material-icons" style={{ fontSize: '20px' }}>{darkMode ? 'light_mode' : 'dark_mode'}</span>
           </button>

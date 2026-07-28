@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
+import UserButton from '../components/UserButton'
 import { useStore } from '../store/useStore'
 
 import { getApiUrl } from '../utils/api'
@@ -266,6 +267,7 @@ export default function Inventario() {
             <option value="agotado">Agotado</option>
           </select>
           {!isMobile && <FullscreenButton />}
+          <UserButton />
           <button onClick={toggleDarkMode} style={s.btn}>{darkMode ? '🌙' : '☀️'}</button>
         </div>
       </header>

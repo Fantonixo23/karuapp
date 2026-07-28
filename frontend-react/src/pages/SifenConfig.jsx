@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store/useStore'
 import Sidebar from '../components/Sidebar'
+import UserButton from '../components/UserButton'
 import { getApiUrl } from '../utils/api'
 
 const API_URL = getApiUrl()
@@ -273,6 +274,7 @@ export default function SifenConfig() {
           <span style={s.title}>Facturación Electrónica SIFEN</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <UserButton />
           <button onClick={toggleDarkMode} style={s.btnHeader}>
             <span className="material-icons">{darkMode ? 'dark_mode' : 'light_mode'}</span>
           </button>

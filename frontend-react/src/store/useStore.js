@@ -23,9 +23,21 @@ const getInitialLicense = () => {
   return { estado: 'activa', dias_restantes: 999, mensaje: '', nombre: '' }
 }
 
+const getInitialUser = () => {
+  if (typeof window !== 'undefined' && window.__KARU_USER__ && window.__KARU_USER__.email) {
+    return window.__KARU_USER__
+  }
+  try {
+    const stored = localStorage.getItem('karu_user')
+    if (stored) return JSON.parse(stored)
+  } catch {}
+  return { email: null, name: null, rol: null }
+}
+
 export const useStore = create((set, get) => ({
   darkMode: getInitialDarkMode(),
   license: getInitialLicense(),
+  user: getInitialUser(),
   isMobile: typeof window !== 'undefined' && (window.innerWidth < 768 || (window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1280)),
 
   setIsMobile: (val) => set({ isMobile: val }),
@@ -68,6 +80,12 @@ export const useStore = create((set, get) => ({
   setLicense: (licenseData) => {
     localStorage.setItem('license', JSON.stringify(licenseData))
     set({ license: licenseData })
+  },
+
+  logout: () => {
+    fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
+      .then(() => { window.location.href = '/login' })
+      .catch(() => { window.location.href = '/login' })
   }
 }))
 

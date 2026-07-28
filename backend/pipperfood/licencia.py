@@ -123,7 +123,7 @@ class LicenseManager:
                 return {
                     'estado': 'bloqueada',
                     'dias_restantes': 0,
-                    'mensaje': '⚫ Sin conexión prolongada - Licencia bloqueada',
+                    'mensaje': 'Licencia bloqueada - Sin conexión prolongada',
                     'nombre': cache.get('nombre', self.restaurant_name),
                     'online': False,
                     'bloqueado': True,
@@ -131,7 +131,7 @@ class LicenseManager:
                 }
             dias_restantes = (limite - datetime.now()).days
             cache['dias_restantes'] = dias_restantes
-            cache['mensaje'] = f'🟡 Sin conexión - {dias_restantes} días de gracia restantes'
+            cache['mensaje'] = ''
             cache['online'] = False
             return cache
         except Exception:
@@ -286,7 +286,7 @@ class LicenseManager:
                 return cache
             return self._check_offline_grace(cache)
 
-        return self._default_cache('🔴 Sin conexión - No se pudo verificar licencia', estado='gracia', dias=3)
+        return self._default_cache('Sin conexión - No se pudo verificar licencia', estado='activa', dias=3)
 
     def get_status(self):
         return self.verificar()
@@ -319,10 +319,12 @@ class VerificarLicenciaMiddleware:
             '/api/verificar-licencia',
             '/api/verificar-pin',
             '/api/activar-licencia',
+            '/api/auth/',
             '/admin/',
             '/static/',
             '/media/',
             '/login',
+            '/saas/',
         ]
 
         path = request.path.rstrip('/') or '/'

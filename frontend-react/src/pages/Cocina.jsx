@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
+import UserButton from '../components/UserButton'
 import { useStore } from '../store/useStore'
 import { useRealTime } from '../store/useSocketStore'
 import ComandaTicket from '../components/ComandaTicket'
@@ -234,6 +235,7 @@ export default function Cocina() {
               <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
             </div>
             {!isMobile && <FullscreenButton />}
+            <UserButton />
             <button onClick={toggleDarkMode} style={{ width: '34px', height: '34px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span className="material-icons" style={{ fontSize: '18px' }}>{darkMode ? 'dark_mode' : 'light_mode'}</span>
             </button>

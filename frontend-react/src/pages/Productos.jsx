@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
+import UserButton from '../components/UserButton'
 import { useStore } from '../store/useStore'
 import { formatGuarani } from '../utils/currency'
 import { getApiUrl, getMediaUrl } from '../utils/api'
@@ -405,6 +406,7 @@ export default function Productos() {
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           {!isMobile && <FullscreenButton />}
+          <UserButton />
           <button onClick={toggleDarkMode} style={s.btn}><span className="material-icons">{darkMode ? 'dark_mode' : 'light_mode'}</span></button>
         </div>
       </header>

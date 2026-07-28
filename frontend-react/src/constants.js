@@ -6,6 +6,7 @@ export const ALL_AREAS = [
   { path: '/app/informes', icon: 'analytics', label: 'Informes', desc: 'Reportes y ventas', modulo: 'informes' },
   { path: '/app/productos', icon: 'inventory_2', label: 'Productos', desc: 'Catalogo y stock', modulo: 'productos' },
   { path: '/app/inventario', icon: 'warehouse', label: 'Inventario', desc: 'Control de stock', modulo: 'inventario' },
+  { path: '/app/funcionarios', icon: 'badge', label: 'Funcionarios', desc: 'Gestionar empleados', modulo: 'funcionarios' },
 ]
 
 export const ROL_INFO = {
@@ -15,4 +16,11 @@ export const ROL_INFO = {
   cocina: { label: 'Cocina', color: '#FF9800' },
 }
 
-export const MOBILE_HIDDEN_MODULES = ['caja', 'informes', 'configuracion']
+export const MODULOS_POR_ROL = {
+  administrador: ['inicio', 'mesas', 'cocina', 'caja', 'delivery', 'informes', 'productos', 'inventario', 'funcionarios', 'configuracion'],
+  cajero:        ['inicio', 'mesas', 'caja', 'delivery', 'cocina'],
+  mesero:        ['inicio', 'mesas', 'cocina'],
+  cocina:        ['inicio', 'cocina'],
+}
+
+export const MOBILE_HIDDEN_MODULES = ['caja', 'informes', 'configuracion', 'funcionarios']

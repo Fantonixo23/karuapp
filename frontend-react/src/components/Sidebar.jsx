@@ -1,30 +1,23 @@
 import { useState, useEffect } from 'react'
 import { useStore } from '../store/useStore'
-import { MOBILE_HIDDEN_MODULES } from '../constants'
+import { ALL_AREAS, MODULOS_POR_ROL, MOBILE_HIDDEN_MODULES } from '../constants'
 import { Link, useLocation } from 'react-router-dom'
-
-const ALL_ITEMS = [
-  { path: '/app/inicio', icon: 'home', label: 'Inicio', modulo: 'inicio' },
-  { path: '/app/mesas', icon: 'table_restaurant', label: 'Mesas', modulo: 'mesas' },
-  { path: '/app/cocina', icon: 'restaurant', label: 'Cocina', modulo: 'cocina' },
-  { path: '/app/caja', icon: 'point_of_sale', label: 'Caja', modulo: 'caja' },
-  { path: '/app/delivery', icon: 'delivery_dining', label: 'Delivery', modulo: 'delivery' },
-  { path: '/app/informes', icon: 'analytics', label: 'Informes', modulo: 'informes' },
-  { path: '/app/productos', icon: 'inventory_2', label: 'Productos', modulo: 'productos' },
-  { path: '/app/inventario', icon: 'inventory', label: 'Inventario', modulo: 'inventario' },
-  { path: '/app/configuracion', icon: 'settings', label: 'Config', modulo: 'configuracion' },
-]
 
 const RED = '#D32F2F'
 
 export default function Sidebar({ activePath }) {
   const isMobile = useStore((state) => state.isMobile)
+  const user = useStore((s) => s.user)
   const [isLandscape, setIsLandscape] = useState(
     typeof window !== 'undefined' && window.innerWidth > window.innerHeight
   )
   const location = useLocation()
   const currentPath = activePath || location.pathname
-  const visibleItems = ALL_ITEMS.filter(item => !isMobile || !MOBILE_HIDDEN_MODULES.includes(item.modulo))
+
+  const allowedModulos = MODULOS_POR_ROL[user?.rol] || MODULOS_POR_ROL['administrador']
+  const visibleItems = ALL_AREAS.filter(
+    item => allowedModulos.includes(item.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(item.modulo))
+  )
 
   useEffect(() => {
     const check = () => setIsLandscape(window.innerWidth > window.innerHeight)
