@@ -32,6 +32,10 @@ export const useSocketStore = create((set, get) => ({
     const restaurante = params.get('restaurante') || ''
     console.log('🔌 Conectando socket a:', SOCKET_URL, 'restaurante:', restaurante)
     
+    const extraHeaders = SOCKET_URL.includes('serveo.net') || SOCKET_URL.includes('serveousercontent.com')
+      ? { 'serveo-skip-browser-warning': 'true' }
+      : undefined
+
     socket = io(SOCKET_URL, {
       transports: ['websocket', 'polling'],
       reconnection: true,
@@ -39,6 +43,12 @@ export const useSocketStore = create((set, get) => ({
       reconnectionDelay: 1000,
       auth: { restaurante },
       query: restaurante ? { restaurante } : undefined,
+      extraHeaders,
+      transportOptions: {
+        polling: {
+          extraHeaders,
+        },
+      },
     })
     
     socket.on('connect', () => {
