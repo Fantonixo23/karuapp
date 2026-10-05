@@ -1,33 +1,36 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class TenantsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private db: DatabaseService) {}
 
   async getRestauranteBySlug(slug: string) {
-    const restaurante = await this.prisma.withTenant().restaurante.findUnique({
-      where: { slug },
-    });
+    const restaurante = await this.db.run(async (db) =>
+      db.selectFrom('restaurantes').selectAll().where('slug', '=', slug).executeTakeFirst(),
+    );
     if (!restaurante) throw new NotFoundException('Restaurante no encontrado');
     return restaurante;
   }
 
   async verifyLicense(restauranteId: number) {
-    const restaurante = await this.prisma.withTenant().restaurante.findUnique({
-      where: { id: restauranteId },
-    });
+    const restaurante = await this.db.run(async (db) =>
+      db.selectFrom('restaurantes').selectAll().where('id', '=', restauranteId).executeTakeFirst(),
+    );
     if (!restaurante) return { valid: false, reason: 'not_found' };
 
-    if (!restaurante.activo || restaurante.estadoLicencia === 'suspended') {
+    if (!restaurante.activo || restaurante.estado_licencia === 'suspended') {
       return { valid: false, reason: 'suspended' };
     }
 
-    if (restaurante.fechaExpiracion && restaurante.fechaExpiracion < new Date()) {
-      await this.prisma.withTenant().restaurante.update({
-        where: { id: restauranteId },
-        data: { estadoLicencia: 'expirado' },
-      });
+    if (restaurante.fecha_expiracion && restaurante.fecha_expiracion < new Date()) {
+      await this.db.run(async (db) =>
+        db
+          .updateTable('restaurantes')
+          .set({ estado_licencia: 'expirado' })
+          .where('id', '=', restauranteId)
+          .execute(),
+      );
       return { valid: false, reason: 'expired' };
     }
 

@@ -4,7 +4,10 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  // Transicion: Prisma no puede usar el pooler (P1001), asi que queda apuntando a
+  // la conexion directa mientras se migran los servicios a pg. Cuando se elimine
+  // Prisma del proyecto, esta variable desaparece junto con el schema.
+  url      = env("DIRECT_DATABASE_URL")
 }
 
 model Restaurante {

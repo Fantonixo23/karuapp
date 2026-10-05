@@ -1,11 +1,11 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { PrismaService } from '../../prisma/prisma.service';
-import { tenantContext } from '../../prisma/tenant-context';
+import { DatabaseService } from '../../database/database.service';
+import { tenantContext } from '../../database/tenant-context';
 
 @Injectable()
 export class RlsContextInterceptor implements NestInterceptor {
-  constructor(private prisma: PrismaService) {}
+  constructor(private db: DatabaseService) {}
 
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest();
@@ -16,10 +16,11 @@ export class RlsContextInterceptor implements NestInterceptor {
       const slug = this.extraerSlug(request);
       if (slug) {
         try {
-          const restaurante = await this.prisma.restaurante.findUnique({
-            where: { slug },
-            select: { id: true },
-          });
+          const restaurante = await this.db.raw
+            .selectFrom('restaurantes')
+            .select('id')
+            .where('slug', '=', slug)
+            .executeTakeFirst();
           if (restaurante) restauranteId = restaurante.id;
         } catch {}
       }

@@ -1,13 +1,13 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PrismaService } from '../../prisma/prisma.service';
+import { DatabaseService } from '../../database/database.service';
 import { JwtPayload } from '../../common/decorators/current-user.decorator';
 import { requireJwtSecret } from '../../common/jwt-secret';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private prisma: PrismaService) {
+  constructor(private db: DatabaseService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -19,20 +19,28 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<JwtPayload> {
-    const usuario = await this.prisma.usuario.findUnique({
-      where: { id: payload.sub },
-      include: { restaurante: true },
-    });
+    const usuario = await this.db.runBypassRls(async (db) =>
+      db
+        .selectFrom('usuarios')
+        .leftJoin('restaurantes', 'restaurantes.id', 'usuarios.restaurante_id')
+        .select([
+          'usuarios.id',
+          'usuarios.activo',
+          'restaurantes.activo as rest_activo',
+        ])
+        .where('usuarios.id', '=', payload.sub)
+        .executeTakeFirst(),
+    );
 
     if (!usuario || !usuario.activo) {
       throw new UnauthorizedException('Usuario no encontrado o inactivo');
     }
 
-    if (usuario.restaurante && !usuario.restaurante.activo) {
+    if (usuario.rest_activo === false) {
       throw new UnauthorizedException('Restaurante inactivo');
     }
 
-    const { licencia_activa } = await this.verificarLicencia(usuario.restauranteId);
+    const { licencia_activa } = await this.verificarLicencia(payload.restauranteId);
     if (!licencia_activa) {
       throw new UnauthorizedException('Licencia expirada');
     }
@@ -43,20 +51,23 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   private async verificarLicencia(restauranteId: number | null) {
     if (!restauranteId) return { licencia_activa: true };
 
-    const restaurante = await this.prisma.restaurante.findUnique({
-      where: { id: restauranteId },
-    });
+    const restaurante = await this.db.runBypassRls(async (db) =>
+      db.selectFrom('restaurantes').selectAll().where('id', '=', restauranteId).executeTakeFirst(),
+    );
 
     if (!restaurante) return { licencia_activa: false };
-    if (!restaurante.activo || restaurante.estadoLicencia === 'suspended') {
+    if (!restaurante.activo || restaurante.estado_licencia === 'suspended') {
       return { licencia_activa: false };
     }
-    if (restaurante.estadoLicencia === 'expirado') return { licencia_activa: false };
-    if (restaurante.fechaExpiracion && restaurante.fechaExpiracion < new Date()) {
-      await this.prisma.restaurante.update({
-        where: { id: restauranteId },
-        data: { estadoLicencia: 'expirado' },
-      });
+    if (restaurante.estado_licencia === 'expirado') return { licencia_activa: false };
+    if (restaurante.fecha_expiracion && restaurante.fecha_expiracion < new Date()) {
+      await this.db.runBypassRls(async (db) =>
+        db
+          .updateTable('restaurantes')
+          .set({ estado_licencia: 'expirado' })
+          .where('id', '=', restauranteId)
+          .execute(),
+      );
       return { licencia_activa: false };
     }
     return { licencia_activa: true };

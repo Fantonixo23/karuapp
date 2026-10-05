@@ -1,11 +1,33 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
 import { tenantContext } from './tenant-context';
 
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error('Falta DATABASE_URL: no se puede inicializar PrismaService');
+}
+
+const adapter = new PrismaPg({
+  connectionString,
+  max: Number(process.env.DATABASE_POOL_MAX ?? 5),
+  idleTimeoutMillis: 30_000,
+  connectionTimeoutMillis: 15_000,
+});
+
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
+  constructor() {
+    super({ adapter });
+  }
+
   async onModuleInit() {
     await this.$connect();
+  }
+
+  async onModuleDestroy() {
+    await this.$disconnect();
   }
 
   withTenant() {

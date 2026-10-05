@@ -1,3 +1,7 @@
+// Debe ser el primer import: carga el .env antes de que ningun modulo lo lea.
+// ConfigModule.forRoot() corre despues (durante el bootstrap) y ya es tarde para
+// los modulos que leen process.env al importarse.
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';

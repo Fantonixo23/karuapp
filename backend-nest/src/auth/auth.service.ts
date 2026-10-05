@@ -7,7 +7,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
-import { PrismaService } from '../prisma/prisma.service';
+import { Kysely, sql } from 'kysely';
+import { DatabaseService } from '../database/database.service';
+import { DB } from '../database/database.types';
 import { EmailService } from '../common/email.service';
 import { JwtPayload } from '../common/decorators/current-user.decorator';
 
@@ -16,94 +18,157 @@ const DOMINIOS_PERMITIDOS = [
   'live.com', 'msn.com', 'protonmail.com', 'mail.com',
 ];
 
+const CAMPOS_USUARIO = [
+  'usuarios.id',
+  'usuarios.restaurante_id',
+  'usuarios.nombre',
+  'usuarios.pin',
+  'usuarios.rol',
+  'usuarios.email',
+  'usuarios.telefono',
+  'usuarios.activo',
+  'usuarios.verificado',
+  'usuarios.ultimo_acceso',
+] as const;
+
+const CAMPOS_RESTAURANTE = [
+  'restaurantes.id as rest_id',
+  'restaurantes.nombre as rest_nombre',
+  'restaurantes.slug as rest_slug',
+  'restaurantes.activo as rest_activo',
+  'restaurantes.plan as rest_plan',
+  'restaurantes.estado_licencia as rest_estado_licencia',
+  'restaurantes.motivo_bloqueo as rest_motivo_bloqueo',
+  'restaurantes.fecha_expiracion as rest_fecha_expiracion',
+] as const;
+
+type UsuarioConRestaurante = {
+  id: number;
+  restaurante_id: number | null;
+  nombre: string;
+  pin: string | null;
+  rol: string;
+  email: string | null;
+  telefono: string | null;
+  activo: boolean;
+  verificado: boolean;
+  ultimo_acceso: Date | null;
+  rest_id: number | null;
+  rest_nombre: string | null;
+  rest_slug: string | null;
+  rest_activo: boolean | null;
+  rest_plan: string | null;
+  rest_estado_licencia: string | null;
+  rest_motivo_bloqueo: string | null;
+  rest_fecha_expiracion: Date | null;
+};
+
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
+    private db: DatabaseService,
     private jwtService: JwtService,
     private emailService: EmailService,
   ) {}
 
+  /** Usuario + restaurante en una sola query. leftJoin: un superadmin no tiene restaurante. */
+  private usuarioConRestaurante(filtro: (qb: any) => any) {
+    return this.db.runBypassRls(async (db) =>
+      filtro(
+        db
+          .selectFrom('usuarios')
+          .leftJoin('restaurantes', 'restaurantes.id', 'usuarios.restaurante_id')
+          .select([...CAMPOS_USUARIO, ...CAMPOS_RESTAURANTE]),
+      ).executeTakeFirst() as Promise<UsuarioConRestaurante | undefined>,
+    );
+  }
+
+  private usuarioPublico(u: UsuarioConRestaurante) {
+    return {
+      id: u.id,
+      nombre: u.nombre,
+      email: u.email,
+      rol: u.rol,
+      telefono: u.telefono,
+      activo: u.activo,
+      restaurante_id: u.rest_id,
+      restaurante_slug: u.rest_slug,
+      restaurante: u.rest_id
+        ? {
+            id: u.rest_id,
+            nombre: u.rest_nombre,
+            slug: u.rest_slug,
+            plan: u.rest_plan,
+            estado_licencia: u.rest_estado_licencia,
+            fecha_expiracion: u.rest_fecha_expiracion,
+          }
+        : null,
+    };
+  }
+
+  /** Misma validacion de licencia que se usaba en loginSaas y loginPin. */
+  private verificarLicencia(u: UsuarioConRestaurante): void {
+    if (!u.rest_id) return;
+
+    if (!u.rest_activo) throw new UnauthorizedException('Restaurante inactivo');
+    if (u.rest_estado_licencia === 'pendiente') {
+      throw new UnauthorizedException('Sistema pendiente de aprobación. Te contactaremos pronto.');
+    }
+    if (u.rest_estado_licencia === 'suspendido') {
+      throw new UnauthorizedException(`Sistema suspendido. Motivo: ${u.rest_motivo_bloqueo || 'contactá al administrador'}`);
+    }
+    if (u.rest_fecha_expiracion && u.rest_fecha_expiracion < new Date()) {
+      throw new UnauthorizedException(`Sistema suspendido. Motivo: ${u.rest_motivo_bloqueo || 'licencia vencida'}`);
+    }
+  }
+
   async loginSaas(email: string, password: string) {
-    const usuario = await this.prisma.bypassRls<any>((tx) =>
-      tx.usuario.findFirst({
-        where: { email, activo: true },
-        include: { restaurante: true },
-      }),
+    const usuario = await this.usuarioConRestaurante((qb) =>
+      qb.where('usuarios.email', '=', email).where('usuarios.activo', '=', true),
     );
 
-    if (!usuario || !usuario.pin) {
-      throw new UnauthorizedException('Credenciales inválidas');
-    }
+    if (!usuario || !usuario.pin) throw new UnauthorizedException('Credenciales inválidas');
 
     if (!usuario.verificado) {
       throw new UnauthorizedException('Cuenta no verificada. Revisá tu celular para activarla.');
     }
 
-    const isMatch = await bcrypt.compare(password, usuario.pin);
-    if (!isMatch) {
+    if (!(await bcrypt.compare(password, usuario.pin))) {
       throw new UnauthorizedException('Credenciales inválidas');
     }
 
-    if (usuario.restaurante) {
-      const r = usuario.restaurante;
-      if (!usuario.restaurante.activo) {
-        throw new UnauthorizedException('Restaurante inactivo');
-      }
-      if (r.estadoLicencia === 'pendiente') {
-        throw new UnauthorizedException('Sistema pendiente de aprobación. Te contactaremos pronto.');
-      }
-      if (r.estadoLicencia === 'suspendido') {
-        throw new UnauthorizedException(`Sistema suspendido. Motivo: ${r.motivoBloqueo || 'contactá al administrador'}`);
-      }
-      if (r.fechaExpiracion && r.fechaExpiracion < new Date()) {
-        throw new UnauthorizedException(`Sistema suspendido. Motivo: ${r.motivoBloqueo || 'licencia vencida'}`);
-      }
-    }
+    this.verificarLicencia(usuario);
 
-    const token = this.generateToken(usuario);
-
+    const publico = this.usuarioPublico(usuario);
     return {
       success: true,
-      access_token: token,
-      user: {
-        id: usuario.id,
-        email: usuario.email,
-        nombre: usuario.nombre,
-        rol: usuario.rol,
-        restaurante_id: usuario.restaurante?.id ?? null,
-        restaurante_slug: usuario.restaurante?.slug ?? null,
-        restaurante: usuario.restaurante
-          ? { id: usuario.restaurante.id, nombre: usuario.restaurante.nombre, slug: usuario.restaurante.slug }
-          : null,
-      },
+      access_token: this.generateToken(usuario),
+      user: { ...publico, modulo_acceso: this.getModulosAcceso(usuario.rol) },
     };
   }
 
   async loginPin(pin: string, restauranteSlug?: string) {
-    if (!restauranteSlug) {
-      throw new BadRequestException('restaurante_slug requerido');
-    }
-    if (!pin) {
-      throw new BadRequestException('PIN requerido');
-    }
+    if (!restauranteSlug) throw new BadRequestException('restaurante_slug requerido');
+    if (!pin) throw new BadRequestException('PIN requerido');
 
-    const restaurante = await this.prisma.bypassRls<any>((tx) =>
-      tx.restaurante.findUnique({
-        where: { slug: restauranteSlug },
-        select: { id: true },
-      }),
+    const restaurante = await this.db.runBypassRls(async (db) =>
+      db.selectFrom('restaurantes').select('id').where('slug', '=', restauranteSlug).executeTakeFirst(),
     );
     if (!restaurante) throw new UnauthorizedException('Restaurante no encontrado');
 
-    const candidatos = await this.prisma.bypassRls<any>((tx) =>
-      tx.usuario.findMany({
-        where: { restauranteId: restaurante.id, activo: true },
-        include: { restaurante: true },
-      }),
+    // Los PIN se guardan con bcrypt, asi que hay que probar contra cada usuario
+    // activo del tenant: no se puede filtrar por el PIN en la query.
+    const candidatos = await this.db.runBypassRls(async (db) =>
+      db
+        .selectFrom('usuarios')
+        .leftJoin('restaurantes', 'restaurantes.id', 'usuarios.restaurante_id')
+        .select([...CAMPOS_USUARIO, ...CAMPOS_RESTAURANTE])
+        .where('usuarios.restaurante_id', '=', restaurante.id)
+        .where('usuarios.activo', '=', true)
+        .execute() as Promise<UsuarioConRestaurante[]>,
     );
 
-    let usuario: any = null;
+    let usuario: UsuarioConRestaurante | null = null;
     for (const candidato of candidatos) {
       if (await this.pinMatches(pin, candidato)) {
         usuario = candidato;
@@ -111,46 +176,20 @@ export class AuthService {
       }
     }
 
-    if (!usuario) {
-      throw new UnauthorizedException('PIN inválido');
-    }
+    if (!usuario) throw new UnauthorizedException('PIN inválido');
 
-    if (usuario.restaurante) {
-      const r = usuario.restaurante;
-      if (!r.activo) {
-        throw new UnauthorizedException('Restaurante inactivo');
-      }
-      if (r.estadoLicencia === 'pendiente') {
-        throw new UnauthorizedException('Sistema pendiente de aprobación. Te contactaremos pronto.');
-      }
-      if (r.estadoLicencia === 'suspendido') {
-        throw new UnauthorizedException(`Sistema suspendido. Motivo: ${r.motivoBloqueo || 'contactá al administrador'}`);
-      }
-      if (r.fechaExpiracion && r.fechaExpiracion < new Date()) {
-        throw new UnauthorizedException(`Sistema suspendido. Motivo: ${r.motivoBloqueo || 'licencia vencida'}`);
-      }
-    }
+    this.verificarLicencia(usuario);
 
     const token = this.generateToken(usuario);
-    await this.prisma.withTenant().usuario.update({
-      where: { id: usuario.id },
-      data: { ultimoAcceso: new Date() },
-    });
+    await this.db.run(async (db) =>
+      db.updateTable('usuarios').set({ ultimo_acceso: new Date() }).where('id', '=', usuario!.id).execute(),
+    );
 
+    const publico = this.usuarioPublico(usuario);
     return {
       success: true,
       access_token: token,
-      user: {
-        id: usuario.id,
-        nombre: usuario.nombre,
-        rol: usuario.rol,
-        modulo_acceso: this.getModulosAcceso(usuario.rol),
-        restaurante_id: usuario.restaurante?.id ?? null,
-        restaurante_slug: usuario.restaurante?.slug ?? null,
-        restaurante: usuario.restaurante
-          ? { id: usuario.restaurante.id, nombre: usuario.restaurante.nombre, slug: usuario.restaurante.slug }
-          : null,
-      },
+      user: { ...publico, modulo_acceso: this.getModulosAcceso(usuario.rol) },
     };
   }
 
@@ -173,49 +212,53 @@ export class AuthService {
 
     this.emailService.assertConfigured();
 
-    const existing = await this.prisma.bypassRls((tx) =>
-      tx.usuario.findFirst({ where: { email: data.email }, select: { id: true } }),
+    const existing = await this.db.runBypassRls(async (db) =>
+      db.selectFrom('usuarios').select('id').where('email', '=', data.email).executeTakeFirst(),
     );
-    if (existing) {
-      throw new ConflictException('El email ya está registrado');
-    }
+    if (existing) throw new ConflictException('El email ya está registrado');
 
     const hashedPin = await bcrypt.hash(data.password, 10);
-    const slug = data.restauranteNombre
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '') + '-' + uuidv4().slice(0, 6);
+    const slug =
+      data.restauranteNombre
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '') + '-' + uuidv4().slice(0, 6);
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-    const { restaurante, usuario } = await this.prisma.bypassRls(async (tx) => {
-      const rest = await tx.restaurante.create({
-        data: {
+    await this.db.transaction(async (tx) => {
+      const rest = await tx
+        .insertInto('restaurantes')
+        .values({
           nombre: data.restauranteNombre,
           slug,
           plan: 'estandar',
-          fechaExpiracion: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-          estadoLicencia: 'activo',
-        },
-      });
-      const user = await tx.usuario.create({
-        data: {
-          restauranteId: rest.id,
+          fecha_expiracion: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+          estado_licencia: 'activo',
+        })
+        .returning('id')
+        .executeTakeFirstOrThrow();
+
+      await tx
+        .insertInto('usuarios')
+        .values({
+          restaurante_id: rest.id,
           nombre: data.nombre || data.restauranteNombre,
           pin: hashedPin,
           email: data.email,
-          telefono: data.telefono,
+          telefono: data.telefono ?? null,
           rol: 'administrador',
           activo: true,
           verificado: false,
-        },
-      });
-      await tx.verificationCode.create({
-        data: { email: data.email, code, purpose: 'account_activation', expiresAt },
-      });
-      return { restaurante: rest, usuario: user };
-    });
+        })
+        .execute();
+
+      await tx
+        .insertInto('verification_codes')
+        .values({ email: data.email, code, purpose: 'account_activation', expires_at: expiresAt })
+        .execute();
+    }, { bypassRls: true });
 
     await this.emailService.sendEmail(data.email, 'Activá tu cuenta en karuAPP',
       `Tu código de activación es: ${code}. Válido por 10 minutos.`);
@@ -230,91 +273,75 @@ export class AuthService {
   async verificarCuenta(email: string, code: string) {
     await this.consumeCode(email, 'account_activation', code);
 
-    const usuario = await this.prisma.bypassRls<any>((tx) =>
-      tx.usuario.update({
-        where: { email },
-        data: { verificado: true },
-        include: { restaurante: true },
-      }),
+    const usuario = await this.db.runBypassRls(async (db) =>
+      db
+        .updateTable('usuarios')
+        .set({ verificado: true, updated_at: new Date() })
+        .where('email', '=', email)
+        .returning('id')
+        .executeTakeFirst(),
     );
+    if (!usuario) throw new UnauthorizedException('Usuario no encontrado');
 
-    const token = this.generateToken(usuario);
+    const completo = await this.usuarioConRestaurante((qb) => qb.where('usuarios.email', '=', email));
+    if (!completo) throw new UnauthorizedException('Usuario no encontrado');
 
     return {
       success: true,
-      access_token: token,
-      user: {
-        id: usuario.id,
-        email: usuario.email,
-        nombre: usuario.nombre,
-        rol: usuario.rol,
-        telefono: usuario.telefono,
-        restaurante_id: usuario.restaurante?.id ?? null,
-        restaurante_slug: usuario.restaurante?.slug ?? null,
-        restaurante: usuario.restaurante
-          ? { id: usuario.restaurante.id, nombre: usuario.restaurante.nombre, slug: usuario.restaurante.slug }
-          : null,
-      },
+      access_token: this.generateToken(completo),
+      user: this.usuarioPublico(completo),
     };
   }
 
   async reenviarCodigo(email: string) {
-    const usuario = await this.prisma.bypassRls<any>((tx) =>
-      tx.usuario.findFirst({
-        where: { email, activo: true, verificado: false },
-        select: { email: true },
-      }),
+    const usuario = await this.db.runBypassRls(async (db) =>
+      db
+        .selectFrom('usuarios')
+        .select('email')
+        .where('email', '=', email)
+        .where('activo', '=', true)
+        .where('verificado', '=', false)
+        .executeTakeFirst(),
     );
-    if (!usuario) throw new BadRequestException('Cuenta no encontrada o ya verificada');
+    if (!usuario?.email) throw new BadRequestException('Cuenta no encontrada o ya verificada');
 
     this.emailService.assertConfigured();
-
     await this.invalidateCodes(email, 'account_activation');
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.create({
-        data: { email, code, purpose: 'account_activation', expiresAt },
-      }),
+    await this.db.runBypassRls(async (db) =>
+      db
+        .insertInto('verification_codes')
+        .values({ email, code, purpose: 'account_activation', expires_at: expiresAt })
+        .execute(),
     );
 
     await this.emailService.sendEmail(email, 'Tu código de activación de karuAPP',
       `Tu código de activación es: ${code}. Válido por 10 minutos.`);
 
-    return {
-      success: true,
-      message: 'Código reenviado',
-    };
+    return { success: true, message: 'Código reenviado' };
   }
 
   async me(userId: number) {
-    const usuario = await this.prisma.withTenant().usuario.findUnique({
-      where: { id: userId },
-      include: { restaurante: true },
-    });
+    const usuario = await this.db.run(async (db) =>
+      db
+        .selectFrom('usuarios')
+        .leftJoin('restaurantes', 'restaurantes.id', 'usuarios.restaurante_id')
+        .select([...CAMPOS_USUARIO, ...CAMPOS_RESTAURANTE])
+        .where('usuarios.id', '=', userId)
+        .executeTakeFirst() as Promise<UsuarioConRestaurante | undefined>,
+    );
 
     if (!usuario) throw new UnauthorizedException('Usuario no encontrado');
 
+    const publico = this.usuarioPublico(usuario);
     return {
       success: true,
       user: {
-        id: usuario.id,
-        nombre: usuario.nombre,
-        email: usuario.email,
-        rol: usuario.rol,
-        telefono: usuario.telefono,
-        activo: usuario.activo,
+        ...publico,
         modulo_acceso: this.getModulosAcceso(usuario.rol),
-        ultimo_acceso: usuario.ultimoAcceso,
-        restaurante: usuario.restaurante ? {
-          id: usuario.restaurante.id,
-          nombre: usuario.restaurante.nombre,
-          slug: usuario.restaurante.slug,
-          plan: usuario.restaurante.plan,
-          estado_licencia: usuario.restaurante.estadoLicencia,
-          fecha_expiracion: usuario.restaurante.fechaExpiracion,
-        } : null,
+        ultimo_acceso: usuario.ultimo_acceso,
       },
     };
   }
@@ -322,36 +349,39 @@ export class AuthService {
   async olvideContrasena(email: string) {
     this.emailService.assertConfigured();
 
-    const usuario = await this.prisma.bypassRls<any>((tx) =>
-      tx.usuario.findFirst({
-        where: { email, activo: true },
-        select: { id: true, email: true, nombre: true },
-      }),
+    const usuario = await this.db.runBypassRls(async (db) =>
+      db
+        .selectFrom('usuarios')
+        .select(['id', 'email', 'nombre'])
+        .where('email', '=', email)
+        .where('activo', '=', true)
+        .executeTakeFirst(),
     );
-    if (!usuario) {
-      return { success: true, message: 'Si el email existe, recibirás un código por email' };
-    }
 
-    await this.invalidateCodes(usuario.email, 'password_reset');
+    const generico = { success: true, message: 'Si el email existe, recibirás un código por email' };
+    if (!usuario?.email) return generico;
+    const emailUsuario = usuario.email;
+
+    await this.invalidateCodes(emailUsuario, 'password_reset');
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.create({
-        data: { email: usuario.email, code, purpose: 'password_reset', expiresAt },
-      }),
+    await this.db.runBypassRls(async (db) =>
+      db
+        .insertInto('verification_codes')
+        .values({ email: emailUsuario, code, purpose: 'password_reset', expires_at: expiresAt })
+        .execute(),
     );
 
-    await this.emailService.sendEmail(usuario.email, 'Recuperación de contraseña karuAPP',
+    await this.emailService.sendEmail(emailUsuario, 'Recuperación de contraseña karuAPP',
       `Tu código de verificación es: ${code}. Válido por 10 minutos.`);
 
-    return { success: true, message: 'Si el email existe, recibirás un código por email' };
+    return generico;
   }
 
   async verificarCodigo(email: string, code: string) {
     await this.consumeCode(email, 'password_reset', code);
-
     return { success: true, message: 'Código válido' };
   }
 
@@ -360,59 +390,45 @@ export class AuthService {
       throw new BadRequestException('La contraseña debe tener al menos 8 caracteres');
     }
 
-    const record = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.findFirst({
-        where: { email, code, purpose: 'password_reset', used: true, expiresAt: { gte: new Date() } },
-        orderBy: { createdAt: 'desc' },
-      }),
-    );
+    const record = await this.ultimoCodigoUsado(email, 'password_reset');
     if (!record) throw new BadRequestException('Código inválido, expirado o ya utilizado');
 
     const hashed = await bcrypt.hash(newPassword, 10);
-    await this.prisma.bypassRls(async (tx) => {
-      await tx.usuario.update({
-        where: { email },
-        data: { pin: hashed },
-      });
-      await tx.verificationCode.deleteMany({ where: { email, purpose: 'password_reset' } });
-    });
+    await this.db.transaction(async (tx) => {
+      await tx.updateTable('usuarios').set({ pin: hashed, updated_at: new Date() }).where('email', '=', email).execute();
+      await tx.deleteFrom('verification_codes').where('email', '=', email).where('purpose', '=', 'password_reset').execute();
+    }, { bypassRls: true });
 
     return { success: true, message: 'Contraseña actualizada correctamente' };
   }
 
   async enviar2fa(userId: number) {
-    const usuario = await this.prisma.bypassRls<any>((tx) =>
-      tx.usuario.findUnique({
-        where: { id: userId },
-        select: { id: true, email: true, nombre: true },
-      }),
+    const usuario = await this.db.runBypassRls(async (db) =>
+      db.selectFrom('usuarios').select(['id', 'email', 'nombre']).where('id', '=', userId).executeTakeFirst(),
     );
-    if (!usuario) throw new UnauthorizedException('Usuario no encontrado');
+    if (!usuario?.email) throw new UnauthorizedException('Usuario sin email asociado');
+    const emailUsuario = usuario.email;
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-    const existing = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.findFirst({
-        where: { email: usuario.email, purpose: '2fa', used: false, expiresAt: { gte: new Date() } },
-        orderBy: { createdAt: 'desc' },
-      }),
-    );
-    if (existing && existing.blockedUntil && existing.blockedUntil > new Date()) {
-      const wait = Math.ceil((existing.blockedUntil.getTime() - Date.now()) / 60000);
+    const existing = await this.codigoActivo(emailUsuario, '2fa');
+    if (existing?.blocked_until && existing.blocked_until > new Date()) {
+      const wait = Math.ceil((existing.blocked_until.getTime() - Date.now()) / 60000);
       throw new BadRequestException(`Demasiados intentos. Esperá ${wait} minutos.`);
     }
 
     this.emailService.assertConfigured();
-    await this.invalidateCodes(usuario.email, '2fa');
+    await this.invalidateCodes(emailUsuario, '2fa');
 
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.create({
-        data: { email: usuario.email, code, purpose: '2fa', expiresAt },
-      }),
+    await this.db.runBypassRls(async (db) =>
+      db
+        .insertInto('verification_codes')
+        .values({ email: emailUsuario, code, purpose: '2fa', expires_at: expiresAt })
+        .execute(),
     );
 
-    await this.emailService.sendEmail(usuario.email, 'Código de verificación karuAPP',
+    await this.emailService.sendEmail(emailUsuario, 'Código de verificación karuAPP',
       `Tu código de verificación es: ${code}. Válido por 10 minutos.`);
 
     return { success: true, message: 'Código enviado a tu email' };
@@ -421,60 +437,94 @@ export class AuthService {
   async verificar2fa(userId: number, code: string) {
     if (!code || code.length !== 6) throw new BadRequestException('Código inválido');
 
-    const usuario = await this.prisma.bypassRls<any>((tx) =>
-      tx.usuario.findUnique({
-        where: { id: userId },
-        select: { id: true, email: true },
-      }),
+    const usuario = await this.db.runBypassRls(async (db) =>
+      db.selectFrom('usuarios').select(['id', 'email']).where('id', '=', userId).executeTakeFirst(),
     );
-    if (!usuario) throw new UnauthorizedException('Usuario no encontrado');
+    if (!usuario?.email) throw new UnauthorizedException('Usuario sin email asociado');
 
-    const record = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.findFirst({
-        where: { email: usuario.email, purpose: '2fa', used: false, expiresAt: { gte: new Date() } },
-        orderBy: { createdAt: 'desc' },
-      }),
-    );
-
+    const record = await this.codigoActivo(usuario.email, '2fa');
     if (!record) throw new BadRequestException('Primero solicitá un código');
 
-    if (record.blockedUntil && record.blockedUntil > new Date()) {
+    if (record.blocked_until && record.blocked_until > new Date()) {
       throw new BadRequestException('Demasiados intentos. Esperá unos minutos.');
     }
 
-    const totalAttempts = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.count({
-        where: { email: usuario.email, purpose: '2fa', createdAt: { gte: new Date(Date.now() - 30 * 60 * 1000) } },
-      }),
+    const totalAttempts = await this.db.runBypassRls(async (db) =>
+      db
+        .selectFrom('verification_codes')
+        .select((eb) => eb.fn.countAll<number>().as('c'))
+        .where('email', '=', usuario.email)
+        .where('purpose', '=', '2fa')
+        .where('created_at', '>=', new Date(Date.now() - 30 * 60 * 1000))
+        .executeTakeFirst(),
     );
 
-    if (totalAttempts > 10) {
-      const blockedUntil = new Date(Date.now() + 60 * 60 * 1000);
-      await this.prisma.bypassRls((tx) =>
-        tx.verificationCode.update({ where: { id: record.id }, data: { blockedUntil } }),
-      );
+    if ((totalAttempts?.c ?? 0) > 10) {
+      await this.bloquearCodigo(record.id, 60 * 60 * 1000);
       throw new BadRequestException('Demasiados intentos. Acceso bloqueado por 1 hora.');
     }
 
     if (code !== record.code) {
-      await this.prisma.bypassRls((tx) =>
-        tx.verificationCode.update({ where: { id: record.id }, data: { attempts: { increment: 1 } } }),
+      await this.db.runBypassRls(async (db) =>
+        db
+          .updateTable('verification_codes')
+          .set({ attempts: sql`attempts + 1` })
+          .where('id', '=', record.id)
+          .execute(),
       );
+
       if (record.attempts + 1 >= 5) {
-        const blockedUntil = new Date(Date.now() + 15 * 60 * 1000);
-        await this.prisma.bypassRls((tx) =>
-          tx.verificationCode.update({ where: { id: record.id }, data: { blockedUntil } }),
-        );
+        await this.bloquearCodigo(record.id, 15 * 60 * 1000);
         throw new BadRequestException('Código incorrecto. Bloqueado por 15 minutos.');
       }
       throw new BadRequestException(`Código incorrecto. Intentos restantes: ${4 - record.attempts}`);
     }
 
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.update({ where: { id: record.id }, data: { used: true } }),
+    await this.db.runBypassRls(async (db) =>
+      db.updateTable('verification_codes').set({ used: true }).where('id', '=', record.id).execute(),
     );
 
     return { success: true, message: 'Verificación exitosa' };
+  }
+
+  private async bloquearCodigo(id: number, ms: number): Promise<void> {
+    await this.db.runBypassRls(async (db) =>
+      db
+        .updateTable('verification_codes')
+        .set({ blocked_until: new Date(Date.now() + ms) })
+        .where('id', '=', id)
+        .execute(),
+    );
+  }
+
+  /** Codigo vigente (no usado, no expirado) mas reciente. */
+  private async codigoActivo(email: string, purpose: string) {
+    return this.db.runBypassRls(async (db) =>
+      db
+        .selectFrom('verification_codes')
+        .selectAll()
+        .where('email', '=', email)
+        .where('purpose', '=', purpose)
+        .where('used', '=', false)
+        .where('expires_at', '>=', new Date())
+        .orderBy('created_at', 'desc')
+        .executeTakeFirst(),
+    );
+  }
+
+  /** Ultimo codigo ya validado, para el paso final del reset de contrasena. */
+  private async ultimoCodigoUsado(email: string, purpose: string) {
+    return this.db.runBypassRls(async (db) =>
+      db
+        .selectFrom('verification_codes')
+        .selectAll()
+        .where('email', '=', email)
+        .where('purpose', '=', purpose)
+        .where('used', '=', true)
+        .where('expires_at', '>=', new Date())
+        .orderBy('created_at', 'desc')
+        .executeTakeFirst(),
+    );
   }
 
   private async pinMatches(pin: string, usuario: { id: number; pin: string | null }): Promise<boolean> {
@@ -484,11 +534,8 @@ export class AuthService {
     if (!/^\$2[aby]?\$/.test(stored)) {
       if (stored !== pin) return false;
       const rehashed = await bcrypt.hash(pin, 10);
-      await this.prisma.bypassRls((tx) =>
-        tx.usuario.update({
-          where: { id: usuario.id },
-          data: { pin: rehashed },
-        }),
+      await this.db.runBypassRls(async (db) =>
+        db.updateTable('usuarios').set({ pin: rehashed }).where('id', '=', usuario.id).execute(),
       );
       return true;
     }
@@ -497,56 +544,54 @@ export class AuthService {
   }
 
   private async invalidateCodes(email: string, purpose: string): Promise<void> {
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.deleteMany({ where: { email, purpose, used: false } }),
+    await this.db.runBypassRls(async (db) =>
+      db.deleteFrom('verification_codes').where('email', '=', email).where('purpose', '=', purpose).where('used', '=', false).execute(),
     );
   }
 
   private async consumeCode(email: string, purpose: string, code: string, maxAttempts = 5) {
     if (!code) throw new BadRequestException('Código requerido');
 
-    const record = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.findFirst({
-        where: { email, purpose, used: false, expiresAt: { gte: new Date() } },
-        orderBy: { createdAt: 'desc' },
-      }),
-    );
+    const record = await this.codigoActivo(email, purpose);
     if (!record) throw new BadRequestException('Código inválido o expirado');
 
-    if (record.blockedUntil && record.blockedUntil > new Date()) {
-      const wait = Math.max(1, Math.ceil((record.blockedUntil.getTime() - Date.now()) / 60000));
+    if (record.blocked_until && record.blocked_until > new Date()) {
+      const wait = Math.max(1, Math.ceil((record.blocked_until.getTime() - Date.now()) / 60000));
       throw new BadRequestException(`Demasiados intentos. Esperá ${wait} minutos.`);
     }
 
     if (record.code !== code) {
       const attempts = record.attempts + 1;
       const exhausted = attempts >= maxAttempts;
-      await this.prisma.bypassRls((tx) =>
-        tx.verificationCode.update({
-          where: { id: record.id },
-          data: {
+
+      await this.db.runBypassRls(async (db) =>
+        db
+          .updateTable('verification_codes')
+          .set({
             attempts,
-            ...(exhausted ? { blockedUntil: new Date(Date.now() + 15 * 60 * 1000) } : {}),
-          },
-        }),
+            ...(exhausted ? { blocked_until: new Date(Date.now() + 15 * 60 * 1000) } : {}),
+          })
+          .where('id', '=', record.id)
+          .execute(),
       );
+
       if (exhausted) {
         throw new BadRequestException('Demasiados intentos. Intentá de nuevo en 15 minutos.');
       }
       throw new BadRequestException(`Código incorrecto. Intentos restantes: ${maxAttempts - attempts}`);
     }
 
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.update({ where: { id: record.id }, data: { used: true } }),
+    await this.db.runBypassRls(async (db) =>
+      db.updateTable('verification_codes').set({ used: true }).where('id', '=', record.id).execute(),
     );
 
     return record;
   }
 
-  private generateToken(usuario: any): string {
+  private generateToken(usuario: UsuarioConRestaurante): string {
     const payload: JwtPayload = {
       sub: usuario.id,
-      restauranteId: usuario.restauranteId ?? null,
+      restauranteId: usuario.restaurante_id ?? null,
       rol: usuario.rol,
       nombre: usuario.nombre,
     };

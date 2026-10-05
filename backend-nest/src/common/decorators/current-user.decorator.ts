@@ -2,7 +2,8 @@ import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export interface JwtPayload {
   sub: number;
-  restauranteId: number;
+  /** null para superadmin: no pertenece a ningun restaurante. */
+  restauranteId: number | null;
   rol: string;
   nombre: string;
 }
