@@ -8,7 +8,9 @@ build/
 # Env
 config.env
 .env
-.env.local
+.env.*
+!.env.example
+*.log
 
 # IDE
 .idea/
@@ -20,61 +22,17 @@ config.env
 Thumbs.db
 .DS_Store
 
-# Logs
-backend/logs/
-*.log
-
-# Media (local)
-backend/media/
-
-# Django
-*.sqlite3
-db.sqlite3
+# Node
+node_modules/
 
 # Frontend
 frontend-react/node_modules/
 frontend-react/build/
 
-# Backend data/db files
-backend/datos.db
-backend/datos.db.backup
-backend/datos_dump.json
-backend/datos_iniciales.json
-backend/datos_iniciales_regenerados.json
-backend/trial_cache.json
-backend/e2e_stderr.txt
-backend/config.env
+# NestJS backend
+backend-nest/dist/
+backend-nest/node_modules/
+backend-nest/uploads/
 
-# Print service junk
-backend/print_service/General
-backend/print_service/Start Docker Desktop when you log in
-backend/print_service/*.bat
-backend/print_service/*.ps1
-
-# Backend misc
-backend/package-lock.json
-
-# Backend misc scripts (not needed in prod)
-backend/analizar.py
-backend/backup_db.py
-backend/check_cols.py
-backend/check_migration.py
-backend/crear_db.py
-backend/debug_cobro.py
-backend/fix_decorators.py
-backend/fix_seq.py
-backend/fix_sequence.py
-backend/generar_licencia.py
-backend/migrate.py
-backend/reset_and_load.py
-backend/seed_timbrado.py
-backend/simulacion_mozo.py
-backend/test_compare_clean.py
-backend/test_compare_row_counts.py
-backend/test_load.py
-backend/test_supa_tables.py
-backend/test_tables.py
-backend/verificar.py
-backend/verificar_datos.py
-backend/verify.py
-backend/verify2.py
+# Archives
+*.zip

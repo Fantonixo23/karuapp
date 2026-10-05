@@ -337,7 +337,7 @@ export default function Informes() {
         numero_factura: buscarFactura,
         timbrado: buscarTimbrado,
       })
-      const res = await fetch(`${API_URL}/caja/pedidos-pagados?${params}`)
+      const res = await fetch(`${API_URL}/pedidos/pagados?${params}`)
       const data = await res.json()
       if (data.success) {
         setResultadosBusqueda(data.pedidos || [])

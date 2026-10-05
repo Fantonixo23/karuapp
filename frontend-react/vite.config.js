@@ -15,16 +15,16 @@ export default defineConfig({
     host: true,
     proxy: {
       '/api': {
-        target: 'http://backend:8000',
+        target: 'http://localhost:3000',
         changeOrigin: true
       },
       '/socket.io': {
-        target: 'http://backend:8000',
+        target: 'http://localhost:3000',
         ws: true,
         changeOrigin: true
       },
-      '/media': {
-        target: 'http://nginx:80',
+      '/uploads': {
+        target: 'http://localhost:3000',
         changeOrigin: true
       }
     }

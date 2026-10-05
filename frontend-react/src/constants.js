@@ -7,6 +7,7 @@ export const ALL_AREAS = [
   { path: '/app/productos', icon: 'inventory_2', label: 'Productos', desc: 'Catalogo y stock', modulo: 'productos' },
   { path: '/app/inventario', icon: 'warehouse', label: 'Inventario', desc: 'Control de stock', modulo: 'inventario' },
   { path: '/app/funcionarios', icon: 'badge', label: 'Funcionarios', desc: 'Gestionar empleados', modulo: 'funcionarios' },
+  { path: '/app/configuracion', icon: 'settings', label: 'Configuración', desc: 'Datos del negocio', modulo: 'configuracion' },
 ]
 
 export const ROL_INFO = {

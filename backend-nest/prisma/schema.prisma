@@ -1,0 +1,404 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Restaurante {
+  id              Int      @id @default(autoincrement())
+  nombre          String
+  slug            String   @unique
+  activo          Boolean  @default(true)
+  plan            String   @default("free")
+  fechaAlta       DateTime @default(now()) @map("fecha_alta")
+  fechaExpiracion DateTime? @map("fecha_expiracion")
+  estadoLicencia  String   @default("activo") @map("estado_licencia")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  motivoBloqueo    String?        @map("motivo_bloqueo")
+  usuarios         Usuario[]
+  categorias       Categoria[]
+  productos        Producto[]
+  mesas            Mesa[]
+  pedidos          Pedido[]
+  impresiones      Impresion[]
+  configuraciones  Configuracion[]
+  timbrados        Timbrado[]
+  facturas         Factura[]
+  metodosPago      MetodoPago[]
+  cajaSesiones     CajaSession[]
+  movimientosCaja  MovimientoCaja[]
+  cortesCaja       CorteCaja[]
+  inventarios      Inventario[]
+  movimientosInventario MovimientoInventario[]
+  pagos            PagoLicencia[]
+
+  @@map("restaurantes")
+}
+
+model Usuario {
+  id           Int       @id @default(autoincrement())
+  restauranteId Int?     @map("restaurante_id")
+  nombre       String
+  pin          String?
+  rol          String    @default("mesero")
+  telefono     String?
+  email        String?
+  activo       Boolean   @default(true)
+  verificado   Boolean   @default(false)
+  creadoPorId  Int?      @map("creado_por_id")
+  ultimoAcceso DateTime? @map("ultimo_acceso")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  restaurante  Restaurante? @relation(fields: [restauranteId], references: [id])
+  creadoPor    Usuario?     @relation("UsuariosCreados", fields: [creadoPorId], references: [id])
+  usuariosCreados Usuario[] @relation("UsuariosCreados")
+  pedidos      Pedido[]
+  movimientosCaja MovimientoCaja[]
+  cortesCaja   CorteCaja[]
+  cajaSesiones CajaSession[]
+  impresiones  Impresion[]
+
+  @@unique([restauranteId, pin])
+  @@unique([email])
+  @@map("usuarios")
+}
+
+model VerificationCode {
+  id         Int       @id @default(autoincrement())
+  email      String
+  code       String
+  purpose    String
+  expiresAt  DateTime  @map("expires_at")
+  used       Boolean   @default(false)
+  attempts   Int       @default(0)
+  blockedUntil DateTime? @map("blocked_until")
+  createdAt  DateTime  @default(now()) @map("created_at")
+
+  @@map("verification_codes")
+}
+
+model Categoria {
+  id            Int       @id @default(autoincrement())
+  restauranteId Int?      @map("restaurante_id")
+  nombre        String
+  icono         String    @default("category")
+  orden         Int       @default(0)
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+  productos   Producto[]
+
+  @@map("categorias")
+}
+
+model Producto {
+  id            Int       @id @default(autoincrement())
+  restauranteId Int?      @map("restaurante_id")
+  nombre        String
+  descripcion   String?
+  precio        Int
+  categoriaId   Int?      @map("categoria_id")
+  disponible    Boolean   @default(true)
+  imagen        String?
+  imagenArchivo String?   @map("imagen_archivo")
+  variantes     Json?
+  iva           Int       @default(10)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+  categoria   Categoria?   @relation(fields: [categoriaId], references: [id])
+  inventario  Inventario?
+
+  @@map("productos")
+}
+
+model Mesa {
+  id            Int      @id @default(autoincrement())
+  restauranteId Int?     @map("restaurante_id")
+  numero        Int
+  nombre        String?
+  capacidad     Int      @default(4)
+  area          String   @default("principal")
+  estado        String   @default("disponible")
+  comensales    Int      @default(0)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+  pedidos     Pedido[]
+
+  @@unique([restauranteId, numero])
+  @@map("mesas")
+}
+
+model Pedido {
+  id             Int      @id @default(autoincrement())
+  restauranteId  Int?     @map("restaurante_id")
+  mesaId         Int?     @map("mesa_id")
+  meseroId       Int?     @map("mesero_id")
+  estado         String   @default("pendiente")
+  delivery       Boolean  @default(false)
+  nombreCliente  String?  @map("nombre_cliente")
+  telefonoCliente String? @map("telefono_cliente")
+  direccion      String?
+  tipoPedido     String   @default("mesa") @map("tipo_pedido")
+  notas          String?
+  items          Json     @default("[]")
+  total          Int      @default(0)
+  metodoPago     String   @default("efectivo") @map("metodo_pago")
+  sincronizado   Boolean  @default(true)
+  numeroOrden    String?  @map("numero_orden")
+  propina        Int      @default(0)
+  comprobanteNro String?  @map("comprobante_nro")
+  marcaTarjeta   String?  @map("marca_tarjeta")
+  marcaQr        String?  @map("marca_qr")
+  cuotas         Int      @default(1)
+  ultimos4       String?  @map("ultimos_4")
+  detallePagos   Json?    @map("detalle_pagos")
+  clienteTipo    String   @default("consumidor") @map("cliente_tipo")
+  clienteRuc     String   @default("44444444-7") @map("cliente_ruc")
+  clienteNombre  String   @default("Consumidor Final") @map("cliente_nombre")
+  generarComanda Boolean  @default(false) @map("generar_comanda")
+  generarFactura Boolean  @default(false) @map("generar_factura")
+  tipoIva        Int      @default(10) @map("tipo_iva")
+  motivoCancelacion String? @map("motivo_cancelacion")
+  canceladoEnEstado String? @map("cancelado_en_estado")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  restaurante    Restaurante?  @relation(fields: [restauranteId], references: [id])
+  mesa           Mesa?         @relation(fields: [mesaId], references: [id])
+  mesero         Usuario?      @relation(fields: [meseroId], references: [id])
+  impresiones    Impresion[]
+  facturas       Factura[]
+  movimientosCaja MovimientoCaja[]
+
+  @@map("pedidos")
+}
+
+model Impresion {
+  id               Int      @id @default(autoincrement())
+  pedidoId         Int      @map("pedido_id")
+  tipo             String
+  numeroImpresion  Int      @default(1) @map("numero_impresion")
+  restauranteId    Int?     @map("restaurante_id")
+  impresionId      String   @map("impresion_id")
+  usuarioId        Int?     @map("usuario_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  pedido      Pedido       @relation(fields: [pedidoId], references: [id])
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+  usuario     Usuario?     @relation(fields: [usuarioId], references: [id])
+
+  @@unique([restauranteId, impresionId])
+  @@map("impresiones")
+}
+
+model Configuracion {
+  id               Int      @id @default(autoincrement())
+  restauranteId    Int?     @map("restaurante_id")
+  nombreEmpresa    String   @map("nombre_empresa")
+  ruc              String
+  direccion        String?
+  telefono         String?
+  tasaIva          Int      @default(10) @map("tasa_iva")
+  timbradoNumero   String   @default("001-001-0000001") @map("timbrado_numero")
+  establecimiento  String   @default("001")
+  puntoExpedicion  String   @default("001") @map("punto_expedicion")
+  estado           String   @default("demo")
+  fechaInicio      DateTime? @map("fecha_inicio")
+  fechaVencimiento DateTime? @map("fecha_vencimiento")
+  tamanioPapel     String   @default("58mm") @map("tamano_papel")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+
+  @@map("configuracion")
+}
+
+model Timbrado {
+  id               Int      @id @default(autoincrement())
+  restauranteId    Int?     @map("restaurante_id")
+  establecimiento  String   @default("001")
+  puntoExpedicion  String   @default("001") @map("punto_expedicion")
+  numeroInicio     Int      @map("numero_inicio")
+  numeroFin        Int      @map("numero_fin")
+  numeroActual     Int      @default(0) @map("numero_actual")
+  fechaVencimiento DateTime @map("fecha_vencimiento")
+  activo           Boolean  @default(true)
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+
+  @@map("timbrados")
+}
+
+model Factura {
+  id             Int      @id @default(autoincrement())
+  restauranteId  Int?     @map("restaurante_id")
+  numero         String
+  pedidoId       Int?     @map("pedido_id")
+  rucCliente     String   @map("ruc_cliente")
+  nombreCliente  String   @map("nombre_cliente")
+  xml            String   @default("")
+  cdc            String   @default("")
+  kude           String   @default("")
+  qrBase64       String   @default("") @map("qr_base64")
+  sifenEstado    String   @default("pendiente") @map("sifen_estado")
+  sifenMensaje   String   @default("") @map("sifen_mensaje")
+  protocolo      String   @default("")
+  estado         String   @default("borrador")
+  total          Int
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+  pedido      Pedido?      @relation(fields: [pedidoId], references: [id])
+
+  @@map("facturas")
+}
+
+model MetodoPago {
+  id            Int      @id @default(autoincrement())
+  restauranteId Int?     @map("restaurante_id")
+  nombre        String
+  etiqueta      String
+  icono         String   @default("payments")
+  color         String   @default("#4CAF50")
+  activo        Boolean  @default(true)
+  orden         Int      @default(0)
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+
+  @@unique([restauranteId, nombre])
+  @@map("metodos_pago")
+}
+
+model CajaSession {
+  id            Int      @id @default(autoincrement())
+  restauranteId Int      @map("restaurante_id")
+  usuarioId     Int?     @map("usuario_id")
+  fondoInicial  Int      @default(0) @map("fondo_inicial")
+  aperturaEn    DateTime @default(now()) @map("apertura_en")
+  cierreEn      DateTime? @map("cierre_en")
+  estado        String   @default("abierta")
+  notasApertura String   @default("") @map("notas_apertura")
+  notasCierre   String   @default("") @map("notas_cierre")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  restaurante  Restaurante     @relation(fields: [restauranteId], references: [id])
+  usuario      Usuario?        @relation(fields: [usuarioId], references: [id])
+  movimientos  MovimientoCaja[]
+  cortes       CorteCaja[]
+
+  @@map("caja_sesiones")
+}
+
+model MovimientoCaja {
+  id            Int      @id @default(autoincrement())
+  restauranteId Int      @map("restaurante_id")
+  sessionId     Int      @map("session_id")
+  tipo          String   @default("venta")
+  metodoPago    String   @default("efectivo") @map("metodo_pago")
+  monto         Int      @map("monto")
+  moneda        String   @default("PYG")
+  montoPyg      Int      @map("monto_pyg")
+  pedidoId      Int?     @map("pedido_id")
+  detallePagos  Json?    @map("detalle_pagos")
+  motivo        String   @default("") @map("motivo")
+  usuarioId     Int?     @map("usuario_id")
+  propina       Int      @default(0)
+  vuelto        Int      @default(0)
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  restaurante Restaurante @relation(fields: [restauranteId], references: [id])
+  session     CajaSession @relation(fields: [sessionId], references: [id])
+  pedido      Pedido?     @relation(fields: [pedidoId], references: [id])
+  usuario     Usuario?    @relation(fields: [usuarioId], references: [id])
+
+  @@map("caja_movimientos")
+}
+
+model CorteCaja {
+  id                   Int      @id @default(autoincrement())
+  restauranteId        Int      @map("restaurante_id")
+  sessionId            Int      @map("session_id")
+  usuarioCierreId      Int?     @map("usuario_cierre_id")
+  fondoInicial         Int      @map("fondo_inicial")
+  totalVentasEfectivo  Int      @default(0) @map("total_ventas_efectivo")
+  totalVentasTarjeta   Int      @default(0) @map("total_ventas_tarjeta")
+  totalVentasTransferencia Int @default(0) @map("total_ventas_transferencia")
+  totalVentasQr        Int      @default(0) @map("total_ventas_qr")
+  totalIngresosExtra   Int      @default(0) @map("total_ingresos_extra")
+  totalRetiros         Int      @default(0) @map("total_retiros")
+  totalPropinas        Int      @default(0) @map("total_propinas")
+  totalVentas          Int      @default(0) @map("total_ventas")
+  denominaciones       Json?
+  totalContadoEfectivo Int      @default(0) @map("total_contado_efectivo")
+  totalEsperado        Int      @default(0) @map("total_esperado")
+  diferencia           Int      @default(0)
+  tipoDiferencia       String   @default("") @map("tipo_diferencia")
+  observaciones        String   @default("")
+  createdAt            DateTime @default(now()) @map("created_at")
+
+  restaurante  Restaurante @relation(fields: [restauranteId], references: [id])
+  session      CajaSession @relation(fields: [sessionId], references: [id])
+  usuarioCierre Usuario?   @relation(fields: [usuarioCierreId], references: [id])
+
+  @@map("caja_cortes")
+}
+
+model Inventario {
+  id                Int      @id @default(autoincrement())
+  restauranteId     Int?     @map("restaurante_id")
+  productoId        Int      @unique @map("producto_id")
+  stockActual       Int      @default(0) @map("stock_actual")
+  stockMinimo       Int      @default(5) @map("stock_minimo")
+  unidadMedida      String   @default("und") @map("unidad_medida")
+  precioCosto       Int      @default(0) @map("precio_costo")
+  fechaActualizacion DateTime @default(now()) @map("fecha_actualizacion")
+  createdAt         DateTime @default(now()) @map("created_at")
+
+  restaurante Restaurante?       @relation(fields: [restauranteId], references: [id])
+  producto    Producto           @relation(fields: [productoId], references: [id])
+  movimientos MovimientoInventario[]
+
+  @@map("inventario")
+}
+
+model MovimientoInventario {
+  id            Int      @id @default(autoincrement())
+  restauranteId Int?     @map("restaurante_id")
+  inventarioId  Int      @map("inventario_id")
+  tipo          String
+  cantidad      Int
+  motivo        String?
+  notas         String?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  restaurante Restaurante? @relation(fields: [restauranteId], references: [id])
+  inventario  Inventario   @relation(fields: [inventarioId], references: [id])
+
+  @@map("movimientos_inventario")
+}
+
+model PagoLicencia {
+  id            Int      @id @default(autoincrement())
+  restauranteId Int      @map("restaurante_id")
+  monto         Decimal  @db.Decimal(12, 0)
+  moneda        String   @default("PYG")
+  fecha         DateTime @default(now())
+  nota          String?
+  registradoPor Int?     @map("registrado_por")
+
+  restaurante Restaurante @relation(fields: [restauranteId], references: [id])
+
+  @@map("pagos_licencia")
+}

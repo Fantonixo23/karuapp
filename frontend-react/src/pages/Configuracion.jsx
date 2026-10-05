@@ -741,7 +741,7 @@ export default function Configuracion() {
           )}
 
           <div style={{ marginTop: '12px', fontSize: '11px', color: '#999', lineHeight: '1.5' }}>
-            Los backups se guardan en <code>backend/backups/</code>.<br />
+            Los backups se guardan en el servidor.<br />
             Para Google Drive via rclone: instala <a href="https://rclone.org/downloads/" target="_blank" rel="noopener" style={{ color: '#FF9800' }}>rclone</a>, configuralo y ejecuta "Backup + Google Drive".
           </div>
         </div>

@@ -327,7 +327,7 @@ export default function Cocina() {
                       </span>
                     ) : (
                       <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50', background: '#E8F5E9', padding: '4px 8px', borderRadius: '4px' }}>
-                        🍽️ Mesa {p.mesa || '?'}
+                        🍽️ Mesa {p.mesa?.numero || p.mesa || '?'}
                       </span>
                     )}
                   </div>
@@ -443,7 +443,7 @@ export default function Cocina() {
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
               <h2 style={{ fontSize: '28px', fontWeight: '900' }}>#{pedidoSeleccionado.numero_orden || pedidoSeleccionado.id}</h2>
-              <span style={{ color: '#666' }}>{pedidoSeleccionado.delivery ? '🏍️ Delivery' : `Mesa ${pedidoSeleccionado.mesa}`}</span>
+              <span style={{ color: '#666' }}>{pedidoSeleccionado.delivery ? '🏍️ Delivery' : `Mesa ${pedidoSeleccionado.mesa?.numero || pedidoSeleccionado.mesa}`}</span>
             </div>
             <button onClick={() => { setPanelAbierto(false); setPedidoSeleccionado(null) }} style={{ fontSize: '30px', border: 'none', background: 'none', cursor: 'pointer' }}>×</button>
           </div>
@@ -479,7 +479,7 @@ export default function Cocina() {
             <button onClick={() => cambiarEstado('cocinando')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#FBC02D', color: '#333', fontWeight: '700', cursor: 'pointer' }}>
               👨‍🍳 Preparando
             </button>
-            <button onClick={() => setModalConfirmar(true)} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#4CAF50', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#4CAF50', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
               ✅ Listo!
             </button>
           </div>
@@ -508,7 +508,7 @@ export default function Cocina() {
           <div style={{ background: darkMode ? '#1e1e1e' : 'white', padding: '28px', borderRadius: '20px', maxWidth: '400px', width: '90%', boxShadow: '0 10px 40px rgba(0,0,0,0.3)' }}>
             <div style={{ textAlign: 'center', marginBottom: '16px' }}>
               <h2 style={{ margin: '0 0 4px', color: '#E53935', fontSize: '18px' }}>Cancelar Pedido</h2>
-              <p style={{ fontWeight: '700', fontSize: '16px', color: darkMode ? '#fff' : '#1a1a1a', margin: '4px 0 0' }}>#{modalCancelar.numero_orden} - Mesa {modalCancelar.mesa}</p>
+              <p style={{ fontWeight: '700', fontSize: '16px', color: darkMode ? '#fff' : '#1a1a1a', margin: '4px 0 0' }}>#{modalCancelar.numero_orden} - Mesa {modalCancelar.mesa?.numero || modalCancelar.mesa}</p>
             </div>
             <div style={{ marginBottom: '16px' }}>
               <label style={{ fontSize: '12px', fontWeight: '600', color: darkMode ? '#aaa' : '#666', display: 'block', marginBottom: '6px' }}>

@@ -1,0 +1,90 @@
+import { Controller, Get, Post, Delete, Param, Body, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
+import { createClient } from '@supabase/supabase-js';
+import { ProductosService } from './productos.service';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { Roles } from '../common/decorators/roles.decorator';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL || '',
+  process.env.SUPABASE_SERVICE_KEY || '',
+);
+
+@Controller('api')
+export class ProductosController {
+  constructor(private service: ProductosService) {}
+
+  @Get('categorias')
+  async listarCategorias(@CurrentUser('restauranteId') rid: number) {
+    const categorias = await this.service.listarCategorias(rid);
+    return { success: true, categorias };
+  }
+
+  @Post('categorias/crear')
+  @Roles('administrador')
+  async crearCategoria(@CurrentUser('restauranteId') rid: number, @Body() body: any) {
+    const categoria = await this.service.crearCategoria(rid, body);
+    return { success: true, categoria };
+  }
+
+  @Delete('categorias/:id/eliminar')
+  @Roles('administrador')
+  async eliminarCategoria(@CurrentUser('restauranteId') rid: number, @Param('id') id: string) {
+    return this.service.eliminarCategoria(rid, +id);
+  }
+
+  @Get('productos')
+  async listarProductos(
+    @CurrentUser('restauranteId') rid: number,
+    @Query('categoria_id') categoriaId?: string,
+  ) {
+    const productos = await this.service.listarProductos(rid, categoriaId ? +categoriaId : undefined);
+    return { success: true, productos };
+  }
+
+  @Post('productos/crear')
+  @Roles('administrador')
+  async crearProducto(@CurrentUser('restauranteId') rid: number, @Body() body: any) {
+    const producto = await this.service.crearProducto(rid, body);
+    return { success: true, producto };
+  }
+
+  @Post('productos/:id/editar')
+  @Roles('administrador')
+  async editarProducto(
+    @CurrentUser('restauranteId') rid: number,
+    @Param('id') id: string,
+    @Body() body: any,
+  ) {
+    const producto = await this.service.actualizarProducto(rid, +id, body);
+    return { success: true, producto };
+  }
+
+  @Post('productos/subir-imagen')
+  @UseInterceptors(FileInterceptor('imagen'))
+  async subirImagen(@UploadedFile() file: Express.Multer.File) {
+    if (!file) return { success: false, error: 'No se recibió ninguna imagen' };
+    const ext = extname(file.originalname);
+    const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+    const { data, error } = await supabase.storage
+      .from('productos')
+      .upload(fileName, file.buffer, { contentType: file.mimetype, upsert: false });
+    if (error) return { success: false, error: error.message };
+    const { data: { publicUrl } } = supabase.storage.from('productos').getPublicUrl(fileName);
+    return { success: true, url: publicUrl };
+  }
+
+  @Post('productos/:id/toggle')
+  @Roles('administrador')
+  async toggleProducto(@CurrentUser('restauranteId') rid: number, @Param('id') id: string) {
+    const producto = await this.service.toggleDisponible(rid, +id);
+    return { success: true, producto };
+  }
+
+  @Delete('productos/:id/eliminar')
+  @Roles('administrador')
+  async eliminarProducto(@CurrentUser('restauranteId') rid: number, @Param('id') id: string) {
+    return this.service.eliminarProducto(rid, +id);
+  }
+}

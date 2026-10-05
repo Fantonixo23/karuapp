@@ -6,9 +6,9 @@ export default function UserButton({ slim }) {
   const logout = useStore((s) => s.logout)
   const [open, setOpen] = useState(false)
 
-  if (!user || !user.email) return null
+  if (!user) return null
 
-  const name = user.name || user.email
+  const name = user.name || user.email || 'Usuario'
 
   return (
     <div style={{ position: 'relative', display: 'inline-flex' }}>

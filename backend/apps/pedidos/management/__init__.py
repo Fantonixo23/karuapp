@@ -1,1 +1,0 @@
-# Pedidos management commands
