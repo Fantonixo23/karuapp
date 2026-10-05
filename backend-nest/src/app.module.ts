@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { PrismaModule } from './prisma/prisma.module';
+import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
 import { SocketModule } from './socket/socket.module';
 import { TenantsModule } from './tenants/tenants.module';
@@ -24,6 +25,7 @@ import { RlsContextInterceptor } from './common/interceptors/rls-context.interce
 @Module({
   imports: [
     PrismaModule,
+    CommonModule,
     AuthModule,
     SocketModule,
     TenantsModule,

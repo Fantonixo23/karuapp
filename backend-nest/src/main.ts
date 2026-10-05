@@ -3,12 +3,42 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as express from 'express';
 import { join } from 'path';
+import helmet from 'helmet';
+
+const DEV_ORIGINS = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+];
+
+function resolveOrigins(): string[] {
+  const configured = (process.env.CORS_ORIGINS || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  if (process.env.NODE_ENV === 'production' && configured.length === 0) {
+    throw new Error('CORS_ORIGINS es obligatorio en produccion (lista separada por comas).');
+  }
+
+  return [...new Set([...DEV_ORIGINS, ...configured])];
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.getHttpAdapter().getInstance().set('trust proxy', 1);
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }),
+  );
+
   app.enableCors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: resolveOrigins(),
     credentials: true,
   });
 
@@ -29,10 +59,10 @@ async function bootstrap() {
 
   app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
 
-
+  app.enableShutdownHooks();
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`🚀 Karuapp Backend running on http://localhost:${port}`);
+  console.log(`Karuapp Backend running on http://localhost:${port}`);
 }
 bootstrap();

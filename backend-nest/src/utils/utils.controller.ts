@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { Public } from '../common/decorators/public.decorator';
@@ -7,17 +7,6 @@ import * as os from 'os';
 @Controller('api')
 export class UtilsController {
   constructor(private prisma: PrismaService) {}
-
-  @Public()
-  @Get('info')
-  async infoEmpresa() {
-    const config = await this.prisma.withTenant().configuracion.findFirst();
-    return {
-      empresa: config?.nombreEmpresa || 'karuAPP',
-      ruc: config?.ruc || '5418755-8',
-      version: '2.0.0',
-    };
-  }
 
   @Get('verificar-suscripcion')
   async verificarSuscripcion(@CurrentUser('restauranteId') rid: number) {
@@ -56,12 +45,6 @@ export class UtilsController {
   }
 
   @Public()
-  @Get('print-token')
-  async printToken() {
-    return { success: true, token: process.env.PRINT_API_TOKEN || 'karuapp-print-token' };
-  }
-
-  @Public()
   @Get('qr-conexion')
   async qrConexion() {
     const hostname = os.hostname();
@@ -88,56 +71,6 @@ export class UtilsController {
     return { ok: true, message: 'Backup no implementado en cloud' };
   }
 
-  @Post('auth/send-owner-code')
-  async sendOwnerCode(@Body() body: { email: string }) {
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    await this.prisma.withTenant().verificationCode.create({
-      data: {
-        email: body.email,
-        code,
-        purpose: 'owner_access',
-        expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-      },
-    });
-    return { success: true, message: 'Código enviado (simulado)', code };
-  }
-
-  @Post('auth/verify-owner-code')
-  async verifyOwnerCode(@Body() body: { email: string; code: string }) {
-    const vc = await this.prisma.withTenant().verificationCode.findFirst({
-      where: { email: body.email, code: body.code, purpose: 'owner_access', used: false, expiresAt: { gte: new Date() } },
-    });
-    if (!vc) return { success: false, error: 'Código inválido o expirado' };
-    await this.prisma.withTenant().verificationCode.update({ where: { id: vc.id }, data: { used: true } });
-    return { success: true, verified: true };
-  }
-
-  @Public()
-  @Post('auth/forgot-password')
-  async forgotPassword(@Body() body: { email: string }) {
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    await this.prisma.withTenant().verificationCode.create({
-      data: {
-        email: body.email,
-        code,
-        purpose: 'password_reset',
-        expiresAt: new Date(Date.now() + 10 * 60 * 1000),
-      },
-    });
-    return { success: true, message: 'Código enviado al email (simulado)', code };
-  }
-
-  @Public()
-  @Post('auth/verify-reset-code')
-  async verifyResetCode(@Body() body: { email: string; code: string }) {
-    const vc = await this.prisma.withTenant().verificationCode.findFirst({
-      where: { email: body.email, code: body.code, purpose: 'password_reset', used: false, expiresAt: { gte: new Date() } },
-    });
-    if (!vc) return { success: false, error: 'Código inválido o expirado' };
-    await this.prisma.withTenant().verificationCode.update({ where: { id: vc.id }, data: { used: true } });
-    return { success: true, verified: true };
-  }
-
   @Get('mobile/funcionarios/:slug')
   async funcionariosMobile(@Param('slug') slug: string) {
     const rest = await this.prisma.withTenant().restaurante.findUnique({ where: { slug } });
@@ -145,7 +78,7 @@ export class UtilsController {
 
     const funcionarios = await this.prisma.withTenant().usuario.findMany({
       where: { restauranteId: rest.id, activo: true },
-      select: { id: true, nombre: true, pin: true, rol: true },
+      select: { id: true, nombre: true, rol: true },
     });
     return { success: true, funcionarios };
   }

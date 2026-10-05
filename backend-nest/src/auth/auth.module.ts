@@ -4,18 +4,18 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
-import { EmailService } from '../common/email.service';
+import { requireJwtSecret } from '../common/jwt-secret';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'karuapp-jwt-secret-change-in-production',
+      secret: requireJwtSecret(),
       signOptions: { expiresIn: (process.env.JWT_EXPIRATION || '7d') as any },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, EmailService],
+  providers: [AuthService, JwtStrategy],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

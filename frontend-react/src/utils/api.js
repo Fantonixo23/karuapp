@@ -55,20 +55,12 @@ if (typeof window !== 'undefined') {
     let url = typeof input === 'string' ? input : input.url
     if (isApiUrl(url)) {
       init.headers = init.headers || {}
-      const esFormData = init.body instanceof FormData
       const token = getToken()
-      if (esFormData) {
-        if (token) {
-          const sep = url.includes('?') ? '&' : '?'
-          url = `${url}${sep}token=${encodeURIComponent(token)}`
-        }
-      } else {
-        if (token && !hasHeader(init.headers, 'Authorization')) {
-          init.headers = setHeader(init.headers, 'Authorization', `Bearer ${token}`)
-        }
-        if (init.body && typeof init.body === 'string' && !hasHeader(init.headers, 'Content-Type')) {
-          init.headers = setHeader(init.headers, 'Content-Type', 'application/json')
-        }
+      if (token && !hasHeader(init.headers, 'Authorization')) {
+        init.headers = setHeader(init.headers, 'Authorization', `Bearer ${token}`)
+      }
+      if (init.body && typeof init.body === 'string' && !hasHeader(init.headers, 'Content-Type')) {
+        init.headers = setHeader(init.headers, 'Content-Type', 'application/json')
       }
       const restaurante = getRestauranteSlug()
       if (restaurante) {

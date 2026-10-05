@@ -81,19 +81,35 @@ export class AuthService {
   }
 
   async loginPin(pin: string, restauranteSlug?: string) {
-    const where: any = { pin, activo: true };
-    if (restauranteSlug) {
-      const restaurante = await this.prisma.withTenant().restaurante.findUnique({
-        where: { slug: restauranteSlug },
-      });
-      if (!restaurante) throw new UnauthorizedException('Restaurante no encontrado');
-      where.restauranteId = restaurante.id;
+    if (!restauranteSlug) {
+      throw new BadRequestException('restaurante_slug requerido');
+    }
+    if (!pin) {
+      throw new BadRequestException('PIN requerido');
     }
 
-    const usuario = await this.prisma.withTenant().usuario.findFirst({
-      where,
-      include: { restaurante: true },
-    });
+    const restaurante = await this.prisma.bypassRls<any>((tx) =>
+      tx.restaurante.findUnique({
+        where: { slug: restauranteSlug },
+        select: { id: true },
+      }),
+    );
+    if (!restaurante) throw new UnauthorizedException('Restaurante no encontrado');
+
+    const candidatos = await this.prisma.bypassRls<any>((tx) =>
+      tx.usuario.findMany({
+        where: { restauranteId: restaurante.id, activo: true },
+        include: { restaurante: true },
+      }),
+    );
+
+    let usuario: any = null;
+    for (const candidato of candidatos) {
+      if (await this.pinMatches(pin, candidato)) {
+        usuario = candidato;
+        break;
+      }
+    }
 
     if (!usuario) {
       throw new UnauthorizedException('PIN inválido');
@@ -155,6 +171,8 @@ export class AuthService {
       throw new BadRequestException('La contraseña debe tener al menos 8 caracteres');
     }
 
+    this.emailService.assertConfigured();
+
     const existing = await this.prisma.bypassRls((tx) =>
       tx.usuario.findFirst({ where: { email: data.email }, select: { id: true } }),
     );
@@ -206,22 +224,11 @@ export class AuthService {
       success: true,
       message: 'Cuenta creada. Revisá tu email para activarla.',
       user: { email: data.email },
-      ...(this.emailService.isConfigured ? {} : { devCode: code }),
     };
   }
 
   async verificarCuenta(email: string, code: string) {
-    const record = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.findFirst({
-        where: { email, code, purpose: 'account_activation', used: false, expiresAt: { gte: new Date() } },
-        orderBy: { createdAt: 'desc' },
-      }),
-    );
-    if (!record) throw new BadRequestException('Código inválido o expirado');
-
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.update({ where: { id: record.id }, data: { used: true } }),
-    );
+    await this.consumeCode(email, 'account_activation', code);
 
     const usuario = await this.prisma.bypassRls<any>((tx) =>
       tx.usuario.update({
@@ -260,24 +267,17 @@ export class AuthService {
     );
     if (!usuario) throw new BadRequestException('Cuenta no encontrada o ya verificada');
 
-    let code: string;
-    const existing = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.findFirst({
-        where: { email, purpose: 'account_activation', used: false, expiresAt: { gte: new Date() } },
-        orderBy: { createdAt: 'desc' },
+    this.emailService.assertConfigured();
+
+    await this.invalidateCodes(email, 'account_activation');
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    await this.prisma.bypassRls((tx) =>
+      tx.verificationCode.create({
+        data: { email, code, purpose: 'account_activation', expiresAt },
       }),
     );
-    if (existing) {
-      code = existing.code;
-    } else {
-      code = Math.floor(100000 + Math.random() * 900000).toString();
-      const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
-      await this.prisma.bypassRls((tx) =>
-        tx.verificationCode.create({
-          data: { email, code, purpose: 'account_activation', expiresAt },
-        }),
-      );
-    }
 
     await this.emailService.sendEmail(email, 'Tu código de activación de karuAPP',
       `Tu código de activación es: ${code}. Válido por 10 minutos.`);
@@ -285,7 +285,6 @@ export class AuthService {
     return {
       success: true,
       message: 'Código reenviado',
-      ...(this.emailService.isConfigured ? {} : { devCode: code }),
     };
   }
 
@@ -321,6 +320,8 @@ export class AuthService {
   }
 
   async olvideContrasena(email: string) {
+    this.emailService.assertConfigured();
+
     const usuario = await this.prisma.bypassRls<any>((tx) =>
       tx.usuario.findFirst({
         where: { email, activo: true },
@@ -330,6 +331,8 @@ export class AuthService {
     if (!usuario) {
       return { success: true, message: 'Si el email existe, recibirás un código por email' };
     }
+
+    await this.invalidateCodes(usuario.email, 'password_reset');
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
@@ -347,52 +350,32 @@ export class AuthService {
   }
 
   async verificarCodigo(email: string, code: string) {
-    const record = await this.prisma.bypassRls<any>((tx) =>
-      tx.verificationCode.findFirst({
-        where: { email, code, purpose: 'password_reset', used: false, expiresAt: { gte: new Date() } },
-        orderBy: { createdAt: 'desc' },
-      }),
-    );
-    if (!record) throw new BadRequestException('Código inválido o expirado');
-
-    if (record.blockedUntil && record.blockedUntil > new Date()) {
-      throw new BadRequestException('Demasiados intentos. Esperá unos minutos.');
-    }
-
-    if (record.attempts >= 5) {
-      const blockedUntil = new Date(Date.now() + 15 * 60 * 1000);
-      await this.prisma.bypassRls((tx) =>
-        tx.verificationCode.update({ where: { id: record.id }, data: { blockedUntil } }),
-      );
-      throw new BadRequestException('Demasiados intentos. Intentá de nuevo en 15 minutos.');
-    }
-
-    await this.prisma.bypassRls((tx) =>
-      tx.verificationCode.update({
-        where: { id: record.id },
-        data: { used: true },
-      }),
-    );
+    await this.consumeCode(email, 'password_reset', code);
 
     return { success: true, message: 'Código válido' };
   }
 
   async restablecerContrasena(email: string, code: string, newPassword: string) {
+    if (!newPassword || newPassword.length < 8) {
+      throw new BadRequestException('La contraseña debe tener al menos 8 caracteres');
+    }
+
     const record = await this.prisma.bypassRls<any>((tx) =>
       tx.verificationCode.findFirst({
-        where: { email, code, purpose: 'password_reset', used: true },
+        where: { email, code, purpose: 'password_reset', used: true, expiresAt: { gte: new Date() } },
         orderBy: { createdAt: 'desc' },
       }),
     );
-    if (!record) throw new BadRequestException('Primero verificá tu código');
+    if (!record) throw new BadRequestException('Código inválido, expirado o ya utilizado');
 
     const hashed = await bcrypt.hash(newPassword, 10);
-    await this.prisma.bypassRls((tx) =>
-      tx.usuario.update({
+    await this.prisma.bypassRls(async (tx) => {
+      await tx.usuario.update({
         where: { email },
         data: { pin: hashed },
-      }),
-    );
+      });
+      await tx.verificationCode.deleteMany({ where: { email, purpose: 'password_reset' } });
+    });
 
     return { success: true, message: 'Contraseña actualizada correctamente' };
   }
@@ -419,6 +402,9 @@ export class AuthService {
       const wait = Math.ceil((existing.blockedUntil.getTime() - Date.now()) / 60000);
       throw new BadRequestException(`Demasiados intentos. Esperá ${wait} minutos.`);
     }
+
+    this.emailService.assertConfigured();
+    await this.invalidateCodes(usuario.email, '2fa');
 
     await this.prisma.bypassRls((tx) =>
       tx.verificationCode.create({
@@ -489,6 +475,72 @@ export class AuthService {
     );
 
     return { success: true, message: 'Verificación exitosa' };
+  }
+
+  private async pinMatches(pin: string, usuario: { id: number; pin: string | null }): Promise<boolean> {
+    const stored = usuario.pin;
+    if (!stored) return false;
+
+    if (!/^\$2[aby]?\$/.test(stored)) {
+      if (stored !== pin) return false;
+      const rehashed = await bcrypt.hash(pin, 10);
+      await this.prisma.bypassRls((tx) =>
+        tx.usuario.update({
+          where: { id: usuario.id },
+          data: { pin: rehashed },
+        }),
+      );
+      return true;
+    }
+
+    return bcrypt.compare(pin, stored);
+  }
+
+  private async invalidateCodes(email: string, purpose: string): Promise<void> {
+    await this.prisma.bypassRls((tx) =>
+      tx.verificationCode.deleteMany({ where: { email, purpose, used: false } }),
+    );
+  }
+
+  private async consumeCode(email: string, purpose: string, code: string, maxAttempts = 5) {
+    if (!code) throw new BadRequestException('Código requerido');
+
+    const record = await this.prisma.bypassRls<any>((tx) =>
+      tx.verificationCode.findFirst({
+        where: { email, purpose, used: false, expiresAt: { gte: new Date() } },
+        orderBy: { createdAt: 'desc' },
+      }),
+    );
+    if (!record) throw new BadRequestException('Código inválido o expirado');
+
+    if (record.blockedUntil && record.blockedUntil > new Date()) {
+      const wait = Math.max(1, Math.ceil((record.blockedUntil.getTime() - Date.now()) / 60000));
+      throw new BadRequestException(`Demasiados intentos. Esperá ${wait} minutos.`);
+    }
+
+    if (record.code !== code) {
+      const attempts = record.attempts + 1;
+      const exhausted = attempts >= maxAttempts;
+      await this.prisma.bypassRls((tx) =>
+        tx.verificationCode.update({
+          where: { id: record.id },
+          data: {
+            attempts,
+            ...(exhausted ? { blockedUntil: new Date(Date.now() + 15 * 60 * 1000) } : {}),
+          },
+        }),
+      );
+      if (exhausted) {
+        throw new BadRequestException('Demasiados intentos. Intentá de nuevo en 15 minutos.');
+      }
+      throw new BadRequestException(`Código incorrecto. Intentos restantes: ${maxAttempts - attempts}`);
+    }
+
+    await this.prisma.bypassRls((tx) =>
+      tx.verificationCode.update({ where: { id: record.id }, data: { used: true } }),
+    );
+
+    return record;
   }
 
   private generateToken(usuario: any): string {
