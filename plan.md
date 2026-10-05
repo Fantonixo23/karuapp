@@ -52,7 +52,11 @@
 | Origen del tenant | Solo el JWT. El slug se acepta **únicamente en el body de los endpoints de login/registro** |
 | Rate limiting | Backend compartido (Redis o Postgres), **nunca en memoria**: con más de una instancia el throttle en memoria no cuenta nada |
 | SIFEN | Fuera de alcance por ahora. Ver Fase 9: se deshabilita la UI y se documenta con fecha de revisión |
-| Proyecto Supabase | Nuevo. No se reutiliza `sbgmmrsmqdcxzecdmrww` (datos de dev y service key en texto plano) |
+| Proyecto Supabase | Nuevo. No se reutiliza `sbgmmrsmqdcxzecdmrww` (datos de dev y service key en texto plano). **Hecho:** `ibwdxpjpeyhpljucihkd`, esquema aplicado con `migrate deploy` |
+| Hosting | **Solo Supabase + Vercel.** Sin Render, sin Fly, sin Railway, sin VPS y **sin Docker**. El backend NestJS se despliega como serverless functions en Vercel |
+| Realtime | **Supabase Realtime, obligatorio.** No es una optimización: serverless no sostiene conexiones WebSocket persistentes, así que Socket.IO no puede funcionar en Vercel |
+| Uploads | **Supabase Storage, obligatorio.** Vercel tiene el filesystem de solo lectura, así que `backend-nest/uploads/` no puede existir en cloud |
+| Pooler | **Session mode (Supavisor), nunca transaction mode.** Cada invocación serverless abre su propia conexión; `set_config(..., true)` a nivel de transacción exige sesión dedicada |
 
 > Por qué (a): con rol `nobypassrls` y `FORCE ROW LEVEL SECURITY`, cualquier query fuera de `withTenant()` devuelve cero filas o falla. La RLS deja de ser "red de seguridad" y pasa a ser obligatoria, así que conviene que funcione bien en flujos multi-query (pedido + items + impresión), donde la atomicidad importa más que el esfuerzo extra.
 
@@ -69,28 +73,38 @@ Fase 5  RLS real
 Fase 5b Vocabulario de licencia unificado
 Fase 6  Auth: refresh + login unificado
 Fase 7  Spike JWT de Realtime            -> idealmente antes de cerrar Fase 6
-Fase 8  Realtime con Supabase
-Fase 9  Storage + contrato API roto + SIFEN
+Fase 8  Realtime con Supabase           -> BLOQUEANTE de deploy (sin WS en serverless)
+Fase 9  Storage + contrato API roto + SIFEN  -> BLOQUEANTE de deploy (fs de solo lectura)
 Fase 10 Impresión
 Fase 11 Deploy
 Fase 12 Tests ampliados
 Fase 13 Migración de datos y piloto
 ```
 
+> Las Fases 8 y 9 dejaron de ser "mejoras" y pasaron a ser **precondición del deploy**. Con el backend en Vercel serverless no hay WebSocket persistente ni disco escribible: si se deploya sin ellas, el backend no levanta o las imágenes no se guardan.
+
 ## Fase A: Fixes urgentes (hoy)
 
 Cambios chicos que cierran los riesgos más graves sin esperar a nada.
 
-- [ ] `forgot-password`, `verify-reset-code`, `send-owner-code`: **nunca devolver el código** en la respuesta. Exigir SMTP configurado; si no está, fallar de forma explícita.
-- [ ] Unificar los dos flujos de reset que compiten (`auth.controller.ts` vs `utils.controller.ts`) en uno solo.
-- [ ] Quitar `devCode` de la respuesta (`auth.service.ts:209`).
-- [ ] `login-pin`: corregir el nombre del campo (`restaurante_slug` en el DTO) y **filtrar siempre por tenant**. Si falta el slug, rechazar.
-- [ ] Rate limit en `login-pin`, `login-saas` y en el reset de contraseña: 5 intentos / 15 min por IP + tenant, con backend Redis o Postgres (ver §2). Aprovechar que `verification_codes.attempts` y `blockedUntil` (`schema.prisma:79-80`) ya existen y hoy nadie escribe.
-- [ ] Borrar `GET /api/print-token` (público, devuelve el token).
-- [ ] `helmet` y CORS con lista de orígenes (sin `origin: '*'`).
-- [ ] Fijar el algoritmo del JWT en `jwt.strategy.ts` (`algorithms: ['HS256']`) para evitar confusión de algoritmo.
-- [ ] `GET /api/info` es público y hace `configuracion.findFirst()` con el tenant derivado del slug: devuelve RUC y nombre de empresa de cualquier restaurante. Dejarlo público solo con datos del proyecto, o borrarlo.
+- [x] `forgot-password`, `verify-reset-code`, `send-owner-code`: **nunca devolver el código** en la respuesta. Exigir SMTP configurado; si no está, fallar de forma explícita. **Hecho, pero por borrado:** los cuatro endpoints no los usaba el frontend, así que se eliminaron en vez de repararse. `EmailService.assertConfigured()` ahora corta los flujos con 503 si falta SMTP, y se eliminó el log `[DEV EMAIL]` que escribía el código en el log del server.
+- [x] Unificar los dos flujos de reset que compiten (`auth.controller.ts` vs `utils.controller.ts`) en uno solo. **Hecho:** sobreviven `olvide-contrasena` / `verificar-codigo` / `restablecer-contrasena`.
+- [x] Quitar `devCode` de la respuesta (`auth.service.ts:209`). **Hecho** en `registerSaas` y en `reenviarCodigo`.
+- [x] `login-pin`: corregir el nombre del campo (`restaurante_slug` en el DTO) y **filtrar siempre por tenant**. Si falta el slug, rechazar. **Hecho, y además:** el código viejo filtraba por `where: { pin }` en texto plano contra un campo hasheado con bcrypt, así que nunca podía funcionar. Ahora busca los usuarios del restaurante y compara con bcrypt, rehasheando los PINs legacy en plaintext.
+- [ ] Rate limit en `login-pin`, `login-saas` y en el reset de contraseña: 5 intentos / 15 min por IP + tenant, con backend Redis o Postgres (ver §2). Aprovechar que `verification_codes.attempts` y `blockedUntil` (`schema.prisma:79-80`) ya existen y hoy nadie escribe. **Parcial:** `RateLimitService` con ventana deslizante y clave `scope:ip:identificador`, aplicado a los 8 endpoints públicos de auth. El backend es **memoria**, no Redis: sirve con una sola instancia y hay que migrarlo antes de escalar (Fase 11). Además el lockout de `verification_codes.attempts` era inalcanzable porque nada lo incrementaba; ahora `consumeCode` lo cuenta y bloquea.
+- [x] Borrar `GET /api/print-token` (público, devuelve el token). **Hecho.** La impresión sigue funcionando por el fallback `pipper-print-token-default` de `qzPrint.js:26` hasta que se rehaga en la Fase 10.
+- [x] `helmet` y CORS con lista de orígenes (sin `origin: '*'`). **Hecho:** `CORS_ORIGINS` es obligatorio en producción y el backend no arranca sin eso.
+- [x] Fijar el algoritmo del JWT en `jwt.strategy.ts` (`algorithms: ['HS256']`) para evitar confusión de algoritmo. **Hecho,** y de yapa se quitó `ExtractJwt.fromUrlQueryParameter('token')` (el token viajaba en la URL de los uploads multipart y quedaba en los logs del proxy) junto con el `api.js` que lo agregaba.
+- [x] `GET /api/info` es público y hace `configuracion.findFirst()` con el tenant derivado del slug: devuelve RUC y nombre de empresa de cualquier restaurante. Dejarlo público solo con datos del proyecto, o borrarlo. **Hecho:** borrado, no lo usaba el frontend.
 - [ ] Rotar la service key de `sbgmmrsmqdcxzecdmrww` y verificar que no quedó en el historial de git (`.env` está en `.gitignore`, pero conviene confirmarlo una vez).
+
+**Extra, fuera de la lista pero del mismo tipo de agujero:**
+
+- [x] `GET /api/mobile/funcionarios/:slug` devolvía `select: { pin: true }`: los hashes de PIN de **todos** los empleados del restaurante, a cualquier usuario con un JWT (es decir, también a un mesero). Ahora no devuelve el PIN.
+- [x] El backend nunca cargaba `.env` (no había `ConfigModule` ni `dotenv`), así que `JWT_SECRET`, `SMTP_*` y `CORS_ORIGINS` llegaban `undefined`. Con `JWT_SECRET` ahora obligatorio eso rompía el arranque. Agregado `ConfigModule.forRoot({ isGlobal: true })` y `JwtModule.registerAsync` para que la validación corra en la instanciación y no al importar el módulo.
+- [x] `prisma/migrations/0_init/` estaba **vacío**, sin `migration.sql`. `migrate deploy` no creaba ninguna tabla. Baseline generado desde `schema.prisma` (18 tablas, 7 índices únicos) y aplicado.
+- [ ] `usuarios.service.ts:12` sigue devolviendo `pin: true` en el listado de empleados, y `Funcionarios.jsx:239` lo mete en el formulario de edición. Con bcrypt el campo muestra un hash, así que la pantalla está rota además de filtrar. Es Fase 3 (separar `pin` de `passwordHash`), no Fase A.
+- [ ] `usuarios.service.ts:72` compara el PIN nuevo en texto plano contra los hashes para detectar duplicados: nunca coincide. Y `:80` devuelve el hash en vez del PIN generado, así que el admin nunca ve el PIN nuevo. Mismo Fase 3.
 
 **Criterio de salida:** ningún endpoint público devuelve un código o token; un PIN no se puede probar más de 5 veces por ventana; la suspensión de un tenant bloquea de forma consistente.
 
@@ -226,6 +240,8 @@ Es la mayor incertidumbre técnica y puede cambiar el diseño de auth, así que 
 
 ## Fase 8: Realtime con Supabase
 
+> **Bloqueante del deploy.** El backend va a Vercel serverless, que no sostiene conexiones WebSocket persistentes. Si se deploya sin esta fase, `socket.gateway.ts` no puede funcionar y las reservas de mesa, los cambios de estado de pedidos y las notificaciones de cocina dejan de llegar al frontend. No hay alternativa técnica: o Supabase Realtime, o un host always-awake (que no se va a usar).
+
 1. Políticas sobre `realtime.messages` + proyecto en modo solo canales privados.
 2. `src/realtime/realtime.ts` con `select realtime.send(payload, evento, 'restaurante:<id>', true)`. Los 5 helpers de `socket.gateway.ts:32-55` conservan su firma.
 3. `POST /api/auth/realtime-token`: JWT de 1 h con `role: authenticated`, `aud: authenticated`, `restaurante_id` (string); variante `agente` para el agente de impresión.
@@ -233,6 +249,8 @@ Es la mayor incertidumbre técnica y puede cambiar el diseño de auth, así que 
 5. Borrar `socket.gateway.ts` y las dependencias `socket.io`, `@nestjs/platform-socket.io`, `@nestjs/websockets`.
 
 ## Fase 9: Storage, contrato API roto y SIFEN
+
+> **Bloqueante del deploy.** Vercel monta el filesystem de solo lectura, así que `backend-nest/uploads/` no puede existir en cloud: `productos/subir-imagen` y `main.ts:30` no tienen dónde escribir. Hasta que el bucket esté por tenant, el deploy no sirve.
 
 **Storage** (ya está a medio hacer)
 
@@ -269,11 +287,19 @@ Es casi un subproyecto, no una fase menor.
 
 ## Fase 11: Deploy
 
-1. Dockerfile multi-stage (`nest build` y `node:20-alpine`), `npm ci --omit=dev`, con `.dockerignore` que excluya `.env`. `prisma migrate deploy` como paso de release con `karuapp_migrate`, no en el arranque.
-2. Frontend en Vercel, root `frontend-react`, `VITE_API_URL` obligatorio (el rewrite `/(.*)` devuelve `index.html` para `/api/*`). Agregar `.env` al `.dockerignore` del frontend también.
-3. Cabeceras de seguridad en `vercel.json`: CSP (debe permitir el WSS de Supabase, `fonts.googleapis.com` **y** `fonts.gstatic.com`, que `index.html` carga ambas), HSTS, `nosniff`, `X-Frame-Options`.
-4. `GET /api/health` para monitoreo.
-5. Borrar el Dockerfile del frontend (corre `npm run dev`) y el hack de serveo en `main.jsx:8-15`.
+Solo **Supabase + Vercel**. Sin Docker, sin Render, sin Fly, sin Railway, sin VPS. El backend NestJS se despliega como serverless functions en el mismo proyecto de Vercel que el frontend (o en uno aparte, con el dominio del API propio; esto decide si `VITE_API_URL` apunta a un host distinto).
+
+**Precondiciones, no opcionales:** las Fases 8 y 9 tienen que estar terminadas. Serverless no tiene WebSocket persistente ni disco escribible.
+
+1. **Backend como serverless functions.** `@vercel/node` con un entrypoint que levante Nest y exporte el handler. Ajustar `maxDuration` (por defecto 10 s y el bootstrap de Nest con Prisma mide ~4 s, así que va justo) y `export const config = { maxDuration: 60 }`.
+2. **Prisma en serverless.** Instanciar el cliente una sola vez por instancia reutilizada y poner `outputFileTracingIncludes` para los motores de Prisma, o el bundle no los encuentra. Sin conexión directa a Supabase: usar el **Session pooler** (Supavisor modo sesión). El modo transacción rompe `set_config(..., true)` de la Fase 5. **El pooler del proyecto `ibwdxpjpeyhpljucihkd` no responde en ninguna región** (`P1001` en `sa-east-1`, `us-east-1`, `us-west-1`, `eu-west-1`); hay que sacar el string correcto del dashboard antes de deployar.
+3. **`prisma migrate deploy` fuera del arranque.** Como paso de CI o comando manual previo al deploy, con el rol `karuapp_migrate`. Arrancarlo en cada cold start duplica migraciones y racea con el tráfico.
+4. **Migrar `RateLimitService` a Redis.** En serverless cada invocación es una instancia nueva, así que el backend en memoria cuenta cero. Sale de la definición del límite en 15 min por IP + tenant de la Fase A.
+5. **Frontend en Vercel**, root `frontend-react`, `VITE_API_URL` obligatorio. Ojo con el rewrite actual de `vercel.json`: `/(.*) → /index.html` es un catch-all que se come `/api/*`; si el API termina en el mismo dominio hay que agregar un rewrite más específico **antes** del catch-all.
+6. **Cabeceras de seguridad en `vercel.json`:** CSP (debe permitir el WSS de Supabase, `fonts.googleapis.com` **y** `fonts.gstatic.com`, que `index.html` carga ambas), HSTS, `nosniff`, `X-Frame-Options`.
+7. `GET /api/health` para monitoreo.
+8. ~~Borrar el `Dockerfile` y el `.dockerignore` del frontend~~ **hecho.** Falta borrar el hack de serveo en `main.jsx:8-15`.
+9. Verificar que `CORS_ORIGINS` incluya el dominio real de Vercel. `main.ts` ahora se niega a arrancar en producción sin eso.
 
 ## Fase 12: Tests ampliados
 
@@ -299,6 +325,8 @@ Las cifras son estimaciones, no compromisos. La más incierta es la Fase 10 y, e
 
 ## 5. Riesgos abiertos
 
+- **Serverless sin estado:** Vercel no mantiene instancias entre requests. Rompe el rate limit en memoria (Fase 11.4), obliga a `maxDuration` holgado por el cold start de Nest+Prisma, y rompe cualquier singletón en memoria. Es la contrapartida de no usar un host always-awake.
+- **Pooler del proyecto nuevo:** hoy ningún pooler de `ibwdxpjpeyhpljucihkd` responde. La conexión directa funciona, pero no es sostenible para serverless. Bloqueante del deploy.
 - **RLS en el path de auth:** las 4 queries de la Fase 5.6 son el punto de falla más duro. Si se activa RLS sin arreglarlas, la app devuelve 401 en todas las requests.
 - **Spike JWT (Fase 7):** si Supabase exige claves asimétricas, cambia el diseño de auth.
 - **Transacción por request:** commit después de la respuesta, conexiones retenidas durante uploads, y el fan-out de `Informes`. Los tres están detallados en la Fase 5.8.
