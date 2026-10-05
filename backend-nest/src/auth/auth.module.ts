@@ -9,9 +9,11 @@ import { requireJwtSecret } from '../common/jwt-secret';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: requireJwtSecret(),
-      signOptions: { expiresIn: (process.env.JWT_EXPIRATION || '7d') as any },
+    JwtModule.registerAsync({
+      useFactory: () => ({
+        secret: requireJwtSecret(),
+        signOptions: { expiresIn: (process.env.JWT_EXPIRATION || '7d') as any },
+      }),
     }),
   ],
   controllers: [AuthController],
