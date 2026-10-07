@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Body, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { createClient } from '@supabase/supabase-js';
@@ -34,6 +34,18 @@ export class ProductosController {
     return this.service.eliminarCategoria(rid, +id);
   }
 
+  @Put('categorias/:id/editar')
+  @Roles('administrador')
+  async editarCategoria(
+    @CurrentUser('restauranteId') rid: number,
+    @Param('id') id: string,
+    @Body() body: any,
+  ) {
+    const categoria = await this.service.actualizarCategoria(rid, +id, body);
+    if (!categoria) return { success: false, error: 'Categoría no encontrada' };
+    return { success: true, categoria };
+  }
+
   @Get('productos')
   async listarProductos(
     @CurrentUser('restauranteId') rid: number,
@@ -62,11 +74,23 @@ export class ProductosController {
   }
 
   @Post('productos/subir-imagen')
-  @UseInterceptors(FileInterceptor('imagen'))
-  async subirImagen(@UploadedFile() file: Express.Multer.File) {
+  @Roles('administrador')
+  @UseInterceptors(
+    FileInterceptor('imagen', {
+      limits: { fileSize: 5 * 1024 * 1024 },
+      fileFilter: (_req, file, cb) => {
+        const permitido = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(file.mimetype);
+        cb(permitido ? null : new BadRequestException('Tipo de archivo no permitido (solo jpg, png, webp, gif)'), permitido);
+      },
+    }),
+  )
+  async subirImagen(
+    @CurrentUser('restauranteId') rid: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     if (!file) return { success: false, error: 'No se recibió ninguna imagen' };
-    const ext = extname(file.originalname);
-    const fileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
+    const ext = extname(file.originalname) || '.jpg';
+    const fileName = `tenant/${rid}/productos/${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
     const { data, error } = await supabase.storage
       .from('productos')
       .upload(fileName, file.buffer, { contentType: file.mimetype, upsert: false });

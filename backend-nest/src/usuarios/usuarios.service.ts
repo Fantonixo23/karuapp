@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { DatabaseService } from '../database/database.service';
+import { countInt } from '../database/agg';
 
 const CAMPOS_PUBLICOS = ['id', 'nombre', 'rol', 'telefono', 'email', 'activo'] as const;
 
@@ -103,7 +104,7 @@ export class UsuariosService {
 
       const pedidos = await tx
         .selectFrom('pedidos')
-        .select((eb) => eb.fn.countAll<number>().as('c'))
+        .select(() => countInt())
         .where('mesero_id', '=', id)
         .executeTakeFirst();
 

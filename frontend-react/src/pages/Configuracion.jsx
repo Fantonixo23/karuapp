@@ -71,22 +71,10 @@ export default function Configuracion() {
   const [printServerCocina, setPrintServerCocina] = useState(() => localStorage.getItem('pipper_print_server_cocina') || 'http://localhost:5123')
   const [printerCocina, setPrinterCocina] = useState(() => localStorage.getItem('pipper_printer_cocina') || '')
 
-  const [sifenHabilitado, setSifenHabilitado] = useState(false)
-  const [backupInfo, setBackupInfo] = useState(null)
-  const [backupLoading, setBackupLoading] = useState(false)
-  const [backupMsg, setBackupMsg] = useState('')
-
   useEffect(() => {
     cargarDatos()
     cargarMetodos()
-    cargarBackupStatus()
   }, [])
-
-  useEffect(() => {
-    if (datos.sifen_habilitado !== undefined) {
-      setSifenHabilitado(datos.sifen_habilitado)
-    }
-  }, [datos.sifen_habilitado])
 
   const cargarMetodos = async () => {
     try {
@@ -94,36 +82,6 @@ export default function Configuracion() {
       const data = await res.json()
       if (data.success) setMetodos(data.metodos || [])
     } catch {}
-  }
-
-  const cargarBackupStatus = async () => {
-    try {
-      const res = await fetch(`${API_URL}/backup`)
-      const data = await res.json()
-      if (data.ok) setBackupInfo(data)
-    } catch {}
-  }
-
-  const realizarBackup = async (mode = 'local') => {
-    setBackupLoading(true)
-    setBackupMsg('')
-    try {
-      const res = await fetch(`${API_URL}/backup/run`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode })
-      })
-      const data = await res.json()
-      if (data.ok) {
-        setBackupMsg('Backup creado: ' + (data.nombre || data.archivo || 'OK'))
-        cargarBackupStatus()
-      } else {
-        setBackupMsg('Error: ' + (data.error || 'desconocido'))
-      }
-    } catch (e) {
-      setBackupMsg('Error de conexion: ' + e.message)
-    }
-    setBackupLoading(false)
   }
 
   const abrirMetodoModal = (metodo = null) => {
@@ -318,63 +276,8 @@ export default function Configuracion() {
 
         <div style={s.card(darkMode)} className="animate">
           <h2 style={s.cardTitle(darkMode)}>Datos de Facturacion</h2>
-          <p style={s.subtitle(darkMode)}>Configuracion del timbrado SET y facturación electrónica SIFEN</p>
+          <p style={s.subtitle(darkMode)}>Configuracion del timbrado SET</p>
 
-          {/* SWITCH HABILITAR SIFEN */}
-          <div style={{
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '12px', borderRadius: '10px', marginBottom: '16px',
-            background: sifenHabilitado ? 'rgba(76,175,80,0.1)' : (darkMode ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)'),
-            border: `1px solid ${sifenHabilitado ? 'rgba(76,175,80,0.3)' : (darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)')}`
-          }}>
-            <div>
-              <div style={{ fontWeight: '700', fontSize: '14px', color: darkMode ? '#fff' : '#333' }}>
-                Facturación Electrónica SIFEN
-              </div>
-              <div style={{ fontSize: '12px', color: sifenHabilitado ? '#2E7D32' : '#999', marginTop: '2px' }}>
-                {sifenHabilitado ? '✔ Activado — se generarán facturas electrónicas al cobrar' : 'Desactivado'}
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              {sifenHabilitado && (
-                <Link to="/app/sifen" style={{
-                  padding: '8px 14px', borderRadius: '8px',
-                  background: '#FF9800', color: 'white', fontWeight: '700',
-                  fontSize: '12px', textDecoration: 'none', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', gap: '4px'
-                }}>
-                  <span className="material-icons" style={{ fontSize: '16px' }}>settings</span>
-                  Configurar
-                </Link>
-              )}
-              <button
-                onClick={async () => {
-                  const nuevoValor = !sifenHabilitado
-                  setSifenHabilitado(nuevoValor)
-                  try {
-                    await fetch(`${API_URL}/facturacion/config/actualizar`, {
-                      method: 'PUT',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ sifen_habilitado: nuevoValor })
-                    })
-                  } catch {}
-                }}
-                style={{
-                  position: 'relative', width: '44px', height: '24px', flexShrink: 0,
-                  background: sifenHabilitado ? '#4CAF50' : (darkMode ? '#555' : '#ccc'),
-                  borderRadius: '12px', cursor: 'pointer', border: 'none', padding: 0
-                }}
-              >
-                <div style={{
-                  position: 'absolute', top: '2px', left: sifenHabilitado ? '22px' : '2px',
-                  width: '20px', height: '20px', borderRadius: '50%',
-                  background: 'white', transition: 'left 0.2s',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.3)'
-                }} />
-              </button>
-            </div>
-          </div>
-          
           <div style={s.field}>
             <label style={s.label(darkMode)}>Numero de Timbrado</label>
             <input 
@@ -675,77 +578,6 @@ export default function Configuracion() {
             </button>
           </div>
         </div>
-
-        {/* RESPALDO DE BASE DE DATOS */}
-        <div style={s.card(darkMode)} className="animate">
-          <h2 style={s.cardTitle(darkMode)}>Respaldo de Base de Datos</h2>
-          <p style={s.subtitle(darkMode)}>Crea copias de seguridad de la base de datos y subelas a Google Drive</p>
-
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-            <button
-              onClick={() => realizarBackup('local')}
-              disabled={backupLoading}
-              style={{
-                flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                background: backupLoading ? '#999' : '#FF9800',
-                color: 'white', fontWeight: '700', fontSize: '12px', cursor: backupLoading ? 'not-allowed' : 'pointer'
-              }}
-            >
-              {backupLoading ? 'Respaldando...' : 'Respaldar Ahora'}
-            </button>
-            <button
-              onClick={() => realizarBackup('rclone')}
-              disabled={backupLoading}
-              style={{
-                flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                background: backupLoading ? '#999' : '#2196F3',
-                color: 'white', fontWeight: '700', fontSize: '12px', cursor: backupLoading ? 'not-allowed' : 'pointer'
-              }}
-            >
-              Backup + Google Drive
-            </button>
-          </div>
-
-          {backupMsg && (
-            <div style={{
-              padding: '10px', borderRadius: '8px', marginBottom: '12px',
-              background: backupMsg.startsWith('Error') ? 'rgba(229,57,53,0.1)' : 'rgba(76,175,80,0.1)',
-              color: backupMsg.startsWith('Error') ? '#E53935' : '#2E7D32',
-              fontSize: '12px', fontWeight: '600', textAlign: 'center'
-            }}>
-              {backupMsg}
-            </div>
-          )}
-
-          {backupInfo && backupInfo.backups && backupInfo.backups.length > 0 && (
-            <div>
-              <label style={s.label(darkMode)}>Ultimos respaldos</label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                {backupInfo.backups.slice(0, 5).map((b, i) => (
-                  <div key={i} style={{
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                    padding: '8px 12px', borderRadius: '8px',
-                    background: darkMode ? '#2a2a2a' : '#f5f5f5',
-                    fontSize: '12px'
-                  }}>
-                    <span style={{ color: darkMode ? '#ccc' : '#555' }}>
-                      {new Date(b.fecha).toLocaleString('es-PY', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                    <span style={{ color: darkMode ? '#aaa' : '#777' }}>
-                      {(b.tamano / 1024).toFixed(0)} KB
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div style={{ marginTop: '12px', fontSize: '11px', color: '#999', lineHeight: '1.5' }}>
-            Los backups se guardan en el servidor.<br />
-            Para Google Drive via rclone: instala <a href="https://rclone.org/downloads/" target="_blank" rel="noopener" style={{ color: '#FF9800' }}>rclone</a>, configuralo y ejecuta "Backup + Google Drive".
-          </div>
-        </div>
-
 
         {/* MODAL MÉTODO DE PAGO */}
         {showMetodoModal && (

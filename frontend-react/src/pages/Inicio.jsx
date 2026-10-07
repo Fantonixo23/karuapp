@@ -55,8 +55,6 @@ export default function Inicio() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [hora, setHora] = useState(new Date())
   const [stats, setStats] = useState(null)
-  const [conexion, setConexion] = useState(null)
-  const [showConexion, setShowConexion] = useState(false)
 
   useEffect(() => {
     const t = setInterval(() => setHora(new Date()), 1000)
@@ -80,12 +78,6 @@ export default function Inicio() {
       pedidos_pendientes: pedidos?.pedidos?.length || 0,
     })
   }
-
-  const cargarConexion = async () => {
-    const res = await fetch(`${API_URL}/qr-conexion`).catch(() => null)
-    if (res?.ok) setConexion(await res.json())
-  }
-  useEffect(() => { cargarConexion() }, [])
 
   const horas = hora.getHours()
   const saludo = horas < 12 ? 'Buenos dias' : horas < 18 ? 'Buenas tardes' : 'Buenas noches'
@@ -176,68 +168,6 @@ export default function Inicio() {
             </Link>
           ))}
         </div>
-
-        <div style={{ marginTop: '16px' }}>
-          <button onClick={() => setShowConexion(true)} style={{
-            width: '100%', padding: '12px', borderRadius: '12px',
-            border: `1px solid ${darkMode ? 'rgba(33,150,243,0.2)' : 'rgba(33,150,243,0.3)'}`,
-            background: darkMode ? 'rgba(33,150,243,0.08)' : 'rgba(33,150,243,0.04)',
-            color: darkMode ? '#90CAF9' : '#1976D2', cursor: 'pointer',
-            fontSize: '13px', fontWeight: '600',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
-          }}>
-            <span className="material-icons" style={{ fontSize: '18px' }}>wifi</span>
-            Acceder desde el celular
-          </button>
-        </div>
-
-        {showConexion && conexion && (
-          <div style={{
-            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(0,0,0,0.7)', zIndex: 9999,
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
-          }} onClick={() => setShowConexion(false)}>
-            <div onClick={e => e.stopPropagation()} style={{
-              background: darkMode ? '#1e1e1e' : 'white',
-              borderRadius: '20px', padding: '30px', maxWidth: '340px', width: '90%',
-              textAlign: 'center', boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
-            }}>
-              <h3 style={{ margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>Acceso desde celular</h3>
-              <p style={{ fontSize: '12px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', margin: '0 0 16px' }}>
-                Escaneá el código QR con tu celular
-              </p>
-              {conexion.qr_base64 && (
-                <img src={`data:image/png;base64,${conexion.qr_base64}`} alt="QR"
-                  style={{ width: '200px', height: '200px', borderRadius: '12px', marginBottom: '16px' }} />
-              )}
-              <div style={{
-                background: darkMode ? '#2a2a2a' : '#f5f5f5',
-                borderRadius: '10px', padding: '12px', textAlign: 'left',
-                fontSize: '13px'
-              }}>
-                <div style={{ color: darkMode ? '#aaa' : '#666', marginBottom: '4px' }}>O ingresá esta URL:</div>
-                <code style={{
-                  display: 'block', padding: '8px', borderRadius: '6px',
-                  background: darkMode ? '#333' : '#e8e8e8',
-                  color: '#4CAF50', fontWeight: '700', fontSize: '14px',
-                  wordBreak: 'break-all', marginBottom: '8px'
-                }}>{conexion.url_principal}</code>
-                <div style={{ color: darkMode ? '#aaa' : '#666', fontSize: '11px' }}>
-                  PC: <strong>{conexion.hostname}</strong>
-                </div>
-                {conexion.ips?.length > 1 && (
-                  <div style={{ color: darkMode ? '#aaa' : '#666', fontSize: '11px', marginTop: '2px' }}>
-                    IPs: {conexion.ips.join(', ')}
-                  </div>
-                )}
-              </div>
-              <button onClick={() => setShowConexion(false)}
-                style={{ marginTop: '16px', padding: '10px 30px', borderRadius: '10px',
-                  border: 'none', background: '#F44336', color: 'white', cursor: 'pointer',
-                  fontWeight: '600' }}>Cerrar</button>
-            </div>
-          </div>
-        )}
 
         <div style={{ textAlign: 'center', padding: '40px 20px 80px', color: darkMode ? 'rgba(255,255,255,0.35)' : '#999' }}>
           <p style={{ fontSize: '12px', margin: 0 }}>

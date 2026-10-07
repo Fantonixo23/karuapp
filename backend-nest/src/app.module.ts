@@ -2,10 +2,9 @@ import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
-import { PrismaModule } from './prisma/prisma.module';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
-import { SocketModule } from './socket/socket.module';
+import { RealtimeModule } from './realtime/realtime.module';
 import { TenantsModule } from './tenants/tenants.module';
 import { ProductosModule } from './productos/productos.module';
 import { MesasModule } from './mesas/mesas.module';
@@ -18,6 +17,7 @@ import { InventarioModule } from './inventario/inventario.module';
 import { InformesModule } from './informes/informes.module';
 import { UtilsModule } from './utils/utils.module';
 import { AdminModule } from './admin/admin.module';
+import { HealthModule } from './health/health.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { LicenseGuard } from './common/guards/license.guard';
@@ -28,10 +28,9 @@ import { RlsContextInterceptor } from './common/interceptors/rls-context.interce
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
-    PrismaModule,
     CommonModule,
     AuthModule,
-    SocketModule,
+    RealtimeModule,
     TenantsModule,
     ProductosModule,
     MesasModule,
@@ -44,6 +43,7 @@ import { RlsContextInterceptor } from './common/interceptors/rls-context.interce
     InformesModule,
     UtilsModule,
     AdminModule,
+    HealthModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

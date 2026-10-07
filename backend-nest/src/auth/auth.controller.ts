@@ -1,8 +1,9 @@
-import { Controller, Post, Get, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Get, Body, UseGuards, Req, BadRequestException, ForbiddenException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { Public } from '../common/decorators/public.decorator';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { CurrentUser, JwtPayload } from '../common/decorators/current-user.decorator';
 import { RateLimitRule, RateLimitService } from '../common/rate-limit.service';
 
 const LOGIN_RULE: RateLimitRule = { limit: 5, windowMs: 15 * 60 * 1000 };
@@ -15,6 +16,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private rateLimit: RateLimitService,
+    private jwtService: JwtService,
   ) {}
 
   @Public()
@@ -124,6 +126,43 @@ export class AuthController {
   @Post('logout')
   async logout() {
     return { success: true, message: 'Sesión cerrada' };
+  }
+
+  /**
+   * Token corto (1 h) para suscribirse al canal Realtime `restaurante:<id>`.
+   * Los claims (`role`, `restaurante_id`) son los que evalúan las politicas de
+   * `realtime.messages`; la variante `agente` es para el agente de impresión (Fase 10).
+   */
+  @Post('realtime-token')
+  async realtimeToken(@CurrentUser() user: JwtPayload, @Body() body: { variante?: 'usuario' | 'agente' }) {
+    const secret = process.env.SUPABASE_JWT_SECRET;
+    if (!secret) throw new BadRequestException('SUPABASE_JWT_SECRET no configurado en el servidor');
+    if (!user.restauranteId) throw new ForbiddenException('El usuario no pertenece a un restaurante');
+
+    const variante = body?.variante === 'agente' ? 'agente' : 'usuario';
+    const token = this.jwtService.sign(
+      {
+        role: variante === 'agente' ? 'agente' : 'authenticated',
+        aud: 'authenticated',
+        restaurante_id: String(user.restauranteId),
+        tipo: variante,
+      },
+      {
+        secret,
+        algorithm: 'HS256',
+        subject: String(user.sub),
+        expiresIn: 60 * 60,
+      },
+    );
+
+    return {
+      success: true,
+      token,
+      url: process.env.SUPABASE_URL || '',
+      anonKey: process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_SERVICE_KEY || '',
+      restaurante_id: user.restauranteId,
+      expires_in: 3600,
+    };
   }
 
   private async loginPinInternal(req: any, body: { pin: string; restaurante_slug: string }) {

@@ -2,7 +2,12 @@ import { ColumnType, Insertable, Selectable, Updateable } from 'kysely';
 
 export type Timestamp = ColumnType<Date, Date | string | undefined, Date | string>;
 export type NullableTimestamp = ColumnType<Date | null, Date | string | null | undefined, Date | string | null>;
-export type Json = ColumnType<JsonValue, JsonValue, JsonValue>;
+/**
+ * Columnas JSONB: pg devuelve el valor ya parseado al leer, pero al escribir un
+ * objeto/array JS lo enviaria como literal de array de Postgres. Por eso la
+ * escritura exige `string` (o null), y el compilador obliga a JSON.stringify().
+ */
+export type Json = ColumnType<JsonValue, string | null | undefined, string | null | undefined>;
 
 export type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
@@ -167,7 +172,6 @@ export interface DB {
     fecha_vencimiento: Timestamp;
     activo: ColumnType<boolean, boolean | undefined, boolean>;
     created_at: Timestamp;
-    updated_at: Timestamp;
   };
 
   facturas: {
@@ -187,7 +191,6 @@ export interface DB {
     estado: ColumnType<string, string | undefined, string>;
     total: number;
     created_at: Timestamp;
-    updated_at: Timestamp;
   };
 
   metodos_pago: {
@@ -212,7 +215,6 @@ export interface DB {
     notas_apertura: ColumnType<string, string | undefined, string>;
     notas_cierre: ColumnType<string, string | undefined, string>;
     created_at: Timestamp;
-    updated_at: Timestamp;
   };
 
   caja_movimientos: {

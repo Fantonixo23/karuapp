@@ -11,7 +11,6 @@ import Informes from './pages/Informes'
 import Productos from './pages/Productos'
 import Inventario from './pages/Inventario'
 import Configuracion from './pages/Configuracion'
-import SifenConfig from './pages/SifenConfig'
 import Login from './pages/Login'
 import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
@@ -79,7 +78,6 @@ export default function App() {
               <Route path="inventario" element={<Inventario />} />
               <Route path="configuracion" element={<MobileGuard><Configuracion /></MobileGuard>} />
               <Route path="funcionarios" element={<Funcionarios />} />
-              <Route path="sifen" element={<SifenConfig />} />
               <Route path="config" element={<Config />} />
               <Route path="mesero" element={<Mesero />} />
               <Route path="para-llevar" element={<ParaLlevar />} />

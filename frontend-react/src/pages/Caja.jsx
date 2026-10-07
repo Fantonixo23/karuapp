@@ -63,9 +63,6 @@ export default function Caja() {
   const [deliveryPedidoSeleccionado, setDeliveryPedidoSeleccionado] = useState(null)
   const [mostrarDelivery, setMostrarDelivery] = useState(false)
 
-  // SIFEN status
-  const [sifenStatus, setSifenStatus] = useState(null)
-
   // Caja session
   const [session, setSession] = useState(null)
   const [loadingSession, setLoadingSession] = useState(true)
@@ -295,16 +292,8 @@ export default function Caja() {
     } catch {}
   }
 
-  const cargarSifenStatus = async () => {
-    try {
-      const res = await fetch(`${API_URL}/sifen/status`)
-      const data = await res.json()
-      if (data.success) setSifenStatus(data)
-    } catch {}
-  }
-
   useEffect(() => {
-    initDarkMode(); verificarSesion(); cargarDatosEmpresa(); cargarSifenStatus()
+    initDarkMode(); verificarSesion(); cargarDatosEmpresa()
   }, [])
   useEffect(() => {
     const t = setInterval(() => setHora(new Date()), 1000)
@@ -580,21 +569,6 @@ export default function Caja() {
           <span style={{ color: '#aaa', fontSize: '12px' }}>Fondo: {formatGuarani(sTotales.fondo_inicial || 0)}</span>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          {sifenStatus?.sifen_habilitado && (
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '4px',
-              padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: '700',
-              background: sifenStatus.certificado_configurado && sifenStatus.csc_configurado
-                ? 'rgba(76,175,80,0.2)' : 'rgba(255,152,0,0.2)',
-              color: sifenStatus.certificado_configurado && sifenStatus.csc_configurado
-                ? '#81C784' : '#FFB74D',
-            }}>
-              <span className="material-icons" style={{ fontSize: '14px' }}>
-                {sifenStatus.certificado_configurado && sifenStatus.csc_configurado ? 'check_circle' : 'warning'}
-              </span>
-              SIFEN
-            </div>
-          )}
           <div style={{ textAlign: 'right', marginRight: '4px' }}>
             <div style={{ fontSize: '14px', fontWeight: '600', color: '#FF9800', lineHeight: 1.2 }}>{horaStr}</div>
             <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>

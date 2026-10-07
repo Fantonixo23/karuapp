@@ -1,7 +1,24 @@
-# Plan KaruApp: NestJS + Prisma + Supabase
+# Plan KaruApp: NestJS + Kysely + Supabase
 
 > Reescrito desde cero. El plan anterior describía un backend Django que ya no existe en el repo.
 > Regla: si el código cambia de rumbo, se actualiza este archivo en el mismo commit.
+
+## 0. Migración Prisma → `pg` + Kysely (COMPLETADA)
+
+El engine de Prisma no lograba conectar al Session pooler de Supabase (`P1001`) y el driver adapter rompía
+las transacciones interactivas. La base se accede con `node-postgres` + Kysely:
+
+- `DatabaseService` (`pg.Pool` + `PostgresDialect`) con `run`/`runBypassRls`/`transaction`/`withTx` y
+  contexto de tenant por `set_config(..., TRUE)` dentro de la transacción.
+- `database.types.ts` con las 18 tablas en snake_case (contrato de API). Los campos JSONB exigen
+  `JSON.stringify` al escribir; los conteos pasan por `countInt()` (`src/database/agg.ts`) porque `pg`
+  devuelve bigint como string.
+- Zona horaria resuelta **en el driver**: `defaults.parseInputDatesAsUTC = true` + parser de
+  `timestamp` como UTC (1114). El pooler ignora `-c TimeZone`, por eso no se hace por sesión.
+- Migraciones con **node-pg-migrate** (`migrations/0_init.sql`, marcada como aplicada). Las
+  `prisma/migrations/` quedan como referencia histórica; la tabla `_prisma_migrations` fue eliminada.
+- Tabla `_count`/`usuarios` del panel admin y resto del contrato: el frontend consumió el cambio a
+  snake_case (ver Fase 9: contracto de API).
 
 ## 1. Diagnóstico: estado real del repo
 
@@ -115,13 +132,12 @@ Datos necesarios: URL, project-ref, anon key, service_role key, contraseña de D
 Crear **dos roles**:
 
 ```sql
-create role karuapp_migrate login password '...' bypassrls;   -- solo prisma migrate
+create role karuapp_migrate login password '...' bypassrls;   -- solo node-pg-migrate
 create role karuapp_app     login password '...' nobypassrls; -- la app
 ```
 
 - La app conecta con `karuapp_app`.
-- `prisma migrate deploy` corre con `karuapp_migrate` como paso de release, contra la **conexión directa (5432)**, no contra el pooler.
-- La app usa el pooler en modo transacción: por eso solo se usa `set_config(..., true)`, nunca a nivel de sesión.
+- `npm run db:migrate` (`node-pg-migrate up`) corre con `karuapp_migrate` como paso de release, contra la **conexión directa (5432)**, no contra el pooler.
 
 **Baseline del esquema (paso obligatorio).** `prisma/migrations/0_init/` está vacía, así que hoy `migrate deploy` no crea nada: solo intentaría crear el índice de email sobre una tabla inexistente. Generar la migración inicial antes de tocar la base nueva:
 
@@ -130,7 +146,11 @@ prisma migrate diff --from-empty --to-schema-datamodel prisma/schema.prisma \
   --script > prisma/migrations/0_init/migration.sql
 ```
 
-Después: `prisma migrate deploy` con `karuapp_migrate`.
+> **Estado actual (actualizado):** el baseline ya no depende de Prisma. Está en
+> `migrations/0_init.sql` (node-pg-migrate): reproduce el esquema completo más el índice único de email,
+> los defaults de `updated_at` y el `ENABLE ROW LEVEL SECURITY` de las 18 tablas. En la base actual la
+> migración está **marcada como aplicada** en `public.pgmigrations` (no se ejecuta de nuevo). En la Fase
+> 2/5 se cambia el rol de la app a `karuapp_app`.
 
 - Activar backups/PITR y **probar una restauración** antes del piloto.
 
@@ -176,7 +196,32 @@ Checks iniciales (se amplían en la Fase 12):
 6. `utils.controller.ts:141` (`mobile/funcionarios/:slug`): hoy devuelve PINs. Restringir a administrador del propio tenant.
 7. Auditar los 16 services **con tests**, no con grep.
 
-## Fase 5: RLS real
+## Fase 5: RLS real (COMPLETADA)
+
+> Hecho con la migracion `migrations/20261007000000_rls_tenant_isolation.js`:
+> roles `karuapp_app` (NOBYPASSRLS, la app) y `karuapp_migrate` (BYPASSRLS) creados
+> como NOLOGIN (password por `ALTER ROLE ... LOGIN PASSWORD`, fuera del repo);
+> `ENABLE` + `FORCE ROW LEVEL SECURITY` en las 18 tablas; politicas
+> `tenant_isolation` con `USING` **y** `WITH CHECK` (`app_is_superadmin()` o
+> `restaurante_id = app_restaurante_id()`); `restaurantes` con politica propia
+> (sin listado publico); `verification_codes` con `superadmin_only`.
+> `DATABASE_URL` apunta a `karuapp_app` (pooler) y `DIRECT_DATABASE_URL` queda
+> para `node-pg-migrate` (postgres, dueno, BYPASSRLS).
+>
+> Los endpoints publicos ya resolvian el tenant por su cuenta con `runBypassRls`
+> (no hizo falta `SECURITY DEFINER`). Ajustes de codigo para RLS: `caja.service`
+> (`calcularEfectivoEsperado`) ahora pasa por `run()` con contexto;
+> `utils.verificar-licencia` y el `ultimo_acceso` de `loginPin` pasan a `runBypassRls`.
+>
+> **Criterio de salida cumplido:** E2E completo verde con `karuapp_app`; sin
+> contexto de tenant las queries devuelven 0 filas; aislamiento cross-tenant
+> verificado (SELECT/UPDATE no ven al otro tenant y `WITH CHECK` rechaza INSERT
+> cruzado); login por PIN y SaaS siguen funcionando con RLS activa.
+>
+> **Pendiente operativo:** en Vercel cargar `DATABASE_URL` con `karuapp_app` y
+> definir la password de los roles en el proyecto de produccion.
+
+## Fase 5 (notas originales)
 
 1. Migración SQL con `ENABLE` + `FORCE ROW LEVEL SECURITY` en las 15 tablas de negocio.
 2. Políticas con `USING` **y** `WITH CHECK` (las de Django solo tenían `USING`, así que las escrituras no se restringían).
@@ -238,7 +283,13 @@ Es la mayor incertidumbre técnica y puede cambiar el diseño de auth, así que 
 1. En el proyecto nuevo: Dashboard, Authentication, JWT Keys. Si el proyecto usa clave de firma asimétrica en vez del secret legado, el `JWT_SECRET` propio no sirve: hay que importar una clave propia.
 2. Probar el caso negativo: un token con `restaurante_id = 1` **no** debe poder suscribirse al canal `restaurante:2`.
 
-## Fase 8: Realtime con Supabase
+## Fase 8: Realtime (COMPLETADA)
+
+> Hecho: `RealtimeService` con `realtime.send()` desde la base (mismos 5 helpers), `POST /api/auth/realtime-token`,
+> `useSocketStore.js` reescrito con `@supabase/supabase-js` (mismo contrato de `useRealTime()`), `socket.gateway.ts`
+> borrado y dependencias `socket.io` / `@nestjs/platform-socket.io` / `@nestjs/websockets` retiradas.
+> Politicas de `realtime.messages` en `supabase/realtime_policies.sql` (aplicar a mano + activar canales privados).
+> Falta operativo: configurar `SUPABASE_JWT_SECRET` y `VITE_SUPABASE_*` en Vercel, y aplicar el SQL de politicas.
 
 > **Bloqueante del deploy.** El backend va a Vercel serverless, que no sostiene conexiones WebSocket persistentes. Si se deploya sin esta fase, `socket.gateway.ts` no puede funcionar y las reservas de mesa, los cambios de estado de pedidos y las notificaciones de cocina dejan de llegar al frontend. No hay alternativa técnica: o Supabase Realtime, o un host always-awake (que no se va a usar).
 
@@ -248,7 +299,13 @@ Es la mayor incertidumbre técnica y puede cambiar el diseño de auth, así que 
 4. Frontend: agregar `@supabase/supabase-js` y reescribir `useSocketStore.js` preservando el contrato de `useRealTime()` (`Cocina.jsx:42` y `NuevaVenta.jsx:59` no se tocan). En `SUBSCRIBED`, llamar `refetchEstado()` por REST: Broadcast no repite mensajes perdidos.
 5. Borrar `socket.gateway.ts` y las dependencias `socket.io`, `@nestjs/platform-socket.io`, `@nestjs/websockets`.
 
-## Fase 9: Storage, contrato API roto y SIFEN
+## Fase 9: Storage, contrato API roto y SIFEN (COMPLETADA)
+
+> Hecho: `subir-imagen` con `@Roles`, limite 5 MB, filtro de tipo y path `tenant/<id>/productos/`;
+> `main.ts` ya no sirve `/uploads`. Verbos corregidos a `PUT` (`mesas/:id/editar`, `pedidos/:id/items/reemplazar`)
+> y agregados `PUT categorias/:id/editar` y `PUT facturacion/metodos-pago/:id/editar`. Borrados `/api/backup`
+> y `/api/qr-conexion` (con su UI) y `verificar-licencia` ahora calcula el estado real. SIFEN fuera: ruta
+> `/app/sifen`, `SifenConfig.jsx` y llamadas a `/api/sifen/status` eliminadas.
 
 > **Bloqueante del deploy.** Vercel monta el filesystem de solo lectura, así que `backend-nest/uploads/` no puede existir en cloud: `productos/subir-imagen` y `main.ts:30` no tienen dónde escribir. Hasta que el bucket esté por tenant, el deploy no sirve.
 
@@ -285,15 +342,21 @@ Es casi un subproyecto, no una fase menor.
 2. Hoy el navegador imprime directo a `http://localhost:5123` (`qzPrint.js:47`). Con la SPA en Vercel esto es mixed content / `localhost` inexistente. Construir un **agente saliente** (WSS hacia afuera) que consuma la tabla `Impresion` como cola real.
 3. `qzPrint.js:1` usa `window.location.origin` e ignora `VITE_API_URL`.
 
-## Fase 11: Deploy
+## Fase 11: Deploy (PARCIAL)
+
+> Hecho: `createApp()` extraido en `main.ts` (bootstrap condicional), `GET /api/health`, entrypoint
+> `backend-nest/api/index.js` + `vercel.json` (frontend y backend por separado), `vercel.json` de la SPA.
+> Falta operativo: cargar env vars en Vercel (`DATABASE_URL` pooler sesion, `JWT_SECRET`, `SUPABASE_*`,
+> `SUPABASE_JWT_SECRET`, `CORS_ORIGINS`, `VITE_*`), correr `npm run db:migrate` como paso previo, y validar
+> el cold start (~4 s) contra `maxDuration: 60`.
 
 Solo **Supabase + Vercel**. Sin Docker, sin Render, sin Fly, sin Railway, sin VPS. El backend NestJS se despliega como serverless functions en el mismo proyecto de Vercel que el frontend (o en uno aparte, con el dominio del API propio; esto decide si `VITE_API_URL` apunta a un host distinto).
 
 **Precondiciones, no opcionales:** las Fases 8 y 9 tienen que estar terminadas. Serverless no tiene WebSocket persistente ni disco escribible.
 
-1. **Backend como serverless functions.** `@vercel/node` con un entrypoint que levante Nest y exporte el handler. Ajustar `maxDuration` (por defecto 10 s y el bootstrap de Nest con Prisma mide ~4 s, así que va justo) y `export const config = { maxDuration: 60 }`.
-2. **Prisma en serverless.** Instanciar el cliente una sola vez por instancia reutilizada y poner `outputFileTracingIncludes` para los motores de Prisma, o el bundle no los encuentra. Sin conexión directa a Supabase: usar el **Session pooler** (Supavisor modo sesión). El modo transacción rompe `set_config(..., true)` de la Fase 5. **El pooler del proyecto `ibwdxpjpeyhpljucihkd` no responde en ninguna región** (`P1001` en `sa-east-1`, `us-east-1`, `us-west-1`, `eu-west-1`); hay que sacar el string correcto del dashboard antes de deployar.
-3. **`prisma migrate deploy` fuera del arranque.** Como paso de CI o comando manual previo al deploy, con el rol `karuapp_migrate`. Arrancarlo en cada cold start duplica migraciones y racea con el tráfico.
+1. **Backend como serverless functions.** `@vercel/node` con un entrypoint que levante Nest y exporte el handler. Ajustar `maxDuration` (por defecto 10 s y el bootstrap de Nest mide ~4 s, así que va justo) y `export const config = { maxDuration: 60 }`.
+2. **Pool en serverless.** Instanciar el `pg.Pool` una sola vez por instancia reutilizada (module-level singleton + `enablePingTesting`). Sin conexión directa a Supabase: usar el **Session pooler** (Supavisor modo sesión). El modo transacción rompe `set_config(..., TRUE)` de la Fase 5. Con Kysely + `pg` el pooler del proyecto `ibwdxpjpeyhpljucihkd` ya conecta sin `P1001`.
+3. **`npm run db:migrate` fuera del arranque.** Como paso de CI o comando manual previo al deploy, con el rol `karuapp_migrate`. Arrancarlo en cada cold start duplica migraciones y racea con el tráfico.
 4. **Migrar `RateLimitService` a Redis.** En serverless cada invocación es una instancia nueva, así que el backend en memoria cuenta cero. Sale de la definición del límite en 15 min por IP + tenant de la Fase A.
 5. **Frontend en Vercel**, root `frontend-react`, `VITE_API_URL` obligatorio. Ojo con el rewrite actual de `vercel.json`: `/(.*) → /index.html` es un catch-all que se come `/api/*`; si el API termina en el mismo dominio hay que agregar un rewrite más específico **antes** del catch-all.
 6. **Cabeceras de seguridad en `vercel.json`:** CSP (debe permitir el WSS de Supabase, `fonts.googleapis.com` **y** `fonts.gstatic.com`, que `index.html` carga ambas), HSTS, `nosniff`, `X-Frame-Options`.
@@ -334,3 +397,54 @@ Las cifras son estimaciones, no compromisos. La más incierta es la Fase 10 y, e
 - **Impresión:** agente saliente + cola es el ítem más subestimado.
 - **SIFEN:** decisión válida hoy, pero con fecha de revisión.
 - **Auditoría de services:** los 16 services deben cubrirse con tests, no con búsquedas de texto.
+
+## 6. Pendientes de esta etapa (Fases 5, 8, 9 y 11-código)
+
+Lo que ya quedó hecho y verificado: RLS real (Fase 5), Realtime con Supabase (Fase 8),
+Storage + contrato API + limpieza SIFEN (Fase 9) y la parte de código del deploy
+(Fase 11: `createApp`, `/api/health`, entrypoints y `vercel.json`). El E2E completo
+pasa con el rol `karuapp_app` y RLS activa, y el aislamiento cross-tenant está probado.
+
+Queda pendiente, en orden de prioridad:
+
+1. **Env de producción en Vercel (bloqueante para desplegar).**
+   - Backend: `DATABASE_URL` con el rol `karuapp_app` (Session pooler, 5432),
+     `DIRECT_DATABASE_URL` para migraciones, `JWT_SECRET`, `SUPABASE_URL`,
+     `SUPABASE_SERVICE_KEY`, `SUPABASE_ANON_KEY`, `SUPABASE_JWT_SECRET`,
+     `CORS_ORIGINS`, `FRONTEND_URL`, `SMTP_*`, `PRINT_*`.
+   - Frontend: `VITE_API_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`.
+   - Definir la password de los roles en el proyecto de producción
+     (`ALTER ROLE karuapp_app LOGIN PASSWORD '...'`); la migración los crea NOLOGIN.
+   - Correr `npm run db:migrate` como paso de release antes de levantar la app.
+
+2. **Realtime, toggles manuales en Supabase.**
+   - Activar "Private channels only".
+   - Aplicar `supabase/realtime_policies.sql`.
+   - Cargar `SUPABASE_JWT_SECRET` en el backend (hoy falta en `.env`).
+
+3. **Validar el deploy real en Vercel.**
+   - Cold start de Nest (medir contra `maxDuration: 60`).
+   - Rate limit in-memory: solo sirve con una instancia (Fase 11.4).
+   - Probar login por PIN/SaaS y Realtime end-to-end en producción.
+
+4. **Roles de base de datos.**
+   - `karuapp_migrate` está creado como NOLOGIN/BYPASSRLS pero las migraciones
+     siguen corriendo como `postgres` (dueño de las tablas: sólo él puede hacer DDL).
+     Si se quiere migrar con `karuapp_migrate`, hay que transferir la propiedad de
+     las tablas o agregar el rol, y definir su password.
+
+5. **Restos de la Fase 4 (no bloqueantes).**
+   - Quitar `extraerSlug()` de `rls-context.interceptor.ts` (bajo RLS ya no resuelve
+     nada y los endpoints públicos usan `runBypassRls`).
+   - Quitar el `?restaurante=` del frontend (`utils/api.js`) si sigue presente.
+
+6. **Lint del frontend.**
+   - `npm run lint` está roto: falta la config de ESLint (`eslint.config.js`).
+     Al agregarla pueden aparecer avisos pre-existentes.
+
+7. **Deuda operativa previa (sigue abierta).**
+   - Rotar la contraseña de DB y la `service_role` key expuestas.
+   - Borrar el proyecto Supabase viejo `sbgmmrsmqdcxzecdmrww`.
+
+8. **Fases todavía no encaradas:** Fase 10 (impresión con agente saliente) y
+   Fase 12 (tests por service / auditoría con tests).

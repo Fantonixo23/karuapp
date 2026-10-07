@@ -38,9 +38,9 @@ export default function AdminDashboard() {
     r.usuarios?.[0]?.email?.toLowerCase().includes(busqueda.toLowerCase())
   )
 
-  const pendientes = filtrados.filter(r => r.estadoLicencia === 'pendiente')
-  const activos = filtrados.filter(r => r.estadoLicencia === 'activo')
-  const suspendidos = filtrados.filter(r => r.estadoLicencia === 'suspendido')
+  const pendientes = filtrados.filter(r => r.estado_licencia === 'pendiente')
+  const activos = filtrados.filter(r => r.estado_licencia === 'activo')
+  const suspendidos = filtrados.filter(r => r.estado_licencia === 'suspendido')
 
   const logout = () => {
     localStorage.removeItem('token')
@@ -156,9 +156,9 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
 
 function Resumen({ restaurantes }) {
   const counts = {
-    pendiente: restaurantes.filter(r => r.estadoLicencia === 'pendiente').length,
-    activo: restaurantes.filter(r => r.estadoLicencia === 'activo').length,
-    suspendido: restaurantes.filter(r => r.estadoLicencia === 'suspendido').length,
+    pendiente: restaurantes.filter(r => r.estado_licencia === 'pendiente').length,
+    activo: restaurantes.filter(r => r.estado_licencia === 'activo').length,
+    suspendido: restaurantes.filter(r => r.estado_licencia === 'suspendido').length,
   }
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '24px' }}>
@@ -191,11 +191,11 @@ function Seccion({ titulo, count, color, icon, children }) {
 }
 
 function CardRestaurante({ r }) {
-  const es = ESTADO_STYLES[r.estadoLicencia] || { bg: 'rgba(255,255,255,0.05)', color: '#999', label: r.estadoLicencia }
+  const es = ESTADO_STYLES[r.estado_licencia] || { bg: 'rgba(255,255,255,0.05)', color: '#999', label: r.estado_licencia }
   const ps = PLAN_STYLES[r.plan] || PLAN_STYLES.sin_plan
   const admin = r.usuarios?.[0]
-  const diasRestantes = r.fechaExpiracion
-    ? Math.ceil((new Date(r.fechaExpiracion) - new Date()) / (1000 * 60 * 60 * 24))
+  const diasRestantes = r.fecha_expiracion
+    ? Math.ceil((new Date(r.fecha_expiracion) - new Date()) / (1000 * 60 * 60 * 24))
     : null
 
   return (
@@ -232,9 +232,9 @@ function CardRestaurante({ r }) {
             {diasRestantes > 0 ? `${diasRestantes} días` : 'Vencido'}
           </div>
         )}
-        {r.fechaExpiracion && (
+        {r.fecha_expiracion && (
           <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.25)', marginTop: '2px' }}>
-            {new Date(r.fechaExpiracion).toLocaleDateString('es-PY')}
+            {new Date(r.fecha_expiracion).toLocaleDateString('es-PY')}
           </div>
         )}
       </div>

@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { DatabaseService } from '../database/database.service';
+
+const ESTADOS_VENTA = ['pagado', 'entregado'];
+
+const escapeLike = (v: string) => `%${v.replace(/[\\%_]/g, (m) => `\\${m}`)}%`;
 
 @Injectable()
 export class InformesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private db: DatabaseService) {}
 
   async ventasHoy(restauranteId: number) {
     const hoy = new Date();
@@ -11,13 +15,16 @@ export class InformesService {
     const manana = new Date(hoy);
     manana.setDate(manana.getDate() + 1);
 
-    const pedidos = await this.prisma.withTenant().pedido.findMany({
-      where: {
-        restauranteId,
-        estado: { in: ['pagado', 'entregado'] as any },
-        createdAt: { gte: hoy, lt: manana },
-      },
-    });
+    const pedidos = await this.db.run(async (db) =>
+      db
+        .selectFrom('pedidos')
+        .selectAll()
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', 'in', ESTADOS_VENTA)
+        .where('created_at', '>=', hoy)
+        .where('created_at', '<', manana)
+        .execute(),
+    );
 
     return this.procesarVentas(pedidos);
   }
@@ -28,38 +35,56 @@ export class InformesService {
     const manana = new Date(hoy);
     manana.setDate(manana.getDate() + 1);
 
-    const pedidosHoy = await this.prisma.withTenant().pedido.findMany({
-      where: {
-        restauranteId,
-        estado: { in: ['pagado', 'entregado'] as any },
-        createdAt: { gte: hoy, lt: manana },
+    const [pedidosHoy, pendientes, mesasOcupadas, totalMesas, totalProductos, ventas] = await this.db.run(
+      async (db) => {
+        const pedidosHoy = await db
+          .selectFrom('pedidos')
+          .selectAll()
+          .where('restaurante_id', '=', restauranteId)
+          .where('estado', 'in', ESTADOS_VENTA)
+          .where('created_at', '>=', hoy)
+          .where('created_at', '<', manana)
+          .execute();
+
+        const pendientes = await db
+          .selectFrom('pedidos')
+          .select((eb) => eb.fn.countAll().as('c'))
+          .where('restaurante_id', '=', restauranteId)
+          .where('estado', 'in', ['pendiente', 'cocinando', 'listo', 'en_camino', 'entregado'])
+          .executeTakeFirst();
+
+        const mesasOcupadas = await db
+          .selectFrom('mesas')
+          .select((eb) => eb.fn.countAll().as('c'))
+          .where('restaurante_id', '=', restauranteId)
+          .where('estado', '=', 'ocupada')
+          .executeTakeFirst();
+
+        const totalMesas = await db
+          .selectFrom('mesas')
+          .select((eb) => eb.fn.countAll().as('c'))
+          .where('restaurante_id', '=', restauranteId)
+          .executeTakeFirst();
+
+        const totalProductos = await db
+          .selectFrom('productos')
+          .select((eb) => eb.fn.countAll().as('c'))
+          .where('restaurante_id', '=', restauranteId)
+          .where('disponible', '=', true)
+          .executeTakeFirst();
+
+        const ventas = this.procesarVentas(pedidosHoy);
+
+        return [pedidosHoy, pendientes, mesasOcupadas, totalMesas, totalProductos, ventas];
       },
-    });
-
-    const pendientes = await this.prisma.withTenant().pedido.count({
-      where: { restauranteId, estado: { in: ['pendiente', 'cocinando', 'listo', 'en_camino', 'entregado'] as any } },
-    });
-
-    const mesasOcupadas = await this.prisma.withTenant().mesa.count({
-      where: { restauranteId, estado: 'ocupada' },
-    });
-
-    const totalMesas = await this.prisma.withTenant().mesa.count({
-      where: { restauranteId },
-    });
-
-    const totalProductos = await this.prisma.withTenant().producto.count({
-      where: { restauranteId, disponible: true },
-    });
-
-    const ventas = this.procesarVentas(pedidosHoy);
+    );
 
     return {
       ventas_hoy: ventas,
-      pendientes,
-      mesas_ocupadas: mesasOcupadas,
-      total_mesas: totalMesas,
-      productos_disponibles: totalProductos,
+      pendientes: Number(pendientes?.c ?? 0),
+      mesas_ocupadas: Number(mesasOcupadas?.c ?? 0),
+      total_mesas: Number(totalMesas?.c ?? 0),
+      productos_disponibles: Number(totalProductos?.c ?? 0),
     };
   }
 
@@ -68,17 +93,20 @@ export class InformesService {
     const desdeDate = desde ? new Date(desde) : new Date(hoy.getFullYear(), hoy.getMonth(), 1);
     const hastaDate = hasta ? new Date(hasta + 'T23:59:59') : new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0, 23, 59, 59);
 
-    const pedidos = await this.prisma.withTenant().pedido.findMany({
-      where: {
-        restauranteId,
-        estado: { in: ['pagado', 'entregado'] as any },
-        createdAt: { gte: desdeDate, lte: hastaDate },
-      },
-    });
+    const pedidos = await this.db.run(async (db) =>
+      db
+        .selectFrom('pedidos')
+        .selectAll()
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', 'in', ESTADOS_VENTA)
+        .where('created_at', '>=', desdeDate)
+        .where('created_at', '<=', hastaDate)
+        .execute(),
+    );
 
     const ventasPorDia: Record<string, number> = {};
     for (const p of pedidos) {
-      const key = p.createdAt.toISOString().split('T')[0];
+      const key = p.created_at.toISOString().split('T')[0];
       ventasPorDia[key] = (ventasPorDia[key] || 0) + p.total;
     }
 
@@ -93,17 +121,20 @@ export class InformesService {
     const manana = new Date(hoy);
     manana.setDate(manana.getDate() + 1);
 
-    const pedidos = await this.prisma.withTenant().pedido.findMany({
-      where: {
-        restauranteId,
-        estado: { in: ['pagado', 'entregado'] as any },
-        createdAt: { gte: hoy, lt: manana },
-      },
-    });
+    const pedidos = await this.db.run(async (db) =>
+      db
+        .selectFrom('pedidos')
+        .selectAll()
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', 'in', ESTADOS_VENTA)
+        .where('created_at', '>=', hoy)
+        .where('created_at', '<', manana)
+        .execute(),
+    );
 
     const counts: Record<string, { cantidad: number; total: number }> = {};
     for (const p of pedidos) {
-      const items = p.items as any[] || [];
+      const items = (p.items as any[]) || [];
       for (const item of items) {
         const nombre = item.producto_nombre || 'Desconocido';
         if (!counts[nombre]) counts[nombre] = { cantidad: 0, total: 0 };
@@ -128,18 +159,21 @@ export class InformesService {
     const desdeDate = desde ? new Date(desde) : new Date(hoy.getFullYear(), hoy.getMonth(), 1);
     const hastaDate = hasta ? new Date(hasta + 'T23:59:59') : new Date();
 
-    const pedidos = await this.prisma.withTenant().pedido.findMany({
-      where: {
-        restauranteId,
-        estado: { in: ['pagado', 'entregado'] as any },
-        createdAt: { gte: desdeDate, lte: hastaDate },
-      },
-    });
+    const pedidos = await this.db.run(async (db) =>
+      db
+        .selectFrom('pedidos')
+        .selectAll()
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', 'in', ESTADOS_VENTA)
+        .where('created_at', '>=', desdeDate)
+        .where('created_at', '<=', hastaDate)
+        .execute(),
+    );
 
     const resumen: Record<string, number> = {};
     let totalGeneral = 0;
     for (const p of pedidos) {
-      const mp = p.metodoPago || 'efectivo';
+      const mp = p.metodo_pago || 'efectivo';
       resumen[mp] = (resumen[mp] || 0) + p.total;
       totalGeneral += p.total;
     }
@@ -154,42 +188,46 @@ export class InformesService {
   }
 
   async pedidosLista(restauranteId: number, filtros: any = {}) {
-    const where: any = { restauranteId, estado: { in: ['pagado', 'entregado'] as any } };
+    const limit = +((filtros as any).limit || 20);
+    const offset = +((filtros as any).offset || 0);
 
-    if (filtros.fecha_desde || filtros.fecha_hasta) {
-      where.createdAt = {};
-      if (filtros.fecha_desde) where.createdAt.gte = new Date(filtros.fecha_desde);
-      if (filtros.fecha_hasta) where.createdAt.lte = new Date(filtros.fecha_hasta + 'T23:59:59');
-    }
+    const pedidos = await this.db.run(async (db) => {
+      let qb = db
+        .selectFrom('pedidos')
+        .leftJoin('mesas', 'pedidos.mesa_id', 'mesas.id')
+        .leftJoin('usuarios as mesero', 'pedidos.mesero_id', 'mesero.id')
+        .select([
+          'pedidos.id',
+          'pedidos.numero_orden',
+          'pedidos.estado',
+          'pedidos.items',
+          'pedidos.total',
+          'pedidos.metodo_pago',
+          'pedidos.created_at',
+          'mesas.numero as mesa_numero',
+          'mesero.nombre as mesero_nombre',
+        ])
+        .where('pedidos.restaurante_id', '=', restauranteId)
+        .where('pedidos.estado', 'in', ESTADOS_VENTA);
 
-    if (filtros.cliente_nombre) {
-      where.clienteNombre = { contains: filtros.cliente_nombre, mode: 'insensitive' };
-    }
-    if (filtros.numero_orden) {
-      where.numeroOrden = { contains: filtros.numero_orden };
-    }
+      if (filtros.fecha_desde) qb = qb.where('pedidos.created_at', '>=', new Date(filtros.fecha_desde));
+      if (filtros.fecha_hasta) qb = qb.where('pedidos.created_at', '<=', new Date(`${filtros.fecha_hasta}T23:59:59`));
+      if (filtros.cliente_nombre) qb = qb.where('pedidos.cliente_nombre', 'ilike', escapeLike(filtros.cliente_nombre));
+      if (filtros.numero_orden) qb = qb.where('pedidos.numero_orden', 'ilike', escapeLike(filtros.numero_orden));
 
-    const limit = filtros.limit || 20;
-    const offset = filtros.offset || 0;
-
-    const pedidos = await this.prisma.withTenant().pedido.findMany({
-      where,
-      include: { mesa: { select: { numero: true } }, mesero: { select: { nombre: true } } },
-      orderBy: { createdAt: 'desc' },
-      take: +limit,
-      skip: +offset,
+      return qb.orderBy('pedidos.created_at', 'desc').limit(limit).offset(offset).execute();
     });
 
-    return pedidos.map(p => ({
+    return pedidos.map((p) => ({
       id: p.id,
-      numero_orden: p.numeroOrden,
-      mesa_numero: p.mesa?.numero || null,
-      mesero_nombre: p.mesero?.nombre || null,
+      numero_orden: p.numero_orden,
+      mesa_numero: (p as any).mesa_numero ?? null,
+      mesero_nombre: (p as any).mesero_nombre ?? null,
       estado: p.estado,
       items: p.items,
       total: String(p.total),
-      metodo_pago: p.metodoPago,
-      created_at: p.createdAt,
+      metodo_pago: p.metodo_pago,
+      created_at: p.created_at,
     }));
   }
 
@@ -199,7 +237,7 @@ export class InformesService {
     let totalPropinas = 0;
 
     for (const p of pedidos) {
-      const mp = p.metodoPago || 'efectivo';
+      const mp = p.metodo_pago || 'efectivo';
       resumen[mp] = (resumen[mp] || 0) + p.total;
       total += p.total;
       totalPropinas += p.propina || 0;

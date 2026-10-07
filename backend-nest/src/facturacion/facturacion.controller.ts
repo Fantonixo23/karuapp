@@ -46,6 +46,18 @@ export class FacturacionController {
     return this.service.eliminarMetodoPago(rid, +id);
   }
 
+  @Put('metodos-pago/:id/editar')
+  @Roles('administrador')
+  async editarMetodoPago(
+    @CurrentUser('restauranteId') rid: number,
+    @Param('id') id: string,
+    @Body() body: any,
+  ) {
+    const metodo = await this.service.actualizarMetodoPago(rid, +id, body);
+    if (!metodo) return { success: false, error: 'Método de pago no encontrado' };
+    return { success: true, metodo_pago: metodo };
+  }
+
   @Get('timbrados')
   @Roles('administrador')
   async listarTimbrados(@CurrentUser('restauranteId') rid: number) {

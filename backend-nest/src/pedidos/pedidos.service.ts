@@ -1,6 +1,9 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { SocketGateway } from '../socket/socket.gateway';
+import { sql } from 'kysely';
+import { DatabaseService } from '../database/database.service';
+import { countInt } from '../database/agg';
+import { JsonValue } from '../database/database.types';
+import { RealtimeService } from '../realtime/realtime.service';
 
 const TRANSICIONES_VALIDAS: Record<string, string[]> = {
   pendiente: ['cocinando', 'cancelado'],
@@ -12,22 +15,73 @@ const TRANSICIONES_VALIDAS: Record<string, string[]> = {
   cancelado: [],
 };
 
+const ESTADOS_ACTIVOS = ['pendiente', 'cocinando', 'listo', 'en_camino', 'entregado'];
+
+interface ItemPedido {
+  producto_id: number;
+  producto_nombre: string;
+  categoria_nombre: string | null;
+  cantidad: number;
+  precio: number;
+  variante: string | null;
+  nota: string;
+}
+
+const PEDIDO_CON_RELACIONES = (qb: any) =>
+  qb
+    .leftJoin('mesas', 'mesas.id', 'pedidos.mesa_id')
+    .leftJoin('usuarios', 'usuarios.id', 'pedidos.mesero_id')
+    .select([
+      'pedidos.id',
+      'pedidos.restaurante_id',
+      'pedidos.mesa_id',
+      'pedidos.mesero_id',
+      'pedidos.estado',
+      'pedidos.delivery',
+      'pedidos.nombre_cliente',
+      'pedidos.telefono_cliente',
+      'pedidos.direccion',
+      'pedidos.tipo_pedido',
+      'pedidos.notas',
+      'pedidos.items',
+      'pedidos.total',
+      'pedidos.metodo_pago',
+      'pedidos.sincronizado',
+      'pedidos.numero_orden',
+      'pedidos.propina',
+      'pedidos.comprobante_nro',
+      'pedidos.marca_tarjeta',
+      'pedidos.marca_qr',
+      'pedidos.cuotas',
+      'pedidos.ultimos_4',
+      'pedidos.detalle_pagos',
+      'pedidos.cliente_tipo',
+      'pedidos.cliente_ruc',
+      'pedidos.cliente_nombre',
+      'pedidos.generar_comanda',
+      'pedidos.generar_factura',
+      'pedidos.tipo_iva',
+      'pedidos.motivo_cancelacion',
+      'pedidos.cancelado_en_estado',
+      'pedidos.created_at',
+      'pedidos.updated_at',
+      'mesas.numero as mesa_numero',
+      'usuarios.nombre as mesero_nombre',
+    ]);
+
 @Injectable()
 export class PedidosService {
   constructor(
-    private prisma: PrismaService,
-    private socket: SocketGateway,
+    private db: DatabaseService,
+    private realtime: RealtimeService,
   ) {}
 
   async listar(restauranteId: number, filtros?: { estado?: string; delivery?: string }) {
-    const where: any = { restauranteId };
-    if (filtros?.estado) where.estado = filtros.estado;
-    if (filtros?.delivery) where.delivery = true;
-
-    return this.prisma.withTenant().pedido.findMany({
-      where,
-      include: { mesa: { select: { id: true, numero: true } }, mesero: { select: { id: true, nombre: true } } },
-      orderBy: { createdAt: 'desc' },
+    return this.db.run(async (db) => {
+      let qb = PEDIDO_CON_RELACIONES(db.selectFrom('pedidos')).where('pedidos.restaurante_id', '=', restauranteId);
+      if (filtros?.estado) qb = qb.where('pedidos.estado', '=', filtros.estado);
+      if (filtros?.delivery) qb = qb.where('pedidos.delivery', '=', true);
+      return qb.orderBy('pedidos.created_at', 'desc').execute();
     });
   }
 
@@ -38,58 +92,75 @@ export class PedidosService {
     const itemsValidados = await this.validarItems(restauranteId, items);
     const total = itemsValidados.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
 
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    const manana = new Date(hoy);
-    manana.setDate(manana.getDate() + 1);
+    const pedido = await this.db.transaction(async (tx) => {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const manana = new Date(hoy);
+      manana.setDate(manana.getDate() + 1);
 
-    const pedidosHoy = await this.prisma.withTenant().pedido.findMany({
-      where: { restauranteId, createdAt: { gte: hoy, lt: manana } },
-      select: { numeroOrden: true },
-      orderBy: { numeroOrden: 'desc' },
-      take: 1,
-    });
+      const ultimo = await tx
+        .selectFrom('pedidos')
+        .select('numero_orden')
+        .where('restaurante_id', '=', restauranteId)
+        .where('created_at', '>=', hoy)
+        .where('created_at', '<', manana)
+        .orderBy('numero_orden', 'desc')
+        .limit(1)
+        .executeTakeFirst();
 
-    let numeroOrden = '001';
-    if (pedidosHoy.length > 0) {
-      const last = parseInt(pedidosHoy[0].numeroOrden || '0', 10);
-      numeroOrden = String(last + 1).padStart(3, '0');
-    }
+      let numeroOrden = '001';
+      if (ultimo) {
+        const last = parseInt(ultimo.numero_orden || '0', 10);
+        numeroOrden = String(last + 1).padStart(3, '0');
+      }
 
-    const pedido = await this.prisma.withTenant().pedido.create({
-      data: {
-        restauranteId,
-        mesaId: data.mesa_id || null,
-        meseroId: data.mesero_id || usuarioId || null,
-        items: itemsValidados as any,
-        total,
-        notas: data.notas || data.nota,
-        tipoPedido: data.tipo_pedido || 'mesa',
-        delivery: data.delivery || false,
-        nombreCliente: data.nombre_cliente || null,
-        telefonoCliente: data.telefono_cliente || null,
-        direccion: data.direccion || null,
-        numeroOrden,
-      },
-      include: { mesa: { select: { id: true, numero: true } } },
+      const creado = await tx
+        .insertInto('pedidos')
+        .values({
+          restaurante_id: restauranteId,
+          mesa_id: data.mesa_id || null,
+          mesero_id: data.mesero_id || usuarioId || null,
+          items: JSON.stringify(itemsValidados),
+          total,
+          notas: data.notas || data.nota || null,
+          tipo_pedido: data.tipo_pedido || 'mesa',
+          delivery: data.delivery || false,
+          nombre_cliente: data.nombre_cliente || null,
+          telefono_cliente: data.telefono_cliente || null,
+          direccion: data.direccion || null,
+          numero_orden: numeroOrden,
+        })
+        .returning(['id', 'numero_orden', 'estado', 'items', 'total', 'delivery', 'nombre_cliente', 'mesa_id'])
+        .executeTakeFirstOrThrow();
+
+      let mesaNumero: number | null = null;
+      if (data.mesa_id) {
+        await tx
+          .updateTable('mesas')
+          .set({ estado: 'ocupada', updated_at: new Date() })
+          .where('id', '=', data.mesa_id)
+          .where('restaurante_id', '=', restauranteId)
+          .execute();
+
+        mesaNumero = (
+          await tx.selectFrom('mesas').select('numero').where('id', '=', data.mesa_id).executeTakeFirst()
+        )?.numero ?? null;
+      }
+
+      return { ...creado, mesa_numero: mesaNumero };
     });
 
     if (data.mesa_id) {
-      await this.prisma.withTenant().mesa.update({
-        where: { id: data.mesa_id },
-        data: { estado: 'ocupada' },
-      });
-
-      await this.socket.emitMesaUpdate(restauranteId, { id: data.mesa_id, estado: 'ocupada' });
+      await this.realtime.emitMesaUpdate(restauranteId, { id: data.mesa_id, estado: 'ocupada' });
     }
 
-    await this.socket.emitNuevoPedidoCocina(restauranteId, {
+    await this.realtime.emitNuevoPedidoCocina(restauranteId, {
       id: pedido.id,
-      numero_orden: pedido.numeroOrden,
+      numero_orden: pedido.numero_orden,
       estado: pedido.estado,
-      mesa: pedido.mesa?.numero || null,
+      mesa: pedido.mesa_numero,
       delivery: pedido.delivery,
-      nombre_cliente: pedido.nombreCliente,
+      nombre_cliente: pedido.nombre_cliente,
       items: pedido.items,
       total: String(pedido.total),
     });
@@ -98,20 +169,33 @@ export class PedidosService {
   }
 
   async cambiarEstado(restauranteId: number, id: number, nuevoEstado: string) {
-    const pedido = await this.prisma.withTenant().pedido.findFirst({ where: { id, restauranteId } });
-    if (!pedido) throw new NotFoundException('Pedido no encontrado');
+    const updated = await this.db.transaction(async (tx) => {
+      const pedido = await tx
+        .selectFrom('pedidos')
+        .select(['id', 'estado'])
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!pedido) throw new NotFoundException('Pedido no encontrado');
 
-    const transiciones = TRANSICIONES_VALIDAS[pedido.estado] || [];
-    if (!transiciones.includes(nuevoEstado)) {
-      throw new BadRequestException(`Transición inválida: ${pedido.estado} → ${nuevoEstado}`);
-    }
+      const transiciones = TRANSICIONES_VALIDAS[pedido.estado] || [];
+      if (!transiciones.includes(nuevoEstado)) {
+        throw new BadRequestException(`Transición inválida: ${pedido.estado} → ${nuevoEstado}`);
+      }
 
-    const updated = await this.prisma.withTenant().pedido.update({
-      where: { id },
-      data: { estado: nuevoEstado as any },
+      return tx
+        .updateTable('pedidos')
+        .set({ estado: nuevoEstado, updated_at: new Date() })
+        .where('id', '=', id)
+        .returning(['id', 'numero_orden', 'estado'])
+        .executeTakeFirstOrThrow();
     });
 
-    await this.socket.emitPedidoUpdate(restauranteId, { id: updated.id, numero_orden: updated.numeroOrden, estado: updated.estado });
+    await this.realtime.emitPedidoUpdate(restauranteId, {
+      id: updated.id,
+      numero_orden: updated.numero_orden,
+      estado: updated.estado,
+    });
 
     return updated;
   }
@@ -119,24 +203,15 @@ export class PedidosService {
   async agregarItems(restauranteId: number, id: number, items: any[]) {
     if (!items.length) throw new BadRequestException('No hay items para agregar');
 
-    const pedido = await this.prisma.withTenant().pedido.findFirst({ where: { id, restauranteId } });
-    if (!pedido) throw new NotFoundException('Pedido no encontrado');
-    if (pedido.estado === 'pagado' || pedido.estado === 'cancelado') {
-      throw new BadRequestException('No se pueden agregar items a un pedido pagado o cancelado');
-    }
-
     const itemsValidados = await this.validarItems(restauranteId, items);
-    const itemsActuales = (pedido.items as any[]) || [];
-    itemsActuales.push(...itemsValidados);
+    const updated = await this.actualizarItemsYTotal(restauranteId, id, itemsValidados, 'agregar');
 
-    const total = itemsActuales.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
-
-    const updated = await this.prisma.withTenant().pedido.update({
-      where: { id },
-      data: { items: itemsActuales as any, total },
+    await this.realtime.emitPedidoModificado(restauranteId, {
+      id: updated.id,
+      numero_orden: updated.numero_orden,
+      items: updated.items,
+      total: String(updated.total),
     });
-
-    await this.socket.emitPedidoModificado(restauranteId, { id: updated.id, numero_orden: updated.numeroOrden, items: updated.items, total: String(updated.total) });
 
     return updated;
   }
@@ -144,144 +219,498 @@ export class PedidosService {
   async reemplazarItems(restauranteId: number, id: number, items: any[]) {
     if (!items.length) throw new BadRequestException('El pedido debe tener al menos un item');
 
-    const pedido = await this.prisma.withTenant().pedido.findFirst({ where: { id, restauranteId } });
-    if (!pedido) throw new NotFoundException('Pedido no encontrado');
-    if (pedido.estado === 'pagado' || pedido.estado === 'cancelado') {
-      throw new BadRequestException('No se puede modificar un pedido pagado o cancelado');
-    }
-
     const itemsValidados = await this.validarItems(restauranteId, items);
-    const total = itemsValidados.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
+    const updated = await this.actualizarItemsYTotal(restauranteId, id, itemsValidados, 'reemplazar');
 
-    const updated = await this.prisma.withTenant().pedido.update({
-      where: { id },
-      data: { items: itemsValidados as any, total },
+    await this.realtime.emitPedidoModificado(restauranteId, {
+      id: updated.id,
+      numero_orden: updated.numero_orden,
+      items: updated.items,
+      total: String(updated.total),
     });
-
-    await this.socket.emitPedidoModificado(restauranteId, { id: updated.id, numero_orden: updated.numeroOrden, items: updated.items, total: String(updated.total) });
 
     return updated;
   }
 
   async eliminarItem(restauranteId: number, id: number, idx: number) {
-    const pedido = await this.prisma.withTenant().pedido.findFirst({ where: { id, restauranteId } });
-    if (!pedido) throw new NotFoundException('Pedido no encontrado');
-    if (pedido.estado === 'pagado' || pedido.estado === 'cancelado') {
-      throw new BadRequestException('No se puede modificar un pedido pagado o cancelado');
-    }
+    const itemsActuales = await this.cargarItemsParaEditar(restauranteId, id, 'No se puede modificar un pedido pagado o cancelado');
 
-    const items = (pedido.items as any[]) || [];
-    if (idx < 0 || idx >= items.length) throw new NotFoundException('Item no encontrado');
+    if (idx < 0 || idx >= itemsActuales.length) throw new NotFoundException('Item no encontrado');
 
-    items.splice(idx, 1);
-    if (!items.length) throw new BadRequestException('No se puede eliminar el único item. Cancele el pedido.');
+    const restantes = itemsActuales.filter((_, i) => i !== idx);
+    if (!restantes.length) throw new BadRequestException('No se puede eliminar el único item. Cancele el pedido.');
 
-    const total = items.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
-    const updated = await this.prisma.withTenant().pedido.update({
-      where: { id },
-      data: { items: items as any, total },
+    const updated = await this.actualizarItemsYTotal(restauranteId, id, restantes, 'reemplazar');
+
+    await this.realtime.emitPedidoModificado(restauranteId, {
+      id: updated.id,
+      numero_orden: updated.numero_orden,
+      items: updated.items,
+      total: String(updated.total),
     });
-
-    await this.socket.emitPedidoModificado(restauranteId, { id: updated.id, numero_orden: updated.numeroOrden, items: updated.items, total: String(updated.total) });
 
     return updated;
   }
 
   async pagar(restauranteId: number, id: number, data: any, usuarioId: number) {
-    const pedido = await this.prisma.withTenant().pedido.findFirst({ where: { id, restauranteId } });
-    if (!pedido) throw new NotFoundException('Pedido no encontrado');
+    const resultado = await this.db.transaction(async (tx) => {
+      const pedido = await tx
+        .selectFrom('pedidos')
+        .select(['id', 'estado', 'total', 'mesa_id', 'numero_orden'])
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!pedido) throw new NotFoundException('Pedido no encontrado');
 
-    const transiciones = TRANSICIONES_VALIDAS[pedido.estado] || [];
-    if (!transiciones.includes('pagado')) {
-      throw new BadRequestException(`No se puede pagar un pedido en estado ${pedido.estado}`);
-    }
-
-    const session = await this.prisma.withTenant().cajaSession.findFirst({
-      where: { restauranteId, estado: 'abierta' },
-    });
-    if (!session) throw new BadRequestException('No hay una sesión de caja abierta');
-
-    const metodoPago = data.metodo_pago || 'efectivo';
-    const propina = data.propina || 0;
-    const totalConPropina = pedido.total + propina;
-
-    const updated = await this.prisma.withTenant().pedido.update({
-      where: { id },
-      data: {
-        estado: 'pagado',
-        metodoPago,
-        propina,
-        marcaTarjeta: data.marca_tarjeta || '',
-        ultimos4: data.ultimos_4 || '',
-        comprobanteNro: data.comprobante_nro || '',
-        marcaQr: data.marca_qr || '',
-        cuotas: data.cuotas || 1,
-        tipoIva: data.tipo_iva || 10,
-      },
-    });
-
-    await this.prisma.withTenant().movimientoCaja.create({
-      data: {
-        restauranteId,
-        sessionId: session.id,
-        tipo: 'venta',
-        metodoPago,
-        monto: totalConPropina,
-        moneda: 'PYG',
-        montoPyg: totalConPropina,
-        pedidoId: id,
-        propina,
-        usuarioId: usuarioId || null,
-      },
-    });
-
-    if (pedido.mesaId) {
-      const otrosActivos = await this.prisma.withTenant().pedido.count({
-        where: {
-          mesaId: pedido.mesaId,
-          estado: { in: ['pendiente', 'cocinando', 'listo', 'en_camino', 'entregado'] },
-          id: { not: id },
-        },
-      });
-      if (!otrosActivos) {
-        await this.prisma.withTenant().mesa.update({
-          where: { id: pedido.mesaId },
-          data: { estado: 'disponible' },
-        });
+      const transiciones = TRANSICIONES_VALIDAS[pedido.estado] || [];
+      if (!transiciones.includes('pagado')) {
+        throw new BadRequestException(`No se puede pagar un pedido en estado ${pedido.estado}`);
       }
+
+      const session = await tx
+        .selectFrom('caja_sesiones')
+        .select('id')
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', '=', 'abierta')
+        .executeTakeFirst();
+      if (!session) throw new BadRequestException('No hay una sesión de caja abierta');
+
+      const metodoPago = data.metodo_pago || 'efectivo';
+      const propina = data.propina || 0;
+      const totalConPropina = pedido.total + propina;
+
+      const updated = await tx
+        .updateTable('pedidos')
+        .set({
+          estado: 'pagado',
+          metodo_pago: metodoPago,
+          propina,
+          marca_tarjeta: data.marca_tarjeta || '',
+          ultimos_4: data.ultimos_4 || '',
+          comprobante_nro: data.comprobante_nro || '',
+          marca_qr: data.marca_qr || '',
+          cuotas: data.cuotas || 1,
+          tipo_iva: data.tipo_iva || 10,
+          updated_at: new Date(),
+        })
+        .where('id', '=', id)
+        .returning(['id', 'numero_orden', 'estado', 'metodo_pago', 'propina', 'total'])
+        .executeTakeFirstOrThrow();
+
+      await tx
+        .insertInto('caja_movimientos')
+        .values({
+          restaurante_id: restauranteId,
+          session_id: session.id,
+          tipo: 'venta',
+          metodo_pago: metodoPago,
+          monto: totalConPropina,
+          moneda: 'PYG',
+          monto_pyg: totalConPropina,
+          pedido_id: id,
+          propina,
+          usuario_id: usuarioId || null,
+        })
+        .execute();
+
+      let liberadaMesa = false;
+      if (pedido.mesa_id) {
+        const otrosActivos = await tx
+          .selectFrom('pedidos')
+          .select(() => countInt())
+          .where('mesa_id', '=', pedido.mesa_id)
+          .where('estado', 'in', ESTADOS_ACTIVOS)
+          .where('id', '!=', id)
+          .executeTakeFirst();
+
+        if ((otrosActivos?.c ?? 0) === 0) {
+          await tx
+            .updateTable('mesas')
+            .set({ estado: 'disponible', updated_at: new Date() })
+            .where('id', '=', pedido.mesa_id)
+            .execute();
+          liberadaMesa = true;
+        }
+      }
+
+      return { updated, totalConPropina, metodoPago, mesaId: pedido.mesa_id, liberadaMesa };
+    });
+
+    await this.realtime.emitPedidoUpdate(restauranteId, {
+      id: resultado.updated.id,
+      numero_orden: resultado.updated.numero_orden,
+      estado: 'pagado',
+    });
+
+    if (resultado.liberadaMesa) {
+      await this.realtime.emitMesaUpdate(restauranteId, { id: resultado.mesaId, estado: 'disponible' });
     }
 
-    await this.socket.emitPedidoUpdate(restauranteId, { id: updated.id, numero_orden: updated.numeroOrden, estado: 'pagado' });
-    await this.socket.emitCobro(restauranteId, { pedido_id: id, total: totalConPropina, metodo_pago: metodoPago });
+    await this.realtime.emitCobro(restauranteId, {
+      pedido_id: id,
+      total: resultado.totalConPropina,
+      metodo_pago: resultado.metodoPago,
+    });
 
-    return updated;
+    return resultado.updated;
   }
 
   async pedidosPorMesa(restauranteId: number, mesaId: number) {
-    const pedidos = await this.prisma.withTenant().pedido.findMany({
-      where: {
-        restauranteId,
-        mesaId,
-        estado: { notIn: ['pagado', 'cancelado'] },
-      },
-      include: { mesero: { select: { id: true, nombre: true } } },
-      orderBy: { createdAt: 'asc' },
-    });
+    const pedidos = await this.db.run(async (db) =>
+      PEDIDO_CON_RELACIONES(db.selectFrom('pedidos'))
+        .where('pedidos.restaurante_id', '=', restauranteId)
+        .where('pedidos.mesa_id', '=', mesaId)
+        .where('pedidos.estado', 'not in', ['pagado', 'cancelado'])
+        .orderBy('pedidos.created_at', 'asc')
+        .execute(),
+    );
 
     const totalMesa = pedidos.reduce((sum, p) => sum + p.total, 0);
 
     return { pedidos, total_mesa: totalMesa, cantidad: pedidos.length };
   }
 
+  async cobrarMesa(restauranteId: number, mesaId: number, body: any, usuarioId: number) {
+    const resultado = await this.db.transaction(async (tx) => {
+      const session = await tx
+        .selectFrom('caja_sesiones')
+        .select('id')
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', '=', 'abierta')
+        .executeTakeFirst();
+      if (!session) return { error: 'No hay una sesión de caja abierta' as const, need_apertura: true };
+
+      const pedidos = await tx
+        .selectFrom('pedidos')
+        .select(['id', 'total'])
+        .where('restaurante_id', '=', restauranteId)
+        .where('mesa_id', '=', mesaId)
+        .where('estado', 'not in', ['pagado', 'cancelado'])
+        .orderBy('created_at', 'asc')
+        .execute();
+
+      if (!pedidos.length) return { error: 'No hay pedidos en esta mesa' as const };
+
+      const metodoPago = body.metodo_pago || 'efectivo';
+      const propinas = body.propina || 0;
+      const totalPedidos = pedidos.reduce((s, p) => s + p.total, 0);
+      const totalConPropina = totalPedidos + propinas;
+      const idsCobrados: number[] = [];
+
+      for (const pedido of pedidos) {
+        // La propina se prorratea entre los pedidos de la mesa y se registra
+        // en caja junto al venta (antes se guardaba 0 y se perdia en el arqueo).
+        const propinaPedido = totalPedidos > 0 ? Math.round((propinas * pedido.total) / totalPedidos) : 0;
+        const monto = pedido.total + propinaPedido;
+
+        await tx
+          .updateTable('pedidos')
+          .set({
+            estado: 'pagado',
+            metodo_pago: metodoPago,
+            propina: propinaPedido,
+            cliente_tipo: body.cliente_tipo || 'consumidor',
+            cliente_ruc: body.cliente_ruc || '44444444-7',
+            cliente_nombre: body.cliente_nombre || 'Consumidor Final',
+            tipo_iva: body.tipo_iva || 10,
+            updated_at: new Date(),
+          })
+          .where('id', '=', pedido.id)
+          .execute();
+
+        await tx
+          .insertInto('caja_movimientos')
+          .values({
+            restaurante_id: restauranteId,
+            session_id: session.id,
+            tipo: 'venta',
+            metodo_pago: metodoPago,
+            monto,
+            moneda: 'PYG',
+            monto_pyg: monto,
+            pedido_id: pedido.id,
+            propina: propinaPedido,
+            usuario_id: usuarioId,
+          })
+          .execute();
+
+        idsCobrados.push(pedido.id);
+      }
+
+      const restantes = await tx
+        .selectFrom('pedidos')
+        .select(() => countInt())
+        .where('mesa_id', '=', mesaId)
+        .where('estado', 'not in', ['pagado', 'cancelado'])
+        .executeTakeFirst();
+
+      const liberada = (restantes?.c ?? 0) === 0;
+      if (liberada) {
+        await tx.updateTable('mesas').set({ estado: 'disponible', updated_at: new Date() }).where('id', '=', mesaId).execute();
+      }
+
+      return {
+        cobrados: idsCobrados,
+        totalPedidos,
+        totalConPropina,
+        metodoPago,
+        liberado: liberada,
+        pedidos,
+      };
+    });
+
+    if ('error' in resultado) {
+      return { success: false as const, error: resultado.error, need_apertura: 'need_apertura' in resultado ? true : undefined };
+    }
+
+    await this.realtime.emitCobro(restauranteId, {
+      mesa_id: mesaId,
+      total: resultado.totalConPropina,
+      metodo_pago: resultado.metodoPago,
+    });
+
+    const vuelto = body.monto_recibido ? Math.max(0, body.monto_recibido - resultado.totalConPropina) : 0;
+
+    return {
+      success: true as const,
+      cobrados: resultado.cobrados,
+      total_cobrado: String(resultado.totalPedidos),
+      total_con_propina: String(resultado.totalConPropina),
+      vuelto,
+      pedidos: resultado.pedidos,
+    };
+  }
+
+  async dashboardDelivery(restauranteId: number) {
+    return this.db.run(async (db) => {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const manana = new Date(hoy);
+      manana.setDate(manana.getDate() + 1);
+
+      const base = db
+        .selectFrom('pedidos')
+        .where('restaurante_id', '=', restauranteId)
+        .where('delivery', '=', true)
+        .where('created_at', '>=', hoy)
+        .where('created_at', '<', manana);
+
+      const conteos = await base
+        .select([
+          'estado',
+          countInt(),
+          (eb) =>
+            sql<string>`coalesce(sum(case when pedidos.estado in ('pagado', 'entregado') then pedidos.total else 0 end), 0)`.as(
+              'total_hoy',
+            ),
+        ])
+        .groupBy('estado')
+        .execute();
+
+      const ultimos = await db
+        .selectFrom('pedidos')
+        .select(['id', 'numero_orden', 'estado', 'nombre_cliente', 'items', 'total', 'created_at'])
+        .where('restaurante_id', '=', restauranteId)
+        .where('delivery', '=', true)
+        .orderBy('created_at', 'desc')
+        .limit(15)
+        .execute();
+
+      const porEstado = (estado: string) => conteos.find((c) => c.estado === estado)?.c ?? 0;
+      const totalHoy = conteos.reduce((s, c) => s + Number(c.total_hoy ?? 0), 0);
+
+      return {
+        success: true,
+        data: {
+          pendientes: porEstado('pendiente'),
+          cocinando: porEstado('cocinando'),
+          listos: porEstado('listo'),
+          en_camino: porEstado('en_camino'),
+          entregados: porEstado('entregado'),
+          cancelados: porEstado('cancelado'),
+          total_hoy: String(totalHoy),
+          pedidos: ultimos.map((p) => ({
+            id: p.id,
+            numero_orden: p.numero_orden,
+            estado: p.estado,
+            nombre_cliente: p.nombre_cliente,
+            items: p.items,
+            total: String(p.total),
+            created_at: p.created_at,
+          })),
+        },
+      };
+    });
+  }
+
+  async historialCaja(restauranteId: number) {
+    return this.db.run(async (db) => {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const manana = new Date(hoy);
+      manana.setDate(manana.getDate() + 1);
+
+      const filas = await db
+        .selectFrom('pedidos')
+        .select(['metodo_pago', (eb) => eb.fn.sum('total').as('total'), (eb) => eb.fn.sum('propina').as('propinas')])
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', 'in', ['pagado', 'entregado'])
+        .where('created_at', '>=', hoy)
+        .where('created_at', '<', manana)
+        .groupBy('metodo_pago')
+        .execute();
+
+      const resumen: Record<string, string> = {};
+      let totalPropinas = 0;
+      let totalGeneral = 0;
+
+      for (const f of filas) {
+        const mp = f.metodo_pago || 'efectivo';
+        const monto = Number(f.total ?? 0);
+        resumen[mp] = String((resumen[mp] ? Number(resumen[mp]) : 0) + monto);
+        totalPropinas += Number(f.propinas ?? 0);
+        totalGeneral += monto;
+      }
+
+      resumen['propinas'] = String(totalPropinas);
+      resumen['total'] = String(totalGeneral);
+
+      return { success: true, resumen };
+    });
+  }
+
+  async pedidosPagados(
+    restauranteId: number,
+    filtros: {
+      fecha_desde?: string;
+      fecha_hasta?: string;
+      cliente_nombre?: string;
+      cliente_ruc?: string;
+      numero_orden?: string;
+      numero_factura?: string;
+      limit?: string;
+      offset?: string;
+    },
+  ) {
+    const escapeLike = (v: string) => `%${v.replace(/[\\%_]/g, (m) => `\\${m}`)}%`;
+
+    return this.db.run(async (db) => {
+      // Todas las columnas se califican con `pedidos.`: el listado trae JOINs a
+      // mesas y usuarios y cualquiera de ellas quedaria ambigua.
+      const aplicar = (qb: any) => {
+        let q = qb.where('pedidos.restaurante_id', '=', restauranteId).where('pedidos.estado', '=', 'pagado');
+        if (filtros.fecha_desde) q = q.where('pedidos.created_at', '>=', new Date(filtros.fecha_desde!));
+        if (filtros.fecha_hasta) q = q.where('pedidos.created_at', '<=', new Date(`${filtros.fecha_hasta}T23:59:59`));
+        if (filtros.cliente_nombre) q = q.where('pedidos.cliente_nombre', 'ilike', escapeLike(filtros.cliente_nombre));
+        if (filtros.cliente_ruc) q = q.where('pedidos.cliente_ruc', 'ilike', escapeLike(filtros.cliente_ruc));
+        if (filtros.numero_orden) q = q.where('pedidos.numero_orden', 'ilike', escapeLike(filtros.numero_orden));
+        if (filtros.numero_factura) q = q.where('pedidos.comprobante_nro', 'ilike', escapeLike(filtros.numero_factura));
+        return q;
+      };
+
+      const total = await aplicar(db.selectFrom('pedidos').select(() => countInt()))
+        .executeTakeFirst();
+
+      const pedidos = await aplicar(
+        PEDIDO_CON_RELACIONES(db.selectFrom('pedidos')).select([
+          'pedidos.id',
+          'pedidos.numero_orden',
+          'pedidos.estado',
+          'pedidos.items',
+          'pedidos.total',
+          'pedidos.metodo_pago',
+          'pedidos.propina',
+          'pedidos.cliente_nombre',
+          'pedidos.created_at',
+          'mesas.numero as mesa_numero',
+          'usuarios.nombre as mesero_nombre',
+        ]),
+      )
+        .orderBy('pedidos.created_at', 'desc')
+        .limit(+(filtros.limit || 20))
+        .offset(+(filtros.offset || 0))
+        .execute();
+
+      return {
+        success: true,
+        pedidos: pedidos.map((p) => ({
+          id: p.id,
+          numero_orden: p.numero_orden,
+          mesa_numero: p.mesa_numero,
+          mesero_nombre: p.mesero_nombre,
+          estado: p.estado,
+          items: p.items,
+          total: String(p.total),
+          metodo_pago: p.metodo_pago,
+          propina: String(p.propina),
+          cliente_nombre: p.cliente_nombre,
+          created_at: p.created_at,
+        })),
+        total: total?.c ?? 0,
+      };
+    });
+  }
+
+  private async cargarItemsParaEditar(restauranteId: number, id: number, mensajeEstado: string) {
+    const pedido = await this.db.run(async (db) =>
+      db
+        .selectFrom('pedidos')
+        .select(['estado', 'items'])
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst(),
+    );
+    if (!pedido) throw new NotFoundException('Pedido no encontrado');
+    if (pedido.estado === 'pagado' || pedido.estado === 'cancelado') throw new BadRequestException(mensajeEstado);
+
+    return ((pedido.items as unknown as ItemPedido[]) || []) as ItemPedido[];
+  }
+
+  private async actualizarItemsYTotal(
+    restauranteId: number,
+    id: number,
+    itemsValidados: ItemPedido[],
+    modo: 'agregar' | 'reemplazar',
+  ) {
+    return this.db.transaction(async (tx) => {
+      const pedido = await tx
+        .selectFrom('pedidos')
+        .select(['estado', 'items'])
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!pedido) throw new NotFoundException('Pedido no encontrado');
+      if (pedido.estado === 'pagado' || pedido.estado === 'cancelado') {
+        throw new BadRequestException('No se puede modificar un pedido pagado o cancelado');
+      }
+
+      const itemsActuales = ((pedido.items as unknown as ItemPedido[]) || []) as ItemPedido[];
+      const itemsFinales = modo === 'agregar' ? [...itemsActuales, ...itemsValidados] : itemsValidados;
+      const total = itemsFinales.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
+
+      return tx
+        .updateTable('pedidos')
+        .set({ items: JSON.stringify(itemsFinales), total, updated_at: new Date() })
+        .where('id', '=', id)
+        .returning(['id', 'numero_orden', 'estado', 'items', 'total'])
+        .executeTakeFirstOrThrow();
+    });
+  }
+
   private async validarItems(restauranteId: number, items: any[]) {
-    const itemsValidados: any[] = [];
+    const itemsValidados: ItemPedido[] = [];
     for (const item of items) {
       if (!item.producto_id) throw new BadRequestException('Cada item debe tener producto_id');
 
-      const producto = await this.prisma.withTenant().producto.findFirst({
-        where: { id: item.producto_id, restauranteId },
-        include: { categoria: { select: { nombre: true } } },
-      });
+      const producto = await this.db.run(async (db) =>
+        db
+          .selectFrom('productos')
+          .leftJoin('categorias', 'categorias.id', 'productos.categoria_id')
+          .select(['productos.id', 'productos.nombre', 'productos.precio', 'productos.disponible', 'categorias.nombre as categoria_nombre'])
+          .where('productos.id', '=', item.producto_id)
+          .where('productos.restaurante_id', '=', restauranteId)
+          .executeTakeFirst(),
+      );
       if (!producto) throw new NotFoundException(`Producto ${item.producto_id} no encontrado`);
       if (!producto.disponible) throw new BadRequestException(`El producto ${producto.nombre} no está disponible`);
 
@@ -291,7 +720,7 @@ export class PedidosService {
       itemsValidados.push({
         producto_id: producto.id,
         producto_nombre: producto.nombre,
-        categoria_nombre: producto.categoria?.nombre || null,
+        categoria_nombre: (producto.categoria_nombre as string | null) ?? null,
         cantidad,
         precio,
         variante: item.variante || null,

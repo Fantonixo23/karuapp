@@ -11,8 +11,6 @@ const getBaseUrl = () => {
 
 export const getApiUrl = () => `${getBaseUrl()}/api`
 
-export const getSocketUrl = () => getBaseUrl()
-
 export const getMediaUrl = () => getBaseUrl()
 
 export const getToken = () => {

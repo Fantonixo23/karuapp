@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
 import { MesasService } from './mesas.service';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { Roles } from '../common/decorators/roles.decorator';
-import { SocketGateway } from '../socket/socket.gateway';
+import { RealtimeService } from '../realtime/realtime.service';
 
 @Controller('api/mesas')
 export class MesasController {
   constructor(
     private service: MesasService,
-    private socket: SocketGateway,
+    private realtime: RealtimeService,
   ) {}
 
   @Get()
@@ -24,7 +24,7 @@ export class MesasController {
     return { success: true, mesa };
   }
 
-  @Post(':id/editar')
+  @Put(':id/editar')
   @Roles('administrador')
   async editar(@CurrentUser('restauranteId') rid: number, @Param('id') id: string, @Body() body: any) {
     const mesa = await this.service.editar(rid, +id, body);
@@ -44,7 +44,7 @@ export class MesasController {
     @Body() body: { estado: string; comensales?: number },
   ) {
     const mesa = await this.service.cambiarEstado(rid, +id, body.estado, body.comensales);
-    await this.socket.emitMesaUpdate(rid, { id: mesa.id, numero: mesa.numero, estado: mesa.estado });
+    await this.realtime.emitMesaUpdate(rid, { id: mesa.id, numero: mesa.numero, estado: mesa.estado });
     return { success: true, mesa };
   }
 }

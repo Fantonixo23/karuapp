@@ -9,6 +9,7 @@ import * as bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 import { Kysely, sql } from 'kysely';
 import { DatabaseService } from '../database/database.service';
+import { countInt } from '../database/agg';
 import { DB } from '../database/database.types';
 import { EmailService } from '../common/email.service';
 import { JwtPayload } from '../common/decorators/current-user.decorator';
@@ -181,7 +182,7 @@ export class AuthService {
     this.verificarLicencia(usuario);
 
     const token = this.generateToken(usuario);
-    await this.db.run(async (db) =>
+    await this.db.runBypassRls(async (db) =>
       db.updateTable('usuarios').set({ ultimo_acceso: new Date() }).where('id', '=', usuario!.id).execute(),
     );
 
@@ -452,7 +453,7 @@ export class AuthService {
     const totalAttempts = await this.db.runBypassRls(async (db) =>
       db
         .selectFrom('verification_codes')
-        .select((eb) => eb.fn.countAll<number>().as('c'))
+        .select(() => countInt())
         .where('email', '=', usuario.email)
         .where('purpose', '=', '2fa')
         .where('created_at', '>=', new Date(Date.now() - 30 * 60 * 1000))

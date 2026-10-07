@@ -1,70 +1,111 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { DatabaseService } from '../database/database.service';
+import { countInt } from '../database/agg';
+
+const ESTADOS_CON_PEDIDOS = ['pendiente', 'cocinando', 'listo', 'en_camino', 'entregado'];
 
 @Injectable()
 export class MesasService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private db: DatabaseService) {}
 
   async listar(restauranteId: number) {
-    return this.prisma.withTenant().mesa.findMany({
-      where: { restauranteId },
-      orderBy: { numero: 'asc' },
-    });
+    return this.db.run(async (db) =>
+      db.selectFrom('mesas').selectAll().where('restaurante_id', '=', restauranteId).orderBy('numero', 'asc').execute(),
+    );
   }
 
   async crear(restauranteId: number, data: { numero: number; nombre?: string; capacidad?: number; area?: string }) {
-    const existente = await this.prisma.withTenant().mesa.findFirst({
-      where: { restauranteId, numero: data.numero },
-    });
-    if (existente) throw new BadRequestException('Ya existe una mesa con ese número');
+    return this.db.transaction(async (tx) => {
+      const existente = await tx
+        .selectFrom('mesas')
+        .select('id')
+        .where('restaurante_id', '=', restauranteId)
+        .where('numero', '=', data.numero)
+        .executeTakeFirst();
+      if (existente) throw new BadRequestException('Ya existe una mesa con ese número');
 
-    return this.prisma.withTenant().mesa.create({
-      data: {
-        restauranteId,
-        numero: data.numero,
-        nombre: data.nombre,
-        capacidad: data.capacidad || 4,
-        area: (data.area as any) || 'principal',
-      },
+      return tx
+        .insertInto('mesas')
+        .values({
+          restaurante_id: restauranteId,
+          numero: data.numero,
+          nombre: data.nombre ?? null,
+          capacidad: data.capacidad || 4,
+          area: (data.area as string) || 'principal',
+        })
+        .returningAll()
+        .executeTakeFirstOrThrow();
     });
   }
 
   async editar(restauranteId: number, id: number, data: any) {
-    const mesa = await this.prisma.withTenant().mesa.findFirst({ where: { id, restauranteId } });
-    if (!mesa) throw new NotFoundException('Mesa no encontrada');
+    return this.db.transaction(async (tx) => {
+      const mesa = await tx
+        .selectFrom('mesas')
+        .select('id')
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!mesa) throw new NotFoundException('Mesa no encontrada');
 
-    return this.prisma.withTenant().mesa.update({
-      where: { id },
-      data: {
-        nombre: data.nombre,
-        capacidad: data.capacidad,
-        area: data.area,
-        estado: data.estado,
-        comensales: data.comensales,
-      },
+      return tx
+        .updateTable('mesas')
+        .set({
+          ...(data.nombre !== undefined && { nombre: data.nombre }),
+          ...(data.capacidad !== undefined && { capacidad: data.capacidad }),
+          ...(data.area !== undefined && { area: data.area }),
+          ...(data.estado !== undefined && { estado: data.estado }),
+          ...(data.comensales !== undefined && { comensales: data.comensales }),
+          updated_at: new Date(),
+        })
+        .where('id', '=', id)
+        .returningAll()
+        .executeTakeFirstOrThrow();
     });
   }
 
   async eliminar(restauranteId: number, id: number) {
-    const mesa = await this.prisma.withTenant().mesa.findFirst({ where: { id, restauranteId } });
-    if (!mesa) throw new NotFoundException('Mesa no encontrada');
+    return this.db.transaction(async (tx) => {
+      const mesa = await tx
+        .selectFrom('mesas')
+        .select('id')
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!mesa) throw new NotFoundException('Mesa no encontrada');
 
-    const pedidosActivos = await this.prisma.withTenant().pedido.count({
-      where: { mesaId: id, estado: { in: ['pendiente', 'cocinando', 'listo', 'en_camino', 'entregado'] as any } },
+      const pedidosActivos = await tx
+        .selectFrom('pedidos')
+        .select(() => countInt())
+        .where('mesa_id', '=', id)
+        .where('estado', 'in', ESTADOS_CON_PEDIDOS)
+        .executeTakeFirst();
+
+      if ((pedidosActivos?.c ?? 0) > 0) {
+        throw new BadRequestException('No se puede eliminar una mesa con pedidos activos');
+      }
+
+      await tx.deleteFrom('mesas').where('id', '=', id).execute();
+      return { success: true };
     });
-    if (pedidosActivos > 0) throw new BadRequestException('No se puede eliminar una mesa con pedidos activos');
-
-    await this.prisma.withTenant().mesa.delete({ where: { id } });
-    return { success: true };
   }
 
   async cambiarEstado(restauranteId: number, id: number, estado: string, comensales?: number) {
-    const mesa = await this.prisma.withTenant().mesa.findFirst({ where: { id, restauranteId } });
-    if (!mesa) throw new NotFoundException('Mesa no encontrada');
+    return this.db.transaction(async (tx) => {
+      const mesa = await tx
+        .selectFrom('mesas')
+        .select(['id', 'comensales'])
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!mesa) throw new NotFoundException('Mesa no encontrada');
 
-    return this.prisma.withTenant().mesa.update({
-      where: { id },
-      data: { estado: estado as any, comensales: comensales ?? mesa.comensales },
+      return tx
+        .updateTable('mesas')
+        .set({ estado, comensales: comensales ?? mesa.comensales, updated_at: new Date() })
+        .where('id', '=', id)
+        .returningAll()
+        .executeTakeFirstOrThrow();
     });
   }
 }

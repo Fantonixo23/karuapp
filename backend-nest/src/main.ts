@@ -2,12 +2,10 @@
 // ConfigModule.forRoot() corre despues (durante el bootstrap) y ya es tarde para
 // los modulos que leen process.env al importarse.
 import 'dotenv/config';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import * as express from 'express';
-import { join } from 'path';
 import helmet from 'helmet';
+import { AppModule } from './app.module';
 
 const DEV_ORIGINS = [
   'http://localhost:5173',
@@ -29,8 +27,8 @@ function resolveOrigins(): string[] {
   return [...new Set([...DEV_ORIGINS, ...configured])];
 }
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+export async function createApp(): Promise<INestApplication> {
+  const app = await NestFactory.create(AppModule, { logger: ['error', 'warn', 'log'] });
 
   app.getHttpAdapter().getInstance().set('trust proxy', 1);
 
@@ -61,12 +59,18 @@ async function bootstrap() {
     next();
   });
 
-  app.use('/uploads', express.static(join(__dirname, '..', 'uploads')));
-
   app.enableShutdownHooks();
 
+  return app;
+}
+
+async function bootstrap() {
+  const app = await createApp();
   const port = process.env.PORT || 3000;
   await app.listen(port);
   console.log(`Karuapp Backend running on http://localhost:${port}`);
 }
-bootstrap();
+
+if (require.main === module) bootstrap();
+
+export default bootstrap;

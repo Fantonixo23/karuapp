@@ -1,8 +1,22 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Kysely, PostgresDialect, Transaction, sql } from 'kysely';
-import { Pool } from 'pg';
+import { Pool, defaults, types } from 'pg';
 import { DB } from './database.types';
 import { tenantContext } from './tenant-context';
+
+/**
+ * Zona horaria: toda la base usa `timestamp without time zone` y `pg` por defecto
+ * serializa y parsea los Date con la hora LOCAL del proceso, mientras que
+ * `CURRENT_TIMESTAMP` guarda hora UTC. Resultado: `created_at` (lo escribe la base)
+ * y `updated_at` (lo escribe el codigo) quedaban separadas exactamente por el
+ * desfase local (3h). Se fija UTC en ambos sentidos para que el instante sea el
+ * mismo venga de donde venga.
+ *
+ * Nota: el pooler de Supabase ignora `-c TimeZone` en las opciones de conexion,
+ * por eso esto se resuelve en el driver y no en la sesion.
+ */
+defaults.parseInputDatesAsUTC = true;
+types.setTypeParser(1114, (v) => new Date(`${v}Z`)); // timestamp without time zone
 
 /**
  * `set_config` con is_local = TRUE: la variable vive lo que dura la transaccion y

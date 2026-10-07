@@ -1,8 +1,34 @@
 import { create } from 'zustand'
-import { io } from 'socket.io-client'
-import { getSocketUrl, getToken } from '../utils/api'
+import { createClient } from '@supabase/supabase-js'
+import { getApiUrl, getToken } from '../utils/api'
 
-let socket = null
+let supabase = null
+let channel = null
+
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+function getRestauranteId() {
+  try {
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    return user.restauranteId || user.restaurante_id || null
+  } catch {
+    return null
+  }
+}
+
+async function pedirRealtimeToken() {
+  const token = getToken()
+  const res = await fetch(`${getApiUrl()}/auth/realtime-token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  })
+  if (!res.ok) throw new Error(`realtime-token: HTTP ${res.status}`)
+  return res.json()
+}
 
 export const useSocketStore = create((set, get) => ({
   connected: false,
@@ -11,92 +37,72 @@ export const useSocketStore = create((set, get) => ({
   pedidoUpdates: [],
   cocinaNotifications: [],
 
-  initSocket: () => {
-    if (socket?.connected) return
+  initSocket: async () => {
+    if (channel) return
 
-    if (socket) {
-      socket.off('connect')
-      socket.off('disconnect')
-      socket.off('message')
-      socket.off('mesa_update')
-      socket.off('pedido_update')
-      socket.off('nuevo_pedido_cocina')
-      socket.off('pedido_modificado')
-      socket.off('connect_error')
-      socket.disconnect()
-      socket = null
+    let cfg
+    try {
+      cfg = await pedirRealtimeToken()
+    } catch (e) {
+      console.error('❌ No se pudo obtener el token de Realtime:', e.message)
+      return
     }
 
-    const SOCKET_URL = getSocketUrl()
-    const token = getToken()
-    const userStr = localStorage.getItem('user')
-    let restaurante = ''
-    try {
-      const user = JSON.parse(userStr || '{}')
-      restaurante = user.restauranteSlug || user.restaurante_slug || ''
-    } catch {}
+    const url = cfg.url || SUPABASE_URL
+    const anonKey = cfg.anonKey || SUPABASE_ANON_KEY
+    const restauranteId = cfg.restaurante_id || getRestauranteId()
 
-    console.log('🔌 Conectando socket a:', SOCKET_URL, 'restaurante:', restaurante)
+    if (!url || !anonKey || !restauranteId) {
+      console.error('❌ Realtime sin configurar (SUPABASE_URL/ANON_KEY/restaurante_id).')
+      return
+    }
 
-    socket = io(SOCKET_URL, {
-      transports: ['websocket', 'polling'],
-      reconnection: true,
-      reconnectionAttempts: 10,
-      reconnectionDelay: 1000,
-      auth: { restaurante, token },
-      query: { restaurante },
-      transportOptions: {
-        polling: {
-          extraHeaders: token ? { Authorization: `Bearer ${token}` } : undefined,
-        },
-      },
-    })
+    if (!supabase) {
+      supabase = createClient(url, anonKey, {
+        realtime: { params: { eventsPerSecond: 10 } },
+      })
+    }
 
-    socket.on('connect', () => {
-      console.log('🔌 WebSocket conectado')
-      set({ connected: true })
-    })
+    supabase.realtime.setAuth(cfg.token)
 
-    socket.on('disconnect', () => {
-      console.log('🔌 WebSocket desconectado')
-      set({ connected: false })
-    })
-
-    socket.on('message', (data) => {
-      console.log('📡 Mensaje received:', data)
-      get().handleMessage(data)
-    })
-
-    socket.on('mesa_update', (data) => {
-      console.log('📡 Mesa update:', data)
-      get().handleMessage({ type: 'mesa_update', mesa: data })
-    })
-
-    socket.on('pedido_update', (data) => {
-      console.log('📡 Pedido update:', data)
-      get().handleMessage({ type: 'pedido_update', pedido: data })
-    })
-
-    socket.on('nuevo_pedido_cocina', (data) => {
-      console.log('📡 Nuevo pedido cocina:', data)
-      get().handleMessage({ type: 'nuevo_pedido_cocina', pedido: data })
-    })
-
-    socket.on('pedido_modificado', (data) => {
-      console.log('📡 Pedido modificado:', data)
-      get().handleMessage({ type: 'pedido_modificado', pedido: data })
-    })
-
-    socket.on('connect_error', (error) => {
-      console.error('❌ Error WebSocket:', error.message)
-    })
+    channel = supabase
+      .channel(`restaurante:${restauranteId}`, { config: { private: true } })
+      .on('broadcast', { event: '*' }, ({ event, payload }) => {
+        get().handleBroadcast(event, payload)
+      })
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          console.log('🔌 Realtime conectado')
+          set({ connected: true })
+        } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
+          console.log('🔌 Realtime desconectado:', status)
+          set({ connected: false })
+        }
+      })
   },
 
   reconnect: () => {
     setTimeout(() => {
       console.log('🔄 Reconectando...')
+      get().disconnectSocket()
       get().initSocket()
     }, 3000)
+  },
+
+  handleBroadcast: (evento, payload) => {
+    const tipo = evento?.type || evento
+
+    if (tipo === 'mesa_update') {
+      get().handleMessage({ type: 'mesa_update', mesa: payload })
+    } else if (tipo === 'pedido_update') {
+      get().handleMessage({ type: 'pedido_update', pedido: payload })
+    } else if (tipo === 'nuevo_pedido_cocina') {
+      get().handleMessage({ type: 'nuevo_pedido_cocina', pedido: payload })
+    } else if (tipo === 'pedido_modificado') {
+      get().handleMessage({ type: 'pedido_modificado', pedido: payload })
+    } else if (tipo === 'cobro') {
+      get().handleMessage({ type: 'cobro', cobro: payload })
+    }
   },
 
   handleMessage: (data) => {
@@ -159,14 +165,14 @@ export const useSocketStore = create((set, get) => ({
   },
 
   disconnectSocket: () => {
-    if (socket) {
-      socket.disconnect()
-      socket = null
+    if (supabase && channel) {
+      supabase.removeChannel(channel)
     }
+    channel = null
     set({ connected: false })
   },
 
-  getSocket: () => socket,
+  getSocket: () => channel,
 
   clearNotifications: () => {
     set({ cocinaNotifications: [] })
@@ -174,7 +180,6 @@ export const useSocketStore = create((set, get) => ({
 }))
 
 export const useRealTime = () => {
-  const store = useSocketStore()
   const initSocket = useSocketStore(state => state.initSocket)
   const disconnectSocket = useSocketStore(state => state.disconnectSocket)
   const lastUpdate = useSocketStore(state => state.lastUpdate)

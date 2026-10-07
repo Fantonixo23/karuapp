@@ -70,9 +70,9 @@ export default function AdminRestauranteDetalle() {
       setData(d)
       setTotalPagado(t.total || 0)
       setEditPlan(d.plan || 'sin_plan')
-      setEditEstado(d.estadoLicencia)
-      setEditMotivo(d.motivoBloqueo || '')
-      setEditFecha(d.fechaExpiracion ? d.fechaExpiracion.split('T')[0] : '')
+      setEditEstado(d.estado_licencia)
+      setEditMotivo(d.motivo_bloqueo || '')
+      setEditFecha(d.fecha_expiracion ? d.fecha_expiracion.split('T')[0] : '')
     } catch { navigate('/admin', { replace: true }) }
     finally { setLoading(false) }
   }
@@ -83,8 +83,8 @@ export default function AdminRestauranteDetalle() {
   }
 
   const guardarCambios = async () => {
-    const body = { plan: editPlan, estadoLicencia: editEstado, fechaExpiracion: editFecha || null }
-    if (editEstado === 'suspendido') body.motivoBloqueo = editMotivo || 'Sin motivo'
+    const body = { plan: editPlan, estado_licencia: editEstado, fecha_expiracion: editFecha || null }
+    if (editEstado === 'suspendido') body.motivo_bloqueo = editMotivo || 'Sin motivo'
     try {
       const res = await fetch(`${API}/admin/restaurantes/${id}/licencia`, {
         method: 'PATCH',
@@ -142,8 +142,8 @@ export default function AdminRestauranteDetalle() {
 
   const adminUser = data.usuarios?.find(u => u.rol === 'administrador')
   const planActual = PLANES[data.plan] || PLANES.sin_plan
-  const diasRestantes = data.fechaExpiracion
-    ? Math.ceil((new Date(data.fechaExpiracion) - new Date()) / (1000 * 60 * 60 * 24))
+  const diasRestantes = data.fecha_expiracion
+    ? Math.ceil((new Date(data.fecha_expiracion) - new Date()) / (1000 * 60 * 60 * 24))
     : null
 
   return (
@@ -164,16 +164,16 @@ export default function AdminRestauranteDetalle() {
           <Card title="Información general">
             <Fila label="Restaurante" value={data.nombre} />
             <Fila label="Plan" value={planActual.label} />
-            <Fila label="Estado" value={data.estadoLicencia} />
-            <Fila label="Creado" value={new Date(data.fechaAlta).toLocaleDateString('es-PY')} />
+            <Fila label="Estado" value={data.estado_licencia} />
+            <Fila label="Creado" value={new Date(data.fecha_alta).toLocaleDateString('es-PY')} />
             <Fila label="Slug" value={data.slug} />
-            {data.motivoBloqueo && <Fila label="Motivo bloqueo" value={data.motivoBloqueo} />}
+            {data.motivo_bloqueo && <Fila label="Motivo bloqueo" value={data.motivo_bloqueo} />}
           </Card>
 
           <Card title="Licencia">
             <Fila label="Total pagado" value={`Gs ${totalPagado.toLocaleString('es-PY')}`} />
-            {data.fechaExpiracion && (
-              <Fila label="Vence" value={new Date(data.fechaExpiracion).toLocaleDateString('es-PY')} />
+            {data.fecha_expiracion && (
+              <Fila label="Vence" value={new Date(data.fecha_expiracion).toLocaleDateString('es-PY')} />
             )}
             {diasRestantes !== null && (
               <Fila label="Días restantes" value={
@@ -193,7 +193,7 @@ export default function AdminRestauranteDetalle() {
               {adminUser.nombre && <Fila label="Nombre" value={adminUser.nombre} />}
               {adminUser.email && <Fila label="Email" value={adminUser.email} />}
               {adminUser.telefono && <Fila label="Teléfono" value={adminUser.telefono} />}
-              {adminUser.ultimoAcceso && <Fila label="Último acceso" value={new Date(adminUser.ultimoAcceso).toLocaleString('es-PY')} />}
+              {adminUser.ultimo_acceso && <Fila label="Último acceso" value={new Date(adminUser.ultimo_acceso).toLocaleString('es-PY')} />}
             </Grid>
           </Card>
         )}
@@ -365,7 +365,7 @@ function Header({ data, planActual }) {
     activo: { bg: 'rgba(76,175,80,0.15)', color: '#81C784' },
     suspendido: { bg: 'rgba(244,67,54,0.15)', color: '#EF5350' },
   }
-  const es = estadoStyles[data.estadoLicencia] || { bg: 'rgba(255,255,255,0.1)', color: '#999' }
+  const es = estadoStyles[data.estado_licencia] || { bg: 'rgba(255,255,255,0.1)', color: '#999' }
   return (
     <header style={{
       background: '#121212', borderBottom: '1px solid rgba(255,255,255,0.06)',
@@ -380,7 +380,7 @@ function Header({ data, planActual }) {
               <span style={{
                 padding: '3px 8px', borderRadius: '5px', fontSize: '11px', fontWeight: '700',
                 background: es.bg, color: es.color,
-              }}>{data.estadoLicencia}</span>
+              }}>{data.estado_licencia}</span>
             </div>
             <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.35)', marginTop: '2px', display: 'flex', gap: '8px' }}>
               <span>ID {data.id}</span>
