@@ -14,7 +14,7 @@ import { DatabaseService } from '../database/database.service';
  * Del lado del cliente, quien se suscribe debe pasar un `access_token` de
  * Realtime (POST /api/auth/realtime-token) con claim `restaurante_id`; las
  * politicas de `realtime.messages` restringen el canal a ese tenant (ver
- * migrations/_realtime_policies.sql). En modo canales publicos el mensaje
+ * supabase/realtime_policies.sql). En modo canales publicos el mensaje
  * llega igual, pero sin el token no deberia usarse en produccion.
  */
 @Injectable()
@@ -34,7 +34,7 @@ export class RealtimeService {
 
     try {
       await this.db.runBypassRls((db) =>
-        sql`select realtime.send(${JSON.stringify(payload)}::json, ${evento}, ${`restaurante:${restauranteId}`}, true)`.execute(
+        sql`select realtime.send(${JSON.stringify(payload)}::jsonb, ${evento}, ${`restaurante:${restauranteId}`}, true)`.execute(
           db,
         ),
       );
@@ -46,7 +46,7 @@ export class RealtimeService {
   private async realtimeDisponible(): Promise<boolean> {
     try {
       const fila = await this.db.runBypassRls((db) =>
-        sql<{ f: string | null }>`select to_regprocedure('realtime.send(json,text,text,boolean)') as f`.execute(db),
+        sql<{ f: string | null }>`select to_regprocedure('realtime.send(jsonb,text,text,boolean)') as f`.execute(db),
       );
       const proc = fila[0]?.f;
       if (!proc) this.logger.warn('realtime.send() no existe: los eventos no se emiten.');

@@ -18,7 +18,7 @@ export interface MovCaja {
 export class CajaService {
   constructor(private db: DatabaseService) {}
 
-  async apertura(restauranteId: number, data: { fondo_inicial: number; notas?: string; usuario_id?: number }) {
+  async apertura(restauranteId: number, usuarioId: number, data: { fondo_inicial: number; notas?: string }) {
     const session = await this.db.transaction(async (tx) => {
       const abierta = await tx
         .selectFrom('caja_sesiones')
@@ -34,7 +34,7 @@ export class CajaService {
         .insertInto('caja_sesiones')
         .values({
           restaurante_id: restauranteId,
-          usuario_id: data.usuario_id || null,
+          usuario_id: usuarioId || null,
           fondo_inicial: data.fondo_inicial,
           notas_apertura: data.notas || '',
           estado: 'abierta',
@@ -96,7 +96,7 @@ export class CajaService {
     };
   }
 
-  async movimiento(restauranteId: number, data: { tipo: string; monto: number; motivo: string; usuario_id?: number }) {
+  async movimiento(restauranteId: number, usuarioId: number, data: { tipo: string; monto: number; motivo: string }) {
     if (!['ingreso_extra', 'retiro'].includes(data.tipo)) throw new BadRequestException('Tipo inválido');
     if (data.monto <= 0) throw new BadRequestException('El monto debe ser mayor a 0');
     if (!data.motivo) throw new BadRequestException('Debe ingresar un motivo');
@@ -121,7 +121,7 @@ export class CajaService {
           moneda: 'PYG',
           monto_pyg: data.monto,
           motivo: data.motivo,
-          usuario_id: data.usuario_id || null,
+          usuario_id: usuarioId || null,
         })
         .returning(['id', 'tipo', 'monto_pyg', 'motivo', 'created_at'])
         .executeTakeFirstOrThrow();
@@ -184,7 +184,7 @@ export class CajaService {
     };
   }
 
-  async cierre(restauranteId: number, data: { denominaciones: any[]; observaciones?: string; usuario_id?: number }) {
+  async cierre(restauranteId: number, usuarioId: number, data: { denominaciones: any[]; observaciones?: string }) {
     const resultado = await this.db.transaction(async (tx) => {
       const session = await tx
         .selectFrom('caja_sesiones')
@@ -216,7 +216,7 @@ export class CajaService {
         .values({
           restaurante_id: restauranteId,
           session_id: session.id,
-          usuario_cierre_id: data.usuario_id || null,
+          usuario_cierre_id: usuarioId || null,
           fondo_inicial: session.fondo_inicial,
           total_ventas_efectivo: totales.ventasEfectivo,
           total_ventas_tarjeta: totales.ventasTarjeta,

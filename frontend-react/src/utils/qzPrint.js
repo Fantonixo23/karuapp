@@ -23,7 +23,8 @@ async function _getToken() {
     const data = await res.json()
     if (data.success) _tokenCache = data.token
   } catch {}
-  return _tokenCache || 'pipper-print-token-default'
+  if (!_tokenCache) _tokenCache = localStorage.getItem('pipper_print_token')
+  return _tokenCache
 }
 
 function _stringToBase64(str) {
@@ -44,12 +45,11 @@ async function _sendRaw(data, printerName, serverUrl) {
   if (printerName) {
     body.impresora = printerName
   }
+  const headers = { 'Content-Type': 'application/json' }
+  if (token) headers.Authorization = `Bearer ${token}`
   const res = await fetch(serverUrl + '/print/raw', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token,
-    },
+    headers,
     body: JSON.stringify(body),
   })
   const json = await res.json()

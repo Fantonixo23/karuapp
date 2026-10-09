@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import { randomInt, timingSafeEqual } from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 import { Kysely, sql } from 'kysely';
 import { DatabaseService } from '../database/database.service';
@@ -24,6 +25,7 @@ const CAMPOS_USUARIO = [
   'usuarios.restaurante_id',
   'usuarios.nombre',
   'usuarios.pin',
+  'usuarios.password_hash',
   'usuarios.rol',
   'usuarios.email',
   'usuarios.telefono',
@@ -48,6 +50,7 @@ type UsuarioConRestaurante = {
   restaurante_id: number | null;
   nombre: string;
   pin: string | null;
+  password_hash: string | null;
   rol: string;
   email: string | null;
   telefono: string | null;
@@ -128,14 +131,27 @@ export class AuthService {
       qb.where('usuarios.email', '=', email).where('usuarios.activo', '=', true),
     );
 
-    if (!usuario || !usuario.pin) throw new UnauthorizedException('Credenciales inválidas');
+    // Compatibilidad: antes la contrasena vivia en `pin`. Se acepta una vez y se
+    // migra a `password_hash` para dejar de exponer la contrasena como PIN.
+    const hash = usuario?.password_hash || usuario?.pin;
+    if (!usuario || !hash) throw new UnauthorizedException('Credenciales inválidas');
 
     if (!usuario.verificado) {
       throw new UnauthorizedException('Cuenta no verificada. Revisá tu celular para activarla.');
     }
 
-    if (!(await bcrypt.compare(password, usuario.pin))) {
+    if (!(await bcrypt.compare(password, hash))) {
       throw new UnauthorizedException('Credenciales inválidas');
+    }
+
+    if (!usuario.password_hash) {
+      await this.db.runBypassRls(async (db) =>
+        db
+          .updateTable('usuarios')
+          .set({ password_hash: usuario.pin, pin: null, updated_at: new Date() })
+          .where('id', '=', usuario.id)
+          .execute(),
+      );
     }
 
     this.verificarLicencia(usuario);
@@ -218,14 +234,14 @@ export class AuthService {
     );
     if (existing) throw new ConflictException('El email ya está registrado');
 
-    const hashedPin = await bcrypt.hash(data.password, 10);
+    const hashedPassword = await bcrypt.hash(data.password, 10);
     const slug =
       data.restauranteNombre
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '') + '-' + uuidv4().slice(0, 6);
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const code = this.generarCodigo();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await this.db.transaction(async (tx) => {
@@ -246,7 +262,7 @@ export class AuthService {
         .values({
           restaurante_id: rest.id,
           nombre: data.nombre || data.restauranteNombre,
-          pin: hashedPin,
+          password_hash: hashedPassword,
           email: data.email,
           telefono: data.telefono ?? null,
           rol: 'administrador',
@@ -309,7 +325,7 @@ export class AuthService {
     this.emailService.assertConfigured();
     await this.invalidateCodes(email, 'account_activation');
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const code = this.generarCodigo();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
     await this.db.runBypassRls(async (db) =>
       db
@@ -365,7 +381,7 @@ export class AuthService {
 
     await this.invalidateCodes(emailUsuario, 'password_reset');
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const code = this.generarCodigo();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     await this.db.runBypassRls(async (db) =>
@@ -391,12 +407,18 @@ export class AuthService {
       throw new BadRequestException('La contraseña debe tener al menos 8 caracteres');
     }
 
+    // El flujo del frontend valida el codigo (`verificar-codigo`) y recien
+    // despues restablece, asi que el codigo ya llega marcado como usado. Se
+    // valida igual contra el ultimo codigo usado: antes se ignoraba por completo
+    // y cualquier codigo usado del email alcanzaba para cambiar la contrasena.
     const record = await this.ultimoCodigoUsado(email, 'password_reset');
-    if (!record) throw new BadRequestException('Código inválido, expirado o ya utilizado');
+    if (!record || !this.codigoCoincide(record.code, code)) {
+      throw new BadRequestException('Código inválido, expirado o ya utilizado');
+    }
 
     const hashed = await bcrypt.hash(newPassword, 10);
     await this.db.transaction(async (tx) => {
-      await tx.updateTable('usuarios').set({ pin: hashed, updated_at: new Date() }).where('email', '=', email).execute();
+      await tx.updateTable('usuarios').set({ password_hash: hashed, updated_at: new Date() }).where('email', '=', email).execute();
       await tx.deleteFrom('verification_codes').where('email', '=', email).where('purpose', '=', 'password_reset').execute();
     }, { bypassRls: true });
 
@@ -410,7 +432,7 @@ export class AuthService {
     if (!usuario?.email) throw new UnauthorizedException('Usuario sin email asociado');
     const emailUsuario = usuario.email;
 
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    const code = this.generarCodigo();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
     const existing = await this.codigoActivo(emailUsuario, '2fa');
@@ -465,7 +487,7 @@ export class AuthService {
       throw new BadRequestException('Demasiados intentos. Acceso bloqueado por 1 hora.');
     }
 
-    if (code !== record.code) {
+    if (!this.codigoCoincide(record.code, code)) {
       await this.db.runBypassRls(async (db) =>
         db
           .updateTable('verification_codes')
@@ -496,6 +518,20 @@ export class AuthService {
         .where('id', '=', id)
         .execute(),
     );
+  }
+
+  /** Codigo de 6 digitos con CSPRNG (antes `Math.random`, predecible). */
+  private generarCodigo(): string {
+    return randomInt(100000, 1000000).toString();
+  }
+
+  /** Comparacion de codigos en tiempo constante, para no filtrar por timing. */
+  private codigoCoincide(esperado: string, recibido: string): boolean {
+    if (!esperado || !recibido) return false;
+    const a = Buffer.from(esperado);
+    const b = Buffer.from(recibido);
+    if (a.length !== b.length) return false;
+    return timingSafeEqual(a, b);
   }
 
   /** Codigo vigente (no usado, no expirado) mas reciente. */
@@ -561,7 +597,7 @@ export class AuthService {
       throw new BadRequestException(`Demasiados intentos. Esperá ${wait} minutos.`);
     }
 
-    if (record.code !== code) {
+    if (!this.codigoCoincide(record.code, code)) {
       const attempts = record.attempts + 1;
       const exhausted = attempts >= maxAttempts;
 

@@ -6,7 +6,7 @@
 --
 -- Requiere ademas activar, en el dashboard del proyecto:
 --   Realtime -> Settings -> "Private channels only" = ON
-//
+--
 -- Como funciona:
 --   - El backend emite cada evento con `select realtime.send(payload, evento,
 --     'restaurante:<id>', true)` (RealtimeService).

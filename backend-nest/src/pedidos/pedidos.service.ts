@@ -4,6 +4,7 @@ import { DatabaseService } from '../database/database.service';
 import { countInt } from '../database/agg';
 import { JsonValue } from '../database/database.types';
 import { RealtimeService } from '../realtime/realtime.service';
+import { rangoDiaParaguay } from '../common/fecha';
 
 const TRANSICIONES_VALIDAS: Record<string, string[]> = {
   pendiente: ['cocinando', 'cancelado'],
@@ -93,10 +94,11 @@ export class PedidosService {
     const total = itemsValidados.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
 
     const pedido = await this.db.transaction(async (tx) => {
-      const hoy = new Date();
-      hoy.setHours(0, 0, 0, 0);
-      const manana = new Date(hoy);
-      manana.setDate(manana.getDate() + 1);
+      const { hoy, manana } = rangoDiaParaguay();
+
+      // Serializa la numeracion por restaurante: sin el lock, dos meseros que
+      // crean a la vez leen el mismo maximo y repiten numero_orden.
+      await sql`select pg_advisory_xact_lock(hashtext('karuapp_numero_orden')::int, ${restauranteId}::int)`.execute(tx);
 
       const ultimo = await tx
         .selectFrom('pedidos')
@@ -256,7 +258,7 @@ export class PedidosService {
     const resultado = await this.db.transaction(async (tx) => {
       const pedido = await tx
         .selectFrom('pedidos')
-        .select(['id', 'estado', 'total', 'mesa_id', 'numero_orden'])
+        .select(['id', 'estado', 'total', 'mesa_id', 'numero_orden', 'items'])
         .where('id', '=', id)
         .where('restaurante_id', '=', restauranteId)
         .executeTakeFirst();
@@ -276,7 +278,7 @@ export class PedidosService {
       if (!session) throw new BadRequestException('No hay una sesión de caja abierta');
 
       const metodoPago = data.metodo_pago || 'efectivo';
-      const propina = data.propina || 0;
+      const propina = this.normalizarPropina(data.propina);
       const totalConPropina = pedido.total + propina;
 
       const updated = await tx
@@ -333,6 +335,8 @@ export class PedidosService {
         }
       }
 
+      await this.descontarInventario(tx, restauranteId, id, pedido.items);
+
       return { updated, totalConPropina, metodoPago, mesaId: pedido.mesa_id, liberadaMesa };
     });
 
@@ -382,7 +386,7 @@ export class PedidosService {
 
       const pedidos = await tx
         .selectFrom('pedidos')
-        .select(['id', 'total'])
+        .select(['id', 'total', 'numero_orden', 'items'])
         .where('restaurante_id', '=', restauranteId)
         .where('mesa_id', '=', mesaId)
         .where('estado', 'not in', ['pagado', 'cancelado'])
@@ -392,9 +396,12 @@ export class PedidosService {
       if (!pedidos.length) return { error: 'No hay pedidos en esta mesa' as const };
 
       const metodoPago = body.metodo_pago || 'efectivo';
-      const propinas = body.propina || 0;
+      const propinas = this.normalizarPropina(body.propina);
+      const detallePagos = body.detalle_pagos ? JSON.stringify(body.detalle_pagos) : null;
+      const montoRecibido = this.normalizarMontoRecibido(body.monto_recibido);
       const totalPedidos = pedidos.reduce((s, p) => s + p.total, 0);
       const totalConPropina = totalPedidos + propinas;
+      const vuelto = montoRecibido > 0 ? Math.max(0, montoRecibido - totalConPropina) : 0;
       const idsCobrados: number[] = [];
 
       for (const pedido of pedidos) {
@@ -409,6 +416,7 @@ export class PedidosService {
             estado: 'pagado',
             metodo_pago: metodoPago,
             propina: propinaPedido,
+            detalle_pagos: detallePagos,
             cliente_tipo: body.cliente_tipo || 'consumidor',
             cliente_ruc: body.cliente_ruc || '44444444-7',
             cliente_nombre: body.cliente_nombre || 'Consumidor Final',
@@ -429,10 +437,16 @@ export class PedidosService {
             moneda: 'PYG',
             monto_pyg: monto,
             pedido_id: pedido.id,
+            detalle_pagos: detallePagos,
             propina: propinaPedido,
+            // El vuelto es del cobro entero: se registra en un solo movimiento
+            // para no sumarlo varias veces en los reportes.
+            vuelto: idsCobrados.length === 0 ? vuelto : 0,
             usuario_id: usuarioId,
           })
           .execute();
+
+        await this.descontarInventario(tx, restauranteId, pedido.id, pedido.items);
 
         idsCobrados.push(pedido.id);
       }
@@ -456,6 +470,7 @@ export class PedidosService {
         metodoPago,
         liberado: liberada,
         pedidos,
+        numeroFactura: pedidos[0]?.numero_orden ?? null,
       };
     });
 
@@ -469,24 +484,28 @@ export class PedidosService {
       metodo_pago: resultado.metodoPago,
     });
 
-    const vuelto = body.monto_recibido ? Math.max(0, body.monto_recibido - resultado.totalConPropina) : 0;
+    const montoRecibido = this.normalizarMontoRecibido(body.monto_recibido);
+    const vuelto = montoRecibido > 0 ? Math.max(0, montoRecibido - resultado.totalConPropina) : 0;
 
+    // SIFEN esta fuera de alcance: no se genera comprobante electronico, pero el
+    // contrato de Caja.jsx espera estos campos. `factura: null` = sin CDC/kude/QR.
     return {
       success: true as const,
       cobrados: resultado.cobrados,
       total_cobrado: String(resultado.totalPedidos),
       total_con_propina: String(resultado.totalConPropina),
       vuelto,
+      monto_recibido: montoRecibido,
+      numero_factura: resultado.numeroFactura,
+      factura: null,
+      detalle_pagos: body.detalle_pagos || [],
       pedidos: resultado.pedidos,
     };
   }
 
   async dashboardDelivery(restauranteId: number) {
     return this.db.run(async (db) => {
-      const hoy = new Date();
-      hoy.setHours(0, 0, 0, 0);
-      const manana = new Date(hoy);
-      manana.setDate(manana.getDate() + 1);
+      const { hoy, manana } = rangoDiaParaguay();
 
       const base = db
         .selectFrom('pedidos')
@@ -545,10 +564,7 @@ export class PedidosService {
 
   async historialCaja(restauranteId: number) {
     return this.db.run(async (db) => {
-      const hoy = new Date();
-      hoy.setHours(0, 0, 0, 0);
-      const manana = new Date(hoy);
-      manana.setDate(manana.getDate() + 1);
+      const { hoy, manana } = rangoDiaParaguay();
 
       const filas = await db
         .selectFrom('pedidos')
@@ -715,7 +731,8 @@ export class PedidosService {
       if (!producto.disponible) throw new BadRequestException(`El producto ${producto.nombre} no está disponible`);
 
       const cantidad = item.cantidad || 1;
-      const precio = item.precio || producto.precio;
+      // El precio SIEMPRE sale del catalogo: nunca del body, que es manipulable.
+      const precio = producto.precio;
 
       itemsValidados.push({
         producto_id: producto.id,
@@ -728,5 +745,53 @@ export class PedidosService {
       });
     }
     return itemsValidados;
+  }
+
+  /** La propina la decide quien cobra, pero nunca puede ser negativa. */
+  private normalizarPropina(valor: unknown): number {
+    const n = Math.round(Number(valor));
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  }
+
+  private normalizarMontoRecibido(valor: unknown): number {
+    const n = Math.round(Number(valor));
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  }
+
+  /**
+   * Descuenta del inventario los productos del pedido cobrado. Solo toca los
+   * productos que tienen fila en `inventario`: el resto se vende sin control de
+   * stock. Corre dentro de la misma transaccion del cobro.
+   */
+  private async descontarInventario(tx: any, restauranteId: number, pedidoId: number, itemsRaw: unknown): Promise<void> {
+    const items = (Array.isArray(itemsRaw) ? itemsRaw : []) as ItemPedido[];
+    for (const item of items) {
+      if (!item?.producto_id || !item.cantidad) continue;
+
+      const inv = await tx
+        .selectFrom('inventario')
+        .select(['id', 'stock_actual'])
+        .where('producto_id', '=', item.producto_id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!inv) continue;
+
+      await tx
+        .updateTable('inventario')
+        .set({ stock_actual: inv.stock_actual - item.cantidad, fecha_actualizacion: new Date() })
+        .where('id', '=', inv.id)
+        .execute();
+
+      await tx
+        .insertInto('movimientos_inventario')
+        .values({
+          restaurante_id: restauranteId,
+          inventario_id: inv.id,
+          tipo: 'venta',
+          cantidad: -item.cantidad,
+          motivo: `Pedido #${pedidoId}`,
+        })
+        .execute();
+    }
   }
 }

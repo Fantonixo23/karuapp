@@ -34,6 +34,7 @@ export interface DB {
     restaurante_id: number | null;
     nombre: string;
     pin: string | null;
+    password_hash: string | null;
     rol: ColumnType<string, string | undefined, string>;
     telefono: string | null;
     email: string | null;

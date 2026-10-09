@@ -26,6 +26,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         .select([
           'usuarios.id',
           'usuarios.activo',
+          'usuarios.rol',
+          'usuarios.nombre',
+          'usuarios.restaurante_id',
           'restaurantes.activo as rest_activo',
         ])
         .where('usuarios.id', '=', payload.sub)
@@ -40,12 +43,19 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Restaurante inactivo');
     }
 
-    const { licencia_activa } = await this.verificarLicencia(payload.restauranteId);
+    const { licencia_activa } = await this.verificarLicencia(usuario.restaurante_id);
     if (!licencia_activa) {
       throw new UnauthorizedException('Licencia expirada');
     }
 
-    return payload;
+    // El rol y el tenant se releen de la base: el token dura dias y un cambio de
+    // rol o de restaurante debe impactar sin esperar a que expire.
+    return {
+      ...payload,
+      restauranteId: usuario.restaurante_id,
+      rol: usuario.rol,
+      nombre: usuario.nombre,
+    };
   }
 
   private async verificarLicencia(restauranteId: number | null) {
@@ -56,7 +66,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     );
 
     if (!restaurante) return { licencia_activa: false };
-    if (!restaurante.activo || restaurante.estado_licencia === 'suspended') {
+    if (!restaurante.activo || ['suspendido', 'bloqueada'].includes(restaurante.estado_licencia)) {
       return { licencia_activa: false };
     }
     if (restaurante.estado_licencia === 'expirado') return { licencia_activa: false };

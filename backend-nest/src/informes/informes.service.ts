@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
+import { claveDiaParaguay, inicioDiaParaguay, finDiaParaguay, rangoDiaParaguay } from '../common/fecha';
 
-const ESTADOS_VENTA = ['pagado', 'entregado'];
+// Una venta es dinero cobrado: `entregado` todavia no es plata en caja.
+const ESTADOS_VENTA = ['pagado'];
 
 const escapeLike = (v: string) => `%${v.replace(/[\\%_]/g, (m) => `\\${m}`)}%`;
 
@@ -10,10 +12,7 @@ export class InformesService {
   constructor(private db: DatabaseService) {}
 
   async ventasHoy(restauranteId: number) {
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    const manana = new Date(hoy);
-    manana.setDate(manana.getDate() + 1);
+    const { hoy, manana } = rangoDiaParaguay();
 
     const pedidos = await this.db.run(async (db) =>
       db
@@ -26,24 +25,29 @@ export class InformesService {
         .execute(),
     );
 
-    return this.procesarVentas(pedidos);
+    const ventas = this.procesarVentas(pedidos);
+    return {
+      ...ventas,
+      // Alias que consume Inicio/Informes en el frontend.
+      monto_total: ventas.total,
+      total_ordenes: ventas.cantidad,
+    };
   }
 
-  async resumenCompleto(restauranteId: number) {
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    const manana = new Date(hoy);
-    manana.setDate(manana.getDate() + 1);
+  async resumenCompleto(restauranteId: number, desde?: string, hasta?: string) {
+    const { hoy, manana } = rangoDiaParaguay();
+    const inicio = desde ? inicioDiaParaguay(new Date(`${desde}T12:00:00Z`)) : hoy;
+    const fin = hasta ? finDiaParaguay(new Date(`${hasta}T12:00:00Z`)) : manana;
 
-    const [pedidosHoy, pendientes, mesasOcupadas, totalMesas, totalProductos, ventas] = await this.db.run(
+    const [porEstado, pendientes, mesasOcupadas, totalMesas, totalProductos, ventas] = await this.db.run(
       async (db) => {
-        const pedidosHoy = await db
+        const porEstado = await db
           .selectFrom('pedidos')
-          .selectAll()
+          .select(['estado', (eb) => eb.fn.countAll().as('c')])
           .where('restaurante_id', '=', restauranteId)
-          .where('estado', 'in', ESTADOS_VENTA)
-          .where('created_at', '>=', hoy)
-          .where('created_at', '<', manana)
+          .where('created_at', '>=', inicio)
+          .where('created_at', '<', fin)
+          .groupBy('estado')
           .execute();
 
         const pendientes = await db
@@ -73,14 +77,42 @@ export class InformesService {
           .where('disponible', '=', true)
           .executeTakeFirst();
 
-        const ventas = this.procesarVentas(pedidosHoy);
+        const pedidosVenta = await db
+          .selectFrom('pedidos')
+          .selectAll()
+          .where('restaurante_id', '=', restauranteId)
+          .where('estado', 'in', ESTADOS_VENTA)
+          .where('created_at', '>=', inicio)
+          .where('created_at', '<', fin)
+          .execute();
 
-        return [pedidosHoy, pendientes, mesasOcupadas, totalMesas, totalProductos, ventas];
+        const ventas = this.procesarVentas(pedidosVenta);
+
+        return [porEstado, pendientes, mesasOcupadas, totalMesas, totalProductos, ventas];
       },
     );
 
+    const estados: Record<string, number> = {};
+    let totalPeriodo = 0;
+    for (const e of porEstado) {
+      const c = Number(e.c ?? 0);
+      estados[e.estado] = c;
+      totalPeriodo += c;
+    }
+
+    const totalVentas = Number(ventas.total ?? 0);
+    const cantidad = Number(ventas.cantidad ?? 0);
+    const cancelados = estados['cancelado'] ?? 0;
+
     return {
       ventas_hoy: ventas,
+      ventas_totales: totalVentas,
+      total_pedidos: totalPeriodo,
+      ticket_promedio: cantidad > 0 ? Math.round(totalVentas / cantidad) : 0,
+      tasa_cancelacion: totalPeriodo > 0 ? Math.round((cancelados / totalPeriodo) * 100) : 0,
+      pedidos_por_estado: estados,
+      cancelados_en_cocina: cancelados,
+      motivos_cancelacion: [],
       pendientes: Number(pendientes?.c ?? 0),
       mesas_ocupadas: Number(mesasOcupadas?.c ?? 0),
       total_mesas: Number(totalMesas?.c ?? 0),
@@ -88,10 +120,16 @@ export class InformesService {
     };
   }
 
+
   async ventasPorDia(restauranteId: number, desde?: string, hasta?: string) {
-    const hoy = new Date();
-    const desdeDate = desde ? new Date(desde) : new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-    const hastaDate = hasta ? new Date(hasta + 'T23:59:59') : new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0, 23, 59, 59);
+    const ref = inicioDiaParaguay();
+    // Si no vienen fechas, el mes calendario de Paraguay en curso.
+    const desdeDate = desde
+      ? inicioDiaParaguay(new Date(`${desde}T12:00:00Z`))
+      : new Date(Date.UTC(ref.getUTCFullYear(), ref.getUTCMonth(), 1, 3, 0, 0));
+    const hastaExclusivo = hasta
+      ? finDiaParaguay(new Date(`${hasta}T12:00:00Z`))
+      : new Date(Date.UTC(ref.getUTCFullYear(), ref.getUTCMonth() + 1, 1, 3, 0, 0));
 
     const pedidos = await this.db.run(async (db) =>
       db
@@ -100,26 +138,26 @@ export class InformesService {
         .where('restaurante_id', '=', restauranteId)
         .where('estado', 'in', ESTADOS_VENTA)
         .where('created_at', '>=', desdeDate)
-        .where('created_at', '<=', hastaDate)
+        .where('created_at', '<', hastaExclusivo)
         .execute(),
     );
 
     const ventasPorDia: Record<string, number> = {};
     for (const p of pedidos) {
-      const key = p.created_at.toISOString().split('T')[0];
+      const key = claveDiaParaguay(p.created_at);
       ventasPorDia[key] = (ventasPorDia[key] || 0) + p.total;
     }
 
     return Object.entries(ventasPorDia)
-      .map(([fecha, total]) => ({ fecha, total: String(total) }))
+      .map(([fecha, total]) => ({ fecha, total: String(total), ventas: total }))
       .sort((a, b) => a.fecha.localeCompare(b.fecha));
   }
 
-  async productosEstadisticas(restauranteId: number) {
-    const hoy = new Date();
-    hoy.setHours(0, 0, 0, 0);
-    const manana = new Date(hoy);
-    manana.setDate(manana.getDate() + 1);
+  async productosEstadisticas(restauranteId: number, desde?: string, hasta?: string, limite?: string) {
+    const { hoy, manana } = rangoDiaParaguay();
+    const inicio = desde ? inicioDiaParaguay(new Date(`${desde}T12:00:00Z`)) : hoy;
+    const fin = hasta ? finDiaParaguay(new Date(`${hasta}T12:00:00Z`)) : manana;
+    const limiteNum = limite ? Math.max(1, Math.min(100, Number(limite) || 10)) : 20;
 
     const pedidos = await this.db.run(async (db) =>
       db
@@ -127,8 +165,8 @@ export class InformesService {
         .selectAll()
         .where('restaurante_id', '=', restauranteId)
         .where('estado', 'in', ESTADOS_VENTA)
-        .where('created_at', '>=', hoy)
-        .where('created_at', '<', manana)
+        .where('created_at', '>=', inicio)
+        .where('created_at', '<', fin)
         .execute(),
     );
 
@@ -144,20 +182,28 @@ export class InformesService {
     }
 
     const masVendidos = Object.entries(counts)
-      .map(([producto, stats]) => ({ producto, ...stats, total: String(stats.total) }))
+      .map(([producto, stats]) => ({ producto, nombre: producto, ...stats, total: String(stats.total) }))
       .sort((a, b) => b.cantidad - a.cantidad)
-      .slice(0, 20);
+      .slice(0, limiteNum);
 
     const totalPedidos = pedidos.length;
     const ticketPromedio = totalPedidos > 0 ? pedidos.reduce((s, p) => s + p.total, 0) / totalPedidos : 0;
 
-    return { mas_vendidos: masVendidos, total_pedidos: totalPedidos, ticket_promedio: Math.round(ticketPromedio) };
+    return {
+      // El frontend consume `data.productos`.
+      productos: masVendidos,
+      mas_vendidos: masVendidos,
+      total_pedidos: totalPedidos,
+      ticket_promedio: Math.round(ticketPromedio),
+    };
   }
 
   async metodosPago(restauranteId: number, desde?: string, hasta?: string) {
-    const hoy = new Date();
-    const desdeDate = desde ? new Date(desde) : new Date(hoy.getFullYear(), hoy.getMonth(), 1);
-    const hastaDate = hasta ? new Date(hasta + 'T23:59:59') : new Date();
+    const ref = inicioDiaParaguay();
+    const desdeDate = desde
+      ? inicioDiaParaguay(new Date(`${desde}T12:00:00Z`))
+      : new Date(Date.UTC(ref.getUTCFullYear(), ref.getUTCMonth(), 1, 3, 0, 0));
+    const hastaDate = hasta ? finDiaParaguay(new Date(`${hasta}T12:00:00Z`)) : new Date();
 
     const pedidos = await this.db.run(async (db) =>
       db
@@ -166,7 +212,7 @@ export class InformesService {
         .where('restaurante_id', '=', restauranteId)
         .where('estado', 'in', ESTADOS_VENTA)
         .where('created_at', '>=', desdeDate)
-        .where('created_at', '<=', hastaDate)
+        .where('created_at', '<', hastaDate)
         .execute(),
     );
 
@@ -184,7 +230,13 @@ export class InformesService {
       porcentaje: totalGeneral > 0 ? Math.round((total / totalGeneral) * 100) : 0,
     }));
 
-    return { metodos, total_general: String(totalGeneral) };
+    // El frontend lee `data.efectivo`, `data.tarjeta`, etc., asi que ademas del
+    // arreglo se expone el desglose plano por metodo.
+    return {
+      ...Object.fromEntries(Object.entries(resumen)),
+      metodos,
+      total_general: String(totalGeneral),
+    };
   }
 
   async pedidosLista(restauranteId: number, filtros: any = {}) {
@@ -210,8 +262,8 @@ export class InformesService {
         .where('pedidos.restaurante_id', '=', restauranteId)
         .where('pedidos.estado', 'in', ESTADOS_VENTA);
 
-      if (filtros.fecha_desde) qb = qb.where('pedidos.created_at', '>=', new Date(filtros.fecha_desde));
-      if (filtros.fecha_hasta) qb = qb.where('pedidos.created_at', '<=', new Date(`${filtros.fecha_hasta}T23:59:59`));
+      if (filtros.fecha_desde) qb = qb.where('pedidos.created_at', '>=', inicioDiaParaguay(new Date(`${filtros.fecha_desde}T12:00:00Z`)));
+      if (filtros.fecha_hasta) qb = qb.where('pedidos.created_at', '<', finDiaParaguay(new Date(`${filtros.fecha_hasta}T12:00:00Z`)));
       if (filtros.cliente_nombre) qb = qb.where('pedidos.cliente_nombre', 'ilike', escapeLike(filtros.cliente_nombre));
       if (filtros.numero_orden) qb = qb.where('pedidos.numero_orden', 'ilike', escapeLike(filtros.numero_orden));
 

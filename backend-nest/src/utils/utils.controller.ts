@@ -72,10 +72,10 @@ export class UtilsController {
     let mensaje: string;
     let bloqueado = false;
 
-    if (estadoBase === 'bloqueada' || (dias !== null && dias <= 0)) {
+    if (['suspendido', 'bloqueada', 'expirado', 'pendiente'].includes(estadoBase) || (dias !== null && dias <= 0)) {
       estado = 'bloqueada';
       bloqueado = true;
-      mensaje = rest.motivo_bloqueo || 'Licencia vencida. Contacte al administrador.';
+      mensaje = rest.motivo_bloqueo || 'Licencia vencida o suspendida. Contacte al administrador.';
     } else if (estadoBase === 'gracia') {
       estado = 'gracia';
       mensaje = 'Período de gracia. Renueve su licencia para continuar operando.';

@@ -175,7 +175,12 @@ Checks iniciales (se amplían en la Fase 12):
 - [ ] Endpoints de reset no devuelven el código.
 - [ ] `GET /api/info` sin token no filtra datos de ningún tenant.
 
-## Fase 3: Schema, contraseña real
+## Fase 3: Schema, contraseña real (COMPLETADA)
+
+> Hecho con `migrations/20261009000000_password_hash_and_caja_unique.js`: columna
+> `usuarios.password_hash`, migracion de datos desde `pin`, drop del unico
+> `(restaurante_id, pin)`, e indice unico parcial de sesion de caja abierta.
+> `registerSaas`/`loginSaas`/reset ya usan `password_hash`. Ver Anexo (Bloques A–D).
 
 1. Agregar `Usuario.passwordHash String? @map("password_hash")`.
 2. **Migración de datos:**
@@ -448,3 +453,53 @@ Queda pendiente, en orden de prioridad:
 
 8. **Fases todavía no encaradas:** Fase 10 (impresión con agente saliente) y
    Fase 12 (tests por service / auditoría con tests).
+
+## Anexo: correcciones de la revisión de código (Bloques A–D)
+
+> Migracion `migrations/20261009000000_password_hash_and_caja_unique.js`: agrega
+> `usuarios.password_hash`, mueve el hash bcrypt de `pin` (solo admin/superadmin),
+> suelta el unico `(restaurante_id, pin)`, cierra sesiones de caja duplicadas y crea
+> el indice unico parcial `caja_sesiones_una_abierta`. Aplicada en dev; el E2E
+> completo queda verde.
+
+**A. Contrato backend↔frontend**
+- `A1 cobrarMesa` (`pedidos.service.ts`) persiste `vuelto` y `detalle_pagos` en
+  `caja_movimientos` y devuelve `{success, cobrados, total_cobrado,
+  total_con_propina, vuelto, monto_recibido, numero_factura, factura:null,
+  detalle_pagos, pedidos}`. `numero_factura` reutiliza `pedidos.numero_orden`;
+  **SIFEN sigue fuera de alcance** (stub sin cdc/kude/qr).
+- `A2 informes` (`informes.controller.ts`): envelope uniforme `{success,data}` y
+  aliases de parametros del front (`fecha_inicio/fin`, `dias`, `estado`, `limite`).
+  `ventas-hoy` expone `monto_total`/`total_ordenes`; `resumen-completo` agrega
+  `ventas_totales/total_pedidos/ticket_promedio/pedidos_por_estado`;
+  `ventas-por-dia` agrega `ventas`; `metodos-pago` aplana por metodo;
+  `productos-estadisticas` expone `productos`.
+- `A3 Realtime`: `supabase/realtime_policies.sql` corregido (`--` en vez de `//`) y
+  `realtime.service.ts` usa `jsonb`/`to_regprocedure(...jsonb...)`.
+
+**B. Seguridad / integridad**
+- `B1/B4` contraseña real: `registerSaas`/`loginSaas`/reset usan `password_hash`
+  (con migracion on-the-fly desde `pin`); codigos con `randomInt` y comparacion
+  `timingSafeEqual`; el admin/dueño ya no usa PIN.
+- `B2` `validarItems` ignora `item.precio`: el precio sale siempre del catalogo.
+  Propina normalizada (`normalizarPropina`) en `pagar` y `cobrarMesa`.
+- `B3` `caja.apertura/movimiento/cierre` toman `usuario_id` del JWT
+  (`@CurrentUser('sub')`), nunca del body.
+- `B5/B6` `jwt.strategy` relee `rol`/`nombre`/`restaurante_id` de la BD y unifica
+  el vocabulario de licencia (`suspendido`/`bloqueada`), incluido `verificar-licencia`.
+
+**C. Logica / robustez**
+- `C1` helper `src/common/fecha.ts` (UTC-3 fijo de Paraguay) usado en informes y
+  pedidos; se elimino el particionado de dia por `setHours(0,0,0,0)`.
+- `C2` `numero_orden` serializado con `pg_advisory_xact_lock` (el contador se
+  resetea por dia, un unico global no sirve).
+- `C4` `ESTADOS_VENTA = ['pagado']` (el dinero cuenta solo al cobrar).
+- `C5` `pagar`/`cobrarMesa` descuentan `inventario` e insertan
+  `movimientos_inventario` en la misma transaccion.
+
+**D. Limpieza**
+- Borrados `fix_schema.js`, `tmp-e2e.js` y el PDF de manual en `public/sounds/`.
+- `qzPrint.js` ya no usa el token hardcodeado `pipper-print-token-default`; toma el
+  token de `/print-token` o de `localStorage('pipper_print_token')`.
+- `realtime-token` queda detras de JWT y exige `restauranteId` (variante `agente`
+  reservada para cualquier autenticado del tenant; Fase 10 la consumira).

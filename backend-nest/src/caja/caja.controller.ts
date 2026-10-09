@@ -9,8 +9,8 @@ export class CajaController {
 
   @Post('apertura')
   @Roles('administrador', 'cajero')
-  async apertura(@CurrentUser('restauranteId') rid: number, @Body() body: any) {
-    return this.service.apertura(rid, body);
+  async apertura(@CurrentUser('restauranteId') rid: number, @CurrentUser('sub') uid: number, @Body() body: any) {
+    return this.service.apertura(rid, uid, body);
   }
 
   @Get('sesion-actual')
@@ -20,8 +20,8 @@ export class CajaController {
 
   @Post('movimiento')
   @Roles('administrador', 'cajero')
-  async movimiento(@CurrentUser('restauranteId') rid: number, @Body() body: any) {
-    return this.service.movimiento(rid, body);
+  async movimiento(@CurrentUser('restauranteId') rid: number, @CurrentUser('sub') uid: number, @Body() body: any) {
+    return this.service.movimiento(rid, uid, body);
   }
 
   @Get('movimientos')
@@ -37,8 +37,8 @@ export class CajaController {
 
   @Post('cierre')
   @Roles('administrador')
-  async cierre(@CurrentUser('restauranteId') rid: number, @Body() body: any) {
-    return this.service.cierre(rid, body);
+  async cierre(@CurrentUser('restauranteId') rid: number, @CurrentUser('sub') uid: number, @Body() body: any) {
+    return this.service.cierre(rid, uid, body);
   }
 
   @Get('cortes')
