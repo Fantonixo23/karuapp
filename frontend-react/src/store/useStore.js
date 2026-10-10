@@ -1,4 +1,7 @@
 import { create } from 'zustand'
+import { getApiUrl } from '../utils/api'
+
+const API = getApiUrl()
 
 const getInitialDarkMode = () => {
   if (typeof window === 'undefined') return false
@@ -111,7 +114,7 @@ export const useStore = create((set, get) => ({
       return
     }
     try {
-      const res = await fetch('/api/auth/me', {
+      const res = await fetch(`${API}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       if (!res.ok) throw new Error('Token inválido')
@@ -135,7 +138,7 @@ export const useStore = create((set, get) => ({
   },
 
   loginPin: async (pin, restauranteSlug) => {
-    const res = await fetch('/api/auth/login-pin', {
+    const res = await fetch(`${API}/auth/login-pin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pin, restaurante_slug: restauranteSlug }),
@@ -157,7 +160,7 @@ export const useStore = create((set, get) => ({
   },
 
   loginSaaS: async (email, password) => {
-    const res = await fetch('/api/auth/login-saas', {
+    const res = await fetch(`${API}/auth/login-saas`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -179,7 +182,7 @@ export const useStore = create((set, get) => ({
   },
 
   registerSaaS: async (email, password, restauranteNombre) => {
-    const res = await fetch('/api/auth/register-saas', {
+    const res = await fetch(`${API}/auth/register-saas`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, restaurante_nombre: restauranteNombre }),
@@ -190,7 +193,7 @@ export const useStore = create((set, get) => ({
   },
 
   verificarCuenta: async (email, code) => {
-    const res = await fetch('/api/auth/verificar-cuenta', {
+    const res = await fetch(`${API}/auth/verificar-cuenta`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, code }),
@@ -212,7 +215,7 @@ export const useStore = create((set, get) => ({
   },
 
   reenviarCodigo: async (email) => {
-    const res = await fetch('/api/auth/reenviar-codigo', {
+    const res = await fetch(`${API}/auth/reenviar-codigo`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
@@ -223,7 +226,7 @@ export const useStore = create((set, get) => ({
   },
 
   olvideContrasena: async (email) => {
-    const res = await fetch('/api/auth/olvide-contrasena', {
+    const res = await fetch(`${API}/auth/olvide-contrasena`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
@@ -232,7 +235,7 @@ export const useStore = create((set, get) => ({
   },
 
   verificarCodigo: async (email, code) => {
-    const res = await fetch('/api/auth/verificar-codigo', {
+    const res = await fetch(`${API}/auth/verificar-codigo`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, code }),
@@ -243,7 +246,7 @@ export const useStore = create((set, get) => ({
   },
 
   restablecerContrasena: async (email, code, newPassword) => {
-    const res = await fetch('/api/auth/restablecer-contrasena', {
+    const res = await fetch(`${API}/auth/restablecer-contrasena`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, code, newPassword }),

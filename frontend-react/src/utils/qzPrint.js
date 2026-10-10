@@ -1,4 +1,6 @@
-const API_URL = window.location.origin + '/api'
+import { getApiUrl } from './api'
+
+const API_URL = getApiUrl()
 
 let _tokenCache = null
 
