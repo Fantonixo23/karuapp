@@ -15,8 +15,9 @@ import Login from './pages/Login'
 import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
 import AdminRestauranteDetalle from './admin/AdminRestauranteDetalle'
+import AdminUsuarios from './admin/AdminUsuarios'
 import RequireRole from './admin/RequireRole'
-import { Config, Mesero, ParaLlevar, Admin } from './pages/Placeholders'
+import { Config, Mesero, ParaLlevar } from './pages/Placeholders'
 import { FullscreenProvider } from './hooks/useFullscreen.jsx'
 import { useMediaQuery } from './hooks/useMediaQuery'
 import { MOBILE_HIDDEN_MODULES } from './constants'
@@ -64,6 +65,7 @@ export default function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<RequireRole rol="superadmin"><AdminDashboard /></RequireRole>} />
         <Route path="/admin/restaurantes/:id" element={<RequireRole rol="superadmin"><AdminRestauranteDetalle /></RequireRole>} />
+        <Route path="/app/admin" element={<RequireRole rol="superadmin"><AdminUsuarios /></RequireRole>} />
         <Route path="/app/*" element={
           <AuthGuard>
             <LicenseBanner />
@@ -81,7 +83,6 @@ export default function App() {
               <Route path="config" element={<Config />} />
               <Route path="mesero" element={<Mesero />} />
               <Route path="para-llevar" element={<ParaLlevar />} />
-              <Route path="admin" element={<Admin />} />
             </Routes>
           </AuthGuard>
         } />

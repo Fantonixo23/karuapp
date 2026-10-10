@@ -124,6 +124,11 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>{adminEmail}</span>
+            <Link to="/app/admin" style={{
+              padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(33,150,243,0.3)',
+              background: 'rgba(33,150,243,0.1)', color: '#64B5F6', textDecoration: 'none',
+              fontWeight: '600', fontSize: '12px',
+            }}>Usuarios</Link>
             <button onClick={logout} style={{
               padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(244,67,54,0.3)',
               background: 'transparent', color: '#EF5350',

@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Post, Delete, Param, Body, UseGuards, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Patch, Post, Delete, Param, Body, Query, UseGuards, NotFoundException, BadRequestException } from '@nestjs/common';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -163,6 +163,59 @@ export class AdminController {
         .executeTakeFirst(),
     );
     return { total: Number(resultado?.total ?? 0) };
+  }
+
+  @Get('usuarios')
+  async listarUsuarios(@Query('q') q?: string) {
+    return this.db.run(async (db) => {
+      let query = db
+        .selectFrom('usuarios')
+        .leftJoin('restaurantes', 'restaurantes.id', 'usuarios.restaurante_id')
+        .select([
+          'usuarios.id',
+          'usuarios.nombre',
+          'usuarios.email',
+          'usuarios.rol',
+          'usuarios.activo',
+          'usuarios.telefono',
+          'usuarios.ultimo_acceso',
+          'usuarios.created_at',
+          'usuarios.restaurante_id',
+          'restaurantes.nombre as restaurante_nombre',
+          'restaurantes.slug as restaurante_slug',
+        ])
+        .orderBy('usuarios.created_at', 'desc')
+        .orderBy('usuarios.id', 'desc');
+
+      const texto = q?.trim();
+      if (texto) {
+        const like = `%${texto}%`;
+        query = query.where((eb) =>
+          eb.or([
+            eb('usuarios.nombre', 'ilike', like),
+            eb('usuarios.email', 'ilike', like),
+            eb('restaurantes.nombre', 'ilike', like),
+          ]),
+        );
+      }
+
+      return query.execute();
+    });
+  }
+
+  @Patch('usuarios/:userId/estado')
+  async cambiarEstadoUsuario(@Param('userId') userId: string, @Body() body: { activo: boolean }) {
+    if (typeof body.activo !== 'boolean') throw new BadRequestException('El campo "activo" es requerido');
+
+    const data: Actualizar<'usuarios'> = { activo: body.activo, updated_at: new Date() };
+    return this.db.run(async (db) =>
+      db
+        .updateTable('usuarios')
+        .set(data)
+        .where('id', '=', Number(userId))
+        .returning(['id', 'nombre', 'activo'])
+        .executeTakeFirstOrThrow(),
+    );
   }
 
   @Delete('usuarios/:userId')
