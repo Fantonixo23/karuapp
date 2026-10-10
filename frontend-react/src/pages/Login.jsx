@@ -101,6 +101,7 @@ export default function Login() {
   const [verifyCode, setVerifyCode] = useState('')
   const [verifyDevCode, setVerifyDevCode] = useState('')
   const [verificando, setVerificando] = useState(false)
+  const [solicitud, setSolicitud] = useState(false)
 
   useEffect(() => {
     if (user) navigate('/app/inicio', { replace: true })
@@ -173,7 +174,9 @@ export default function Login() {
     setVerificando(true)
     try {
       await verificarCuenta(verifyEmail, verifyCode)
-      navigate('/app/inicio', { replace: true })
+      setVerifyStep(false)
+      setVerifyCode('')
+      setSolicitud(true)
     } catch (err) {
       setError(err.message || 'Código inválido')
     }
@@ -269,6 +272,25 @@ export default function Login() {
       fontSize: '13px', fontWeight: 700, cursor: 'pointer',
       fontFamily: "'Inter', 'Roboto', sans-serif",
     }),
+  }
+
+  if (solicitud) {
+    return (
+      <div style={s.page}>
+        <div style={s.card}>
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <span className="material-icons" style={{ fontSize: '48px', color: '#66bb6a' }}>check_circle</span>
+            <h2 style={{ color: '#fff', fontSize: '18px', margin: '12px 0 6px' }}>Solicitud enviada</h2>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0', lineHeight: 1.7 }}>
+              Tu cuenta quedó verificada. La solicitud de <strong style={{ color: '#fff' }}>{regNombre}</strong> para ingresar a karuAPP fue enviada al administrador y está pendiente de aprobación. Te avisaremos cuando esté activa.
+            </p>
+          </div>
+          <button onClick={() => navigate('/login', { replace: true })} style={s.btn}>
+            Volver al inicio
+          </button>
+        </div>
+      </div>
+    )
   }
 
   if (verifyStep) {

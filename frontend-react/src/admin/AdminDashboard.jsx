@@ -68,7 +68,7 @@ export default function AdminDashboard() {
         <Resumen restaurantes={restaurantes} />
 
         {pendientes.length > 0 && (
-          <Seccion titulo="Pendientes de aprobación" count={pendientes.length} color="#FFB74D" icon="hourglass_empty">
+          <Seccion titulo="Solicitudes de ingreso" count={pendientes.length} color="#FFB74D" icon="hourglass_empty">
             {pendientes.map(r => <CardRestaurante key={r.id} r={r} />)}
           </Seccion>
         )}
@@ -223,6 +223,11 @@ function CardRestaurante({ r }) {
           }}>{ps.label}</span>
         </div>
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          {r.estado_licencia === 'pendiente' && (
+            <span style={{ color: '#FFB74D', fontWeight: '700', fontSize: '13px', width: '100%' }}>
+              🔔 {r.nombre} quiere ingresar a karuapp
+            </span>
+          )}
           {admin?.email && <span>✉ {admin.email}</span>}
           {admin?.telefono && <span>📞 {admin.telefono}</span>}
           <span>👤 {r._count?.usuarios || 0} usuarios</span>

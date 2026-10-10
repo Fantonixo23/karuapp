@@ -14,6 +14,7 @@ import { countInt } from '../database/agg';
 import { DB } from '../database/database.types';
 import { EmailService } from '../common/email.service';
 import { JwtPayload } from '../common/decorators/current-user.decorator';
+import { SUPERADMIN_EMAILS } from '../admin/admin-only.guard';
 
 const DOMINIOS_PERMITIDOS = [
   'gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com', 'icloud.com',
@@ -251,8 +252,8 @@ export class AuthService {
           nombre: data.restauranteNombre,
           slug,
           plan: 'estandar',
-          fecha_expiracion: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-          estado_licencia: 'activo',
+          fecha_expiracion: null,
+          estado_licencia: 'pendiente',
         })
         .returning('id')
         .executeTakeFirstOrThrow();
@@ -279,6 +280,15 @@ export class AuthService {
 
     await this.emailService.sendEmail(data.email, 'Activá tu cuenta en karuAPP',
       `Tu código de activación es: ${code}. Válido por 10 minutos.`);
+
+    if (this.emailService.isConfigured && SUPERADMIN_EMAILS.length) {
+      await this.emailService.sendEmail(
+        SUPERADMIN_EMAILS[0],
+        'Nueva solicitud en karuAPP',
+        `El restaurante "${data.restauranteNombre}" (${data.email}) quiere ingresar a karuAPP.\n` +
+        `Ingresá al panel de administración para aprobarlo.`,
+      );
+    }
 
     return {
       success: true,

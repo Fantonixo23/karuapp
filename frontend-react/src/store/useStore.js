@@ -200,18 +200,7 @@ export const useStore = create((set, get) => ({
     })
     const data = await res.json()
     if (!res.ok) throw new Error(data.message || 'Error al verificar')
-    const user = {
-      id: data.user.id,
-      email: data.user.email,
-      name: data.user.nombre || data.user.name,
-      rol: data.user.rol,
-      restauranteId: data.user.restaurante_id || data.user.restauranteId,
-      restauranteSlug: data.user.restaurante_slug || data.user.restauranteSlug,
-    }
-    localStorage.setItem('token', data.access_token)
-    localStorage.setItem('user', JSON.stringify(user))
-    set({ token: data.access_token, user })
-    return user
+    return data
   },
 
   reenviarCodigo: async (email) => {
