@@ -1,15 +1,27 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseInterceptors, UploadedFile, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { ProductosService } from './productos.service';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { Roles } from '../common/decorators/roles.decorator';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_KEY || '',
-);
+// Se crea de forma perezosa: si SUPABASE_URL/SERVICE_KEY no estan configuradas,
+// el backend igual arranca y solo falla la subida de imagenes (no todo el server).
+let supabaseClient: SupabaseClient | null = null;
+function getSupabase(): SupabaseClient {
+  if (!supabaseClient) {
+    const url = process.env.SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_KEY;
+    if (!url || !key) {
+      throw new InternalServerErrorException(
+        'Supabase Storage no configurado (falta SUPABASE_URL o SUPABASE_SERVICE_KEY)',
+      );
+    }
+    supabaseClient = createClient(url, key);
+  }
+  return supabaseClient;
+}
 
 @Controller('api')
 export class ProductosController {
@@ -89,6 +101,7 @@ export class ProductosController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     if (!file) return { success: false, error: 'No se recibió ninguna imagen' };
+    const supabase = getSupabase();
     const ext = extname(file.originalname) || '.jpg';
     const fileName = `tenant/${rid}/productos/${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`;
     const { data, error } = await supabase.storage

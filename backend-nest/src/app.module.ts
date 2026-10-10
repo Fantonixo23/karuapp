@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
@@ -26,7 +25,6 @@ import { RlsContextInterceptor } from './common/interceptors/rls-context.interce
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
     DatabaseModule,
     CommonModule,
     AuthModule,
