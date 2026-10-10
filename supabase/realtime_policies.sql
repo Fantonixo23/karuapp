@@ -14,8 +14,12 @@
 --   como access_token del canal `restaurante:<id>`.
 -- - Esta politica deja leer un topic `restaurante:<id>` solo a quien trae el
 --   claim `restaurante_id` igual al id del topic.
-
-alter table realtime.messages enable row level security;
+--
+-- NO ejecutar `alter table realtime.messages enable row level security`:
+--   RLS ya viene activo y el ALTER exige ser dueno de la tabla (que es de
+--   supabase_realtime_admin), por lo que falla con "must be owner of table
+--   messages" y aborta la transaccion. supautils si permite `create policy`
+--   sobre realtime.messages sin ser dueno, asi que basta con la policy.
 
 drop policy if exists "karuapp_tenant_messages" on realtime.messages;
 create policy "karuapp_tenant_messages"
