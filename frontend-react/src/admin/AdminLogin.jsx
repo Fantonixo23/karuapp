@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getApiUrl } from '../utils/api'
+import { SUPERADMIN_EMAILS } from './superadmin'
 
 const API = getApiUrl()
 
@@ -27,6 +28,11 @@ export default function AdminLogin() {
 
       if (data.user?.rol !== 'superadmin') {
         throw new Error('Acceso solo para administradores')
+      }
+
+      const email = data.user?.email?.trim().toLowerCase()
+      if (!email || !SUPERADMIN_EMAILS.includes(email)) {
+        throw new Error('Acceso restringido')
       }
 
       localStorage.setItem('token', data.access_token)

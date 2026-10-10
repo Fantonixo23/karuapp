@@ -6,9 +6,10 @@ import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { DatabaseService } from '../database/database.service';
 import { countInt } from '../database/agg';
 import { Actualizar } from '../database/database.types';
+import { AdminOnlyGuard } from './admin-only.guard';
 
 @Controller('api/admin')
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, RolesGuard, AdminOnlyGuard)
 @Roles('superadmin')
 export class AdminController {
   constructor(private db: DatabaseService) {}
