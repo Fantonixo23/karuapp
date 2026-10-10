@@ -30,6 +30,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           'usuarios.nombre',
           'usuarios.restaurante_id',
           'restaurantes.activo as rest_activo',
+          'restaurantes.estado_licencia',
+          'restaurantes.fecha_expiracion',
         ])
         .where('usuarios.id', '=', payload.sub)
         .executeTakeFirst(),
@@ -43,7 +45,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Restaurante inactivo');
     }
 
-    const { licencia_activa } = await this.verificarLicencia(usuario.restaurante_id);
+    const licencia_activa = await this.verificarLicencia(usuario);
     if (!licencia_activa) {
       throw new UnauthorizedException('Licencia expirada');
     }
@@ -58,28 +60,27 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     };
   }
 
-  private async verificarLicencia(restauranteId: number | null) {
-    if (!restauranteId) return { licencia_activa: true };
-
-    const restaurante = await this.db.runBypassRls(async (db) =>
-      db.selectFrom('restaurantes').selectAll().where('id', '=', restauranteId).executeTakeFirst(),
-    );
-
-    if (!restaurante) return { licencia_activa: false };
-    if (!restaurante.activo || ['suspendido', 'bloqueada'].includes(restaurante.estado_licencia)) {
-      return { licencia_activa: false };
+  private async verificarLicencia(usuario: {
+    restaurante_id: number | null;
+    rest_activo: boolean | null;
+    estado_licencia: string | null;
+    fecha_expiracion: Date | null;
+  }): Promise<boolean> {
+    if (!usuario.restaurante_id) return true;
+    if (!usuario.rest_activo || ['suspendido', 'bloqueada'].includes(usuario.estado_licencia ?? '')) {
+      return false;
     }
-    if (restaurante.estado_licencia === 'expirado') return { licencia_activa: false };
-    if (restaurante.fecha_expiracion && restaurante.fecha_expiracion < new Date()) {
+    if (usuario.estado_licencia === 'expirado') return false;
+    if (usuario.fecha_expiracion && usuario.fecha_expiracion < new Date()) {
       await this.db.runBypassRls(async (db) =>
         db
           .updateTable('restaurantes')
           .set({ estado_licencia: 'expirado' })
-          .where('id', '=', restauranteId)
+          .where('id', '=', usuario.restaurante_id)
           .execute(),
       );
-      return { licencia_activa: false };
+      return false;
     }
-    return { licencia_activa: true };
+    return true;
   }
 }
