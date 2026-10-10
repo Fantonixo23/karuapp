@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getApiUrl } from '../utils/api'
 
-const API = '/api'
+const API = getApiUrl()
 
 export default function AdminLogin() {
   const navigate = useNavigate()
