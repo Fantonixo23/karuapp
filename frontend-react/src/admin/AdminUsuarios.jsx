@@ -123,7 +123,7 @@ export default function AdminUsuarios() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Link to="/admin" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '20px', textDecoration: 'none' }}>←</Link>
               <div>
-                <span style={{ fontSize: '20px', fontWeight: '800', color: '#F44336' }}>karuAPP</span>
+                <span style={{ fontSize: '20px', fontWeight: '800', color: '#F44336' }}>LaCarta</span>
                 <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginLeft: '8px' }}>Usuarios</span>
               </div>
             </div>

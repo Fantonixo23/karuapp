@@ -66,7 +66,6 @@ function PasswordStrength({ password }) {
 
 export default function Login() {
   const navigate = useNavigate()
-  const loginPin = useStore((s) => s.loginPin)
   const loginSaaS = useStore((s) => s.loginSaaS)
   const registerSaaS = useStore((s) => s.registerSaaS)
   const verificarCuenta = useStore((s) => s.verificarCuenta)
@@ -76,9 +75,6 @@ export default function Login() {
   const restablecerContrasena = useStore((s) => s.restablecerContrasena)
   const user = useStore((s) => s.user)
 
-  const [tab, setTab] = useState('pin')
-  const [pin, setPin] = useState('')
-  const [slug, setSlug] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPass, setShowPass] = useState(false)
@@ -110,20 +106,6 @@ export default function Login() {
   const dominioValido = (e) => {
     const d = e.split('@')[1]?.toLowerCase()
     return d && DOMINIOS_VALIDOS.includes(d)
-  }
-
-  const handlePinLogin = async (e) => {
-    e.preventDefault()
-    setError('')
-    if (!pin || !slug) { setError('Completá todos los campos'); return }
-    setLoading(true)
-    try {
-      await loginPin(pin, slug)
-      navigate('/app/inicio', { replace: true })
-    } catch (err) {
-      setError(err.message || 'PIN o restaurante incorrecto')
-    }
-    setLoading(false)
   }
 
   const handleSaaSMagic = async (e) => {
@@ -265,13 +247,6 @@ export default function Login() {
       fontSize: '15px', fontWeight: 700, cursor: 'pointer',
       fontFamily: "'Inter', 'Roboto', sans-serif",
     },
-    tab: (active) => ({
-      flex: 1, padding: '10px', borderRadius: '10px',
-      border: 'none', background: active ? '#F44336' : 'rgba(255,255,255,0.04)',
-      color: active ? '#fff' : 'rgba(255,255,255,0.5)',
-      fontSize: '13px', fontWeight: 700, cursor: 'pointer',
-      fontFamily: "'Inter', 'Roboto', sans-serif",
-    }),
   }
 
   if (solicitud) {
@@ -280,13 +255,13 @@ export default function Login() {
         <div style={s.card}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
             <span className="material-icons" style={{ fontSize: '48px', color: '#66bb6a' }}>check_circle</span>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: '12px 0 6px' }}>Solicitud enviada</h2>
+            <h2 style={{ color: '#fff', fontSize: '18px', margin: '12px 0 6px' }}>Cuenta creada</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0', lineHeight: 1.7 }}>
-              Tu cuenta quedó verificada. La solicitud de <strong style={{ color: '#fff' }}>{regNombre}</strong> para ingresar a karuAPP fue enviada al administrador y está pendiente de aprobación. Te avisaremos cuando esté activa.
+              Tu cuenta quedó verificada. <strong style={{ color: '#fff' }}>{regNombre}</strong> ya está activo con una <strong style={{ color: '#66bb6a' }}>prueba gratuita de 7 días</strong>. Podés iniciar sesión ahora mismo.
             </p>
           </div>
           <button onClick={() => navigate('/login', { replace: true })} style={s.btn}>
-            Volver al inicio
+            Iniciar sesión
           </button>
         </div>
       </div>
@@ -355,17 +330,10 @@ export default function Login() {
     <div style={s.page}>
       <div style={s.card}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <img src="/logo.png" alt="karuAPP" style={{ width: '56px', height: '56px', borderRadius: '14px', marginBottom: '12px' }} />
-          <h1 style={{ color: '#fff', fontSize: '24px', fontWeight: 800, margin: 0 }}>karuAPP</h1>
+          <img src="/logo.png" alt="LaCarta" style={{ width: '56px', height: '56px', borderRadius: '14px', marginBottom: '12px' }} />
+          <h1 style={{ color: '#fff', fontSize: '24px', fontWeight: 800, margin: 0 }}>LaCarta</h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginTop: '4px' }}>Sistema POS para restaurantes</p>
         </div>
-
-        {!forgotStep && (
-          <div style={{ display: 'flex', gap: '6px', marginBottom: '24px' }}>
-            <button style={s.tab(tab === 'pin')} onClick={() => setTab('pin')}>PIN</button>
-            <button style={s.tab(tab === 'email')} onClick={() => setTab('email')}>Email</button>
-          </div>
-        )}
 
         {(error || forgotMsg) && (
           <div style={{
@@ -376,27 +344,11 @@ export default function Login() {
           }}>{error || forgotMsg}</div>
         )}
 
-        {tab === 'pin' && !forgotStep && (
-          <form onSubmit={handlePinLogin}>
-            <div style={{ marginBottom: '14px' }}>
-              <label style={labelStyle}>RESTAURANTE</label>
-              <input style={s.input} placeholder="mi-restaurante" value={slug} onChange={(e) => setSlug(e.target.value)} autoFocus />
-            </div>
-            <div style={{ marginBottom: '20px' }}>
-              <label style={labelStyle}>PIN</label>
-              <input style={s.input} type="password" placeholder="1234" value={pin} onChange={(e) => setPin(e.target.value)} maxLength={10} />
-            </div>
-            <button type="submit" style={s.btn} disabled={loading}>
-              {loading ? 'Ingresando...' : 'Ingresar'}
-            </button>
-          </form>
-        )}
-
-        {tab === 'email' && !forgotStep && !showRegister && (
+        {!forgotStep && !showRegister && (
           <form onSubmit={handleSaaSMagic}>
             <div style={{ marginBottom: '14px' }}>
               <label style={labelStyle}>EMAIL</label>
-              <input style={s.input} type="email" placeholder="admin@karuapp.com" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
+              <input style={s.input} type="email" placeholder="admin@lacarta.com" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
             </div>
             <InputPass value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••" show={showPass} toggleShow={() => setShowPass(!showPass)} label="CONTRASEÑA" />
             <button type="submit" style={s.btn} disabled={loading}>
@@ -418,7 +370,7 @@ export default function Login() {
           </form>
         )}
 
-        {tab === 'email' && !forgotStep && showRegister && (
+        {!forgotStep && showRegister && (
           <form onSubmit={handleRegister}>
             <div style={{ marginBottom: '14px' }}>
               <label style={labelStyle}>NOMBRE DEL RESTAURANTE</label>
@@ -455,7 +407,7 @@ export default function Login() {
             </p>
             <div style={{ marginBottom: '20px' }}>
               <label style={labelStyle}>EMAIL</label>
-              <input style={s.input} type="email" placeholder="admin@karuapp.com" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} autoFocus />
+              <input style={s.input} type="email" placeholder="admin@lacarta.com" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} autoFocus />
             </div>
             <button type="submit" style={s.btn} disabled={loading}>
               {loading ? 'Enviando...' : 'Enviar código'}

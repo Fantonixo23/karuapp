@@ -63,9 +63,9 @@ export default function Inventario() {
       const dataResumen = await resResumen.json()
       const dataAlertas = await resAlertas.json()
 
-      if (dataInventario.success) setInventario(dataInventario.data)
-      if (dataResumen.success) setResumen(dataResumen.data)
-      if (dataAlertas.success) setAlertas(dataAlertas.data)
+      if (dataInventario.success) setInventario(dataInventario.inventarios || [])
+      if (dataResumen.success) setResumen(dataResumen)
+      if (dataAlertas.success) setAlertas(dataAlertas.alertas || [])
     } catch (e) {
       console.error('Error:', e)
     }
@@ -256,7 +256,7 @@ export default function Inventario() {
       <header style={{ ...s.header, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btn}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="karuAPP" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
           <span style={s.title}>Inventario</span>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>

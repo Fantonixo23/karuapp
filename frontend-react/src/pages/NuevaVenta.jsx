@@ -408,7 +408,7 @@ export default function NuevaVenta() {
     <div style={s.container(darkMode)}>
       <header style={s.header}>
         <div style={s.headerLeft}>
-          <img src="/logo.png" alt="karuAPP" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
           <h1 style={s.title}>Mesas</h1>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>

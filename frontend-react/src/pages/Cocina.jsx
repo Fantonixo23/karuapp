@@ -226,7 +226,7 @@ export default function Cocina() {
             <Link to="/app/inicio" style={{ width: '34px', height: '34px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
               <span className="material-icons">home</span>
             </Link>
-            <img src="/logo.png" alt="karuAPP" style={{ width: '24px', height: '24px', borderRadius: '6px' }} />
+            <img src="/logo.png" alt="LaCarta" style={{ width: '24px', height: '24px', borderRadius: '6px' }} />
             <span style={{ fontSize: isMobile ? '18px' : '22px', fontWeight: '800', letterSpacing: '0.5px' }}>Cocina</span>
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>

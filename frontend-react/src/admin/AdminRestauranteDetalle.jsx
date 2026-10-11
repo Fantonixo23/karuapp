@@ -5,20 +5,32 @@ import { getApiUrl } from '../utils/api'
 const API = getApiUrl()
 
 const PLANES = {
+  basico: {
+    label: 'Básico',
+    precio: 250000,
+    moneda: 'Gs',
+    color: '#4CAF50',
+    features: [
+      'Mesas', 'Caja', 'Productos', 'Configuración',
+    ],
+    limites: { usuarios: 2, sucursales: 1 },
+  },
   estandar: {
     label: 'Estándar',
     precio: 350000,
     moneda: 'Gs',
     color: '#FF9800',
     features: [
-      'Mesas', 'Caja', 'Productos', 'Inventario',
-      'Configuración', 'Pantalla Cocina',
+      'Todo lo del Básico',
+      'Inventario',
+      'Pantalla Cocina',
+      'Autoservicio',
     ],
     limites: { usuarios: 3, sucursales: 1 },
   },
-  premium: {
-    label: 'Avanzado / Premium',
-    precio: 0,
+  pro: {
+    label: 'Pro',
+    precio: 500000,
     moneda: 'Gs',
     color: '#9C27B0',
     features: [
@@ -26,12 +38,12 @@ const PLANES = {
       'Delivery',
       'Informes',
       'Funcionarios',
+      'Carta digital',
       'SIFEN',
     ],
     limites: { usuarios: 6, sucursales: 'Ilimitadas' },
     extra: 'Atención al cliente prioritaria',
   },
-  sin_plan: { label: 'Sin plan', precio: 0, moneda: '', color: '#666', features: [], limites: {} },
 }
 
 const STATUS_OPTIONS = ['activo', 'suspendido', 'pendiente']
@@ -44,7 +56,7 @@ export default function AdminRestauranteDetalle() {
   const [msg, setMsg] = useState({ text: '', type: '' })
   const [totalPagado, setTotalPagado] = useState(0)
 
-  const [editPlan, setEditPlan] = useState('sin_plan')
+  const [editPlan, setEditPlan] = useState('basico')
   const [editEstado, setEditEstado] = useState('')
   const [editMotivo, setEditMotivo] = useState('')
   const [editFecha, setEditFecha] = useState('')
@@ -69,7 +81,7 @@ export default function AdminRestauranteDetalle() {
       const t = await resTotal.json()
       setData(d)
       setTotalPagado(t.total || 0)
-      setEditPlan(d.plan || 'sin_plan')
+      setEditPlan(['basico', 'estandar', 'pro'].includes(d.plan) ? d.plan : 'basico')
       setEditEstado(d.estado_licencia)
       setEditMotivo(d.motivo_bloqueo || '')
       setEditFecha(d.fecha_expiracion ? d.fecha_expiracion.split('T')[0] : '')
@@ -93,6 +105,21 @@ export default function AdminRestauranteDetalle() {
       })
       if (!res.ok) throw new Error((await res.json()).message || 'Error')
       mostrarMsg('Cambios guardados correctamente')
+      cargar()
+    } catch (e) { mostrarMsg('Error: ' + e.message, 'error') }
+  }
+
+  const asignarPrueba7Dias = async () => {
+    if (!window.confirm('Asignar prueba gratuita de 7 días (plan Básico, activo)?')) return
+    try {
+      const vence = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      const res = await fetch(`${API}/admin/restaurantes/${id}/licencia`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ plan: 'basico', estado_licencia: 'activo', fecha_expiracion: vence }),
+      })
+      if (!res.ok) throw new Error((await res.json()).message || 'Error')
+      mostrarMsg('Prueba gratuita de 7 días asignada')
       cargar()
     } catch (e) { mostrarMsg('Error: ' + e.message, 'error') }
   }
@@ -141,7 +168,7 @@ export default function AdminRestauranteDetalle() {
   if (!data) return null
 
   const adminUser = data.usuarios?.find(u => u.rol === 'administrador')
-  const planActual = PLANES[data.plan] || PLANES.sin_plan
+  const planActual = PLANES[data.plan] || { label: data.plan || '—', precio: 0, moneda: '', color: '#999', limites: {} }
   const diasRestantes = data.fecha_expiracion
     ? Math.ceil((new Date(data.fecha_expiracion) - new Date()) / (1000 * 60 * 60 * 24))
     : null
@@ -199,17 +226,15 @@ export default function AdminRestauranteDetalle() {
         )}
 
         <Card title="Seleccionar plan">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
-            <PlanCard
-              plan="estandar"
-              selected={editPlan === 'estandar'}
-              onClick={() => { setEditPlan('estandar'); if (editEstado === 'pendiente') setEditEstado('activo') }}
-            />
-            <PlanCard
-              plan="premium"
-              selected={editPlan === 'premium'}
-              onClick={() => { setEditPlan('premium'); if (editEstado === 'pendiente') setEditEstado('activo') }}
-            />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '12px', marginBottom: '16px' }}>
+            {['basico', 'estandar', 'pro'].map(p => (
+              <PlanCard
+                key={p}
+                plan={p}
+                selected={editPlan === p}
+                onClick={() => { setEditPlan(p); if (editEstado === 'pendiente') setEditEstado('activo') }}
+              />
+            ))}
           </div>
 
           <Grid cols="1fr 1fr 1fr">
@@ -224,9 +249,9 @@ export default function AdminRestauranteDetalle() {
               <input type="date" value={editFecha} onChange={e => setEditFecha(e.target.value)} style={s.input} />
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-              {editPlan !== 'sin_plan' && (
+              {PLANES[editPlan]?.precio > 0 && (
                 <div style={{ fontSize: '22px', fontWeight: '800', color: PLANES[editPlan]?.color }}>
-                  {PLANES[editPlan]?.precio > 0 ? `Gs ${PLANES[editPlan].precio.toLocaleString('es-PY')}/mes` : ''}
+                  Gs {PLANES[editPlan]?.precio.toLocaleString('es-PY')}/mes
                 </div>
               )}
             </div>
@@ -239,6 +264,14 @@ export default function AdminRestauranteDetalle() {
                 placeholder="Ej: Falta de pago, Fin de prueba gratuita..." style={s.input} />
             </div>
           )}
+
+          <button onClick={asignarPrueba7Dias} style={{
+            width: '100%', padding: '11px', borderRadius: '8px', border: 'none',
+            background: 'rgba(255,152,0,0.15)', color: '#FFB74D', fontWeight: '700', fontSize: '13px',
+            cursor: 'pointer', marginTop: '8px', border: '1px solid rgba(255,152,0,0.3)',
+          }}>
+            Asignar prueba gratuita de 7 días
+          </button>
 
           <button onClick={guardarCambios} style={s.btn}>Guardar cambios</button>
         </Card>

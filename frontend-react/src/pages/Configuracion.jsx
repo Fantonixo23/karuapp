@@ -215,7 +215,7 @@ export default function Configuracion() {
       <header style={{ ...s.header, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="karuAPP" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
           <span style={s.title}>Configuracion</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

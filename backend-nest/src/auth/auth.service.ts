@@ -245,15 +245,18 @@ export class AuthService {
     const code = this.generarCodigo();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
+    const TRIAL_DIAS = 7;
+    const trialExpira = new Date(Date.now() + TRIAL_DIAS * 24 * 60 * 60 * 1000);
+
     await this.db.transaction(async (tx) => {
       const rest = await tx
         .insertInto('restaurantes')
         .values({
           nombre: data.restauranteNombre,
           slug,
-          plan: 'estandar',
-          fecha_expiracion: null,
-          estado_licencia: 'pendiente',
+          plan: 'basico',
+          fecha_expiracion: trialExpira,
+          estado_licencia: 'activo',
         })
         .returning('id')
         .executeTakeFirstOrThrow();
@@ -278,21 +281,23 @@ export class AuthService {
         .execute();
     }, { bypassRls: true });
 
-    await this.emailService.sendEmail(data.email, 'Activá tu cuenta en karuAPP',
-      `Tu código de activación es: ${code}. Válido por 10 minutos.`);
+    await this.emailService.sendEmail(data.email, 'Activá tu cuenta en LaCarta',
+      `Tu código de activación es: ${code}. Válido por 10 minutos.\n\n` +
+      `Tu restaurante "${data.restauranteNombre}" ya está activo con una prueba gratuita de ${TRIAL_DIAS} días.`);
 
     if (this.emailService.isConfigured && SUPERADMIN_EMAILS.length) {
       await this.emailService.sendEmail(
         SUPERADMIN_EMAILS[0],
-        'Nueva solicitud en karuAPP',
-        `El restaurante "${data.restauranteNombre}" (${data.email}) quiere ingresar a karuAPP.\n` +
-        `Ingresá al panel de administración para aprobarlo.`,
+        'Nuevo restaurante en LaCarta',
+        `El restaurante "${data.restauranteNombre}" (${data.email}) se registró en LaCarta\n` +
+        `y empezó su prueba gratuita de ${TRIAL_DIAS} días.\n` +
+        `Ingresá al panel de administración para asignarle el plan que corresponda.`,
       );
     }
 
     return {
       success: true,
-      message: 'Cuenta creada. Revisá tu email para activarla.',
+      message: 'Cuenta creada. Revisá tu email para activarla. Tu restaurante tiene una prueba gratuita de 7 días.',
       user: { email: data.email },
     };
   }
@@ -344,7 +349,7 @@ export class AuthService {
         .execute(),
     );
 
-    await this.emailService.sendEmail(email, 'Tu código de activación de karuAPP',
+    await this.emailService.sendEmail(email, 'Tu código de activación de LaCarta',
       `Tu código de activación es: ${code}. Válido por 10 minutos.`);
 
     return { success: true, message: 'Código reenviado' };
@@ -401,7 +406,7 @@ export class AuthService {
         .execute(),
     );
 
-    await this.emailService.sendEmail(emailUsuario, 'Recuperación de contraseña karuAPP',
+    await this.emailService.sendEmail(emailUsuario, 'Recuperación de contraseña LaCarta',
       `Tu código de verificación es: ${code}. Válido por 10 minutos.`);
 
     return generico;
@@ -461,7 +466,7 @@ export class AuthService {
         .execute(),
     );
 
-    await this.emailService.sendEmail(emailUsuario, 'Código de verificación karuAPP',
+    await this.emailService.sendEmail(emailUsuario, 'Código de verificación LaCarta',
       `Tu código de verificación es: ${code}. Válido por 10 minutos.`);
 
     return { success: true, message: 'Código enviado a tu email' };

@@ -68,7 +68,7 @@ async function bootstrap() {
   const app = await createApp();
   const port = process.env.PORT || 3000;
   await app.listen(port);
-  console.log(`Karuapp Backend running on http://localhost:${port}`);
+  console.log(`LaCarta Backend running on http://localhost:${port}`);
 }
 
 if (require.main === module) bootstrap();

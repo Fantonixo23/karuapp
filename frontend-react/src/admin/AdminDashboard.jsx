@@ -11,10 +11,11 @@ const ESTADO_STYLES = {
 }
 
 const PLAN_STYLES = {
-  estandar: { bg: 'rgba(255,152,0,0.1)', color: '#FFB74D', label: 'Estándar' },
-  premium: { bg: 'rgba(156,39,176,0.1)', color: '#CE93D8', label: 'Premium' },
-  sin_plan: { bg: 'rgba(255,255,255,0.05)', color: '#666', label: 'Sin plan' },
+  basico: { bg: 'rgba(76,175,80,0.12)', color: '#81C784', label: 'Básico' },
+  estandar: { bg: 'rgba(255,152,0,0.12)', color: '#FFB74D', label: 'Estándar' },
+  pro: { bg: 'rgba(156,39,176,0.12)', color: '#CE93D8', label: 'Pro' },
 }
+const PLAN_OPTIONS = ['basico', 'estandar', 'pro']
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
@@ -37,6 +38,20 @@ export default function AdminDashboard() {
     r.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
     r.usuarios?.[0]?.email?.toLowerCase().includes(busqueda.toLowerCase())
   )
+
+  const cambiarPlan = async (id, plan) => {
+    const token = localStorage.getItem('token')
+    if (!token) return
+    try {
+      const res = await fetch(`${API}/admin/restaurantes/${id}/licencia`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ plan }),
+      })
+      if (!res.ok) throw new Error('Error')
+      setRestaurantes(prev => prev.map(r => r.id === id ? { ...r, plan } : r))
+    } catch (e) { console.error('Error cambiando plan:', e) }
+  }
 
   const pendientes = filtrados.filter(r => r.estado_licencia === 'pendiente')
   const activos = filtrados.filter(r => r.estado_licencia === 'activo')
@@ -69,17 +84,17 @@ export default function AdminDashboard() {
 
         {pendientes.length > 0 && (
           <Seccion titulo="Solicitudes de ingreso" count={pendientes.length} color="#FFB74D" icon="hourglass_empty">
-            {pendientes.map(r => <CardRestaurante key={r.id} r={r} />)}
+            {pendientes.map(r => <CardRestaurante key={r.id} r={r} onCambiarPlan={cambiarPlan} />)}
           </Seccion>
         )}
 
         <Seccion titulo="Activos" count={activos.length} color="#81C784" icon="check_circle">
-          {activos.map(r => <CardRestaurante key={r.id} r={r} />)}
+          {activos.map(r => <CardRestaurante key={r.id} r={r} onCambiarPlan={cambiarPlan} />)}
         </Seccion>
 
         {suspendidos.length > 0 && (
           <Seccion titulo="Suspendidos" count={suspendidos.length} color="#EF5350" icon="block">
-            {suspendidos.map(r => <CardRestaurante key={r.id} r={r} />)}
+            {suspendidos.map(r => <CardRestaurante key={r.id} r={r} onCambiarPlan={cambiarPlan} />)}
           </Seccion>
         )}
 
@@ -119,7 +134,7 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '14px 20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <div>
-            <span style={{ fontSize: '20px', fontWeight: '800', color: '#F44336' }}>karuAPP</span>
+            <span style={{ fontSize: '20px', fontWeight: '800', color: '#F44336' }}>LaCarta</span>
             <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginLeft: '8px' }}>Admin Panel</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -195,18 +210,19 @@ function Seccion({ titulo, count, color, icon, children }) {
   )
 }
 
-function CardRestaurante({ r }) {
+function CardRestaurante({ r, onCambiarPlan }) {
+  const navigate = useNavigate()
   const es = ESTADO_STYLES[r.estado_licencia] || { bg: 'rgba(255,255,255,0.05)', color: '#999', label: r.estado_licencia }
-  const ps = PLAN_STYLES[r.plan] || PLAN_STYLES.sin_plan
+  const ps = PLAN_STYLES[r.plan] || { bg: 'rgba(255,255,255,0.05)', color: '#666', label: '—' }
   const admin = r.usuarios?.[0]
   const diasRestantes = r.fecha_expiracion
     ? Math.ceil((new Date(r.fecha_expiracion) - new Date()) / (1000 * 60 * 60 * 24))
     : null
 
   return (
-    <Link to={`/admin/restaurantes/${r.id}`} style={{
+    <div onClick={() => navigate(`/admin/restaurantes/${r.id}`)} style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      padding: '14px 16px', borderRadius: '12px', textDecoration: 'none',
+      padding: '14px 16px', borderRadius: '12px', cursor: 'pointer',
       background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.06)',
       transition: 'all 0.15s', color: 'white',
     }}>
@@ -217,15 +233,27 @@ function CardRestaurante({ r }) {
             padding: '2px 8px', borderRadius: '5px', fontSize: '10px', fontWeight: '700',
             background: es.bg, color: es.color,
           }}>{es.label}</span>
-          <span style={{
-            padding: '2px 8px', borderRadius: '5px', fontSize: '10px', fontWeight: '700',
-            background: ps.bg, color: ps.color,
-          }}>{ps.label}</span>
+          <span onClick={e => e.stopPropagation()} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: ps.bg, borderRadius: '5px', padding: '1px 6px' }}>
+            <span style={{ fontSize: '10px', fontWeight: '700', color: ps.color }}>Plan:</span>
+            <select
+              value={PLAN_OPTIONS.includes(r.plan) ? r.plan : 'basico'}
+              onChange={e => onCambiarPlan(r.id, e.target.value)}
+              onClick={e => e.stopPropagation()}
+              title="Cambiar plan"
+              style={{
+                fontSize: '10px', fontWeight: '700', color: ps.color,
+                background: 'transparent', border: 'none', outline: 'none', cursor: 'pointer',
+                padding: '2px 0',
+              }}
+            >
+              {PLAN_OPTIONS.map(p => <option key={p} value={p} style={{ color: '#000' }}>{PLAN_STYLES[p].label}</option>)}
+            </select>
+          </span>
         </div>
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           {r.estado_licencia === 'pendiente' && (
             <span style={{ color: '#FFB74D', fontWeight: '700', fontSize: '13px', width: '100%' }}>
-              🔔 {r.nombre} quiere ingresar a karuapp
+              🔔 {r.nombre} quiere ingresar a LaCarta
             </span>
           )}
           {admin?.email && <span>✉ {admin.email}</span>}
@@ -248,7 +276,7 @@ function CardRestaurante({ r }) {
           </div>
         )}
       </div>
-    </Link>
+    </div>
   )
 }
 

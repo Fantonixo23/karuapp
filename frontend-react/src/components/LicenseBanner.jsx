@@ -88,12 +88,12 @@ export default function LicenseBanner() {
             {license.mensaje || 'Su licencia ha vencido. Contacte al administrador.'}
           </p>
           <div style={{ marginTop: '30px', padding: '20px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
-            <p style={{ fontSize: '14px', margin: '5px 0' }}>📧 Contacte a karuAPP para renovar</p>
+            <p style={{ fontSize: '14px', margin: '5px 0' }}>📧 Contacte a LaCarta para renovar</p>
             <p style={{ fontSize: '14px', margin: '5px 0' }}>📱 Solicite renovación de licencia</p>
           </div>
         </div>
         <p style={{ marginTop: '20px', fontSize: '12px', opacity: 0.5 }}>
-          karuAPP License Server
+          LaCarta License Server
         </p>
       </div>
     )

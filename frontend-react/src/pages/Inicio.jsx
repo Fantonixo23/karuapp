@@ -91,9 +91,9 @@ export default function Inicio() {
     <div style={s.container(darkMode)}>
       <header style={s.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <img src="/logo.png" alt="karuAPP" style={{ width: '36px', height: '36px', borderRadius: '8px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '36px', height: '36px', borderRadius: '8px' }} />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '0.5px' }}>karuAPP</span>
+            <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '0.5px' }}>LaCarta</span>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

@@ -336,7 +336,7 @@ export default function Funcionarios() {
         <header style={s.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
-            <img src="/logo.png" alt="karuAPP" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+            <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
             <span style={{ fontSize: '18px', fontWeight: '700' }}>Funcionarios</span>
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>

@@ -36,7 +36,7 @@ export default function Carta() {
             color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none',
           }}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="karuAPP" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
           <span style={{ fontSize: '18px', fontWeight: '700' }}>Carta</span>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>

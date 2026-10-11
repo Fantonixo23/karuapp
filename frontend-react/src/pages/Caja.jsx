@@ -561,7 +561,7 @@ export default function Caja() {
           <Link to="/app/inicio" style={{ width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
             <span className="material-icons">home</span>
           </Link>
-          <img src="/logo.png" alt="karuAPP" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
           <span style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px', color: 'white', flex: 1 }}>CAJA</span>
 
         </div>

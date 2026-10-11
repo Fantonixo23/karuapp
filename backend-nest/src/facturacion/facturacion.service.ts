@@ -195,7 +195,7 @@ export class FacturacionService {
       }
 
       const res = await fetch(`https://ruc.sun.com.py/api/search?q=${encodeURIComponent(query)}`, {
-        headers: { 'User-Agent': 'Karuapp/1.0' },
+        headers: { 'User-Agent': 'LaCarta/1.0' },
         signal: AbortSignal.timeout(5000),
       });
       if (!res.ok) return [];
@@ -217,7 +217,7 @@ export class FacturacionService {
   private async fetchSunApi(url: string): Promise<{ ruc: string; nombre: string } | null> {
     try {
       const res = await fetch(url, {
-        headers: { 'User-Agent': 'Karuapp/1.0' },
+        headers: { 'User-Agent': 'LaCarta/1.0' },
         signal: AbortSignal.timeout(5000),
       });
       if (!res.ok) return null;

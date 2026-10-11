@@ -56,7 +56,7 @@ export default function AdminLogin() {
         boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div style={{ fontSize: '28px', fontWeight: '800', color: '#F44336', letterSpacing: '1px' }}>karuAPP</div>
+          <div style={{ fontSize: '28px', fontWeight: '800', color: '#F44336', letterSpacing: '1px' }}>LaCarta</div>
           <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>Panel de Administración</div>
         </div>
 
