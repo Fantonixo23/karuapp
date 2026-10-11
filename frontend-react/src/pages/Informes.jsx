@@ -435,15 +435,6 @@ export default function Informes() {
                       animationDelay: `${index * 0.15}s`
                     }}
                   >
-                    <div style={{
-                      position: 'absolute',
-                      top: '-20px',
-                      right: '-20px',
-                      width: '80px',
-                      height: '80px',
-                      background: `linear-gradient(135deg, ${kpi.color}40, ${kpi.color}20)`,
-                      borderRadius: '50%'
-                    }}></div>
                     <span className="material-icons" style={{
                       fontSize: '45px',
                       color: kpi.color,
