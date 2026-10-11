@@ -423,16 +423,6 @@ export default function Informes() {
             <>
               {/* TARJETAS KPI ANIMADAS */}
               <h2 style={s.sectionTitle(darkMode)}>
-                <span style={{ 
-                  position: 'absolute', 
-                  left: 0, 
-                  top: '50%', 
-                  transform: 'translateY(-50%)', 
-                  width: '5px', 
-                  height: '70%', 
-                  background: 'linear-gradient(to bottom, #1976D2, #4CAF50)', 
-                  borderRadius: '3px' 
-                }}></span>
                 📈 Resumen del Período
               </h2>
               <div style={s.gridKpi}>
