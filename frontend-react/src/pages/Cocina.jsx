@@ -14,7 +14,7 @@ const FILTROS = [
   { key: 'todo', label: 'Todo', color: '#666' },
   { key: 'pendiente', label: 'Pendiente', color: '#E53935' },
   { key: 'cocinando', label: 'Preparando', color: '#FBC02D' },
-  { key: 'listo', label: 'Listo', color: '#777777' }
+  { key: 'listo', label: 'Listo', color: '#4CAF50' }
 ]
 
 export default function Cocina() {
@@ -136,7 +136,7 @@ export default function Cocina() {
 
   const getEstadoColor = (estado) => {
     if (estado === 'cocinando') return { border: '#FBC02D', texto: 'Cocinando', color: '#FBC02D' }
-    if (estado === 'listo') return { border: '#777777', texto: 'Listo', color: '#777777' }
+    if (estado === 'listo') return { border: '#4CAF50', texto: 'Listo', color: '#4CAF50' }
     return { border: '#E53935', texto: 'Pendiente', color: '#E53935' }
   }
 
@@ -318,15 +318,15 @@ export default function Cocina() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                     <span style={{ fontSize: '24px', fontWeight: '900', color: '#FF9800' }}>#{p.numero_orden || p.id}</span>
                     {p.tipo_pedido === 'venta' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#FF6D00', background: '#EFEFEF', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#FF6D00', background: '#FFF3E0', padding: '4px 8px', borderRadius: '4px' }}>
                         VENTA {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : p.tipo_pedido === 'delivery' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#777777', background: '#EEEEEE', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#2196F3', background: '#E3F2FD', padding: '4px 8px', borderRadius: '4px' }}>
                         DELIVERY {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#777777', background: '#EEEEEE', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50', background: '#E8F5E9', padding: '4px 8px', borderRadius: '4px' }}>
                         Mesa {p.mesa?.numero || p.mesa || '?'}
                       </span>
                     )}
@@ -345,7 +345,7 @@ export default function Cocina() {
                     ) : (
                       p.items.slice(0, 5).map((item, i) => (
                         <div key={i} style={{ fontSize: '14px', marginBottom: '6px', borderBottom: '1px solid #eee', paddingBottom: '4px' }}>
-                          <span style={{ color: '#777777', fontWeight: '700' }}>{item.cantidad}x </span>
+                          <span style={{ color: '#4CAF50', fontWeight: '700' }}>{item.cantidad}x </span>
                           <span style={{ fontWeight: '600' }}>{item.producto_nombre || item.producto}</span>
                           {item.categoria_nombre && (
                             <span style={{ fontSize: '9px', color: '#888', marginLeft: '6px', fontWeight: '400' }}>
@@ -390,7 +390,7 @@ export default function Cocina() {
                         padding: '8px',
                         border: 'none',
                         borderRadius: '6px',
-                        background: '#777777',
+                        background: '#2196F3',
                         color: 'white',
                         fontSize: '11px',
                         fontWeight: '600',
@@ -448,7 +448,7 @@ export default function Cocina() {
             <button onClick={() => { setPanelAbierto(false); setPedidoSeleccionado(null) }} style={{ fontSize: '30px', border: 'none', background: 'none', cursor: 'pointer' }}>×</button>
           </div>
 
-          <h3 style={{ color: '#777777', fontSize: '14px', marginBottom: '10px' }}>PEDIDO</h3>
+          <h3 style={{ color: '#4CAF50', fontSize: '14px', marginBottom: '10px' }}>PEDIDO</h3>
           {(pedidoSeleccionado.items || []).map((item, i) => (
             <div key={i} style={{ marginBottom: '10px' }}>
               <div style={{ fontSize: '14px', fontWeight: '600' }}>
@@ -479,7 +479,7 @@ export default function Cocina() {
             <button onClick={() => cambiarEstado('cocinando')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#FBC02D', color: '#333', fontWeight: '700', cursor: 'pointer' }}>
               Preparando
             </button>
-            <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#777777', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#4CAF50', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
               Listo!
             </button>
           </div>
@@ -494,7 +494,7 @@ export default function Cocina() {
             <p style={{ color: darkMode ? '#aaa' : '#666', marginBottom: '20px', fontSize: '14px' }}>#{pedidoSeleccionado?.numero_orden}</p>
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
               <button onClick={() => setModalConfirmar(false)} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: darkMode ? '#2a2a2a' : '#e8e8e8', color: darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: '600' }}>Cancelar</button>
-              <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: 'linear-gradient(135deg, #777777, #777777)', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+              <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: 'linear-gradient(135deg, #4CAF50, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
                 {cargando ? '...' : 'Confirmar'}
               </button>
             </div>

@@ -34,11 +34,11 @@ const Page = ({ title, color, icon, children }) => (
 )
 
 export default function Caja() { return <Page title="Caja" color="linear-gradient(135deg, #FF9800, #e68900)" icon="point_of_sale" /> }
-export function Delivery() { return <Page title="Delivery" color="linear-gradient(135deg, #777777, #777777)" icon="delivery_dining" /> }
-export function Informes() { return <Page title="Informes" color="linear-gradient(135deg, #777777, #555555)" icon="analytics" /> }
+export function Delivery() { return <Page title="Delivery" color="linear-gradient(135deg, #4CAF50, #388E3C)" icon="delivery_dining" /> }
+export function Informes() { return <Page title="Informes" color="linear-gradient(135deg, #1976D2, #1565C0)" icon="analytics" /> }
 export function Productos() { return <Page title="Productos" color="linear-gradient(135deg, #FF9800, #e68900)" icon="inventory_2" /> }
-export function Inventario() { return <Page title="Inventario" color="linear-gradient(135deg, #777777, #555555)" icon="inventory" /> }
+export function Inventario() { return <Page title="Inventario" color="linear-gradient(135deg, #9C27B0, #7B1FA2)" icon="inventory" /> }
 export function Config() { return <Page title="Configuracion" color="linear-gradient(135deg, #666, #444)" icon="settings" /> }
 export function Mesero() { return <Page title="Vista Mesero" color="linear-gradient(135deg, #E53935, #C62828)" icon="table_restaurant" /> }
-export function ParaLlevar() { return <Page title="Para Llevar" color="linear-gradient(135deg, #777777, #777777)" icon="takeout_dining" /> }
+export function ParaLlevar() { return <Page title="Para Llevar" color="linear-gradient(135deg, #4CAF50, #388E3C)" icon="takeout_dining" /> }
 export function Admin() { return <Page title="Admin" color="linear-gradient(135deg, #333, #111)" icon="admin_panel_settings" /> }

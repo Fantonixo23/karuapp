@@ -410,7 +410,7 @@ export default function Funcionarios() {
                 </div>
               )}
               {funcionarios.map(f => {
-                const rolColor = f.rol === 'administrador' ? '#F44336' : f.rol === 'cajero' ? '#777777' : f.rol === 'cocina' ? '#FF9800' : '#777777'
+                const rolColor = f.rol === 'administrador' ? '#F44336' : f.rol === 'cajero' ? '#1976D2' : f.rol === 'cocina' ? '#FF9800' : '#4CAF50'
                 return (
                   <div key={f.id} style={s.card(darkMode)}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -435,8 +435,8 @@ export default function Funcionarios() {
                           <span className="material-icons" style={{ fontSize: '16px' }}>refresh</span>
                         </button>
                         <button onClick={() => editar(f)} title="Editar" style={{
-                          width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(120,120,120,0.3)',
-                          background: 'rgba(120,120,120,0.1)', color: '#777777', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(33,150,243,0.3)',
+                          background: 'rgba(33,150,243,0.1)', color: '#2196F3', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>edit</span>
                         </button>

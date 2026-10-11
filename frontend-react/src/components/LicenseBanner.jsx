@@ -210,7 +210,7 @@ export default function LicenseBanner() {
                   height: '100%',
                   background: esCritico
                     ? 'linear-gradient(90deg, #ff5252, #d32f2f)'
-                    : 'linear-gradient(90deg, #e8e8e8, #ffb300)',
+                    : 'linear-gradient(90deg, #fff176, #ffb300)',
                   borderRadius: '3px',
                   transition: 'width 0.5s ease'
                 }} />

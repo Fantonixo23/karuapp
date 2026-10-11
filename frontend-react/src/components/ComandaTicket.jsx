@@ -388,7 +388,7 @@ const styles = {
   },
   printBtn: {
     padding: '12px 20px',
-    background: '#555555',
+    background: '#1565C0',
     color: 'white',
     border: 'none',
     borderRadius: '6px',

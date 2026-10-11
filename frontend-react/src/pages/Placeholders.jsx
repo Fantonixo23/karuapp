@@ -50,8 +50,8 @@ const createPlaceholder = (title, color, icon, activeRoute) => {
 }
 
 export const Productos = createPlaceholder('Productos', 'linear-gradient(135deg, #FF9800, #e68900)', 'inventory_2', '/app/productos')
-export const Inventario = createPlaceholder('Inventario', 'linear-gradient(135deg, #777777, #555555)', 'inventory', '/app/inventario')
+export const Inventario = createPlaceholder('Inventario', 'linear-gradient(135deg, #9C27B0, #7B1FA2)', 'inventory', '/app/inventario')
 export const Config = createPlaceholder('Configuracion', 'linear-gradient(135deg, #666, #444)', 'settings', '/app/config')
 export const Mesero = createPlaceholder('Vista Mesero', 'linear-gradient(135deg, #E53935, #C62828)', 'table_restaurant', '/app/mesero')
-export const ParaLlevar = createPlaceholder('Para Llevar', 'linear-gradient(135deg, #777777, #777777)', 'takeout_dining', '/app/para-llevar')
+export const ParaLlevar = createPlaceholder('Para Llevar', 'linear-gradient(135deg, #4CAF50, #388E3C)', 'takeout_dining', '/app/para-llevar')
 export const Admin = createPlaceholder('Admin', 'linear-gradient(135deg, #333, #111)', 'admin_panel_settings', '/app/admin')

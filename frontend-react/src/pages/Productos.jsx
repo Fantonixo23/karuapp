@@ -355,9 +355,9 @@ export default function Productos() {
     fab: {
       position: 'fixed', bottom: '24px', right: '24px',
       width: '48px', height: '48px', border: 'none', borderRadius: '14px',
-      background: 'linear-gradient(135deg, #777777, #777777)',
+      background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
       color: 'white', fontSize: '22px', cursor: 'pointer',
-      boxShadow: '0 4px 12px rgba(120,120,120,0.3)',
+      boxShadow: '0 4px 12px rgba(76,175,80,0.3)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 50,
     },
@@ -490,7 +490,7 @@ export default function Productos() {
                         onClick={(e) => { e.stopPropagation(); toggleDisponible(p.id, p.disponible) }}
                         style={{
                           padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '700',
-                          background: p.disponible ? '#777777' : '#E53935',
+                          background: p.disponible ? '#4CAF50' : '#E53935',
                           color: 'white', cursor: 'pointer',
                         }}
                       >{p.disponible ? 'DISP' : 'NO'}</span>
@@ -594,7 +594,7 @@ export default function Productos() {
                 onClick={() => handleChange('disponible', !form.disponible)}
                 style={{
                   padding: '6px 16px', border: 'none', borderRadius: '8px', cursor: 'pointer',
-                  background: form.disponible ? '#777777' : '#E53935',
+                  background: form.disponible ? '#4CAF50' : '#E53935',
                   color: 'white', fontWeight: '700', fontSize: '11px',
                 }}
               >{form.disponible ? 'SÍ' : 'NO'}</button>
@@ -620,7 +620,7 @@ export default function Productos() {
               {form.imagen ? (
                 <div>
                   <img src={form.imagen} alt="preview" style={{ maxHeight: '100px', borderRadius: '8px', marginBottom: '6px' }} />
-                  <div style={{ fontSize: '11px', color: '#777777' }}>✓ Imagen cargada</div>
+                  <div style={{ fontSize: '11px', color: '#4CAF50' }}>✓ Imagen cargada</div>
                 </div>
               ) : subiendo ? (
                 <div style={{ fontSize: '13px', color: '#FF9800' }}>Subiendo imagen...</div>

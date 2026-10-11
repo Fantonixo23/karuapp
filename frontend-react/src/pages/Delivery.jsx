@@ -30,12 +30,12 @@ const estilosAnimados = `
 
 const ESTADOS = {
   pendiente: { color: '#FBC02D', label: 'Pendiente', icono: 'schedule' },
-  cocinando: { color: '#777777', label: 'Preparando', icon: 'restaurant' },
-  listo: { color: '#777777', label: 'Listo para Entregar', icon: 'check_circle' },
+  cocinando: { color: '#1976D2', label: 'Preparando', icon: 'restaurant' },
+  listo: { color: '#4CAF50', label: 'Listo para Entregar', icon: 'check_circle' },
   en_camino: { color: '#FF9800', label: 'En Camino', icon: 'local_shipping' },
-  entregado: { color: '#555555', label: 'Entregado', icon: 'done_all' },
+  entregado: { color: '#7B1FA2', label: 'Entregado', icon: 'done_all' },
   cancelado: { color: '#E53935', label: 'Cancelado', icon: 'cancel' },
-  pagado: { color: '#777777', label: 'Pagado', icon: 'payments' }
+  pagado: { color: '#00BCD4', label: 'Pagado', icon: 'payments' }
 }
 
 export default function Delivery() {
@@ -372,7 +372,7 @@ export default function Delivery() {
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
       color: 'white',
-      background: 'linear-gradient(135deg, #777777, #777777)',
+      background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
     }),
     estadoBadge: (estado) => ({
       padding: '2px 8px',
@@ -389,11 +389,11 @@ export default function Delivery() {
 
   const kpis = dashboard ? [
     { label: 'Pendientes', valor: dashboard.pendientes, color: '#FBC02D', estado: 'pendiente' },
-    { label: 'Preparando', valor: dashboard.preparando, color: '#777777', estado: 'cocinando' },
-    { label: 'Listos', valor: dashboard.listos, color: '#777777', estado: 'listo' },
+    { label: 'Preparando', valor: dashboard.preparando, color: '#1976D2', estado: 'cocinando' },
+    { label: 'Listos', valor: dashboard.listos, color: '#4CAF50', estado: 'listo' },
     { label: 'En Camino', valor: dashboard.en_camino, color: '#FF9800', estado: 'en_camino' },
-    { label: 'Entregados', valor: dashboard.entregados, color: '#555555', estado: 'entregado' },
-    { label: 'Hoy', valor: formatGuarani(dashboard.total_hoy || 0), color: '#777777', esMoneda: true }
+    { label: 'Entregados', valor: dashboard.entregados, color: '#7B1FA2', estado: 'entregado' },
+    { label: 'Hoy', valor: formatGuarani(dashboard.total_hoy || 0), color: '#00BCD4', esMoneda: true }
   ] : []
 
   return (
@@ -423,7 +423,7 @@ export default function Delivery() {
         <div style={{ padding: isMobile ? '12px' : '20px', flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: isMobile ? '12px' : '20px' }}>
           {cargando ? (
             <div style={{ textAlign: 'center', padding: '100px' }}>
-              <div style={{ width: '60px', height: '60px', margin: '0 auto', border: '4px solid #777777', borderTop: '4px solid transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <div style={{ width: '60px', height: '60px', margin: '0 auto', border: '4px solid #43A047', borderTop: '4px solid transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
               <p style={{ marginTop: '20px', color: darkMode ? '#888' : '#666' }}>Cargando delivery...</p>
             </div>
           ) : (
@@ -452,7 +452,7 @@ export default function Delivery() {
 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
                 <button
                   onClick={() => setFiltroEstado('todos')}
-                  style={{ ...s.filtro(darkMode, filtroEstado === 'todos'), ...(filtroEstado === 'todos' ? { background: 'rgba(120, 120, 120, 0.4)' } : {}) }}
+                  style={{ ...s.filtro(darkMode, filtroEstado === 'todos'), ...(filtroEstado === 'todos' ? { background: 'rgba(76, 175, 80, 0.4)' } : {}) }}
                 >
                   Activos ({pedidos.filter(p => !['entregado', 'pagado', 'cancelado'].includes(p.estado)).length})
                 </button>
@@ -480,8 +480,8 @@ export default function Delivery() {
                     onClick={() => setFiltroEstado('entregado')}
                     style={{
                       ...s.filtro(darkMode, filtroEstado === 'entregado'),
-                      ...(filtroEstado === 'entregado' ? { background: 'rgba(120, 120, 120, 0.4)' } : {}),
-                      borderLeft: `3px solid #555555`,
+                      ...(filtroEstado === 'entregado' ? { background: 'rgba(121, 31, 178, 0.4)' } : {}),
+                      borderLeft: `3px solid #7B1FA2`,
                       marginLeft: '10px',
                       cursor: filtroEstado === 'entregado' ? 'not-allowed' : 'pointer',
                       opacity: filtroEstado === 'entregado' ? 0.5 : 1
@@ -506,7 +506,7 @@ export default function Delivery() {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
                       <div>
-                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#777777' }}>
+                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#43A047' }}>
                           #{pedido.numero_orden || pedido.id}
                         </span>
                         <span style={s.estadoBadge(pedido.estado)}>
@@ -546,13 +546,13 @@ export default function Delivery() {
                           </div>
                         ))}
                         {(pedido.items?.length || 0) > 3 && (
-                          <span style={{ color: '#777777' }}>+{pedido.items.length - 3} más...</span>
+                          <span style={{ color: '#43A047' }}>+{pedido.items.length - 3} más...</span>
                         )}
                       </div>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '20px', fontWeight: '800', color: '#777777' }}>
+                      <span style={{ fontSize: '20px', fontWeight: '800', color: '#43A047' }}>
                         {formatGuarani(pedido.total)}
                       </span>
                       {pedido.created_at && (
@@ -603,7 +603,7 @@ export default function Delivery() {
                   <p style={{ marginTop: '20px', fontSize: '18px' }}>No hay pedidos de delivery</p>
                   <button
                     onClick={() => setModalNuevo(true)}
-                    style={{ marginTop: '20px', padding: '14px 28px', border: 'none', borderRadius: '12px', background: 'linear-gradient(135deg, #777777, #777777)', color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                    style={{ marginTop: '20px', padding: '14px 28px', border: 'none', borderRadius: '12px', background: 'linear-gradient(135deg, #4CAF50, #388E3C)', color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
                   >
                     <span className="material-icons" style={{ fontSize: '20px' }}>add_circle</span>
                     Crear primer pedido
@@ -617,9 +617,9 @@ export default function Delivery() {
                 style={{
                   position: 'fixed', bottom: isMobile ? '75px' : '30px', right: isMobile ? '16px' : '30px',
                   width: '60px', height: '60px', borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #777777, #777777)',
+                  background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
                   color: 'white', border: 'none',
-                  boxShadow: '0 4px 20px rgba(120, 120, 120, 0.5)',
+                  boxShadow: '0 4px 20px rgba(76, 175, 80, 0.5)',
                   cursor: 'pointer', zIndex: 100,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '32px', fontWeight: '300',
@@ -648,7 +648,7 @@ export default function Delivery() {
 
             {/* DATOS DEL CLIENTE */}
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#777777', marginBottom: '12px' }}>Datos del Cliente</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Datos del Cliente</h3>
               <input
                 type="text"
                 placeholder="Nombre del cliente *"
@@ -680,7 +680,7 @@ export default function Delivery() {
 
             {/* CATÁLOGO DE PRODUCTOS */}
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#777777', marginBottom: '12px' }}>Seleccionar Productos</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Seleccionar Productos</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '8px', maxHeight: '220px', overflowY: 'auto' }}>
                 {productos.map((producto) => (
                   <div
@@ -705,7 +705,7 @@ export default function Delivery() {
                     )}
                     <div style={{ padding: '6px 8px', textAlign: 'center' }}>
                       <div style={{ fontWeight: '600', fontSize: '11px', color: darkMode ? '#fff' : '#1a1a1a', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{producto.nombre}</div>
-                      <div style={{ color: '#777777', fontWeight: '700', fontSize: '12px' }}>{formatGuarani(producto.precio)}</div>
+                      <div style={{ color: '#43A047', fontWeight: '700', fontSize: '12px' }}>{formatGuarani(producto.precio)}</div>
                     </div>
                   </div>
                 ))}
@@ -714,12 +714,12 @@ export default function Delivery() {
 
             {/* CARRITO */}
             <div style={{
-              background: darkMode ? 'rgba(120, 120, 120, 0.1)' : 'rgba(120, 120, 120, 0.1)',
+              background: darkMode ? 'rgba(76, 175, 80, 0.1)' : 'rgba(76, 175, 80, 0.1)',
               borderRadius: '12px',
               padding: '15px',
               marginBottom: '20px'
             }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#777777', marginBottom: '12px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>
                 Carrito ({carrito.length} items)
               </h3>
               {carrito.length === 0 ? (
@@ -736,8 +736,8 @@ export default function Delivery() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <button onClick={() => quitarDelCarrito(item.producto_id, item.variante)} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '6px', background: '#E53935', color: 'white', cursor: 'pointer' }}>-</button>
                         <span style={{ fontWeight: '700', minWidth: '20px', textAlign: 'center' }}>{item.cantidad}</span>
-                        <button onClick={() => agregarAlCarrito({ id: item.producto_id, precio: item.precio }, { variante: item.variante, cantidad: 1 })} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '6px', background: '#777777', color: 'white', cursor: 'pointer' }}>+</button>
-                        <span style={{ fontWeight: '700', color: '#777777', minWidth: '60px', textAlign: 'right' }}>{formatGuarani(item.cantidad * item.precio)}</span>
+                        <button onClick={() => agregarAlCarrito({ id: item.producto_id, precio: item.precio }, { variante: item.variante, cantidad: 1 })} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '6px', background: '#43A047', color: 'white', cursor: 'pointer' }}>+</button>
+                        <span style={{ fontWeight: '700', color: '#43A047', minWidth: '60px', textAlign: 'right' }}>{formatGuarani(item.cantidad * item.precio)}</span>
                       </div>
                     </div>
                   ))}
@@ -745,7 +745,7 @@ export default function Delivery() {
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px', paddingTop: '15px', borderTop: `2px solid ${darkMode ? '#444' : '#ddd'}` }}>
                 <span style={{ fontSize: '18px', fontWeight: '700' }}>TOTAL:</span>
-                <span style={{ fontSize: '24px', fontWeight: '800', color: '#777777' }}>{formatGuarani(totalCarrito)}</span>
+                <span style={{ fontSize: '24px', fontWeight: '800', color: '#43A047' }}>{formatGuarani(totalCarrito)}</span>
               </div>
             </div>
 
@@ -754,7 +754,7 @@ export default function Delivery() {
               disabled={!cliente.nombre || !carrito.length || guardando}
               style={{
                 padding: '16px', border: 'none', borderRadius: '10px',
-                background: guardando ? '#999' : 'linear-gradient(135deg, #777777, #777777)',
+                background: guardando ? '#999' : 'linear-gradient(135deg, #4CAF50, #388E3C)',
                 color: 'white', fontWeight: '800', fontSize: '16px',
                 cursor: (!cliente.nombre || !carrito.length || guardando) ? 'not-allowed' : 'pointer',
                 opacity: (!cliente.nombre || !carrito.length || guardando) ? 0.5 : 1,
@@ -783,7 +783,7 @@ export default function Delivery() {
               <img src={modalProducto.imagen} alt={modalProducto.nombre} style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '12px', marginBottom: '16px', background: darkMode ? '#2a2a2a' : '#f0f2f5' }} />
             )}
 
-            <div style={{ fontSize: '22px', fontWeight: '800', color: '#777777', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
+            <div style={{ fontSize: '22px', fontWeight: '800', color: '#43A047', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
 
             {modalProducto.variantes && Array.isArray(modalProducto.variantes) && modalProducto.variantes.length > 0 && (
               <div style={{ marginBottom: '16px' }}>
@@ -815,7 +815,7 @@ export default function Delivery() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <button onClick={() => setCantidad(Math.max(1, cantidad - 1))} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&minus;</button>
                 <span style={{ fontSize: '22px', fontWeight: '700', minWidth: '30px', textAlign: 'center', color: darkMode ? '#fff' : '#1a1a1a' }}>{cantidad}</span>
-                <button onClick={() => setCantidad(cantidad + 1)} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: '#777777', color: 'white', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                <button onClick={() => setCantidad(cantidad + 1)} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: '#43A047', color: 'white', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
               </div>
             </div>
 
@@ -842,7 +842,7 @@ export default function Delivery() {
               }}
               style={{
                 width: '100%', padding: '14px', border: 'none', borderRadius: '12px',
-                background: 'linear-gradient(135deg, #777777, #777777)',
+                background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
                 color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer',
               }}
             >Agregar al Carrito</button>
@@ -945,7 +945,7 @@ export default function Delivery() {
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#777777', marginBottom: '12px' }}>Cliente</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Cliente</h3>
               <p style={{ fontSize: '16px', fontWeight: '600', margin: '0 0 5px 0' }}>{modalDetalle.nombre_cliente}</p>
               <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', margin: '0' }}>Tel: {modalDetalle.telefono_cliente}</p>
               <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', margin: '5px 0 0 0' }}>Dir: {modalDetalle.direccion}</p>
@@ -955,20 +955,20 @@ export default function Delivery() {
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#777777', marginBottom: '12px' }}>Items</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Items</h3>
               <div style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', borderRadius: '12px', padding: '15px' }}>
                 {modalDetalle.items?.map((item, i) => (
                   <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', paddingBottom: '8px', borderBottom: i < modalDetalle.items.length - 1 ? `1px solid ${darkMode ? '#333' : '#eee'}` : 'none' }}>
                     <span style={{ fontWeight: '600' }}>{item.cantidad}x {item.producto_nombre}</span>
-                    <span style={{ fontWeight: '700', color: '#777777' }}>{formatGuarani(item.cantidad * Number(item.precio))}</span>
+                    <span style={{ fontWeight: '700', color: '#43A047' }}>{formatGuarani(item.cantidad * Number(item.precio))}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', padding: '15px', background: 'rgba(120, 120, 120, 0.1)', borderRadius: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', padding: '15px', background: 'rgba(67, 160, 71, 0.1)', borderRadius: '12px' }}>
               <span style={{ fontSize: '20px', fontWeight: '700' }}>TOTAL:</span>
-              <span style={{ fontSize: '28px', fontWeight: '800', color: '#777777' }}>{formatGuarani(modalDetalle.total)}</span>
+              <span style={{ fontSize: '28px', fontWeight: '800', color: '#43A047' }}>{formatGuarani(modalDetalle.total)}</span>
             </div>
 
             {modalDetalle.estado !== 'cancelado' && modalDetalle.estado !== 'pagado' && (

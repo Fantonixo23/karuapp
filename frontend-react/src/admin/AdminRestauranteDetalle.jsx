@@ -9,7 +9,7 @@ const PLANES = {
     label: 'Básico',
     precio: 250000,
     moneda: 'Gs',
-    color: '#777777',
+    color: '#4CAF50',
     features: [
       'Mesas', 'Caja', 'Productos', 'Configuración',
     ],
@@ -32,7 +32,7 @@ const PLANES = {
     label: 'Pro',
     precio: 500000,
     moneda: 'Gs',
-    color: '#777777',
+    color: '#9C27B0',
     features: [
       'Todos los módulos',
       'Delivery',
@@ -181,8 +181,8 @@ export default function AdminRestauranteDetalle() {
         {msg.text && (
           <div style={{
             padding: '12px', borderRadius: '10px', marginBottom: '16px',
-            background: msg.type === 'error' ? 'rgba(244,67,54,0.12)' : 'rgba(120,120,120,0.12)',
-            color: msg.type === 'error' ? '#EF5350' : '#A0A0A0',
+            background: msg.type === 'error' ? 'rgba(244,67,54,0.12)' : 'rgba(76,175,80,0.12)',
+            color: msg.type === 'error' ? '#EF5350' : '#81C784',
             fontSize: '13px', fontWeight: '600', textAlign: 'center',
           }}>{msg.text}</div>
         )}
@@ -204,7 +204,7 @@ export default function AdminRestauranteDetalle() {
             )}
             {diasRestantes !== null && (
               <Fila label="Días restantes" value={
-                <span style={{ color: diasRestantes <= 7 ? '#EF5350' : diasRestantes <= 30 ? '#FFB74D' : '#A0A0A0', fontWeight: '700' }}>
+                <span style={{ color: diasRestantes <= 7 ? '#EF5350' : diasRestantes <= 30 ? '#FFB74D' : '#81C784', fontWeight: '700' }}>
                   {diasRestantes > 0 ? `${diasRestantes} días` : 'VENCIDA'}
                 </span>
               } />
@@ -336,8 +336,8 @@ export default function AdminRestauranteDetalle() {
                     <td style={{ padding: '8px 4px', textAlign: 'center' }}>
                       <span style={{
                         padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '600',
-                        background: u.activo ? 'rgba(120,120,120,0.15)' : 'rgba(244,67,54,0.15)',
-                        color: u.activo ? '#A0A0A0' : '#EF5350',
+                        background: u.activo ? 'rgba(76,175,80,0.15)' : 'rgba(244,67,54,0.15)',
+                        color: u.activo ? '#81C784' : '#EF5350',
                       }}>{u.activo ? 'Activo' : 'Inactivo'}</span>
                     </td>
                     <td style={{ padding: '8px 4px', textAlign: 'center' }}>
@@ -395,7 +395,7 @@ function PantallaCarga() {
 function Header({ data, planActual }) {
   const estadoStyles = {
     pendiente: { bg: 'rgba(255,152,0,0.15)', color: '#FFB74D' },
-    activo: { bg: 'rgba(120,120,120,0.15)', color: '#A0A0A0' },
+    activo: { bg: 'rgba(76,175,80,0.15)', color: '#81C784' },
     suspendido: { bg: 'rgba(244,67,54,0.15)', color: '#EF5350' },
   }
   const es = estadoStyles[data.estado_licencia] || { bg: 'rgba(255,255,255,0.1)', color: '#999' }
@@ -494,7 +494,7 @@ const s = {
   },
   btn: {
     width: '100%', padding: '11px', borderRadius: '8px', border: 'none',
-    background: '#777777', color: 'white', fontWeight: '700', fontSize: '13px',
+    background: '#4CAF50', color: 'white', fontWeight: '700', fontSize: '13px',
     cursor: 'pointer', marginTop: '8px',
   },
 }

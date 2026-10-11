@@ -290,7 +290,7 @@ export default function NuevaVenta() {
   const getEstado = (estado) => {
     if (estado === 'ocupada') return { bg: '#E53935', bgSoft: 'rgba(229,57,53,0.12)', border: '#E53935', texto: 'Ocupada', icono: 'block' }
     if (estado === 'limpieza') return { bg: '#FBC02D', bgSoft: 'rgba(251,192,45,0.12)', border: '#FBC02D', texto: 'Limpieza', icono: 'cleaning_services' }
-    return { bg: '#777777', bgSoft: 'rgba(120,120,120,0.12)', border: '#777777', texto: 'Disponible', icono: 'check_circle' }
+    return { bg: '#4CAF50', bgSoft: 'rgba(76,175,80,0.12)', border: '#4CAF50', texto: 'Disponible', icono: 'check_circle' }
   }
 
   const getAreaIcono = (area) => {
@@ -542,8 +542,8 @@ export default function NuevaVenta() {
                             </span>
                             <span style={{
                               padding: '2px 6px', borderRadius: '4px', fontSize: '9px', fontWeight: '600',
-                              background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(120,120,120,0.2)' : pedido.estado === 'entregado' ? 'rgba(120,120,120,0.2)' : 'rgba(229,57,53,0.2)',
-                              color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#777777' : pedido.estado === 'entregado' ? '#777777' : '#E53935',
+                              background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(76,175,80,0.2)' : pedido.estado === 'entregado' ? 'rgba(33,150,243,0.2)' : 'rgba(229,57,53,0.2)',
+                              color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#4CAF50' : pedido.estado === 'entregado' ? '#2196F3' : '#E53935',
                             }}>
                               {pedido.estado === 'pendiente' ? 'Pendiente' : pedido.estado === 'cocinando' ? 'Cocinando' : pedido.estado === 'listo' ? 'Listo' : pedido.estado === 'entregado' ? 'Entregado' : pedido.estado}
                             </span>
@@ -558,24 +558,24 @@ export default function NuevaVenta() {
                           {pedido.total && (
                             <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                               <span style={{ fontWeight: '700', fontSize: '12px' }}>Total</span>
-                              <span style={{ fontWeight: '700', color: '#777777', fontSize: '13px' }}>{formatGuarani(pedido.total)}</span>
+                              <span style={{ fontWeight: '700', color: '#4CAF50', fontSize: '13px' }}>{formatGuarani(pedido.total)}</span>
                             </div>
                           )}
                           <div style={{ display: 'flex', gap: '6px' }}>
                             {pedido.estado === 'listo' ? (
                               <button onClick={() => { setPedidoAEntregar(pedido); setModalEntregar(true) }} style={{
                                 flex: 1, padding: '6px', border: 'none', borderRadius: '6px',
-                                background: '#777777', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
+                                background: '#4CAF50', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
                               }}>Entregar</button>
                             ) : pedido.estado === 'entregado' ? (
-                              <span style={{ flex: 1, textAlign: 'center', padding: '6px', color: '#777777', fontSize: '10px', fontWeight: '600' }}>✓ Entregado</span>
+                              <span style={{ flex: 1, textAlign: 'center', padding: '6px', color: '#4CAF50', fontSize: '10px', fontWeight: '600' }}>✓ Entregado</span>
                             ) : null}
                             <button onClick={() => {
                               setPedidoParaEditar(pedido)
                               setVista('pedido')
                             }} style={{
                               flex: 1, padding: '6px', border: 'none', borderRadius: '6px',
-                              background: '#777777', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
+                              background: '#1976D2', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
                             }}>Editar</button>
                             <button onClick={() => { setPedidoACancelar(pedido); setModalCancelarConMotivo(true) }} style={{
                               flex: 1, padding: '6px', border: 'none', borderRadius: '6px',
@@ -593,7 +593,7 @@ export default function NuevaVenta() {
                     <button onClick={() => {
                       localStorage.setItem('mesa_seleccionada', JSON.stringify({ id: mesaSeleccionada.id, numero: mesaSeleccionada.numero }))
                       setVista('pedido')
-                    }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #777777, #777777)' }}>
+                    }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}>
                       <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '4px' }}>add_circle</span>
                       Nuevo Pedido
                     </button>
@@ -601,7 +601,7 @@ export default function NuevaVenta() {
                       <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '4px' }}>receipt_long</span>
                       Cuenta
                     </button>
-                    <button onClick={() => { setMesaNumero(String(mesaSeleccionada.numero)); setMesaArea(mesaSeleccionada.area || ''); setMesaCapacidad(String(mesaSeleccionada.capacidad || 4)); setModalEstado(true) }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #777777, #555555)' }}>
+                    <button onClick={() => { setMesaNumero(String(mesaSeleccionada.numero)); setMesaArea(mesaSeleccionada.area || ''); setMesaCapacidad(String(mesaSeleccionada.capacidad || 4)); setModalEstado(true) }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #9C27B0, #7B1FA2)' }}>
                       <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '4px' }}>swap_horiz</span>
                       Estado
                     </button>
@@ -616,10 +616,10 @@ export default function NuevaVenta() {
       {vista === 'mesas' && (
         <>
           <div style={{ position: 'fixed', bottom: isMobile ? (isLandscape ? '56px' : '70px') : '20px', left: isMobile ? '12px' : '90px', display: 'flex', gap: '8px', zIndex: isMobile && isLandscape ? 300 : 200 }}>
-            <button onClick={() => setModalCrear(true)} style={s.btnAction('#777777', false)}>
+            <button onClick={() => setModalCrear(true)} style={s.btnAction('#4CAF50', false)}>
               <span className="material-icons" style={{ fontSize: '22px' }}>add</span>
             </button>
-            <button onClick={() => { if (mesaSeleccionada) { setMesaNumero(String(mesaSeleccionada.numero)); setMesaArea(mesaSeleccionada.area || ''); setMesaCapacidad(String(mesaSeleccionada.capacidad || 4)); setModalEditar(true) }}} disabled={!mesaSeleccionada} style={s.btnAction('#777777', !mesaSeleccionada)}>
+            <button onClick={() => { if (mesaSeleccionada) { setMesaNumero(String(mesaSeleccionada.numero)); setMesaArea(mesaSeleccionada.area || ''); setMesaCapacidad(String(mesaSeleccionada.capacidad || 4)); setModalEditar(true) }}} disabled={!mesaSeleccionada} style={s.btnAction('#1976D2', !mesaSeleccionada)}>
               <span className="material-icons" style={{ fontSize: '22px' }}>edit</span>
             </button>
             <button onClick={() => mesaSeleccionada && confirmarBorrarMesa(mesaSeleccionada)} disabled={!mesaSeleccionada} style={s.btnAction('#E53935', !mesaSeleccionada)}>
@@ -637,7 +637,7 @@ export default function NuevaVenta() {
                 <input type="number" value={mesaCapacidad} onChange={(e) => setMesaCapacidad(e.target.value)} placeholder="Capacidad" style={s.input(darkMode)} />
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                   <button onClick={() => { setModalCrear(false); setMesaNumero(''); setMesaArea(''); setMesaCapacidad('') }} style={s.btnSecundario(darkMode)}>Cancelar</button>
-                  <button onClick={crearMesa} disabled={cargando || !mesaNumero} style={{ ...s.btnPrimario(cargando || !mesaNumero), background: 'linear-gradient(135deg, #777777, #777777)' }}>
+                  <button onClick={crearMesa} disabled={cargando || !mesaNumero} style={{ ...s.btnPrimario(cargando || !mesaNumero), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}>
                     {cargando ? 'Creando...' : 'Crear'}
                   </button>
                 </div>
@@ -650,15 +650,15 @@ export default function NuevaVenta() {
             <div style={s.modal(darkMode)}>
               <div style={s.modalCard(darkMode)}>
                 <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-                  <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(120,120,120,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span className="material-icons" style={{ fontSize: '28px', color: '#777777' }}>check_circle</span>
+                  <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(76,175,80,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span className="material-icons" style={{ fontSize: '28px', color: '#4CAF50' }}>check_circle</span>
                   </div>
                   <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>Mesa {mesaSeleccionada.numero}</h3>
                   <p style={{ color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', fontSize: '14px', margin: 0 }}>Ocupar esta mesa?</p>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
                   <button onClick={rechazarOcupar} style={s.btnSecundario(darkMode)}>Cancelar</button>
-                  <button onClick={confirmarOcupar} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #777777, #777777)' }}>
+                  <button onClick={confirmarOcupar} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}>
                     {cargando ? 'Ocupando...' : 'Ocupar Mesa'}
                   </button>
                 </div>
@@ -676,7 +676,7 @@ export default function NuevaVenta() {
                 <input type="number" value={mesaCapacidad} onChange={(e) => setMesaCapacidad(e.target.value)} placeholder="Capacidad" style={s.input(darkMode)} />
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                   <button onClick={() => setModalEditar(false)} style={s.btnSecundario(darkMode)}>Cancelar</button>
-                  <button onClick={editarMesa} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #777777, #555555)' }}>
+                  <button onClick={editarMesa} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #1976D2, #1565C0)' }}>
                     {cargando ? 'Guardando...' : 'Guardar'}
                   </button>
                 </div>
@@ -691,7 +691,7 @@ export default function NuevaVenta() {
                 <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a', textAlign: 'center' }}>Cambiar Estado</h3>
                 <p style={{ textAlign: 'center', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', fontSize: '13px', marginBottom: '20px' }}>Mesa {mesaSeleccionada.numero}</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {[{ estado: 'disponible', label: 'Disponible', color: '#777777', icono: 'check_circle' },
+                  {[{ estado: 'disponible', label: 'Disponible', color: '#4CAF50', icono: 'check_circle' },
                     { estado: 'ocupada', label: 'Ocupada', color: '#E53935', icono: 'block' },
                     { estado: 'limpieza', label: 'Limpieza', color: '#FBC02D', icono: 'cleaning_services' }
                   ].map(({ estado, label, color, icono }) => (
@@ -766,8 +766,8 @@ export default function NuevaVenta() {
                           </span>
                           <span style={{
                             padding: '3px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '600',
-                            background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(120,120,120,0.2)' : 'rgba(229,57,53,0.2)',
-                            color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#777777' : '#E53935',
+                            background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(76,175,80,0.2)' : 'rgba(229,57,53,0.2)',
+                            color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#4CAF50' : '#E53935',
                           }}>
                             {pedido.estado === 'pendiente' ? 'Pendiente' : pedido.estado === 'cocinando' ? 'Cocinando' : pedido.estado === 'listo' ? 'Listo' : pedido.estado}
                           </span>
@@ -782,7 +782,7 @@ export default function NuevaVenta() {
                         </div>
                         <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, display: 'flex', justifyContent: 'space-between' }}>
                           <span style={{ fontWeight: '700', fontSize: '13px' }}>Total</span>
-                          <span style={{ fontWeight: '700', color: '#777777', fontSize: '15px' }}>{formatGuarani(pedido.total)}</span>
+                          <span style={{ fontWeight: '700', color: '#4CAF50', fontSize: '15px' }}>{formatGuarani(pedido.total)}</span>
                         </div>
                       </div>
                     ))}
@@ -794,7 +794,7 @@ export default function NuevaVenta() {
                   <button onClick={() => {
                     localStorage.setItem('mesa_seleccionada', JSON.stringify({ id: mesaSeleccionada.id, numero: mesaSeleccionada.numero }))
                     setVista('pedido')
-                  }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #777777, #777777)', maxWidth: '160px' }}>
+                  }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #4CAF50, #388E3C)', maxWidth: '160px' }}>
                     Agregar Productos
                   </button>
                 </div>
@@ -871,8 +871,8 @@ export default function NuevaVenta() {
             <div style={s.modal(darkMode)}>
               <div style={{ ...s.modalCard(darkMode), maxWidth: '420px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-                  <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(120,120,120,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span className="material-icons" style={{ fontSize: '28px', color: '#777777' }}>check_circle</span>
+                  <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(76,175,80,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span className="material-icons" style={{ fontSize: '28px', color: '#4CAF50' }}>check_circle</span>
                   </div>
                   <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>Entregar Pedido</h3>
                   <p style={{ color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', fontSize: '13px', margin: '0' }}>
@@ -909,7 +909,7 @@ export default function NuevaVenta() {
                       setCargando(false)
                     }}
                     disabled={cargando}
-                    style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #777777, #777777)' }}
+                    style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}
                   >{cargando ? 'Entregando...' : 'Sí, entregar'}</button>
                 </div>
               </div>

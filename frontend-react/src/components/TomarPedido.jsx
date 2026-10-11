@@ -408,7 +408,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
         <div style={styles.headerBar}>
           <button onClick={onVolver} style={styles.backBtn}>←</button>
           {mesa && <span style={styles.mesaBadge}>Mesa {mesa.numero}</span>}
-          {esEdicion && <span style={{ background: '#777777', color: 'white', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' }}>Editando #{pedidoExistente.numero_orden || pedidoExistente.id}</span>}
+          {esEdicion && <span style={{ background: '#1976D2', color: 'white', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' }}>Editando #{pedidoExistente.numero_orden || pedidoExistente.id}</span>}
           <input
             style={styles.searchInput}
             placeholder="Buscar producto..."
@@ -539,7 +539,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                       {item.variante && <div style={{ fontSize: '10px', color: '#FF9800' }}>+ {item.variante}</div>}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#777777' }}>{formatGuarani(item.precio_total)}</span>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(item.precio_total)}</span>
                       <button onClick={() => eliminarDelCarrito(i)} style={styles.deleteBtn}>×</button>
                     </div>
                   </div>
@@ -554,13 +554,13 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: darkMode ? '#ccc' : '#666', marginBottom: '4px' }}>
                   <span>Total</span>
-                  <span style={{ fontWeight: '700', color: '#777777', fontSize: '16px' }}>{formatGuarani(totalCarrito)}</span>
+                  <span style={{ fontWeight: '700', color: '#4CAF50', fontSize: '16px' }}>{formatGuarani(totalCarrito)}</span>
                 </div>
                 {esEdicion ? (
                   <>
                     <button
                       onClick={() => setModalConfirmarCocina(true)}
-                      style={{ ...styles.btnOrange, marginTop: '8px', background: 'linear-gradient(135deg, #777777, #777777)' }}
+                      style={{ ...styles.btnOrange, marginTop: '8px', background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}
                     >Actualizar Pedido</button>
                     <button
                       onClick={() => setModalCancelarPedido(true)}
@@ -626,7 +626,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                 <span style={{ fontSize: '22px', fontWeight: '700', color: darkMode ? 'white' : '#333', minWidth: '40px', textAlign: 'center' }}>{cantidad}</span>
                 <button onClick={() => setCantidad(cantidad + 1)} style={{
                   width: '36px', height: '36px', border: 'none', borderRadius: '10px',
-                  background: '#777777', color: 'white', cursor: 'pointer', fontSize: '18px', fontWeight: '700',
+                  background: '#4CAF50', color: 'white', cursor: 'pointer', fontSize: '18px', fontWeight: '700',
                 }}>+</button>
               </div>
 
@@ -665,7 +665,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               }}>Cancelar</button>
               <button onClick={() => { setModalConfirmarCocina(false); esEdicion ? enviarActualizacion() : enviarAPedido() }} style={{
                 padding: '12px 24px', border: 'none', borderRadius: '10px',
-                background: 'linear-gradient(135deg, #777777, #777777)', color: 'white', fontWeight: '700', cursor: 'pointer',
+                background: 'linear-gradient(135deg, #4CAF50, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer',
               }}>Confirmar</button>
             </div>
           </div>
@@ -721,7 +721,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
       {modalExito && (
         <div style={{ ...styles.modalOverlay, zIndex: 400 }}>
           <div style={{
-            background: 'linear-gradient(135deg, #777777, #777777)', borderRadius: '20px',
+            background: 'linear-gradient(135deg, #4CAF50, #388E3C)', borderRadius: '20px',
             padding: '40px', textAlign: 'center', color: 'white', maxWidth: '350px',
           }}>
             <span className="material-icons" style={{ fontSize: '80px' }}>check_circle</span>
@@ -729,7 +729,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
             <p style={{ opacity: 0.8, fontSize: '14px' }}>{esEdicion ? 'Los cambios se enviaron a cocina' : 'El pedido está siendo preparado'}</p>
             <button onClick={() => { setModalExito(false); onVolver() }} style={{
               marginTop: '20px', padding: '12px 30px', border: 'none', borderRadius: '10px',
-              background: 'white', color: '#777777', fontWeight: '700', cursor: 'pointer',
+              background: 'white', color: '#4CAF50', fontWeight: '700', cursor: 'pointer',
             }}>Aceptar</button>
           </div>
         </div>

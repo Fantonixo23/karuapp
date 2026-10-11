@@ -123,10 +123,10 @@ export default function Inicio() {
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)', gap: '10px', marginBottom: '24px' }}>
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
-              border: '1px solid rgba(120,120,120,0.25)',
-              background: darkMode ? 'rgba(120,120,120,0.1)' : 'rgba(120,120,120,0.06)',
+              border: '1px solid rgba(76,175,80,0.25)',
+              background: darkMode ? 'rgba(76,175,80,0.1)' : 'rgba(76,175,80,0.06)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '800', color: '#777777' }}>{formatGuarani(stats.total_hoy)}</div>
+              <div style={{ fontSize: '20px', fontWeight: '800', color: '#4CAF50' }}>{formatGuarani(stats.total_hoy)}</div>
               <div style={{ fontSize: '10px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Ventas hoy</div>
             </div>
             <div style={{
@@ -139,10 +139,10 @@ export default function Inicio() {
             </div>
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
-              border: '1px solid rgba(120,120,120,0.25)',
-              background: darkMode ? 'rgba(120,120,120,0.1)' : 'rgba(120,120,120,0.06)',
+              border: '1px solid rgba(33,150,243,0.25)',
+              background: darkMode ? 'rgba(33,150,243,0.1)' : 'rgba(33,150,243,0.06)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '800', color: '#777777' }}>{stats.pedidos_pendientes}</div>
+              <div style={{ fontSize: '20px', fontWeight: '800', color: '#2196F3' }}>{stats.pedidos_pendientes}</div>
               <div style={{ fontSize: '10px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Pendientes</div>
             </div>
           </div>

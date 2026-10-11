@@ -60,7 +60,7 @@ export default function Configuracion() {
   const [mensaje, setMensaje] = useState('')
 
   const [metodos, setMetodos] = useState([])
-  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: '#777777', activo: true, orden: 0 })
+  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: '#4CAF50', activo: true, orden: 0 })
   const [editMetodoId, setEditMetodoId] = useState(null)
   const [showMetodoModal, setShowMetodoModal] = useState(false)
   const [metodoMsg, setMetodoMsg] = useState('')
@@ -99,7 +99,7 @@ export default function Configuracion() {
       })
       setEditMetodoId(metodo.id)
     } else {
-      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: '#777777', activo: true, orden: metodos.length + 1 })
+      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: '#4CAF50', activo: true, orden: metodos.length + 1 })
       setEditMetodoId(null)
     }
     setMetodoMsg('')
@@ -322,7 +322,7 @@ export default function Configuracion() {
             <h2 style={s.cardTitle(darkMode)}>Metodos de Pago</h2>
             <button onClick={() => abrirMetodoModal(null)} style={{
               padding: '8px 16px', border: 'none', borderRadius: '8px',
-              background: '#777777', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
+              background: '#4CAF50', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
             }}>+ Agregar</button>
           </div>
           <p style={s.subtitle(darkMode)}>Estos metodos aparecen al cobrar en Caja</p>
@@ -379,7 +379,7 @@ export default function Configuracion() {
                     <div style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#999' }}>{a.desc}</div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#777777' }}>
+                    <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#4CAF50' }}>
                       {oculto ? 'Oculto' : 'Visible'}
                     </span>
                     <button
@@ -388,7 +388,7 @@ export default function Configuracion() {
                       style={{
                         width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
                         padding: '2px', display: 'flex', alignItems: 'center',
-                        background: oculto ? '#666' : '#777777',
+                        background: oculto ? '#666' : '#4CAF50',
                         justifyContent: oculto ? 'flex-start' : 'flex-end',
                         transition: 'all 0.15s',
                       }}
@@ -472,7 +472,7 @@ export default function Configuracion() {
 
           {/* --- IMPRESORA DE COCINA --- */}
           <div style={{ ...s.field, padding: '12px', borderRadius: '10px', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : '#e0e0e0'}`, marginBottom: '16px' }}>
-            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: darkMode ? '#A0A0A0' : '#555555', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: darkMode ? '#81C784' : '#2E7D32', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span className="material-icons" style={{ fontSize: '18px' }}>restaurant</span> Impresora de Cocina
             </h3>
             <p style={{ fontSize: '12px', color: '#999', margin: '0 0 12px 0' }}>Para comandas de cocina</p>
@@ -622,7 +622,7 @@ export default function Configuracion() {
               }}
               style={{
                 flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                background: '#555555', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
+                background: '#2E7D32', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
               }}
             >
               Probar Cocina
@@ -727,8 +727,8 @@ export default function Configuracion() {
         {mensaje && (
           <div style={{
             ...s.mensaje,
-            background: '#E8E8E8',
-            color: '#444444'
+            background: '#d4edda',
+            color: '#155724'
           }}>
             {mensaje}
           </div>
@@ -835,7 +835,7 @@ const s = {
     padding: '12px',
     border: 'none',
     borderRadius: '10px',
-    background: 'linear-gradient(135deg, #777777, #777777)',
+    background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
     color: 'white',
     fontSize: '14px',
     fontWeight: '700',

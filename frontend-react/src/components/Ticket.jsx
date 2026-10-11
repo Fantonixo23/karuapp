@@ -240,7 +240,7 @@ export const TicketFactura = ({ pedido, negocio, cliente, onClose, numero, vuelt
           <button
             style={{
               ...styles.printBtn,
-              background: imprimiendo ? '#999' : '#555555',
+              background: imprimiendo ? '#999' : '#1565C0',
               cursor: imprimiendo ? 'not-allowed' : 'pointer',
               opacity: imprimiendo ? 0.6 : 1
             }}
@@ -457,7 +457,7 @@ const styles = {
   },
   printBtn: {
     padding: '12px 20px',
-    background: '#555555',
+    background: '#1565C0',
     color: 'white',
     border: 'none',
     borderRadius: '6px',

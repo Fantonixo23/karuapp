@@ -6,14 +6,14 @@ const API = getApiUrl()
 
 const ESTADO_STYLES = {
   pendiente: { bg: 'rgba(255,152,0,0.15)', color: '#FFB74D', label: 'Pendiente' },
-  activo: { bg: 'rgba(120,120,120,0.15)', color: '#A0A0A0', label: 'Activo' },
+  activo: { bg: 'rgba(76,175,80,0.15)', color: '#81C784', label: 'Activo' },
   suspendido: { bg: 'rgba(244,67,54,0.15)', color: '#EF5350', label: 'Suspendido' },
 }
 
 const PLAN_STYLES = {
-  basico: { bg: 'rgba(120,120,120,0.12)', color: '#A0A0A0', label: 'Básico' },
+  basico: { bg: 'rgba(76,175,80,0.12)', color: '#81C784', label: 'Básico' },
   estandar: { bg: 'rgba(255,152,0,0.12)', color: '#FFB74D', label: 'Estándar' },
-  pro: { bg: 'rgba(120,120,120,0.12)', color: '#A0A0A0', label: 'Pro' },
+  pro: { bg: 'rgba(156,39,176,0.12)', color: '#CE93D8', label: 'Pro' },
 }
 const PLAN_OPTIONS = ['basico', 'estandar', 'pro']
 
@@ -88,7 +88,7 @@ export default function AdminDashboard() {
           </Seccion>
         )}
 
-        <Seccion titulo="Activos" count={activos.length} color="#A0A0A0" icon="check_circle">
+        <Seccion titulo="Activos" count={activos.length} color="#81C784" icon="check_circle">
           {activos.map(r => <CardRestaurante key={r.id} r={r} onCambiarPlan={cambiarPlan} />)}
         </Seccion>
 
@@ -140,8 +140,8 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>{adminEmail}</span>
             <Link to="/app/admin" style={{
-              padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(120,120,120,0.3)',
-              background: 'rgba(120,120,120,0.1)', color: '#A0A0A0', textDecoration: 'none',
+              padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(33,150,243,0.3)',
+              background: 'rgba(33,150,243,0.1)', color: '#64B5F6', textDecoration: 'none',
               fontWeight: '600', fontSize: '12px',
             }}>Usuarios</Link>
             <button onClick={logout} style={{
@@ -184,7 +184,7 @@ function Resumen({ restaurantes }) {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '24px' }}>
       {[
         { label: 'Pendientes', count: counts.pendiente, color: '#FFB74D', bg: 'rgba(255,152,0,0.1)' },
-        { label: 'Activos', count: counts.activo, color: '#A0A0A0', bg: 'rgba(120,120,120,0.1)' },
+        { label: 'Activos', count: counts.activo, color: '#81C784', bg: 'rgba(76,175,80,0.1)' },
         { label: 'Suspendidos', count: counts.suspendido, color: '#EF5350', bg: 'rgba(244,67,54,0.1)' },
         { label: 'Total', count: restaurantes.length, color: 'white', bg: 'rgba(255,255,255,0.04)' },
       ].map((item, i) => (

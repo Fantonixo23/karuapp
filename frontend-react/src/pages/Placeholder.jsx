@@ -50,5 +50,5 @@ const createPage = (title, color, activeRoute) => {
 
 export const Config = createPage('Configuración', 'linear-gradient(135deg, #666, #444)', '/app/config')
 export const Mesero = createPage('Vista Mesero', 'linear-gradient(135deg, #E53935, #C62828)', '/app/mesero')
-export const ParaLlevar = createPage('Para Llevar', 'linear-gradient(135deg, #777777, #777777)', '/app/para-llevar')
+export const ParaLlevar = createPage('Para Llevar', 'linear-gradient(135deg, #4CAF50, #388E3C)', '/app/para-llevar')
 export const Admin = createPage('Admin', 'linear-gradient(135deg, #333, #111)', '/app/admin')

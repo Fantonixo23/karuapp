@@ -220,15 +220,15 @@ export default function Informes() {
       backgroundColor: (context) => {
         const ctx = context.chart.ctx
         const gradient = ctx.createLinearGradient(0, 0, 0, 300)
-        gradient.addColorStop(0, 'rgba(120, 120, 120, 0.9)')
-        gradient.addColorStop(1, 'rgba(120, 120, 120, 0.3)')
+        gradient.addColorStop(0, 'rgba(25, 118, 210, 0.9)')
+        gradient.addColorStop(1, 'rgba(25, 118, 210, 0.3)')
         return gradient
       },
-      borderColor: '#777777',
+      borderColor: '#1976D2',
       borderWidth: 3,
       borderRadius: 12,
       borderSkipped: false,
-      hoverBackgroundColor: '#555555'
+      hoverBackgroundColor: '#1565C0'
     }]
   }
 
@@ -260,12 +260,12 @@ export default function Informes() {
       data: productos.slice(0, 8).map(p => p.ventas),
       backgroundColor: [
         '#FF9800',
-        '#777777',
+        '#4CAF50',
         '#E53935',
-        '#777777',
-        '#777777',
-        '#777777',
-        '#666666',
+        '#1976D2',
+        '#9C27B0',
+        '#00BCD4',
+        '#795548',
         '#607D8B'
       ],
       borderRadius: 8,
@@ -283,11 +283,11 @@ export default function Informes() {
     datasets: [{
       data: [metodosPago.efectivo || 0, metodosPago.transferencia || 0, metodosPago.tarjeta || 0],
       backgroundColor: [
-        'rgba(120, 120, 120, 0.9)',
-        'rgba(120, 120, 120, 0.9)',
+        'rgba(76, 175, 80, 0.9)',
+        'rgba(33, 150, 243, 0.9)',
         'rgba(255, 152, 0, 0.9)'
       ],
-      borderColor: ['#777777', '#777777', '#FF9800'],
+      borderColor: ['#4CAF50', '#2196F3', '#FF9800'],
       borderWidth: 3,
       hoverOffset: 15
     }]
@@ -303,18 +303,18 @@ export default function Informes() {
   }
 
   const getEstadoColor = (estado) => {
-    const colores = { pendiente: '#FBC02D', cocinando: '#777777', listo: '#777777', pagado: '#555555', cancelado: '#E53935' }
+    const colores = { pendiente: '#FBC02D', cocinando: '#1976D2', listo: '#4CAF50', pagado: '#7B1FA2', cancelado: '#E53935' }
     return colores[estado] || '#666'
   }
 
   const kpis = [
-    { label: 'Ventas Totales', valor: resumen?.ventas_totales || 0, color: '#777777', icono: 'attach_money', formato: 'moneda' },
-    { label: 'Total Pedidos', valor: resumen?.total_pedidos || 0, color: '#777777', icono: 'receipt_long', formato: 'numero' },
+    { label: 'Ventas Totales', valor: resumen?.ventas_totales || 0, color: '#4CAF50', icono: 'attach_money', formato: 'moneda' },
+    { label: 'Total Pedidos', valor: resumen?.total_pedidos || 0, color: '#1976D2', icono: 'receipt_long', formato: 'numero' },
     { label: 'Ticket Promedio', valor: resumen?.ticket_promedio || 0, color: '#FF9800', icono: 'trending_up', formato: 'moneda' },
     { label: 'Tasa Cancelación', valor: resumen?.tasa_cancelacion || 0, color: '#E53935', icono: 'cancel', formato: 'porcentaje' }
   ]
 
-  const kpiColors = { '#777777': '#A0A0A0', '#777777': '#A0A0A0', '#FF9800': '#FFB74D', '#E53935': '#EF5350' }
+  const kpiColors = { '#4CAF50': '#81C784', '#1976D2': '#64B5F6', '#FF9800': '#FFB74D', '#E53935': '#EF5350' }
 
   const formatearNumero = (valor, tipo) => {
     if (tipo === 'moneda') return formatGuarani(valor)
@@ -415,7 +415,7 @@ export default function Informes() {
         <div style={{ padding: isMobile ? '12px' : '25px', overflowY: 'auto', overflowX: 'hidden' }}>
           {cargando ? (
             <div style={{ textAlign: 'center', padding: '100px', color: darkMode ? '#888' : '#666' }}>
-              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid #eee', borderTop: '4px solid #777777', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid #eee', borderTop: '4px solid #1976D2', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
               <p style={{ marginTop: '25px', fontSize: '18px', fontWeight: '600' }}>Cargando estadísticas...</p>
               <p style={{ marginTop: '10px', fontSize: '14px', opacity: 0.7 }}>Analizando datos de ventas</p>
             </div>
@@ -459,7 +459,7 @@ export default function Informes() {
                         right: '10px',
                         animation: 'pulse 2s infinite'
                       }}>
-                        <span className="material-icons" style={{ fontSize: '20px', color: '#777777' }}>arrow_upward</span>
+                        <span className="material-icons" style={{ fontSize: '20px', color: '#4CAF50' }}>arrow_upward</span>
                       </div>
                     )}
                   </div>
@@ -481,7 +481,7 @@ export default function Informes() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Ventas Diarias</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#777777' }}>show_chart</span>
+                    <span className="material-icons animate-bounce" style={{ color: '#1976D2' }}>show_chart</span>
                   </div>
                   <div style={{ height: '280px', position: 'relative' }}>
                     <Bar data={datosGraficoVentas} options={opcionesGrafico} />
@@ -517,7 +517,7 @@ export default function Informes() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Métodos de Pago</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#777777' }}>payment</span>
+                    <span className="material-icons animate-bounce" style={{ color: '#4CAF50' }}>payment</span>
                   </div>
                   <div style={{ height: '220px', position: 'relative', display: 'flex', justifyContent: 'center' }}>
                     <Doughnut data={datosGraficoMetodos} options={opcionesDoughnut} />
@@ -541,7 +541,7 @@ export default function Informes() {
                         </span>
                       )}
                     </p>
-                    <span className="material-icons animate-bounce" style={{ color: '#777777' }}>analytics</span>
+                    <span className="material-icons animate-bounce" style={{ color: '#9C27B0' }}>analytics</span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center', height: '220px' }}>
                     {resumen?.pedidos_por_estado && Object.entries(resumen.pedidos_por_estado).map(([estado, cantidad], i) => {
@@ -656,8 +656,8 @@ export default function Informes() {
                           <td style={{ padding: '15px' }}>
                             <span style={{
                               fontWeight: '800',
-                              color: '#777777',
-                              background: 'rgba(120, 120, 120, 0.1)',
+                              color: '#1976D2',
+                              background: 'rgba(25, 118, 210, 0.1)',
                               padding: '5px 10px',
                               borderRadius: '8px'
                             }}>
@@ -689,7 +689,7 @@ export default function Informes() {
                           <td style={{ padding: '15px', textAlign: 'right' }}>
                             <span style={{
                               fontWeight: '800',
-                              color: '#777777',
+                              color: '#4CAF50',
                               fontSize: '16px'
                             }}>
                               {formatGuarani(pedido.total)}
@@ -766,7 +766,7 @@ export default function Informes() {
                             <span style={{ fontSize: '10px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
                           )}
                         </div>
-                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#777777' }}>{formatGuarani(p.total)}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(p.total)}</span>
                         <span style={{ fontSize: '11px', color: p.factura?.numero ? '#FF9800' : '#888' }}>{p.factura?.numero || '-'}</span>
                         <button onClick={(e) => { e.stopPropagation(); setPedidoPrint(p) }}
                           style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '4px' }}>
