@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
 import UserButton from '../components/UserButton'
@@ -409,9 +408,6 @@ export default function NuevaVenta() {
     <div style={s.container(darkMode)}>
       <header style={s.header}>
         <div style={s.headerLeft}>
-          <Link to="/app/inicio" style={s.btnHeader}>
-            <span className="material-icons" style={{ fontSize: '20px' }}>home</span>
-          </Link>
           <img src="/logo.png" alt="karuAPP" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
           <h1 style={s.title}>Mesas</h1>
         </div>

@@ -5,6 +5,7 @@ import Sidebar from '../components/Sidebar'
 import UserButton from '../components/UserButton'
 import { formatGuarani } from '../utils/currency'
 import { getApiUrl } from '../utils/api'
+import { ALL_AREAS } from '../constants'
 
 const API_URL = getApiUrl()
 const DEPARTAMENTOS = {
@@ -41,6 +42,8 @@ export default function Configuracion() {
   const initDarkMode = useStore((state) => state.initDarkMode)
   const syncDarkMode = useStore((state) => state.syncDarkMode)
   const isMobile = useStore((state) => state.isMobile)
+  const hiddenModules = useStore((state) => state.hiddenModules)
+  const toggleModuloOculto = useStore((state) => state.toggleModuloOculto)
 
   useEffect(() => { initDarkMode(); syncDarkMode() }, [])
 
@@ -352,6 +355,54 @@ export default function Configuracion() {
               ))}
             </div>
           )}
+        </div>
+
+        {/* MODULOS VISIBLES */}
+        <div style={s.card(darkMode)} className="animate">
+          <h2 style={s.cardTitle(darkMode)}>Modulos del sistema</h2>
+          <p style={s.subtitle(darkMode)}>Ocultá los modulos que no uses. Se aplica inmediatamente.</p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {ALL_AREAS.filter((a) => a.modulo !== 'configuracion').map((a) => {
+              const oculto = hiddenModules.includes(a.modulo)
+              return (
+                <div key={a.modulo} style={{
+                  display: 'flex', alignItems: 'center', gap: '12px',
+                  padding: '10px 14px', borderRadius: '10px',
+                  background: darkMode ? '#2a2a2a' : '#f9f9f9',
+                  border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : '#eee'}`,
+                  opacity: oculto ? 0.5 : 1,
+                }}>
+                  <span className="material-icons" style={{ color: '#FF9800', fontSize: '22px' }}>{a.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: '700', fontSize: '14px', color: darkMode ? '#fff' : '#333' }}>{a.label}</div>
+                    <div style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#999' }}>{a.desc}</div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#4CAF50' }}>
+                      {oculto ? 'Oculto' : 'Visible'}
+                    </span>
+                    <button
+                      onClick={() => toggleModuloOculto(a.modulo)}
+                      aria-pressed={!oculto}
+                      style={{
+                        width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
+                        padding: '2px', display: 'flex', alignItems: 'center',
+                        background: oculto ? '#666' : '#4CAF50',
+                        justifyContent: oculto ? 'flex-start' : 'flex-end',
+                        transition: 'all 0.15s',
+                      }}
+                    >
+                      <span style={{
+                        width: '20px', height: '20px', borderRadius: '50%', background: 'white',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.3)', display: 'block',
+                      }} />
+                    </button>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
 
         {/* CONFIGURACION DE IMPRESION TERMICA */}

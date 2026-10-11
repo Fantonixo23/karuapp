@@ -3,6 +3,8 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import { useStore } from './store/useStore'
 import Inicio from './pages/Inicio'
 import Funcionarios from './pages/Funcionarios'
+import Carta from './pages/Carta'
+import Autoservicio from './pages/Autoservicio'
 import NuevaVenta from './pages/NuevaVenta'
 import Cocina from './pages/Cocina'
 import Caja from './pages/Caja'
@@ -78,6 +80,8 @@ export default function App() {
               <Route path="informes" element={<MobileGuard><Informes /></MobileGuard>} />
               <Route path="productos" element={<Productos />} />
               <Route path="inventario" element={<Inventario />} />
+              <Route path="carta" element={<Carta />} />
+              <Route path="autoservicio" element={<Autoservicio />} />
               <Route path="configuracion" element={<MobileGuard><Configuracion /></MobileGuard>} />
               <Route path="funcionarios" element={<Funcionarios />} />
               <Route path="config" element={<Config />} />

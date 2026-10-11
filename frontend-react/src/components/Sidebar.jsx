@@ -8,6 +8,7 @@ const RED = '#D32F2F'
 export default function Sidebar({ activePath }) {
   const isMobile = useStore((state) => state.isMobile)
   const user = useStore((s) => s.user)
+  const hiddenModules = useStore((s) => s.hiddenModules)
   const [isLandscape, setIsLandscape] = useState(
     typeof window !== 'undefined' && window.innerWidth > window.innerHeight
   )
@@ -16,7 +17,7 @@ export default function Sidebar({ activePath }) {
 
   const allowedModulos = MODULOS_POR_ROL[user?.rol] || MODULOS_POR_ROL['administrador']
   const visibleItems = ALL_AREAS.filter(
-    item => allowedModulos.includes(item.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(item.modulo))
+    item => allowedModulos.includes(item.modulo) && !hiddenModules.includes(item.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(item.modulo))
   )
 
   useEffect(() => {

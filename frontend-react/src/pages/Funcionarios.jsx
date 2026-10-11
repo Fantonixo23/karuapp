@@ -276,12 +276,20 @@ export default function Funcionarios() {
             )}
 
             {!bloqueadoHasta && !esperandoCodigo && (
-              <button onClick={enviar2FA} style={{
-                width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
-                background: '#FF9800', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
-              }}>
-                Enviar código
-              </button>
+              <div>
+                <button onClick={enviar2FA} style={{
+                  width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
+                  background: '#FF9800', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+                }}>
+                  Enviar código
+                </button>
+                <p style={{ marginTop: '12px' }}>
+                  <button onClick={() => navigate('/app/inicio')}
+                    style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}>
+                    Cancelar
+                  </button>
+                </p>
+              </div>
             )}
 
             {!bloqueadoHasta && esperandoCodigo && (

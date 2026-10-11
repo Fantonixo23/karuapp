@@ -39,15 +39,34 @@ const getStoredUser = () => {
   return null
 }
 
+const getInitialHiddenModules = () => {
+  if (typeof window === 'undefined') return []
+  try {
+    return JSON.parse(localStorage.getItem('hiddenModules')) || []
+  } catch {
+    return []
+  }
+}
+
 export const useStore = create((set, get) => ({
   darkMode: getInitialDarkMode(),
   license: getInitialLicense(),
   token: getToken(),
   user: getStoredUser(),
+  hiddenModules: getInitialHiddenModules(),
   loading: true,
   isMobile: typeof window !== 'undefined' && (window.innerWidth < 768 || (window.matchMedia('(pointer: coarse)').matches && window.innerWidth < 1280)),
 
   setIsMobile: (val) => set({ isMobile: val }),
+
+  toggleModuloOculto: (modulo) => {
+    const current = get().hiddenModules
+    const next = current.includes(modulo)
+      ? current.filter((m) => m !== modulo)
+      : [...current, modulo]
+    localStorage.setItem('hiddenModules', JSON.stringify(next))
+    set({ hiddenModules: next })
+  },
 
   toggleDarkMode: () => {
     const newMode = !get().darkMode

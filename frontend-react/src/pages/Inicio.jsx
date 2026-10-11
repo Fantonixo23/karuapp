@@ -51,6 +51,7 @@ export default function Inicio() {
   const syncDarkMode = useStore((state) => state.syncDarkMode)
   const isMobile = useStore((state) => state.isMobile)
   const user = useStore((s) => s.user)
+  const hiddenModules = useStore((s) => s.hiddenModules)
   useEffect(() => { initDarkMode(); syncDarkMode() }, [])
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [hora, setHora] = useState(new Date())
@@ -84,6 +85,7 @@ export default function Inicio() {
   const fechaStr = hora.toLocaleDateString('es-PY', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
   const horaStr = hora.toLocaleTimeString('es-PY', { hour: '2-digit', minute: '2-digit' })
   const allowedModulos = MODULOS_POR_ROL[user?.rol] || MODULOS_POR_ROL['administrador']
+  const areasVisibles = (area) => allowedModulos.includes(area.modulo) && !hiddenModules.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))
 
   return (
     <div style={s.container(darkMode)}>
@@ -147,7 +149,7 @@ export default function Inicio() {
         )}
 
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '12px' }}>
-          {ALL_AREAS.filter(area => allowedModulos.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))).map((area, i) => (
+          {ALL_AREAS.filter(areaVisibles).map((area, i) => (
             <Link key={i} to={area.path} style={{
               borderRadius: '14px', padding: '18px 10px',
               display: 'flex', flexDirection: 'column', alignItems: 'center',
@@ -203,7 +205,7 @@ export default function Inicio() {
               <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
             </div>
 
-            {ALL_AREAS.filter(area => allowedModulos.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))).map((area, i) => (
+            {ALL_AREAS.filter(areaVisibles).map((area, i) => (
               <Link key={i} to={area.path} onClick={() => setSidebarOpen(false)} style={{
                 display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px',
                 border: 'none', background: 'none', color: '#ccc', fontSize: '14px',
