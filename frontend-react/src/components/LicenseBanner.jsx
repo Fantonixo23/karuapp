@@ -8,22 +8,22 @@ function getEstilo(estado) {
   const estilos = {
     por_vencer_5: {
       bg: 'linear-gradient(135deg, #f9a825, #f57f17)',
-      icon: '🟡',
+      icon: 'warning',
       titulo: 'Licencia próxima a vencer',
     },
     por_vencer_3: {
       bg: 'linear-gradient(135deg, #ff8f00, #e65100)',
-      icon: '🟠',
-      titulo: '⚠️ Licencia por vencer',
+      icon: 'warning',
+      titulo: 'Licencia por vencer',
     },
     por_vencer_1: {
       bg: 'linear-gradient(135deg, #d32f2f, #b71c1c)',
-      icon: '🔴',
-      titulo: '🚨 Licencia crítica',
+      icon: 'error',
+      titulo: 'Licencia crítica',
     },
     gracia: {
       bg: 'linear-gradient(135deg, #ff8f00, #e65100)',
-      icon: '⚠️',
+      icon: 'warning',
       titulo: 'Período de gracia',
     },
   }
@@ -80,7 +80,7 @@ export default function LicenseBanner() {
           padding: '40px 60px', borderRadius: '20px', textAlign: 'center',
           boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
         }}>
-          <span style={{ fontSize: '80px' }}>🔒</span>
+          <span className="material-icons" style={{ fontSize: '80px' }}>lock</span>
           <h1 style={{ fontSize: '36px', marginTop: '20px', fontWeight: '800' }}>
             SISTEMA BLOQUEADO
           </h1>
@@ -88,8 +88,8 @@ export default function LicenseBanner() {
             {license.mensaje || 'Su licencia ha vencido. Contacte al administrador.'}
           </p>
           <div style={{ marginTop: '30px', padding: '20px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
-            <p style={{ fontSize: '14px', margin: '5px 0' }}>📧 Contacte a LaCarta para renovar</p>
-            <p style={{ fontSize: '14px', margin: '5px 0' }}>📱 Solicite renovación de licencia</p>
+            <p style={{ fontSize: '14px', margin: '5px 0' }}>Contacte a LaCarta para renovar</p>
+            <p style={{ fontSize: '14px', margin: '5px 0' }}>Solicite renovación de licencia</p>
           </div>
         </div>
         <p style={{ marginTop: '20px', fontSize: '12px', opacity: 0.5 }}>
@@ -117,7 +117,7 @@ export default function LicenseBanner() {
           zIndex: 9999,
           display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
-        {estilo.icon}
+        <span className="material-icons" style={{ fontSize: '20px' }}>{estilo.icon}</span>
       </button>
     )
   }
@@ -153,7 +153,7 @@ export default function LicenseBanner() {
       `}</style>
 
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-        <span style={{
+        <span className="material-icons" style={{
           fontSize: '24px',
           animation: esCritico ? 'blink 1.5s infinite' : 'none'
         }}>
@@ -210,7 +210,7 @@ export default function LicenseBanner() {
                   height: '100%',
                   background: esCritico
                     ? 'linear-gradient(90deg, #ff5252, #d32f2f)'
-                    : 'linear-gradient(90deg, #fff176, #ffb300)',
+                    : 'linear-gradient(90deg, #e8e8e8, #ffb300)',
                   borderRadius: '3px',
                   transition: 'width 0.5s ease'
                 }} />
@@ -223,7 +223,7 @@ export default function LicenseBanner() {
               fontWeight: 'bold', textAlign: 'center',
               animation: 'blink 1s infinite'
             }}>
-              ⚠️ El sistema se bloqueará automáticamente ⚠️
+               El sistema se bloqueará automáticamente
             </p>
           )}
         </div>

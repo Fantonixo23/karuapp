@@ -52,7 +52,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
     d.isDown = false
     if (catBarRef.current) catBarRef.current.style.cursor = 'grab'
   }
-  
+
   const esEdicion = !!pedidoExistente
   const editandoPedidoId = pedidoExistente?.id || null
 
@@ -70,7 +70,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
       console.error('Error cargando categorias:', e)
     }
   }
-  
+
   useEffect(() => {
     // Si estamos en modo edicion, precargar items del pedido existente
     if (pedidoExistente?.items) {
@@ -407,11 +407,11 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
       <div style={styles.mainContent}>
         <div style={styles.headerBar}>
           <button onClick={onVolver} style={styles.backBtn}>←</button>
-          {mesa && <span style={styles.mesaBadge}>🪑 Mesa {mesa.numero}</span>}
-          {esEdicion && <span style={{ background: '#1976D2', color: 'white', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' }}>✏️ Editando #{pedidoExistente.numero_orden || pedidoExistente.id}</span>}
+          {mesa && <span style={styles.mesaBadge}>Mesa {mesa.numero}</span>}
+          {esEdicion && <span style={{ background: '#777777', color: 'white', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' }}>Editando #{pedidoExistente.numero_orden || pedidoExistente.id}</span>}
           <input
             style={styles.searchInput}
-            placeholder="🔍 Buscar producto..."
+            placeholder="Buscar producto..."
             value={busqueda}
             onChange={(e) => { setBusqueda(e.target.value); setPagina(1) }}
           />
@@ -428,13 +428,13 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
           <button
             style={styles.catBtn(categoria === 'todas')}
             onClick={() => { setCategoria('todas'); setPagina(1) }}
-          >🍽️ Todas</button>
+          >Todas</button>
           {categorias.map((cat) => (
             <button
               key={cat.id}
               style={styles.catBtn(categoria === cat.id)}
               onClick={() => { setCategoria(cat.id); setPagina(1) }}
-            >🍽️ {cat.nombre}</button>
+            >{cat.nombre}</button>
           ))}
         </div>
 
@@ -461,7 +461,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                   {p.imagen ? (
                     <img src={p.imagen} alt={p.nombre} style={styles.cardImg} />
                   ) : (
-                    <div style={styles.cardPlaceholder}>🍽️</div>
+                    <div style={styles.cardPlaceholder}></div>
                   )}
                   {showVariantBadge(p) && <div style={styles.variantBadge}>V</div>}
                   <div style={styles.cardBody}>
@@ -513,11 +513,11 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
             fontSize: '22px', fontWeight: '700',
             boxShadow: '0 4px 12px rgba(255,152,0,0.4)',
           }}
-        >🛒</button>
+        ><span className="material-icons" style={{ fontSize: '22px' }}>shopping_cart</span></button>
       )}
       <div style={styles.rightPanel}>
         <div style={styles.panelHeader}>
-          <span style={{ fontWeight: '700', fontSize: '14px' }}>🧾 Pedido Actual</span>
+          <span style={{ fontWeight: '700', fontSize: '14px' }}>Pedido Actual</span>
           <button onClick={() => setSidebarDerAbierto(false)} style={styles.toggleBtn}>›</button>
         </div>
 
@@ -539,7 +539,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                       {item.variante && <div style={{ fontSize: '10px', color: '#FF9800' }}>+ {item.variante}</div>}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(item.precio_total)}</span>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#777777' }}>{formatGuarani(item.precio_total)}</span>
                       <button onClick={() => eliminarDelCarrito(i)} style={styles.deleteBtn}>×</button>
                     </div>
                   </div>
@@ -554,18 +554,18 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: darkMode ? '#ccc' : '#666', marginBottom: '4px' }}>
                   <span>Total</span>
-                  <span style={{ fontWeight: '700', color: '#4CAF50', fontSize: '16px' }}>{formatGuarani(totalCarrito)}</span>
+                  <span style={{ fontWeight: '700', color: '#777777', fontSize: '16px' }}>{formatGuarani(totalCarrito)}</span>
                 </div>
                 {esEdicion ? (
                   <>
                     <button
                       onClick={() => setModalConfirmarCocina(true)}
-                      style={{ ...styles.btnOrange, marginTop: '8px', background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}
-                    >✅ Actualizar Pedido</button>
+                      style={{ ...styles.btnOrange, marginTop: '8px', background: 'linear-gradient(135deg, #777777, #777777)' }}
+                    >Actualizar Pedido</button>
                     <button
                       onClick={() => setModalCancelarPedido(true)}
                       style={{ ...styles.btnOrange, marginTop: '6px', background: 'linear-gradient(135deg, #E53935, #C62828)' }}
-                    >❌ Cancelar Pedido</button>
+                    >Cancelar Pedido</button>
                   </>
                 ) : (
                   <button
@@ -575,7 +575,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                       ...styles.btnOrange, marginTop: '8px',
                       opacity: mesa?.id ? 1 : 0.5,
                     }}
-                  >📨 Enviar a Cocina</button>
+                  >Enviar a Cocina</button>
                 )}
               </div>
             )}
@@ -626,7 +626,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                 <span style={{ fontSize: '22px', fontWeight: '700', color: darkMode ? 'white' : '#333', minWidth: '40px', textAlign: 'center' }}>{cantidad}</span>
                 <button onClick={() => setCantidad(cantidad + 1)} style={{
                   width: '36px', height: '36px', border: 'none', borderRadius: '10px',
-                  background: '#4CAF50', color: 'white', cursor: 'pointer', fontSize: '18px', fontWeight: '700',
+                  background: '#777777', color: 'white', cursor: 'pointer', fontSize: '18px', fontWeight: '700',
                 }}>+</button>
               </div>
 
@@ -643,7 +643,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               />
 
               <button onClick={agregarAlCarrito} style={styles.btnOrange}>
-                🛒 Agregar al Carrito — {formatGuarani((obtenerPrecioVariant(modalProducto, variante) ?? parseFloat(modalProducto.precio)) * cantidad)}
+                 Agregar al Carrito — {formatGuarani((obtenerPrecioVariant(modalProducto, variante) ?? parseFloat(modalProducto.precio)) * cantidad)}
               </button>
             </div>
           </div>
@@ -653,7 +653,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
       {modalConfirmarCocina && (
         <div style={{ ...styles.modalOverlay, zIndex: 500 }}>
           <div style={{ ...styles.modalCard, padding: '24px', textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', marginBottom: '10px' }}>{esEdicion ? '✏️' : '🍽️'}</div>
+            <div style={{ fontSize: '48px', marginBottom: '10px' }}><span className="material-icons" style={{ fontSize: '48px' }}>{esEdicion ? 'edit' : 'restaurant_menu'}</span></div>
             <h3 style={{ color: darkMode ? 'white' : '#333', margin: '0 0 6px' }}>{esEdicion ? 'Actualizar Pedido?' : 'Enviar a Cocina?'}</h3>
             {mesa && <p style={{ color: darkMode ? '#ccc' : '#666', fontSize: '14px' }}>Mesa: {mesa.numero}</p>}
             {esEdicion && <p style={{ color: '#FF9800', fontSize: '12px' }}>Los items modificados se enviaran a cocina</p>}
@@ -665,8 +665,8 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               }}>Cancelar</button>
               <button onClick={() => { setModalConfirmarCocina(false); esEdicion ? enviarActualizacion() : enviarAPedido() }} style={{
                 padding: '12px 24px', border: 'none', borderRadius: '10px',
-                background: 'linear-gradient(135deg, #4CAF50, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer',
-              }}>✅ Confirmar</button>
+                background: 'linear-gradient(135deg, #777777, #777777)', color: 'white', fontWeight: '700', cursor: 'pointer',
+              }}>Confirmar</button>
             </div>
           </div>
         </div>
@@ -676,7 +676,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
         <div style={{ ...styles.modalOverlay, zIndex: 600 }}>
           <div style={{ ...styles.modalCard, padding: '24px' }}>
             <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <div style={{ fontSize: '48px', marginBottom: '10px' }}>❌</div>
+              <div style={{ fontSize: '48px', marginBottom: '10px' }}><span className="material-icons" style={{ fontSize: '48px' }}>cancel</span></div>
               <h3 style={{ color: darkMode ? 'white' : '#333', margin: '0 0 4px', fontSize: '18px' }}>Cancelar Pedido</h3>
               <p style={{ color: darkMode ? '#ccc' : '#666', fontSize: '13px' }}>
                 #{pedidoExistente?.numero_orden || pedidoExistente?.id} - Mesa {mesa?.numero}
@@ -721,7 +721,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
       {modalExito && (
         <div style={{ ...styles.modalOverlay, zIndex: 400 }}>
           <div style={{
-            background: 'linear-gradient(135deg, #4CAF50, #388E3C)', borderRadius: '20px',
+            background: 'linear-gradient(135deg, #777777, #777777)', borderRadius: '20px',
             padding: '40px', textAlign: 'center', color: 'white', maxWidth: '350px',
           }}>
             <span className="material-icons" style={{ fontSize: '80px' }}>check_circle</span>
@@ -729,7 +729,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
             <p style={{ opacity: 0.8, fontSize: '14px' }}>{esEdicion ? 'Los cambios se enviaron a cocina' : 'El pedido está siendo preparado'}</p>
             <button onClick={() => { setModalExito(false); onVolver() }} style={{
               marginTop: '20px', padding: '12px 30px', border: 'none', borderRadius: '10px',
-              background: 'white', color: '#4CAF50', fontWeight: '700', cursor: 'pointer',
+              background: 'white', color: '#777777', fontWeight: '700', cursor: 'pointer',
             }}>Aceptar</button>
           </div>
         </div>

@@ -110,7 +110,7 @@ export default function Informes() {
   const cargarDatos = async () => {
     setCargando(true)
     const { inicio, fin } = getFechas()
-    
+
     try {
       const [resResumen, resVentas, resProductos, resMetodos, resPedidos] = await Promise.all([
         fetch(`${API_URL}/informes/resumen-completo?fecha_inicio=${inicio}&fecha_fin=${fin}`),
@@ -131,7 +131,7 @@ export default function Informes() {
       if (dataProductos.success) setProductos(dataProductos.data.productos || [])
       if (dataMetodos.success) setMetodosPago(dataMetodos.data)
       if (dataPedidos.success) setPedidos(dataPedidos.data.pedidos || [])
-      
+
       setAnimacionIndex(0)
     } catch (e) {
       console.error('Error cargando datos:', e)
@@ -142,7 +142,7 @@ export default function Informes() {
   const getFechas = () => {
     const today = new Date()
     const formato = (d) => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`
-    
+
     switch (periodo) {
       case 'hoy': return { inicio: formato(today), fin: formato(today) }
       case 'semana':
@@ -162,22 +162,22 @@ export default function Informes() {
   }
 
   const s = {
-    container: (dm) => ({ 
-      minHeight: '100vh', 
+    container: (dm) => ({
+      minHeight: '100vh',
       background: dm ? '#121212' : '#f0f2f5',
       color: dm ? '#fff' : '#1a1a1a'
     }),
-    header: { 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'space-between', 
-      padding: '10px 20px', 
+    header: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '10px 20px',
       background: '#1a1a1a',
       color: 'white',
       borderBottom: '1px solid rgba(255,152,0,0.2)',
       boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
     },
-    btn: { 
+    btn: {
       width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)',
       borderRadius: '8px', background: 'rgba(255,255,255,0.06)',
       color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer',
@@ -185,10 +185,10 @@ export default function Informes() {
       textDecoration: 'none', transition: 'all 0.15s'
     },
     title: { fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px' },
-    kpiCard: (dm, index) => ({ 
-      borderRadius: '14px', 
-      padding: '20px', 
-      textAlign: 'center', 
+    kpiCard: (dm, index) => ({
+      borderRadius: '14px',
+      padding: '20px',
+      textAlign: 'center',
       border: `1px solid ${dm ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
       background: dm ? '#1e1e1e' : 'white',
       boxShadow: dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)',
@@ -197,14 +197,14 @@ export default function Informes() {
     gridKpi: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginBottom: '24px' },
     gridGraficos: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px', marginBottom: '24px' },
     sectionTitle: (dm) => ({ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: dm ? '#fff' : '#1a1a1a' }),
-    filtro: (dm) => ({ 
-      padding: '8px 14px', 
-      border: '1px solid rgba(255,255,255,0.15)', 
-      borderRadius: '8px', 
-      background: '#1a1a1a', 
-      color: 'rgba(255,255,255,0.8)', 
-      fontSize: '13px', 
-      cursor: 'pointer', 
+    filtro: (dm) => ({
+      padding: '8px 14px',
+      border: '1px solid rgba(255,255,255,0.15)',
+      borderRadius: '8px',
+      background: '#1a1a1a',
+      color: 'rgba(255,255,255,0.8)',
+      fontSize: '13px',
+      cursor: 'pointer',
       outline: 'none',
     }),
   }
@@ -220,15 +220,15 @@ export default function Informes() {
       backgroundColor: (context) => {
         const ctx = context.chart.ctx
         const gradient = ctx.createLinearGradient(0, 0, 0, 300)
-        gradient.addColorStop(0, 'rgba(25, 118, 210, 0.9)')
-        gradient.addColorStop(1, 'rgba(25, 118, 210, 0.3)')
+        gradient.addColorStop(0, 'rgba(120, 120, 120, 0.9)')
+        gradient.addColorStop(1, 'rgba(120, 120, 120, 0.3)')
         return gradient
       },
-      borderColor: '#1976D2',
+      borderColor: '#777777',
       borderWidth: 3,
       borderRadius: 12,
       borderSkipped: false,
-      hoverBackgroundColor: '#1565C0'
+      hoverBackgroundColor: '#555555'
     }]
   }
 
@@ -240,13 +240,13 @@ export default function Informes() {
       legend: { labels: { color: textColor, font: { size: 12 } } }
     },
     scales: {
-      x: { 
-        ticks: { color: textColor, font: { size: 11 } }, 
+      x: {
+        ticks: { color: textColor, font: { size: 11 } },
         grid: { color: gridColor, drawBorder: false },
         border: { display: false }
       },
-      y: { 
-        ticks: { color: textColor, font: { size: 11 } }, 
+      y: {
+        ticks: { color: textColor, font: { size: 11 } },
         grid: { color: gridColor, drawBorder: false },
         border: { display: false }
       }
@@ -260,12 +260,12 @@ export default function Informes() {
       data: productos.slice(0, 8).map(p => p.ventas),
       backgroundColor: [
         '#FF9800',
-        '#4CAF50',
+        '#777777',
         '#E53935',
-        '#1976D2',
-        '#9C27B0',
-        '#00BCD4',
-        '#795548',
+        '#777777',
+        '#777777',
+        '#777777',
+        '#666666',
         '#607D8B'
       ],
       borderRadius: 8,
@@ -283,11 +283,11 @@ export default function Informes() {
     datasets: [{
       data: [metodosPago.efectivo || 0, metodosPago.transferencia || 0, metodosPago.tarjeta || 0],
       backgroundColor: [
-        'rgba(76, 175, 80, 0.9)',
-        'rgba(33, 150, 243, 0.9)',
+        'rgba(120, 120, 120, 0.9)',
+        'rgba(120, 120, 120, 0.9)',
         'rgba(255, 152, 0, 0.9)'
       ],
-      borderColor: ['#4CAF50', '#2196F3', '#FF9800'],
+      borderColor: ['#777777', '#777777', '#FF9800'],
       borderWidth: 3,
       hoverOffset: 15
     }]
@@ -303,18 +303,18 @@ export default function Informes() {
   }
 
   const getEstadoColor = (estado) => {
-    const colores = { pendiente: '#FBC02D', cocinando: '#1976D2', listo: '#4CAF50', pagado: '#7B1FA2', cancelado: '#E53935' }
+    const colores = { pendiente: '#FBC02D', cocinando: '#777777', listo: '#777777', pagado: '#555555', cancelado: '#E53935' }
     return colores[estado] || '#666'
   }
 
   const kpis = [
-    { label: '💰 Ventas Totales', valor: resumen?.ventas_totales || 0, color: '#4CAF50', icono: 'attach_money', formato: 'moneda' },
-    { label: '📦 Total Pedidos', valor: resumen?.total_pedidos || 0, color: '#1976D2', icono: 'receipt_long', formato: 'numero' },
-    { label: '🎯 Ticket Promedio', valor: resumen?.ticket_promedio || 0, color: '#FF9800', icono: 'trending_up', formato: 'moneda' },
-    { label: '⚠️ Tasa Cancelación', valor: resumen?.tasa_cancelacion || 0, color: '#E53935', icono: 'cancel', formato: 'porcentaje' }
+    { label: 'Ventas Totales', valor: resumen?.ventas_totales || 0, color: '#777777', icono: 'attach_money', formato: 'moneda' },
+    { label: 'Total Pedidos', valor: resumen?.total_pedidos || 0, color: '#777777', icono: 'receipt_long', formato: 'numero' },
+    { label: 'Ticket Promedio', valor: resumen?.ticket_promedio || 0, color: '#FF9800', icono: 'trending_up', formato: 'moneda' },
+    { label: 'Tasa Cancelación', valor: resumen?.tasa_cancelacion || 0, color: '#E53935', icono: 'cancel', formato: 'porcentaje' }
   ]
 
-  const kpiColors = { '#4CAF50': '#81C784', '#1976D2': '#64B5F6', '#FF9800': '#FFB74D', '#E53935': '#EF5350' }
+  const kpiColors = { '#777777': '#A0A0A0', '#777777': '#A0A0A0', '#FF9800': '#FFB74D', '#E53935': '#EF5350' }
 
   const formatearNumero = (valor, tipo) => {
     if (tipo === 'moneda') return formatGuarani(valor)
@@ -381,7 +381,7 @@ export default function Informes() {
   return (
     <div style={s.container(darkMode)}>
       <style>{estilosAnimados}</style>
-      
+
       <header style={s.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btn}><span className="material-icons">home</span></Link>
@@ -401,7 +401,7 @@ export default function Informes() {
             cursor: 'pointer', fontSize: '13px', fontWeight: '600',
             display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap'
           }}>
-            🎫 Historial
+            Historial
           </button>
           {!isMobile && <FullscreenButton />}
           <UserButton />
@@ -411,11 +411,11 @@ export default function Informes() {
 
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '70px 1fr', height: 'calc(100vh - 64px)', overflow: 'hidden', paddingBottom: isMobile ? '60px' : '0' }}>
         <Sidebar activePath="/app/informes" />
-        
+
         <div style={{ padding: isMobile ? '12px' : '25px', overflowY: 'auto', overflowX: 'hidden' }}>
           {cargando ? (
             <div style={{ textAlign: 'center', padding: '100px', color: darkMode ? '#888' : '#666' }}>
-              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid #eee', borderTop: '4px solid #1976D2', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid #eee', borderTop: '4px solid #777777', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
               <p style={{ marginTop: '25px', fontSize: '18px', fontWeight: '600' }}>Cargando estadísticas...</p>
               <p style={{ marginTop: '10px', fontSize: '14px', opacity: 0.7 }}>Analizando datos de ventas</p>
             </div>
@@ -423,29 +423,29 @@ export default function Informes() {
             <>
               {/* TARJETAS KPI ANIMADAS */}
               <h2 style={s.sectionTitle(darkMode)}>
-                📈 Resumen del Período
+                Resumen del Período
               </h2>
               <div style={s.gridKpi}>
                 {kpis.map((kpi, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="kpi-card animate-fade-in"
-                    style={{ 
+                    style={{
                       ...s.kpiCard(darkMode, index),
                       animationDelay: `${index * 0.15}s`
                     }}
                   >
-                    <div style={{ 
-                      position: 'absolute', 
-                      top: '-20px', 
-                      right: '-20px', 
-                      width: '80px', 
-                      height: '80px', 
+                    <div style={{
+                      position: 'absolute',
+                      top: '-20px',
+                      right: '-20px',
+                      width: '80px',
+                      height: '80px',
                       background: `linear-gradient(135deg, ${kpi.color}40, ${kpi.color}20)`,
                       borderRadius: '50%'
                     }}></div>
-                    <span className="material-icons" style={{ 
-                      fontSize: '45px', 
+                    <span className="material-icons" style={{
+                      fontSize: '45px',
                       color: kpi.color,
                       animation: 'bounce 2s infinite',
                       animationDelay: `${index * 0.3}s`
@@ -453,13 +453,13 @@ export default function Informes() {
                     <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', marginTop: '12px', fontWeight: '500' }}>{kpi.label}</p>
                     <p style={{ fontSize: '28px', fontWeight: '800', color: kpi.color, margin: '8px 0 0' }}>{formatearNumero(kpi.valor, kpi.formato)}</p>
                     {index === 0 && (
-                      <div style={{ 
-                        position: 'absolute', 
-                        bottom: '10px', 
+                      <div style={{
+                        position: 'absolute',
+                        bottom: '10px',
                         right: '10px',
                         animation: 'pulse 2s infinite'
                       }}>
-                        <span className="material-icons" style={{ fontSize: '20px', color: '#4CAF50' }}>arrow_upward</span>
+                        <span className="material-icons" style={{ fontSize: '20px', color: '#777777' }}>arrow_upward</span>
                       </div>
                     )}
                   </div>
@@ -468,36 +468,36 @@ export default function Informes() {
 
               {/* GRÁFICOS */}
               <h2 style={{ ...s.sectionTitle(darkMode), marginTop: '30px' }}>
-                📊 Análisis de Rendimiento
+                Análisis de Rendimiento
               </h2>
               <div style={s.gridGraficos}>
-                <div 
-                  className="animate-fade-in" 
-                  style={{ 
+                <div
+                  className="animate-fade-in"
+                  style={{
                     ...s.kpiCard(darkMode, 0),
                     animationDelay: '0.4s',
                     minHeight: '350px'
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>📈 Ventas Diarias</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#1976D2' }}>show_chart</span>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Ventas Diarias</p>
+                    <span className="material-icons animate-bounce" style={{ color: '#777777' }}>show_chart</span>
                   </div>
                   <div style={{ height: '280px', position: 'relative' }}>
                     <Bar data={datosGraficoVentas} options={opcionesGrafico} />
                   </div>
                 </div>
 
-                <div 
-                  className="animate-fade-in" 
-                  style={{ 
+                <div
+                  className="animate-fade-in"
+                  style={{
                     ...s.kpiCard(darkMode, 1),
                     animationDelay: '0.5s',
                     minHeight: '350px'
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>🏆 Productos Más Vendidos</p>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Productos Más Vendidos</p>
                     <span className="material-icons animate-bounce" style={{ color: '#FF9800' }}>emoji_events</span>
                   </div>
                   <div style={{ height: '280px', position: 'relative' }}>
@@ -507,26 +507,26 @@ export default function Informes() {
               </div>
 
               <div style={s.gridGraficos}>
-                <div 
-                  className="animate-fade-in" 
-                  style={{ 
+                <div
+                  className="animate-fade-in"
+                  style={{
                     ...s.kpiCard(darkMode, 2),
                     animationDelay: '0.6s',
                     minHeight: '320px'
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>💳 Métodos de Pago</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#4CAF50' }}>payment</span>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Métodos de Pago</p>
+                    <span className="material-icons animate-bounce" style={{ color: '#777777' }}>payment</span>
                   </div>
                   <div style={{ height: '220px', position: 'relative', display: 'flex', justifyContent: 'center' }}>
                     <Doughnut data={datosGraficoMetodos} options={opcionesDoughnut} />
                   </div>
                 </div>
 
-                <div 
-                  className="animate-fade-in" 
-                  style={{ 
+                <div
+                  className="animate-fade-in"
+                  style={{
                     ...s.kpiCard(darkMode, 3),
                     animationDelay: '0.7s',
                     minHeight: '320px'
@@ -534,14 +534,14 @@ export default function Informes() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>
-                      📊 Estado de Pedidos
+                      Estado de Pedidos
                       {resumen?.cancelados_en_cocina > 0 && (
                         <span style={{ fontSize: '12px', color: '#E53935', marginLeft: '8px', fontWeight: '400' }}>
                           ({resumen.cancelados_en_cocina} en cocina)
                         </span>
                       )}
                     </p>
-                    <span className="material-icons animate-bounce" style={{ color: '#9C27B0' }}>analytics</span>
+                    <span className="material-icons animate-bounce" style={{ color: '#777777' }}>analytics</span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center', height: '220px' }}>
                     {resumen?.pedidos_por_estado && Object.entries(resumen.pedidos_por_estado).map(([estado, cantidad], i) => {
@@ -554,14 +554,14 @@ export default function Informes() {
                             <span style={{ textTransform: 'capitalize', color: darkMode ? '#ccc' : '#666', fontWeight: '600' }}>{estado}</span>
                             <span style={{ fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{cantidad} ({porcentaje.toFixed(0)}%)</span>
                           </div>
-                          <div style={{ 
-                            height: '10px', 
-                            background: darkMode ? '#333' : '#eee', 
-                            borderRadius: '5px', 
-                            overflow: 'hidden' 
+                          <div style={{
+                            height: '10px',
+                            background: darkMode ? '#333' : '#eee',
+                            borderRadius: '5px',
+                            overflow: 'hidden'
                           }}>
-                            <div style={{ 
-                              height: '100%', 
+                            <div style={{
+                              height: '100%',
                               width: `${porcentaje}%`,
                               background: `linear-gradient(90deg, ${color}, ${color}CC)`,
                               borderRadius: '5px',
@@ -577,9 +577,9 @@ export default function Informes() {
 
               {/* MOTIVOS DE CANCELACION */}
               {resumen?.motivos_cancelacion?.length > 0 && (
-                <div 
-                  className="animate-fade-in" 
-                  style={{ 
+                <div
+                  className="animate-fade-in"
+                  style={{
                     ...s.kpiCard(darkMode, 5),
                     animationDelay: '0.85s',
                     marginBottom: '24px'
@@ -587,7 +587,7 @@ export default function Informes() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>
-                      ⛔ Motivos de Cancelación
+                      Motivos de Cancelación
                     </p>
                     <span className="material-icons" style={{ color: '#E53935' }}>report_problem</span>
                   </div>
@@ -613,11 +613,11 @@ export default function Informes() {
 
               {/* TABLA DE PEDIDOS */}
               <h2 style={{ ...s.sectionTitle(darkMode), marginTop: '30px' }}>
-                📋 Últimos Pedidos
+                Últimos Pedidos
               </h2>
-              <div 
-                className="animate-fade-in" 
-                style={{ 
+              <div
+                className="animate-fade-in"
+                style={{
                   ...s.kpiCard(darkMode, 4),
                   animationDelay: '0.9s',
                   overflow: 'hidden',
@@ -645,19 +645,19 @@ export default function Informes() {
                           </td>
                         </tr>
                       ) : pedidos.map((pedido, i) => (
-                        <tr 
-                          key={pedido.id} 
-                          style={{ 
+                        <tr
+                          key={pedido.id}
+                          style={{
                             borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
                             animation: `fadeInUp 0.4s ease-out ${1 + i * 0.05}s forwards`,
                             opacity: 0
                           }}
                         >
                           <td style={{ padding: '15px' }}>
-                            <span style={{ 
-                              fontWeight: '800', 
-                              color: '#1976D2',
-                              background: 'rgba(25, 118, 210, 0.1)',
+                            <span style={{
+                              fontWeight: '800',
+                              color: '#777777',
+                              background: 'rgba(120, 120, 120, 0.1)',
                               padding: '5px 10px',
                               borderRadius: '8px'
                             }}>
@@ -668,12 +668,12 @@ export default function Informes() {
                             {pedido.created_at ? new Date(pedido.created_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-'}
                           </td>
                           <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666' }}>
-                            {pedido.delivery ? '🚴 Delivery' : `🍽️ Mesa ${pedido.mesa || '-'}`}
+                            {pedido.delivery ? 'Delivery' : ` Mesa ${pedido.mesa || '-'}`}
                           </td>
                           <td style={{ padding: '15px' }}>
-                            <span style={{ 
-                              padding: '6px 14px', 
-                              borderRadius: '20px', 
+                            <span style={{
+                              padding: '6px 14px',
+                              borderRadius: '20px',
                               background: getEstadoColor(pedido.estado) + '20',
                               color: getEstadoColor(pedido.estado),
                               fontSize: '12px',
@@ -687,9 +687,9 @@ export default function Informes() {
                             {pedido.metodo_pago || '-'}
                           </td>
                           <td style={{ padding: '15px', textAlign: 'right' }}>
-                            <span style={{ 
-                              fontWeight: '800', 
-                              color: '#4CAF50',
+                            <span style={{
+                              fontWeight: '800',
+                              color: '#777777',
                               fontSize: '16px'
                             }}>
                               {formatGuarani(pedido.total)}
@@ -716,7 +716,7 @@ export default function Informes() {
         <div style={sHistoriasModal.overlay} onClick={() => { setModalHistorial(false); limpiarFiltrosHistorial() }}>
           <div className="animate-scale" style={sHistoriasModal.modal} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ color: darkMode ? '#fff' : '#333', margin: 0 }}>🎫 Historial de Pedidos</h3>
+              <h3 style={{ color: darkMode ? '#fff' : '#333', margin: 0 }}>Historial de Pedidos</h3>
               <button onClick={() => { setModalHistorial(false); limpiarFiltrosHistorial() }} style={{ background: 'none', border: 'none', color: '#888', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
             </div>
 
@@ -731,7 +731,7 @@ export default function Informes() {
               <input type="date" value={fechaHasta} onChange={e => setFechaHasta(e.target.value)} style={sHistoriasModal.input} title="Hasta" />
               <div style={{ display: 'flex', gap: '6px' }}>
                 <button onClick={() => buscarHistorial(1)} disabled={buscandoHistorial} style={{ ...sHistoriasModal.btnPrimary, flex: 2, opacity: buscandoHistorial ? 0.5 : 1, padding: '10px', fontSize: '14px' }}>
-                  {buscandoHistorial ? 'Buscando...' : '🔍 Buscar'}
+                  {buscandoHistorial ? 'Buscando...' : 'Buscar'}
                 </button>
                 <button onClick={limpiarFiltrosHistorial} style={{ ...sHistoriasModal.btn, background: darkMode ? '#3a3a3a' : '#f0f0f0', color: darkMode ? '#ccc' : '#555', flex: 1, padding: '8px' }}>Limpiar</button>
               </div>
@@ -766,11 +766,11 @@ export default function Informes() {
                             <span style={{ fontSize: '10px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
                           )}
                         </div>
-                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(p.total)}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#777777' }}>{formatGuarani(p.total)}</span>
                         <span style={{ fontSize: '11px', color: p.factura?.numero ? '#FF9800' : '#888' }}>{p.factura?.numero || '-'}</span>
                         <button onClick={(e) => { e.stopPropagation(); setPedidoPrint(p) }}
                           style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '4px' }}>
-                          🖨️
+
                         </button>
                       </div>
                       {/* Expandido: items y detalles */}

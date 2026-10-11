@@ -355,9 +355,9 @@ export default function Productos() {
     fab: {
       position: 'fixed', bottom: '24px', right: '24px',
       width: '48px', height: '48px', border: 'none', borderRadius: '14px',
-      background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+      background: 'linear-gradient(135deg, #777777, #777777)',
       color: 'white', fontSize: '22px', cursor: 'pointer',
-      boxShadow: '0 4px 12px rgba(76,175,80,0.3)',
+      boxShadow: '0 4px 12px rgba(120,120,120,0.3)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 50,
     },
@@ -419,7 +419,7 @@ export default function Productos() {
             <input
               value={busqueda}
               onChange={e => setBusqueda(e.target.value)}
-              placeholder="🔍 Buscar producto..."
+              placeholder="Buscar producto..."
               style={{
                 width: '100%', padding: '8px 12px', border: `1px solid ${darkMode ? '#444' : '#ddd'}`,
                 borderRadius: '8px', background: darkMode ? '#333' : '#f5f5f5',
@@ -440,7 +440,7 @@ export default function Productos() {
               key="todas"
               style={s.catBtn(categoria === 'todas')}
               onClick={() => setCategoria('todas')}
-            >🍽️ Todas</button>
+            >Todas</button>
             {categorias.map((cat) => (
               <button
                 key={cat.id}
@@ -452,7 +452,7 @@ export default function Productos() {
               onClick={() => setModalCategorias(true)}
               style={s.catBtn(false)}
               title="Gestionar categorías"
-            >⚙️</button>
+            ><span className="material-icons" style={{ fontSize: '18px' }}>category</span></button>
           </div>
 
           {cargando ? (
@@ -471,7 +471,7 @@ export default function Productos() {
                   {p.imagen ? (
                     <img src={p.imagen} alt={p.nombre} style={s.img} />
                   ) : (
-                    <div style={s.placeholderImg}>🍽️</div>
+                    <div style={s.placeholderImg}></div>
                   )}
                   <div style={s.cardBody}>
                     <div style={{ fontSize: '12px', fontWeight: '700', color: darkMode ? 'white' : '#333', marginBottom: '2px' }}>
@@ -490,7 +490,7 @@ export default function Productos() {
                         onClick={(e) => { e.stopPropagation(); toggleDisponible(p.id, p.disponible) }}
                         style={{
                           padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '700',
-                          background: p.disponible ? '#4CAF50' : '#E53935',
+                          background: p.disponible ? '#777777' : '#E53935',
                           color: 'white', cursor: 'pointer',
                         }}
                       >{p.disponible ? 'DISP' : 'NO'}</span>
@@ -531,7 +531,7 @@ export default function Productos() {
               <button onClick={eliminar} style={{
                 padding: '10px 24px', border: 'none', borderRadius: '10px',
                 background: '#E53935', color: 'white', fontWeight: '700', cursor: 'pointer',
-              }}>🗑️ Eliminar</button>
+              }}>Eliminar</button>
             </div>
           </div>
         </div>
@@ -542,7 +542,7 @@ export default function Productos() {
           <div style={s.modalCard} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h2 style={{ margin: 0, color: darkMode ? 'white' : '#333', fontSize: '20px' }}>
-                {editId ? '✏️ Editar Producto' : '➕ Nuevo Producto'}
+                {editId ? 'Editar Producto' : 'Nuevo Producto'}
               </h2>
               <button onClick={() => setModal(false)} style={{
                 width: '32px', height: '32px', border: 'none', borderRadius: '8px',
@@ -594,7 +594,7 @@ export default function Productos() {
                 onClick={() => handleChange('disponible', !form.disponible)}
                 style={{
                   padding: '6px 16px', border: 'none', borderRadius: '8px', cursor: 'pointer',
-                  background: form.disponible ? '#4CAF50' : '#E53935',
+                  background: form.disponible ? '#777777' : '#E53935',
                   color: 'white', fontWeight: '700', fontSize: '11px',
                 }}
               >{form.disponible ? 'SÍ' : 'NO'}</button>
@@ -620,10 +620,10 @@ export default function Productos() {
               {form.imagen ? (
                 <div>
                   <img src={form.imagen} alt="preview" style={{ maxHeight: '100px', borderRadius: '8px', marginBottom: '6px' }} />
-                  <div style={{ fontSize: '11px', color: '#4CAF50' }}>✓ Imagen cargada</div>
+                  <div style={{ fontSize: '11px', color: '#777777' }}>✓ Imagen cargada</div>
                 </div>
               ) : subiendo ? (
-                <div style={{ fontSize: '13px', color: '#FF9800' }}>⏳ Subiendo imagen...</div>
+                <div style={{ fontSize: '13px', color: '#FF9800' }}>Subiendo imagen...</div>
               ) : (
                 <div>
                   <span className="material-icons" style={{ fontSize: '28px' }}>cloud_upload</span>
@@ -634,7 +634,7 @@ export default function Productos() {
             </div>
             {imagenError && (
               <div style={{ fontSize: '11px', color: '#E53935', marginBottom: '10px', padding: '6px 10px', background: 'rgba(229,57,53,0.1)', borderRadius: '8px' }}>
-                ❌ {imagenError}
+                 {imagenError}
               </div>
             )}
             <input
@@ -715,14 +715,14 @@ export default function Productos() {
                 <button onClick={() => { setModal(false); setConfirmDelete(editId) }} style={{
                   padding: '12px 16px', border: 'none', borderRadius: '10px',
                   background: '#E53935', color: 'white', fontWeight: '700', cursor: 'pointer',
-                }}>🗑️</button>
+                }}><span className="material-icons" style={{ fontSize: '18px' }}>delete</span></button>
               )}
               <button onClick={guardar} disabled={!form.nombre || !form.precio} style={{
                 flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
                 background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white',
                 fontWeight: '700', cursor: (!form.nombre || !form.precio) ? 'not-allowed' : 'pointer',
                 opacity: (!form.nombre || !form.precio) ? 0.5 : 1,
-              }}>💾 Guardar</button>
+              }}>Guardar</button>
             </div>
           </div>
         </div>
@@ -732,7 +732,7 @@ export default function Productos() {
         <div style={s.overlay} onClick={() => setModalCategorias(false)}>
           <div style={s.modalCard} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h2 style={{ margin: 0, color: darkMode ? 'white' : '#333', fontSize: '20px' }}>📁 Gestionar Categorías</h2>
+              <h2 style={{ margin: 0, color: darkMode ? 'white' : '#333', fontSize: '20px' }}>Gestionar Categorías</h2>
               <button onClick={() => setModalCategorias(false)} style={{
                 width: '32px', height: '32px', border: 'none', borderRadius: '8px',
                 background: darkMode ? '#444' : '#eee', cursor: 'pointer',
@@ -777,7 +777,7 @@ export default function Productos() {
                     background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white',
                     fontWeight: '700', cursor: formCategoria.nombre ? 'pointer' : 'not-allowed',
                     opacity: formCategoria.nombre ? 1 : 0.5,
-                  }}>💾 Guardar</button>
+                  }}>Guardar</button>
                 </div>
               </div>
             ) : (
@@ -800,7 +800,7 @@ export default function Productos() {
                       }} style={{
                         width: '30px', height: '30px', border: 'none', borderRadius: '8px',
                         background: '#FF9800', color: 'white', cursor: 'pointer', fontSize: '14px',
-                      }}>✏️</button>
+                      }}><span className="material-icons" style={{ fontSize: '14px' }}>edit</span></button>
                       <button onClick={async () => {
                         if (!window.confirm(`¿Eliminar categoría "${cat.nombre}"?`)) return
                         try {
@@ -814,7 +814,7 @@ export default function Productos() {
                       }} style={{
                         width: '30px', height: '30px', border: 'none', borderRadius: '8px',
                         background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '14px',
-                      }}>🗑️</button>
+                      }}><span className="material-icons" style={{ fontSize: '14px' }}>delete</span></button>
                     </div>
                   ))
                 )}

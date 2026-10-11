@@ -15,7 +15,7 @@ const createPage = (title, color, activeRoute) => {
         {items.map((item, i) => (
           <Link key={i} to={item.path} style={{
             width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-            border: 'none', background: activeRoute === item.path ? color.replace('linear-gradient(', 'rgba(').replace('), ', ',0.8), ') : 'none', 
+            border: 'none', background: activeRoute === item.path ? color.replace('linear-gradient(', 'rgba(').replace('), ', ',0.8), ') : 'none',
             color: activeRoute === item.path ? 'white' : '#999', fontSize: '8px', borderRadius: '8px', textDecoration: 'none'
           }}>
             <span className="material-icons" style={{ fontSize: '18px' }}>{item.icon}</span>{item.label}
@@ -24,7 +24,7 @@ const createPage = (title, color, activeRoute) => {
       </div>
     )
   }
-  
+
   return function Page() {
     return (
       <div style={{ minHeight: '100vh', background: '#1a1a1a' }}>
@@ -48,7 +48,7 @@ const createPage = (title, color, activeRoute) => {
   }
 }
 
-export const Config = createPage('⚙️ Configuración', 'linear-gradient(135deg, #666, #444)', '/app/config')
-export const Mesero = createPage('🍽️ Vista Mesero', 'linear-gradient(135deg, #E53935, #C62828)', '/app/mesero')
-export const ParaLlevar = createPage('🥡 Para Llevar', 'linear-gradient(135deg, #4CAF50, #388E3C)', '/app/para-llevar')
-export const Admin = createPage('⚙️ Admin', 'linear-gradient(135deg, #333, #111)', '/app/admin')
+export const Config = createPage('Configuración', 'linear-gradient(135deg, #666, #444)', '/app/config')
+export const Mesero = createPage('Vista Mesero', 'linear-gradient(135deg, #E53935, #C62828)', '/app/mesero')
+export const ParaLlevar = createPage('Para Llevar', 'linear-gradient(135deg, #777777, #777777)', '/app/para-llevar')
+export const Admin = createPage('Admin', 'linear-gradient(135deg, #333, #111)', '/app/admin')

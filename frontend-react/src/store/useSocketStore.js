@@ -43,7 +43,7 @@ export const useSocketStore = create((set, get) => ({
     try {
       cfg = await pedirRealtimeToken()
     } catch (e) {
-      console.error('❌ No se pudo obtener el token de Realtime:', e.message)
+      console.error('No se pudo obtener el token de Realtime:', e.message)
       return
     }
 
@@ -52,7 +52,7 @@ export const useSocketStore = create((set, get) => ({
     const restauranteId = cfg.restaurante_id || getRestauranteId()
 
     if (!url || !anonKey || !restauranteId) {
-      console.error('❌ Realtime sin configurar (SUPABASE_URL/ANON_KEY/restaurante_id).')
+      console.error('Realtime sin configurar (SUPABASE_URL/ANON_KEY/restaurante_id).')
       return
     }
 
@@ -63,7 +63,7 @@ export const useSocketStore = create((set, get) => ({
           realtime: { params: { eventsPerSecond: 10 } },
         })
       } catch (e) {
-        console.error('❌ No se pudo cargar el cliente de Realtime:', e.message)
+        console.error('No se pudo cargar el cliente de Realtime:', e.message)
         return
       }
     }
@@ -77,10 +77,10 @@ export const useSocketStore = create((set, get) => ({
       })
       .subscribe((status) => {
         if (status === 'SUBSCRIBED') {
-          console.log('🔌 Realtime conectado')
+          console.log('Realtime conectado')
           set({ connected: true })
         } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT' || status === 'CLOSED') {
-          console.log('🔌 Realtime desconectado:', status)
+          console.log('Realtime desconectado:', status)
           set({ connected: false })
         }
       })
@@ -88,7 +88,7 @@ export const useSocketStore = create((set, get) => ({
 
   reconnect: () => {
     setTimeout(() => {
-      console.log('🔄 Reconectando...')
+      console.log('Reconectando...')
       get().disconnectSocket()
       get().initSocket()
     }, 3000)
@@ -114,7 +114,7 @@ export const useSocketStore = create((set, get) => ({
     const tipo = data?.type
 
     if (tipo === 'connected') {
-      console.log('✅', data.message)
+      console.log(data.message)
       return
     }
 

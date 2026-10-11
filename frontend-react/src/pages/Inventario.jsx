@@ -207,7 +207,7 @@ export default function Inventario() {
 
   const getEstadoStock = (estado) => {
     const estilos = {
-      normal: { color: '#4CAF50', bg: 'rgba(76, 175, 80, 0.15)', texto: 'Normal' },
+      normal: { color: '#777777', bg: 'rgba(120, 120, 120, 0.15)', texto: 'Normal' },
       bajo: { color: '#FBC02D', bg: 'rgba(251, 192, 45, 0.15)', texto: 'Stock Bajo' },
       agotado: { color: '#E53935', bg: 'rgba(229, 57, 53, 0.15)', texto: 'Agotado' }
     }
@@ -243,9 +243,9 @@ export default function Inventario() {
     fab: {
       position: 'fixed', bottom: '24px', right: '24px',
       width: '48px', height: '48px', border: 'none', borderRadius: '14px',
-      background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+      background: 'linear-gradient(135deg, #777777, #777777)',
       color: 'white', fontSize: '22px', cursor: 'pointer',
-      boxShadow: '0 4px 12px rgba(76,175,80,0.3)',
+      boxShadow: '0 4px 12px rgba(120,120,120,0.3)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 50,
     },
@@ -268,7 +268,7 @@ export default function Inventario() {
           </select>
           {!isMobile && <FullscreenButton />}
           <UserButton />
-          <button onClick={toggleDarkMode} style={s.btn}>{darkMode ? '🌙' : '☀️'}</button>
+          <button onClick={toggleDarkMode} style={s.btn}><span className="material-icons">{darkMode ? 'dark_mode' : 'light_mode'}</span></button>
         </div>
       </header>
 
@@ -308,17 +308,17 @@ export default function Inventario() {
           )}
 
           {/* RESUMEN KPIs */}
-          <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '15px', color: darkMode ? '#fff' : '#333' }}>📊 Resumen</h2>
+          <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '15px', color: darkMode ? '#fff' : '#333' }}>Resumen</h2>
           <div style={s.gridKpi}>
             <div style={s.kpiCard(darkMode)}>
-              <span className="material-icons" style={{ fontSize: '35px', color: '#9C27B0' }}>inventory_2</span>
+              <span className="material-icons" style={{ fontSize: '35px', color: '#777777' }}>inventory_2</span>
               <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Total Productos</p>
               <p style={{ fontSize: '24px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{resumen.total_productos || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
-              <span className="material-icons" style={{ fontSize: '35px', color: '#4CAF50' }}>check_circle</span>
+              <span className="material-icons" style={{ fontSize: '35px', color: '#777777' }}>check_circle</span>
               <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Normal</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: '#4CAF50' }}>{resumen.normal || 0}</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#777777' }}>{resumen.normal || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
               <span className="material-icons" style={{ fontSize: '35px', color: '#FBC02D' }}>warning</span>
@@ -334,12 +334,12 @@ export default function Inventario() {
 
           {/* TABLA DE INVENTARIO */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: darkMode ? '#fff' : '#333' }}>📋 Inventario de Productos</h2>
+            <h2 style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: darkMode ? '#fff' : '#333' }}>Inventario de Productos</h2>
             <button
               onClick={() => setModalNuevo(true)}
               style={{
                 padding: '10px 18px', border: 'none', borderRadius: '10px',
-                background: 'linear-gradient(135deg, #9C27B0, #7B1FA2)',
+                background: 'linear-gradient(135deg, #777777, #555555)',
                 color: 'white', fontWeight: '700', cursor: 'pointer', fontSize: '13px',
               }}
             >+ Nuevo Item</button>
@@ -411,7 +411,7 @@ export default function Inventario() {
                               <button
                                 onClick={() => abrirMovimiento(item, 'entrada')}
                                 title="Entrada"
-                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#4CAF50', color: 'white', cursor: 'pointer' }}
+                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#777777', color: 'white', cursor: 'pointer' }}
                               >
                                 <span className="material-icons" style={{ fontSize: '18px' }}>add</span>
                               </button>
@@ -425,7 +425,7 @@ export default function Inventario() {
                               <button
                                 onClick={() => confirmarEliminar(item)}
                                 title="Eliminar"
-                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#9C27B0', color: 'white', cursor: 'pointer' }}
+                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#777777', color: 'white', cursor: 'pointer' }}
                               >
                                 <span className="material-icons" style={{ fontSize: '18px' }}>delete</span>
                               </button>
@@ -450,7 +450,7 @@ export default function Inventario() {
         <div style={s.overlay}>
           <div style={s.modalCard(darkMode)}>
             <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>
-              {tipoMovimiento === 'entrada' ? '📥 Entrada de Inventario' : '📤 Salida de Inventario'}
+              {tipoMovimiento === 'entrada' ? 'Entrada de Inventario' : 'Salida de Inventario'}
             </h3>
             <p style={{ color: darkMode ? '#aaa' : '#666', marginBottom: '20px', textAlign: 'center' }}>
               {productoSeleccionado?.producto_nombre}
@@ -503,9 +503,9 @@ export default function Inventario() {
               </button>
               <button
                 onClick={ejecutarMovimiento}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: tipoMovimiento === 'entrada' ? '#4CAF50' : '#E53935', color: 'white', cursor: 'pointer', fontWeight: '700' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: tipoMovimiento === 'entrada' ? '#777777' : '#E53935', color: 'white', cursor: 'pointer', fontWeight: '700' }}
               >
-                {tipoMovimiento === 'entrada' ? '➕ Entrada' : '➖ Salida'}
+                {tipoMovimiento === 'entrada' ? 'Entrada' : 'Salida'}
               </button>
             </div>
           </div>
@@ -516,7 +516,7 @@ export default function Inventario() {
       {modalNuevo && (
         <div style={s.overlay} onClick={() => setModalNuevo(false)}>
           <div style={s.modalCard(darkMode)} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>➕ Nuevo Item de Inventario</h3>
+            <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>Nuevo Item de Inventario</h3>
 
             <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Nombre del producto</label>
             <input
@@ -568,11 +568,11 @@ export default function Inventario() {
                 disabled={!nuevoForm.nombre}
                 style={{
                   flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #9C27B0, #7B1FA2)',
+                  background: 'linear-gradient(135deg, #777777, #555555)',
                   color: 'white', cursor: nuevoForm.nombre ? 'pointer' : 'not-allowed',
                   fontWeight: '700', opacity: nuevoForm.nombre ? 1 : 0.5,
                 }}
-              >✅ Crear</button>
+              >Crear</button>
             </div>
           </div>
         </div>
@@ -583,8 +583,8 @@ export default function Inventario() {
         <div style={s.overlay}>
           <div style={s.modalCard(darkMode)}>
             <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(156,39,176,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span className="material-icons" style={{ fontSize: '28px', color: '#9C27B0' }}>warning_amber</span>
+              <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(120,120,120,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className="material-icons" style={{ fontSize: '28px', color: '#777777' }}>warning_amber</span>
               </div>
               <h3 style={{ color: darkMode ? '#fff' : '#333', margin: '0 0 4px', fontSize: '18px' }}>¿Eliminar Item?</h3>
               <p style={{ color: darkMode ? '#aaa' : '#666', fontSize: '13px', margin: '0' }}>
@@ -604,7 +604,7 @@ export default function Inventario() {
                 onClick={ejecutarEliminar}
                 disabled={eliminando}
                 style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: eliminando ? '#999' : 'linear-gradient(135deg, #E53935, #C62828)', color: 'white', cursor: eliminando ? 'not-allowed' : 'pointer', fontWeight: '700' }}
-              >{eliminando ? 'Eliminando...' : '🗑️ Eliminar'}</button>
+              >{eliminando ? 'Eliminando...' : 'Eliminar'}</button>
             </div>
           </div>
         </div>
@@ -614,7 +614,7 @@ export default function Inventario() {
       {modalEditar && (
         <div style={s.overlay} onClick={() => setModalEditar(false)}>
           <div style={s.modalCard(darkMode)} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>✏️ Editar Configuración</h3>
+            <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>Editar Configuración</h3>
 
             <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Stock mínimo — alerta cuando el stock llegue a este número</label>
             <div style={{ display: 'flex', gap: '10px' }}>
@@ -649,10 +649,10 @@ export default function Inventario() {
                 onClick={guardarEditar}
                 style={{
                   flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #9C27B0, #7B1FA2)',
+                  background: 'linear-gradient(135deg, #777777, #555555)',
                   color: 'white', cursor: 'pointer', fontWeight: '700',
                 }}
-              >💾 Guardar</button>
+              >Guardar</button>
             </div>
           </div>
         </div>

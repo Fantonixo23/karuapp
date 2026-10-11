@@ -50,7 +50,7 @@ function PasswordStrength({ password }) {
   const score = [len >= 8, len >= 12, hasUpper && hasLower, hasNumber, hasSpecial].filter(Boolean).length
 
   let color = '#ef5350'; let label = 'Débil'; let pct = 25
-  if (score >= 4) { color = '#66bb6a'; label = 'Fuerte'; pct = 100 }
+  if (score >= 4) { color = '#A0A0A0'; label = 'Fuerte'; pct = 100 }
   else if (score >= 3) { color = '#ffa726'; label = 'Buena'; pct = 66 }
   else if (score >= 2) { color = '#ffa726'; label = 'Regular'; pct = 50 }
 
@@ -254,10 +254,10 @@ export default function Login() {
       <div style={s.page}>
         <div style={s.card}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <span className="material-icons" style={{ fontSize: '48px', color: '#66bb6a' }}>check_circle</span>
+            <span className="material-icons" style={{ fontSize: '48px', color: '#A0A0A0' }}>check_circle</span>
             <h2 style={{ color: '#fff', fontSize: '18px', margin: '12px 0 6px' }}>Cuenta creada</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0', lineHeight: 1.7 }}>
-              Tu cuenta quedó verificada. <strong style={{ color: '#fff' }}>{regNombre}</strong> ya está activo con una <strong style={{ color: '#66bb6a' }}>prueba gratuita de 7 días</strong>. Podés iniciar sesión ahora mismo.
+              Tu cuenta quedó verificada. <strong style={{ color: '#fff' }}>{regNombre}</strong> ya está activo con una <strong style={{ color: '#A0A0A0' }}>prueba gratuita de 7 días</strong>. Podés iniciar sesión ahora mismo.
             </p>
           </div>
           <button onClick={() => navigate('/login', { replace: true })} style={s.btn}>
@@ -338,8 +338,8 @@ export default function Login() {
         {(error || forgotMsg) && (
           <div style={{
             padding: '10px 14px', borderRadius: '10px',
-            background: error ? 'rgba(244,67,54,0.15)' : 'rgba(76,175,80,0.15)',
-            color: error ? '#ef5350' : '#66bb6a',
+            background: error ? 'rgba(244,67,54,0.15)' : 'rgba(120,120,120,0.15)',
+            color: error ? '#ef5350' : '#A0A0A0',
             fontSize: '13px', marginBottom: '16px', textAlign: 'center',
           }}>{error || forgotMsg}</div>
         )}

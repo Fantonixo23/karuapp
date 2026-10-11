@@ -60,7 +60,7 @@ export default function Configuracion() {
   const [mensaje, setMensaje] = useState('')
 
   const [metodos, setMetodos] = useState([])
-  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: '#4CAF50', activo: true, orden: 0 })
+  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: '#777777', activo: true, orden: 0 })
   const [editMetodoId, setEditMetodoId] = useState(null)
   const [showMetodoModal, setShowMetodoModal] = useState(false)
   const [metodoMsg, setMetodoMsg] = useState('')
@@ -99,7 +99,7 @@ export default function Configuracion() {
       })
       setEditMetodoId(metodo.id)
     } else {
-      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: '#4CAF50', activo: true, orden: metodos.length + 1 })
+      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: '#777777', activo: true, orden: metodos.length + 1 })
       setEditMetodoId(null)
     }
     setMetodoMsg('')
@@ -173,10 +173,10 @@ export default function Configuracion() {
       setMensaje('Complete los campos requeridos')
       return
     }
-    
+
     setGuardando(true)
     setMensaje('')
-    
+
     try {
       const res = await fetch(`${API_URL}/facturacion/config/actualizar`, {
         method: 'PUT',
@@ -184,7 +184,7 @@ export default function Configuracion() {
         body: JSON.stringify({ ...datos, tamano_papel: paperSize })
       })
       const data = await res.json()
-      
+
       if (data.success) {
         setMensaje('Datos guardados correctamente')
       } else {
@@ -193,7 +193,7 @@ export default function Configuracion() {
     } catch (e) {
       setMensaje('Error de conexión')
     }
-    
+
     setGuardando(false)
   }
 
@@ -211,7 +211,7 @@ export default function Configuracion() {
         }
         .cfg-input:focus, .cfg-select:focus, .cfg-textarea:focus { border-color: #FF9800; }
       `}</style>
-      
+
       <header style={{ ...s.header, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
@@ -231,10 +231,10 @@ export default function Configuracion() {
         <div style={s.card(darkMode)} className="animate">
           <h2 style={s.cardTitle(darkMode)}>Datos de la Empresa</h2>
           <p style={s.subtitle(darkMode)}>Estos datos aparecen en los tickets y facturas</p>
-          
+
           <div style={s.field}>
             <label style={s.label(darkMode)}>Nombre del Restaurante *</label>
-            <input 
+            <input
               type="text"
               value={datos.nombre_empresa}
               onChange={(e) => setDatos({...datos, nombre_empresa: e.target.value})}
@@ -242,10 +242,10 @@ export default function Configuracion() {
               style={s.input(darkMode)}
             />
           </div>
-          
+
           <div style={s.field}>
             <label style={s.label(darkMode)}>RUC *</label>
-            <input 
+            <input
               type="text"
               value={datos.ruc}
               onChange={(e) => setDatos({...datos, ruc: e.target.value})}
@@ -253,10 +253,10 @@ export default function Configuracion() {
               style={s.input(darkMode)}
             />
           </div>
-          
+
           <div style={s.field}>
             <label style={s.label(darkMode)}>Dirección</label>
-            <input 
+            <input
               type="text"
               value={datos.direccion}
               onChange={(e) => setDatos({...datos, direccion: e.target.value})}
@@ -264,10 +264,10 @@ export default function Configuracion() {
               style={s.input(darkMode)}
             />
           </div>
-          
+
           <div style={s.field}>
             <label style={s.label(darkMode)}>Teléfono</label>
-            <input 
+            <input
               type="text"
               value={datos.telefono}
               onChange={(e) => setDatos({...datos, telefono: e.target.value})}
@@ -283,7 +283,7 @@ export default function Configuracion() {
 
           <div style={s.field}>
             <label style={s.label(darkMode)}>Numero de Timbrado</label>
-            <input 
+            <input
               type="text"
               value={datos.timbrado_numero}
               onChange={(e) => setDatos({...datos, timbrado_numero: e.target.value})}
@@ -291,11 +291,11 @@ export default function Configuracion() {
               style={s.input(darkMode)}
             />
           </div>
-          
+
           <div style={{ display: 'flex', gap: '10px' }}>
             <div style={{...s.field, flex: 1}}>
               <label style={s.label(darkMode)}>Establecimiento</label>
-              <input 
+              <input
                 type="text"
                 value={datos.establecimiento}
                 onChange={(e) => setDatos({...datos, establecimiento: e.target.value})}
@@ -305,7 +305,7 @@ export default function Configuracion() {
             </div>
             <div style={{...s.field, flex: 1}}>
               <label style={s.label(darkMode)}>Punto Expedicion</label>
-              <input 
+              <input
                 type="text"
                 value={datos.punto_expedicion}
                 onChange={(e) => setDatos({...datos, punto_expedicion: e.target.value})}
@@ -322,7 +322,7 @@ export default function Configuracion() {
             <h2 style={s.cardTitle(darkMode)}>Metodos de Pago</h2>
             <button onClick={() => abrirMetodoModal(null)} style={{
               padding: '8px 16px', border: 'none', borderRadius: '8px',
-              background: '#4CAF50', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
+              background: '#777777', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
             }}>+ Agregar</button>
           </div>
           <p style={s.subtitle(darkMode)}>Estos metodos aparecen al cobrar en Caja</p>
@@ -379,7 +379,7 @@ export default function Configuracion() {
                     <div style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#999' }}>{a.desc}</div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#4CAF50' }}>
+                    <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#777777' }}>
                       {oculto ? 'Oculto' : 'Visible'}
                     </span>
                     <button
@@ -388,7 +388,7 @@ export default function Configuracion() {
                       style={{
                         width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
                         padding: '2px', display: 'flex', alignItems: 'center',
-                        background: oculto ? '#666' : '#4CAF50',
+                        background: oculto ? '#666' : '#777777',
                         justifyContent: oculto ? 'flex-start' : 'flex-end',
                         transition: 'all 0.15s',
                       }}
@@ -472,7 +472,7 @@ export default function Configuracion() {
 
           {/* --- IMPRESORA DE COCINA --- */}
           <div style={{ ...s.field, padding: '12px', borderRadius: '10px', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : '#e0e0e0'}`, marginBottom: '16px' }}>
-            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: darkMode ? '#81C784' : '#2E7D32', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: darkMode ? '#A0A0A0' : '#555555', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span className="material-icons" style={{ fontSize: '18px' }}>restaurant</span> Impresora de Cocina
             </h3>
             <p style={{ fontSize: '12px', color: '#999', margin: '0 0 12px 0' }}>Para comandas de cocina</p>
@@ -622,7 +622,7 @@ export default function Configuracion() {
               }}
               style={{
                 flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                background: '#2E7D32', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
+                background: '#555555', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
               }}
             >
               Probar Cocina
@@ -727,14 +727,14 @@ export default function Configuracion() {
         {mensaje && (
           <div style={{
             ...s.mensaje,
-            background: '#d4edda',
-            color: '#155724'
+            background: '#E8E8E8',
+            color: '#444444'
           }}>
             {mensaje}
           </div>
         )}
 
-        <button 
+        <button
           onClick={guardar}
           disabled={guardando}
           style={{
@@ -835,7 +835,7 @@ const s = {
     padding: '12px',
     border: 'none',
     borderRadius: '10px',
-    background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+    background: 'linear-gradient(135deg, #777777, #777777)',
     color: 'white',
     fontSize: '14px',
     fontWeight: '700',

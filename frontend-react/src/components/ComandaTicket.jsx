@@ -196,7 +196,7 @@ export default function ComandaTicket({ pedido, onClose, onImprimir }) {
             onClick={handlePrint}
             disabled={imprimiendo}
           >
-            {imprimiendo ? '⏳ Imprimiendo...' : 'Imprimir'}
+            {imprimiendo ? 'Imprimiendo...' : 'Imprimir'}
           </button>
           <button style={styles.closeBtn} onClick={onClose}>
             Cerrar
@@ -388,7 +388,7 @@ const styles = {
   },
   printBtn: {
     padding: '12px 20px',
-    background: '#1565C0',
+    background: '#555555',
     color: 'white',
     border: 'none',
     borderRadius: '6px',

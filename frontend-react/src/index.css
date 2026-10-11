@@ -12,6 +12,28 @@
   box-sizing: border-box;
 }
 
+/* ===== Estilo simple LaCarta: plano, cuadrado, sin animaciones ===== */
+
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+* {
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+input,
+textarea,
+button,
+select {
+  border-radius: 0 !important;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   background: transparent;

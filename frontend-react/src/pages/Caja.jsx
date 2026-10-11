@@ -525,7 +525,7 @@ export default function Caja() {
           <span className="material-icons" style={{ fontSize: '64px', color: '#FF9800', marginBottom: '16px' }}>point_of_sale</span>
           <h2 style={{ color: 'white', fontSize: '24px', margin: '0 0 6px' }}>Apertura de Caja</h2>
           <p style={{ color: '#aaa', fontSize: '14px', margin: '0 0 24px' }}>Ingrese el fondo inicial para comenzar el turno</p>
- 
+
           <div style={{ marginBottom: '20px', textAlign: 'left' }}>
             <label style={{ color: '#ccc', fontSize: '13px', marginBottom: '6px', display: 'block' }}>Fondo Inicial (Gs.)</label>
             <input type="text" inputMode="numeric" placeholder="0" value={formatearNumero(fondoInicial)} onChange={handleMontoChange(setFondoInicial)}
@@ -590,30 +590,30 @@ export default function Caja() {
         <div style={st.content}>
         {/* TARJETAS RESUMEN */}
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }}>
-          <div style={{ ...st.card, borderLeft: '4px solid #4CAF50' }}>
+          <div style={{ ...st.card, borderLeft: '4px solid #777777' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>EFECTIVO</p>
-            <p style={{ color: darkMode ? '#81C784' : '#2E7D32', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.ventas_efectivo || 0)}</p>
+            <p style={{ color: darkMode ? '#A0A0A0' : '#555555', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.ventas_efectivo || 0)}</p>
             <p style={{ color: '#888', fontSize: '10px', margin: '2px 0 0' }}>En caja: {formatGuarani(efectivoEsperado)}</p>
           </div>
-          <div style={{ ...st.card, borderLeft: '4px solid #2196F3' }}>
+          <div style={{ ...st.card, borderLeft: '4px solid #777777' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>TRANSFERENCIA</p>
-            <p style={{ color: '#64B5F6', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.ventas_transferencia || 0)}</p>
+            <p style={{ color: '#A0A0A0', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.ventas_transferencia || 0)}</p>
           </div>
           <div style={{ ...st.card, borderLeft: '4px solid #FF9800' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>TOTAL VENTAS</p>
             <p style={{ color: '#FFB74D', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.total_general || 0)}</p>
             <p style={{ color: '#888', fontSize: '10px', margin: '2px 0 0' }}>{sTotales.total_pedidos || 0} pedidos</p>
           </div>
-          <div style={{ ...st.card, borderLeft: '4px solid #E91E63' }}>
+          <div style={{ ...st.card, borderLeft: '4px solid #777777' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>PROPINAS</p>
-            <p style={{ color: '#F48FB1', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.propinas || 0)}</p>
+            <p style={{ color: '#BDBDBD', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.propinas || 0)}</p>
           </div>
         </div>
 
         {/* BOTONES ACCION */}
         <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
           <button onClick={() => { setMovTipo('ingreso_extra'); setMovMonto(''); setMovMotivo(''); setShowMovimiento(true) }}
-            style={{ ...st.btnPrimary, background: 'linear-gradient(135deg, #4CAF50, #388E3C)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            style={{ ...st.btnPrimary, background: 'linear-gradient(135deg, #777777, #777777)', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span className="material-icons" style={{ fontSize: '18px' }}>add_circle</span> Ingreso
           </button>
           <button onClick={() => { setMovTipo('retiro'); setMovMonto(''); setMovMotivo(''); setShowMovimiento(true) }}
@@ -678,13 +678,13 @@ export default function Caja() {
                   <div key={mesa.id} onClick={() => ocupada && seleccionarMesa(mesa)} style={{
                     animationDelay: `${i * 0.05}s`, cursor: ocupada ? 'pointer' : 'default',
                     ...st.card, textAlign: 'center',
-                    border: ocupada ? '2px solid #E53935' : '2px solid rgba(76,175,80,0.3)',
+                    border: ocupada ? '2px solid #E53935' : '2px solid rgba(120,120,120,0.3)',
                     opacity: ocupada ? 1 : 0.7, transition: 'transform 0.2s',
                   }} onMouseEnter={e => { if (ocupada) e.currentTarget.style.transform = 'scale(1.03)' }}
                   onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-                    <span className="material-icons" style={{ fontSize: '36px', color: ocupada ? '#E53935' : '#4CAF50', marginBottom: '4px' }}>table_restaurant</span>
+                    <span className="material-icons" style={{ fontSize: '36px', color: ocupada ? '#E53935' : '#777777', marginBottom: '4px' }}>table_restaurant</span>
                     <p style={{ fontSize: '20px', fontWeight: '700', margin: '0', color: darkMode ? '#fff' : '#333' }}>Mesa {mesa.numero}</p>
-                    <p style={{ fontSize: '11px', color: ocupada ? '#E53935' : '#4CAF50', margin: '2px 0 0' }}>{ocupada ? 'OCUPADA' : 'LIBRE'}</p>
+                    <p style={{ fontSize: '11px', color: ocupada ? '#E53935' : '#777777', margin: '2px 0 0' }}>{ocupada ? 'OCUPADA' : 'LIBRE'}</p>
                   </div>
                 )
               })}
@@ -721,12 +721,12 @@ export default function Caja() {
                   setDeliveryPedidoSeleccionado(pedido); setMesaSeleccionada(null); setPedidosMesa([pedido]); setModalCobrar(true); setMetodoPago('efectivo'); setPropina(0); setPropinaCustom(''); setVuelto(0); setMontoRecibido(''); setGenerarFactura(false); setClienteDatos({ nombre: pedido.cliente_nombre || '', ruc: pedido.cliente_ruc || '', tipo: pedido.cliente_ruc ? 'factura' : 'consumidor' }); setComprobanteNro('')
                 }} style={{
                   animationDelay: `${i * 0.05}s`, cursor: 'pointer',
-                  ...st.card, border: `2px solid ${pedido.estado === 'listo' ? '#4CAF50' : '#FF9800'}`, transition: 'transform 0.2s',
+                  ...st.card, border: `2px solid ${pedido.estado === 'listo' ? '#777777' : '#FF9800'}`, transition: 'transform 0.2s',
                 }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
                 onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <span className="material-icons" style={{ fontSize: '28px', color: '#FF9800' }}>delivery_dining</span>
-                    <span style={{ fontSize: '10px', color: pedido.estado === 'listo' ? '#4CAF50' : '#FF9800', fontWeight: '600' }}>{pedido.estado === 'listo' ? 'LISTO' : 'ENTREGADO'}</span>
+                    <span style={{ fontSize: '10px', color: pedido.estado === 'listo' ? '#777777' : '#FF9800', fontWeight: '600' }}>{pedido.estado === 'listo' ? 'LISTO' : 'ENTREGADO'}</span>
                   </div>
                   <p style={{ fontSize: '16px', fontWeight: '700', margin: '6px 0 2px', color: darkMode ? '#fff' : '#333' }}>
                     {pedido.cliente_nombre || 'Cliente'}
@@ -769,10 +769,10 @@ export default function Caja() {
                   <p style={{ fontWeight: '600', color: darkMode ? '#ddd' : '#555', fontSize: '13px', margin: '0 0 4px' }}>
                     Pedido #{p.numero_orden} - {formatGuarani(p.total || 0)}
                     {p.estado === 'entregado' ? (
-                      <span style={{ color: '#4CAF50', fontSize: '12px', marginLeft: '8px' }}>✓ Entregado</span>
+                      <span style={{ color: '#777777', fontSize: '12px', marginLeft: '8px' }}>✓ Entregado</span>
                     ) : p.estado === 'listo' ? (
                       <button onClick={() => marcarEntregado(p)} disabled={entregando[p.id]}
-                        style={{ marginLeft: '8px', padding: '4px 12px', border: 'none', borderRadius: '6px', cursor: entregando[p.id] ? 'not-allowed' : 'pointer', background: '#4CAF50', color: 'white', fontSize: '12px', fontWeight: '600' }}>
+                        style={{ marginLeft: '8px', padding: '4px 12px', border: 'none', borderRadius: '6px', cursor: entregando[p.id] ? 'not-allowed' : 'pointer', background: '#777777', color: 'white', fontSize: '12px', fontWeight: '600' }}>
                         {entregando[p.id] ? '...' : 'Entregar'}
                       </button>
                     ) : (
@@ -859,7 +859,7 @@ export default function Caja() {
                 {parseFloat(montoRecibido) > 0 && (
                   <div style={{ textAlign: 'center', marginTop: '8px' }}>
                     {parseFloat(montoRecibido) >= totalConPropina ? (
-                      <p style={{ color: '#4CAF50', fontSize: '14px', fontWeight: '700' }}>
+                      <p style={{ color: '#777777', fontSize: '14px', fontWeight: '700' }}>
                         Vuelto: {formatGuarani(parseFloat(montoRecibido) - totalConPropina)}
                       </p>
                     ) : (
@@ -962,9 +962,9 @@ export default function Caja() {
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Mesa: {mesaSeleccionada?.numero}</p>
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Total: <strong>{formatGuarani(totalConPropina)}</strong></p>
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Método: {metodosApi.find(m => m.nombre === metodoPago)?.etiqueta || metodoPago}</p>
-              {parseFloat(montoRecibido) > 0 && <p style={{ color: '#4CAF50', fontSize: '14px', margin: '4px 0' }}>Recibido: {formatGuarani(parseFloat(montoRecibido))}</p>}
+              {parseFloat(montoRecibido) > 0 && <p style={{ color: '#777777', fontSize: '14px', margin: '4px 0' }}>Recibido: {formatGuarani(parseFloat(montoRecibido))}</p>}
               {parseFloat(montoRecibido) > totalConPropina && (
-                <p style={{ color: '#4CAF50', fontSize: '16px', fontWeight: '700', margin: '4px 0', textAlign: 'center' }}>
+                <p style={{ color: '#777777', fontSize: '16px', fontWeight: '700', margin: '4px 0', textAlign: 'center' }}>
                   Vuelto a entregar: {formatGuarani(parseFloat(montoRecibido) - totalConPropina)}
                 </p>
               )}
@@ -1005,7 +1005,7 @@ export default function Caja() {
         <div style={st.overlay} onClick={() => setShowMovimiento(false)}>
           <div style={st.modal} onClick={e => e.stopPropagation()}>
             <h3 style={{ color: darkMode ? '#fff' : '#333', margin: '0 0 16px' }}>
-              {movTipo === 'ingreso_extra' ? '💰 Ingreso Extra' : '💸 Retiro de Efectivo'}
+              {movTipo === 'ingreso_extra' ? 'Ingreso Extra' : 'Retiro de Efectivo'}
             </h3>
             <div style={{ marginBottom: '12px' }}>
               <label style={{ color: '#888', fontSize: '12px', display: 'block', marginBottom: '4px' }}>Monto (Gs.)</label>
@@ -1030,7 +1030,7 @@ export default function Caja() {
         <div style={st.overlay} onClick={() => setShowCierre(false)}>
           <div style={{ ...st.modalLg, maxWidth: '500px' }} onClick={e => e.stopPropagation()}>
             <h3 style={{ color: darkMode ? '#fff' : '#333', margin: '0 0 16px', textAlign: 'center' }}>
-              🛑 Cierre de Caja
+              Cierre de Caja
             </h3>
 
             {/* Denomminaciones */}
@@ -1090,16 +1090,16 @@ export default function Caja() {
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', borderTop: '1px solid #ccc', paddingTop: '3px', marginTop: '3px', color: '#000' }}><span>Total Ventas:</span><span>{formatGuarani(resultadoCierre.total_ventas)}</span></div>
             </div>
             <div style={{ marginBottom: '10px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#4CAF50' }}><span>+ Ingresos:</span><span>{formatGuarani(resultadoCierre.total_ingresos_extra)}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#777777' }}><span>+ Ingresos:</span><span>{formatGuarani(resultadoCierre.total_ingresos_extra)}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#E53935' }}><span>- Retiros:</span><span>{formatGuarani(resultadoCierre.total_retiros)}</span></div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#E91E63' }}><span>Propinas:</span><span>{formatGuarani(resultadoCierre.total_propinas)}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#777777' }}><span>Propinas:</span><span>{formatGuarani(resultadoCierre.total_propinas)}</span></div>
             </div>
             <div style={{ borderTop: '1px solid #000', borderBottom: '1px solid #000', padding: '8px 0', marginBottom: '12px', color: '#000' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: 'bold', color: '#000' }}><span>ESPERADO:</span><span>{formatGuarani(resultadoCierre.total_esperado)}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: 'bold', color: '#000' }}><span>CONTADO:</span><span>{formatGuarani(resultadoCierre.total_contado_efectivo)}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: 'bold', paddingTop: '4px', color: '#000' }}>
                 <span>{resultadoCierre.tipo_diferencia === 'sobrante' ? 'SOBRANTE' : resultadoCierre.tipo_diferencia === 'faltante' ? 'FALTANTE' : 'DIFERENCIA'}:</span>
-                <span style={{ color: resultadoCierre.diferencia > 0 ? '#4CAF50' : resultadoCierre.diferencia < 0 ? '#E53935' : '#000', fontWeight: 'bold' }}>
+                <span style={{ color: resultadoCierre.diferencia > 0 ? '#777777' : resultadoCierre.diferencia < 0 ? '#E53935' : '#000', fontWeight: 'bold' }}>
                   {resultadoCierre.diferencia > 0 ? '+' : ''}{formatGuarani(resultadoCierre.diferencia)}
                 </span>
               </div>
@@ -1124,7 +1124,7 @@ export default function Caja() {
         <div style={st.overlay} onClick={() => setModalReimpresion(false)}>
           <div style={{ ...st.modalLg, maxWidth: '900px' }} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ color: darkMode ? '#fff' : '#333', margin: 0 }}>🖨️ Reimprimir Ticket</h3>
+              <h3 style={{ color: darkMode ? '#fff' : '#333', margin: 0 }}>Reimprimir Ticket</h3>
               <button onClick={() => { setModalReimpresion(false); limpiarFiltros() }} style={{ background: 'none', border: 'none', color: '#888', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
             </div>
 
@@ -1156,7 +1156,7 @@ export default function Caja() {
               <input type="date" value={fechaHasta} onChange={e => setFechaHasta(e.target.value)} style={st.input} title="Hasta" />
               <div style={{ display: 'flex', gap: '6px' }}>
                 <button onClick={() => buscarHistorial(1)} disabled={buscando} style={{ ...st.btnPrimary, flex: 2, opacity: buscando ? 0.5 : 1 }}>
-                  {buscando ? 'Buscando...' : '🔍 Buscar'}
+                  {buscando ? 'Buscando...' : 'Buscar'}
                 </button>
                 <button onClick={limpiarFiltros} style={{ ...st.btn, background: darkMode ? '#3a3a3a' : '#f0f0f0', color: darkMode ? '#ccc' : '#555', flex: 1, padding: '8px' }}>Limpiar</button>
               </div>
@@ -1191,11 +1191,11 @@ export default function Caja() {
                             <span style={{ fontSize: '10px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
                           )}
                         </div>
-                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(p.total)}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#777777' }}>{formatGuarani(p.total)}</span>
                         <span style={{ fontSize: '11px', color: p.factura?.numero ? '#FF9800' : '#888' }}>{p.factura?.numero || '-'}</span>
                         <button onClick={async (e) => { e.stopPropagation(); setReimprimiendoId(p.id); try { await printTicketFactura(p, empresa, { nombre: p.cliente_nombre, ruc: p.cliente_ruc }, p.factura?.numero || p.numero_orden) } catch (e) { console.error(e) } setReimprimiendoId(null) }}
                           style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '4px' }}>
-                          {reimprimiendoId === p.id ? '⏳' : '🖨️'}
+                          {reimprimiendoId === p.id ? '' : ''}
                         </button>
                       </div>
                       {/* Expandido: items y detalles */}

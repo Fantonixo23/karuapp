@@ -7,9 +7,9 @@ const API = getApiUrl()
 const ROL_STYLES = {
   superadmin: { color: '#F44336', label: 'Superadmin' },
   administrador: { color: '#FF9800', label: 'Administrador' },
-  cajero: { color: '#1976D2', label: 'Cajero' },
-  cocina: { color: '#9C27B0', label: 'Cocina' },
-  mesero: { color: '#4CAF50', label: 'Mesero' },
+  cajero: { color: '#777777', label: 'Cajero' },
+  cocina: { color: '#777777', label: 'Cocina' },
+  mesero: { color: '#777777', label: 'Mesero' },
 }
 
 const FILTROS = [
@@ -142,8 +142,8 @@ export default function AdminUsuarios() {
         {msg.text && (
           <div style={{
             padding: '12px', borderRadius: '10px', marginBottom: '16px', textAlign: 'center',
-            background: msg.type === 'error' ? 'rgba(244,67,54,0.12)' : 'rgba(76,175,80,0.12)',
-            color: msg.type === 'error' ? '#EF5350' : '#81C784', fontSize: '13px', fontWeight: '600',
+            background: msg.type === 'error' ? 'rgba(244,67,54,0.12)' : 'rgba(120,120,120,0.12)',
+            color: msg.type === 'error' ? '#EF5350' : '#A0A0A0', fontSize: '13px', fontWeight: '600',
           }}>{msg.text}</div>
         )}
 
@@ -204,7 +204,7 @@ function Resumen({ total, activos, bloqueados }) {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '24px' }}>
       {[
         { label: 'Total', count: total, color: 'white', bg: 'rgba(255,255,255,0.04)' },
-        { label: 'Activos', count: activos, color: '#81C784', bg: 'rgba(76,175,80,0.1)' },
+        { label: 'Activos', count: activos, color: '#A0A0A0', bg: 'rgba(120,120,120,0.1)' },
         { label: 'Bloqueados', count: bloqueados, color: '#EF5350', bg: 'rgba(244,67,54,0.1)' },
       ].map((item, i) => (
         <div key={i} style={{ borderRadius: '12px', padding: '16px', background: item.bg, border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
@@ -234,22 +234,22 @@ function CardUsuario({ u, ocupado, onEstado, onEliminar }) {
           }}>{rol.label}</span>
           <span style={{
             padding: '2px 8px', borderRadius: '5px', fontSize: '10px', fontWeight: '700',
-            background: u.activo ? 'rgba(76,175,80,0.15)' : 'rgba(244,67,54,0.15)',
-            color: u.activo ? '#81C784' : '#EF5350',
+            background: u.activo ? 'rgba(120,120,120,0.15)' : 'rgba(244,67,54,0.15)',
+            color: u.activo ? '#A0A0A0' : '#EF5350',
           }}>{u.activo ? 'Activo' : 'Bloqueado'}</span>
         </div>
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          {u.email && <span>✉ {u.email}</span>}
-          {u.restaurante_nombre && <span>🏠 {u.restaurante_nombre}</span>}
+          {u.email && <span>{u.email}</span>}
+          {u.restaurante_nombre && <span>{u.restaurante_nombre}</span>}
         </div>
       </div>
 
       <div style={{ display: 'flex', gap: '6px', flexShrink: 0, marginLeft: '12px' }}>
         <button onClick={onEstado} disabled={ocupado} title={u.activo ? 'Bloquear' : 'Desbloquear'} style={{
           width: '36px', height: '36px', borderRadius: '8px', cursor: ocupado ? 'wait' : 'pointer',
-          border: u.activo ? '1px solid rgba(255,152,0,0.3)' : '1px solid rgba(76,175,80,0.3)',
-          background: u.activo ? 'rgba(255,152,0,0.1)' : 'rgba(76,175,80,0.1)',
-          color: u.activo ? '#FFB74D' : '#81C784',
+          border: u.activo ? '1px solid rgba(255,152,0,0.3)' : '1px solid rgba(120,120,120,0.3)',
+          background: u.activo ? 'rgba(255,152,0,0.1)' : 'rgba(120,120,120,0.1)',
+          color: u.activo ? '#FFB74D' : '#A0A0A0',
           display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: ocupado ? 0.5 : 1,
         }}>
           <span className="material-icons" style={{ fontSize: '18px' }}>{u.activo ? 'lock' : 'lock_open'}</span>
