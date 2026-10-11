@@ -85,7 +85,7 @@ export default function Inicio() {
   const fechaStr = hora.toLocaleDateString('es-PY', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
   const horaStr = hora.toLocaleTimeString('es-PY', { hour: '2-digit', minute: '2-digit' })
   const allowedModulos = MODULOS_POR_ROL[user?.rol] || MODULOS_POR_ROL['administrador']
-  const areasVisibles = (area) => allowedModulos.includes(area.modulo) && !hiddenModules.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))
+  const areaVisibles = (area) => allowedModulos.includes(area.modulo) && !hiddenModules.includes(area.modulo) && (!isMobile || !MOBILE_HIDDEN_MODULES.includes(area.modulo))
 
   return (
     <div style={s.container(darkMode)}>
