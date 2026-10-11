@@ -316,7 +316,7 @@ export default function Cocina() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                    <span style={{ fontSize: '24px', fontWeight: '900', color: '#1a1a1a' }}>#{p.numero_orden || p.id}</span>
+                    <span style={{ fontSize: '24px', fontWeight: '900', color: '#FF9800' }}>#{p.numero_orden || p.id}</span>
                     {p.tipo_pedido === 'venta' ? (
                       <span style={{ fontSize: '12px', fontWeight: '700', color: '#FF6D00', background: '#FFF3E0', padding: '4px 8px', borderRadius: '4px' }}>
                         VENTA {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
@@ -442,7 +442,7 @@ export default function Cocina() {
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
-              <h2 style={{ fontSize: '28px', fontWeight: '900' }}>#{pedidoSeleccionado.numero_orden || pedidoSeleccionado.id}</h2>
+              <h2 style={{ fontSize: '28px', fontWeight: '900', color: '#FF9800' }}>#{pedidoSeleccionado.numero_orden || pedidoSeleccionado.id}</h2>
               <span style={{ color: '#666' }}>{pedidoSeleccionado.delivery ? '🏍️ Delivery' : `Mesa ${pedidoSeleccionado.mesa?.numero || pedidoSeleccionado.mesa}`}</span>
             </div>
             <button onClick={() => { setPanelAbierto(false); setPedidoSeleccionado(null) }} style={{ fontSize: '30px', border: 'none', background: 'none', cursor: 'pointer' }}>×</button>
