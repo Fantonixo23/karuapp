@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { createClient } from '@supabase/supabase-js'
 import { getApiUrl, getToken } from '../utils/api'
 
 let supabase = null
@@ -58,9 +57,15 @@ export const useSocketStore = create((set, get) => ({
     }
 
     if (!supabase) {
-      supabase = createClient(url, anonKey, {
-        realtime: { params: { eventsPerSecond: 10 } },
-      })
+      try {
+        const supabaseModule = await import('@supabase/supabase-js')
+        supabase = supabaseModule.createClient(url, anonKey, {
+          realtime: { params: { eventsPerSecond: 10 } },
+        })
+      } catch (e) {
+        console.error('❌ No se pudo cargar el cliente de Realtime:', e.message)
+        return
+      }
     }
 
     supabase.realtime.setAuth(cfg.token)
