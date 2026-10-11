@@ -9,6 +9,11 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    minify: 'terser',
+    terserOptions: {
+      keep_classnames: false,
+      compress: { passes: 2 },
+    },
   },
   server: {
     port: 5173,
