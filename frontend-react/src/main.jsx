@@ -21,6 +21,10 @@ if ('serviceWorker' in navigator) {
   })
 }
 
+if (window.caches) {
+  caches.keys().then(keys => keys.forEach(k => caches.delete(k)))
+}
+
 if (localStorage.getItem('darkMode') === null) {
   localStorage.setItem('darkMode', 'false')
 }
