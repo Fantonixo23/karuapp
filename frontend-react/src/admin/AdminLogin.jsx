@@ -30,8 +30,8 @@ export default function AdminLogin() {
         throw new Error('Acceso solo para administradores')
       }
 
-      const email = data.user?.email?.trim().toLowerCase()
-      if (!email || !SUPERADMIN_EMAILS.includes(email)) {
+      const userEmail = data.user?.email?.trim().toLowerCase()
+      if (!userEmail || !SUPERADMIN_EMAILS.includes(userEmail)) {
         throw new Error('Acceso restringido')
       }
 
