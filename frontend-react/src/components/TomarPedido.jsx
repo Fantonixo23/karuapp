@@ -303,6 +303,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
     }),
     gridArea: {
       flex: 1, overflow: 'auto', padding: '12px',
+      display: 'flex', flexDirection: 'column',
     },
     grid: {
       display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
@@ -438,7 +439,6 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
           ))}
         </div>
 
-        <style>{`@keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }`}</style>
         <div style={styles.gridArea}>
           {cargando ? (
             <div style={{ textAlign: 'center', padding: '60px', color: darkMode ? '#666' : '#999' }}>
@@ -452,10 +452,10 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
             </div>
           ) : (
             <div style={styles.grid}>
-              {productosPagina.map((p, i) => (
+              {productosPagina.map((p) => (
                 <div
                   key={p.id}
-                  style={{ ...styles.card, animation: `fadeInScale 0.4s ease-out forwards`, animationDelay: `${(i % PRODUCTOS_POR_PAGINA) * 0.05}s`, opacity: 0 }}
+                  style={styles.card}
                   onClick={() => { setModalProducto(p); setCantidad(1); setNota(''); setVariante(null) }}
                 >
                   {p.imagen ? (
@@ -475,9 +475,9 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
 
           {totalPaginas > 1 && (
             <div style={{
-              display: 'flex', justifyContent: 'center', gap: '4px', marginTop: '20px',
+              display: 'flex', justifyContent: 'center', gap: '4px', marginTop: 'auto',
               position: 'sticky', bottom: 0, padding: '10px',
-              background: darkMode ? '#1a1a1a' : '#f0f0f0',
+              background: darkMode ? '#1a1a1a' : '#f0f0f0', zIndex: 2,
             }}>
               <button
                 onClick={() => setPagina(Math.max(1, pagina - 1))}

@@ -540,7 +540,7 @@ export default function Informes() {
                       const porcentaje = total > 0 ? (cantidad / total) * 100 : 0
                       const color = getEstadoColor(estado)
                       return (
-                        <div key={estado} style={{ animation: `slideIn 0.5s ease-out ${0.8 + i * 0.1}s forwards`, opacity: 0 }}>
+                        <div key={estado}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
                             <span style={{ textTransform: 'capitalize', color: darkMode ? '#ccc' : '#666', fontWeight: '600' }}>{estado}</span>
                             <span style={{ fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{cantidad} ({porcentaje.toFixed(0)}%)</span>
@@ -640,8 +640,6 @@ export default function Informes() {
                           key={pedido.id}
                           style={{
                             borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                            animation: `fadeInUp 0.4s ease-out ${1 + i * 0.05}s forwards`,
-                            opacity: 0
                           }}
                         >
                           <td style={{ padding: '15px' }}>
