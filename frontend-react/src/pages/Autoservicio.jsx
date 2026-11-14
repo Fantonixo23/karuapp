@@ -60,7 +60,8 @@ export default function Autoservicio() {
   const [guardando, setGuardando] = useState(false)
 
   const [menuProductoId, setMenuProductoId] = useState('')
-  const [menuKg, setMenuKg] = useState('1')
+  const [menuPrecio, setMenuPrecio] = useState('0')
+  const [menuPeso, setMenuPeso] = useState('1')
   const [categoriaFiltro, setCategoriaFiltro] = useState('todas')
   const [busqueda, setBusqueda] = useState('')
 
@@ -234,8 +235,14 @@ export default function Autoservicio() {
     [productos, menuProductoId],
   )
 
-  const kgNum = Number.parseFloat(menuKg) || 0
-  const subtotalMenu = Math.round((Number(menuProducto?.precio) || 0) * kgNum)
+  useEffect(() => {
+    const p = productos.find((x) => Number(x.id) === Number(menuProductoId))
+    if (p) setMenuPrecio(String(Number(p.precio) || 0))
+  }, [menuProductoId])
+
+  const pesoNum = Number.parseFloat(menuPeso) || 0
+  const precioNum = Number.parseFloat(menuPrecio) || 0
+  const subtotalMenu = Math.round(precioNum * pesoNum)
   const totalCarrito = Math.round(
     carrito.reduce((sum, item) => sum + (Number(item.precio) || 0) * (Number(item.cantidad) || 0), 0),
   )
@@ -345,19 +352,24 @@ export default function Autoservicio() {
       setMensajeError('Seleccioná un menú')
       return
     }
-    const kg = Math.round(kgNum * 100) / 100
-    if (!(kg > 0)) {
-      setMensajeError('Ingresá los kilogramos del menú')
+    const peso = Math.round(pesoNum * 100) / 100
+    if (!(peso > 0)) {
+      setMensajeError('Ingresá el peso en kg del menú')
       return
     }
+    if (!Number.isFinite(precioNum) || precioNum < 0) {
+      setMensajeError('Ingresá un precio por kg válido')
+      return
+    }
+    const precio = Math.round(precioNum * 100) / 100
 
     setCarrito((prev) => {
       const idx = prev.findIndex(
-        (i) => i.es_menu && Number(i.producto_id) === Number(menuProducto.id) && Number(i.cantidad) === kg,
+        (i) => i.es_menu && Number(i.producto_id) === Number(menuProducto.id) && Number(i.precio) === precio,
       )
       if (idx >= 0) {
         const copia = [...prev]
-        copia[idx] = { ...copia[idx], cantidad: Math.round((Number(copia[idx].cantidad) + kg) * 100) / 100 }
+        copia[idx] = { ...copia[idx], cantidad: Math.round((Number(copia[idx].cantidad) + peso) * 100) / 100 }
         return copia
       }
       return [
@@ -367,15 +379,15 @@ export default function Autoservicio() {
           producto_id: menuProducto.id,
           producto_nombre: menuProducto.nombre,
           categoria_nombre: categoriasMap[menuProducto.categoria_id] || '',
-          precio: Number(menuProducto.precio) || 0,
-          cantidad: kg,
+          precio,
+          cantidad: peso,
           es_menu: true,
           nota: '',
         },
       ]
     })
 
-    setMenuKg('1')
+    setMenuPeso('1')
     setMensajeError('')
   }
 
@@ -431,6 +443,16 @@ export default function Autoservicio() {
     )
   }
 
+  const actualizarPrecio = (key, valor) => {
+    setCarrito((prev) =>
+      prev.map((item) => {
+        if (item.key !== key) return item
+        const n = Number(valor) || 0
+        return { ...item, precio: Math.max(0, Math.round(n * 100) / 100) }
+      }),
+    )
+  }
+
   const quitarDelCarrito = (key) => {
     setCarrito((prev) => prev.filter((item) => item.key !== key))
   }
@@ -446,15 +468,18 @@ export default function Autoservicio() {
       return
     }
 
-    const items = carrito.map((item) => ({
-      producto_id: item.producto_id,
-      producto_nombre: item.producto_nombre,
-      categoria_nombre: item.categoria_nombre,
-      cantidad: Number(item.cantidad),
-      precio: Number(item.precio),
-      variante: null,
-      nota: item.es_menu ? `${fmtCantidad(item.cantidad)} kg` : (item.nota || ''),
-    }))
+    const items = carrito.map((item) => {
+      const base = {
+        producto_id: item.producto_id,
+        producto_nombre: item.producto_nombre,
+        categoria_nombre: item.categoria_nombre,
+        cantidad: Number(item.cantidad),
+        precio: Number(item.precio),
+        variante: null,
+        nota: item.es_menu ? `${fmtCantidad(item.cantidad)} kg` : (item.nota || ''),
+      }
+      return item.es_menu ? { ...base, precio_manual: true } : base
+    })
 
     setGuardando(true)
     setMensajeError('')
@@ -836,49 +861,58 @@ export default function Autoservicio() {
                 <div style={{ ...card, padding: '14px' }}>
                   <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 800 }}>1. Menú por kg</h2>
                   <p style={{ margin: '3px 0 10px', fontSize: '12px', color: muted }}>
-                    Elegí el menú, ingresá los kg y el precio se calcula por kilogramo.
+                    Cargá el precio por kilogramo y el peso. Ambos valores se pueden modificar a gusto.
                   </p>
-                  <p style={{ margin: '-4px 0 10px', fontSize: '11px', color: muted }}>
-                    Se usan los productos de la categoría Menú o, si no existe, los de Platos principales.
-                  </p>
+
+                  <label style={{ ...labelStyle, marginBottom: '10px' }}>
+                    Producto / Menú (para cocina)
+                    <select
+                      value={menuProductoId}
+                      onChange={(e) => setMenuProductoId(e.target.value)}
+                      style={inputStyle}
+                    >
+                      {menuProducts.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.nombre} — {fmtGs(p.precio)}/kg
+                        </option>
+                      ))}
+                      {menuProducts.length === 0 && <option value="">Sin menús configurados</option>}
+                    </select>
+                  </label>
 
                   <div style={{
                     display: 'grid',
-                    gridTemplateColumns: isMobile ? '1fr' : 'minmax(0, 2fr) 110px 150px',
+                    gridTemplateColumns: isMobile ? '1fr' : 'minmax(0, 1fr) minmax(0, 1fr) 150px',
                     gap: '8px',
                     alignItems: 'end',
                   }}>
                     <label style={labelStyle}>
-                      Menú
-                      <select
-                        value={menuProductoId}
-                        onChange={(e) => setMenuProductoId(e.target.value)}
+                      Precio por kg
+                      <input
+                        type="number"
+                        min="0"
+                        step="100"
+                        value={menuPrecio}
+                        onChange={(e) => setMenuPrecio(e.target.value)}
                         style={inputStyle}
-                      >
-                        {menuProducts.map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.nombre} — {fmtGs(p.precio)}/kg
-                          </option>
-                        ))}
-                        {menuProducts.length === 0 && <option value="">Sin menús configurados</option>}
-                      </select>
+                      />
                     </label>
 
                     <label style={labelStyle}>
-                      Kg
+                      Peso (kg)
                       <input
                         type="number"
-                        min="0.1"
+                        min="0.01"
                         step="0.1"
-                        value={menuKg}
-                        onChange={(e) => setMenuKg(e.target.value)}
+                        value={menuPeso}
+                        onChange={(e) => setMenuPeso(e.target.value)}
                         style={inputStyle}
                       />
                     </label>
 
                     <button
                       onClick={agregarMenu}
-                      disabled={!menuProducto || !(kgNum > 0)}
+                      disabled={!menuProducto || !(pesoNum > 0) || !Number.isFinite(precioNum) || precioNum < 0}
                       style={{ ...btnPrimary, height: '38px' }}
                     >
                       Agregar menú
@@ -894,7 +928,11 @@ export default function Autoservicio() {
                     color: muted,
                     flexWrap: 'wrap',
                   }}>
-                    <span>{menuProducto ? `${menuProducto.nombre} · ${fmtGs(menuProducto.precio)}/kg` : 'Seleccioná un menú'}</span>
+                    <span>
+                      {menuProducto
+                        ? `${menuProducto.nombre} · ${fmtGs(precioNum)}/kg · ${fmtCantidad(pesoNum)} kg`
+                        : 'Seleccioná un menú'}
+                    </span>
                     <span style={{ fontWeight: 800, color: textColor }}>Subtotal: {fmtGs(subtotalMenu)}</span>
                   </div>
 
@@ -1119,14 +1157,31 @@ export default function Autoservicio() {
                         justifyContent: 'space-between',
                         gap: '8px',
                         marginTop: '6px',
+                        flexWrap: 'wrap',
                       }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
+                          {item.es_menu && (
+                            <>
+                              <span style={{ fontSize: '10px', color: muted }}>Gs.</span>
+                              <input
+                                type="number"
+                                min="0"
+                                step="100"
+                                value={item.precio}
+                                onChange={(e) => actualizarPrecio(item.key, e.target.value)}
+                                title="Precio por kg"
+                                style={{ ...inputStyle, width: '92px', padding: '4px 6px', fontSize: '12px' }}
+                              />
+                              <span style={{ fontSize: '11px', color: muted }}>/kg ·</span>
+                            </>
+                          )}
                           <input
                             type="number"
                             min="0"
                             step={item.es_menu ? '0.1' : '1'}
                             value={item.cantidad}
                             onChange={(e) => actualizarCantidad(item.key, e.target.value)}
+                            title={item.es_menu ? 'Peso (kg)' : 'Cantidad'}
                             style={{ ...inputStyle, width: '78px', padding: '4px 6px', fontSize: '12px' }}
                           />
                           <span style={{ fontSize: '11px', color: muted }}>

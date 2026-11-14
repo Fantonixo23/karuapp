@@ -91,7 +91,9 @@ export class PedidosService {
     const items = data.items || [];
     if (!items.length) throw new BadRequestException('El pedido debe tener al menos un item');
 
-    const itemsValidados = await this.validarItems(restauranteId, items);
+    const itemsValidados = await this.validarItems(restauranteId, items, {
+      permitirPrecioManual: data.tipo_pedido === 'autoservicio',
+    });
     const total = Math.round(itemsValidados.reduce((sum, item) => sum + item.cantidad * item.precio, 0));
 
     const pedido = await this.db.transaction(async (tx) => {
@@ -207,7 +209,12 @@ export class PedidosService {
   async agregarItems(restauranteId: number, id: number, items: any[]) {
     if (!items.length) throw new BadRequestException('No hay items para agregar');
 
-    const itemsValidados = await this.validarItems(restauranteId, items);
+    const tipoPedido = await this.obtenerTipoPedido(restauranteId, id);
+    if (!tipoPedido) throw new NotFoundException('Pedido no encontrado');
+
+    const itemsValidados = await this.validarItems(restauranteId, items, {
+      permitirPrecioManual: tipoPedido === 'autoservicio',
+    });
     const updated = await this.actualizarItemsYTotal(restauranteId, id, itemsValidados, 'agregar');
 
     await this.realtime.emitPedidoModificado(restauranteId, {
@@ -223,7 +230,12 @@ export class PedidosService {
   async reemplazarItems(restauranteId: number, id: number, items: any[]) {
     if (!items.length) throw new BadRequestException('El pedido debe tener al menos un item');
 
-    const itemsValidados = await this.validarItems(restauranteId, items);
+    const tipoPedido = await this.obtenerTipoPedido(restauranteId, id);
+    if (!tipoPedido) throw new NotFoundException('Pedido no encontrado');
+
+    const itemsValidados = await this.validarItems(restauranteId, items, {
+      permitirPrecioManual: tipoPedido === 'autoservicio',
+    });
     const updated = await this.actualizarItemsYTotal(restauranteId, id, itemsValidados, 'reemplazar');
 
     await this.realtime.emitPedidoModificado(restauranteId, {
@@ -715,7 +727,23 @@ export class PedidosService {
     });
   }
 
-  private async validarItems(restauranteId: number, items: any[]) {
+  private async obtenerTipoPedido(restauranteId: number, id: number): Promise<string | null> {
+    const pedido = await this.db.run(async (db) =>
+      db
+        .selectFrom('pedidos')
+        .select('tipo_pedido')
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst(),
+    );
+    return pedido?.tipo_pedido ?? null;
+  }
+
+  private async validarItems(
+    restauranteId: number,
+    items: any[],
+    opciones: { permitirPrecioManual?: boolean } = {},
+  ) {
     const itemsValidados: ItemPedido[] = [];
     for (const item of items) {
       if (!item.producto_id) throw new BadRequestException('Cada item debe tener producto_id');
@@ -732,15 +760,28 @@ export class PedidosService {
       if (!producto) throw new NotFoundException(`Producto ${item.producto_id} no encontrado`);
       if (!producto.disponible) throw new BadRequestException(`El producto ${producto.nombre} no está disponible`);
 
-      const cantidad = item.cantidad || 1;
-      // El precio SIEMPRE sale del catalogo: nunca del body, que es manipulable.
-      const precio = producto.precio;
+      const cantidad = Number(item.cantidad);
+      if (!Number.isFinite(cantidad) || cantidad <= 0) {
+        throw new BadRequestException(`La cantidad del producto ${producto.nombre} debe ser mayor a 0`);
+      }
+      const cantidadRedondeada = Math.round(cantidad * 100) / 100;
+
+      // El precio sale del catalogo, salvo en autoservicio donde se cobra por kg
+      // y quien opera puede fijarlo manualmente (el ticket lo respalda).
+      let precio = producto.precio;
+      if (opciones.permitirPrecioManual && item.precio_manual === true) {
+        const precioManual = Number(item.precio);
+        if (!Number.isFinite(precioManual) || precioManual < 0) {
+          throw new BadRequestException(`El precio manual del producto ${producto.nombre} no es válido`);
+        }
+        precio = Math.round(precioManual * 100) / 100;
+      }
 
       itemsValidados.push({
         producto_id: producto.id,
         producto_nombre: producto.nombre,
         categoria_nombre: (producto.categoria_nombre as string | null) ?? null,
-        cantidad,
+        cantidad: cantidadRedondeada,
         precio,
         variante: item.variante || null,
         nota: item.nota || '',
