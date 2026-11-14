@@ -210,9 +210,9 @@ export default function NuevaVenta() {
         setMesaCapacidad('')
         loadMesas()
       } else {
-        console.log('Error:', data.error)
+        alert(data.error || 'No se pudo crear la mesa')
       }
-    } catch (e) { console.log('Error:', e) }
+    } catch (e) { alert('Error de conexión') }
     setCargando(false)
   }
 
@@ -230,9 +230,9 @@ export default function NuevaVenta() {
         setModalEditar(false)
         loadMesas()
       } else {
-        console.log('Error:', data.error || 'Error')
+        alert(data.error || 'No se pudo guardar la mesa')
       }
-    } catch (e) { console.log('Error de conexión') }
+    } catch (e) { alert('Error de conexión') }
     setCargando(false)
   }
 
@@ -254,9 +254,9 @@ export default function NuevaVenta() {
         setPanelAbierto(false)
         localStorage.removeItem('mesa_seleccionada')
       } else {
-        console.log('Error:', data.error)
+        alert(data.error || 'No se pudo eliminar la mesa')
       }
-    } catch (e) { console.log('Error:', e) }
+    } catch (e) { alert('Error de conexión') }
     setCargando(false)
     setMesaAEliminar(null)
   }
@@ -632,7 +632,7 @@ export default function NuevaVenta() {
             <div style={s.modal(darkMode)}>
               <div style={s.modalCard(darkMode)} onClick={e => e.stopPropagation()}>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 16px', color: darkMode ? '#fff' : '#1a1a1a', textAlign: 'center' }}>Nueva Mesa</h3>
-                <input type="number" value={mesaNumero} onChange={(e) => setMesaNumero(e.target.value)} placeholder="N'mero de mesa" style={s.input(darkMode)} />
+                <input type="number" value={mesaNumero} onChange={(e) => setMesaNumero(e.target.value)} placeholder="Número de mesa" style={s.input(darkMode)} />
                 <input type="text" value={mesaArea} onChange={(e) => setMesaArea(e.target.value)} placeholder="Área (ej: Principal, Patio, Tejado)" style={s.input(darkMode)} />
                 <input type="number" value={mesaCapacidad} onChange={(e) => setMesaCapacidad(e.target.value)} placeholder="Capacidad" style={s.input(darkMode)} />
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
@@ -671,7 +671,7 @@ export default function NuevaVenta() {
             <div style={s.modal(darkMode)}>
               <div style={s.modalCard(darkMode)} onClick={e => e.stopPropagation()}>
                 <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 16px', color: darkMode ? '#fff' : '#1a1a1a', textAlign: 'center' }}>Editar Mesa {mesaSeleccionada.numero}</h3>
-                <input type="number" value={mesaNumero} onChange={(e) => setMesaNumero(e.target.value)} placeholder="N'mero" style={s.input(darkMode)} />
+                <input type="number" value={mesaNumero} onChange={(e) => setMesaNumero(e.target.value)} placeholder="Número" style={s.input(darkMode)} />
                 <input type="text" value={mesaArea} onChange={(e) => setMesaArea(e.target.value)} placeholder="Área (ej: Principal, Patio, Tejado)" style={s.input(darkMode)} />
                 <input type="number" value={mesaCapacidad} onChange={(e) => setMesaCapacidad(e.target.value)} placeholder="Capacidad" style={s.input(darkMode)} />
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
