@@ -180,8 +180,8 @@ export default function Productos() {
   const subirImagen = async (file) => {
     if (!file) return
     setImagenError('')
-    if (file.size > 20 * 1024 * 1024) {
-      setImagenError('La imagen no debe superar los 20MB')
+    if (file.size > 5 * 1024 * 1024) {
+      setImagenError('La imagen no debe superar los 5MB')
       return
     }
     setSubiendo(true)
@@ -245,17 +245,21 @@ export default function Productos() {
         ? `${API_URL}/productos/${editId}/editar`
         : `${API_URL}/productos/crear`
       const res = await fetch(url, {
-        method: editId ? 'PUT' : 'POST',
+        method: 'POST',
         body: JSON.stringify(body),
       })
       const data = await res.json()
       if (data.success) {
+        setError(null)
         setModal(false)
         loadProductos()
         loadInventarios()
+      } else {
+        setError(data.error || 'Error al guardar el producto')
       }
     } catch (e) {
       console.error(e)
+      setError('Error de conexión al guardar el producto')
     }
   }
 
@@ -550,6 +554,12 @@ export default function Productos() {
                 color: darkMode ? 'white' : '#333', fontSize: '18px',
               }}>×</button>
             </div>
+
+            {error && (
+              <div style={{ fontSize: '12px', color: '#E53935', marginBottom: '12px', padding: '8px 10px', background: 'rgba(229,57,53,0.1)', borderRadius: '8px' }}>
+                {error}
+              </div>
+            )}
 
             <input
               style={s.input} placeholder="Nombre del producto"
