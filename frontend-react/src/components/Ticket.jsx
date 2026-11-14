@@ -114,6 +114,11 @@ export const TicketFactura = ({ pedido, negocio, cliente, onClose, numero, vuelt
                 </div>
               )}
             </>
+          ) : pedido?.tipo_pedido === 'autoservicio' ? (
+            <div style={styles.row}>
+              <span>Tipo:</span>
+              <span>Autoservicio</span>
+            </div>
           ) : pedido?.mesa ? (
             <div style={styles.row}>
               <span>Mesa:</span>

@@ -189,6 +189,8 @@ function buildTicketFactura(pedido, negocio, cliente, numero) {
     if (pedido?.nombre_cliente || cliente?.nombre) data += _row('Cliente:', _sanitize(pedido?.nombre_cliente || cliente?.nombre || ''))
     if (pedido?.telefono_cliente || cliente?.telefono) data += _row('Tel:', pedido?.telefono_cliente || cliente?.telefono || '')
     if (pedido?.direccion || cliente?.direccion) data += _row('Direccion:', _sanitize(pedido?.direccion || cliente?.direccion || ''))
+  } else if (pedido?.tipo_pedido === 'autoservicio') {
+    data += _row('Tipo:', 'Autoservicio')
   } else if (pedido?.mesa) {
     data += _row('Mesa:', String(pedido.mesa))
   }
@@ -306,6 +308,8 @@ function buildComanda(pedido) {
     if (pedido?.direccion) data += _row('DIR:', _sanitize(pedido.direccion))
   } else if (pedido?.tipo_pedido === 'venta') {
     data += _row('TIPO:', 'VENTA')
+  } else if (pedido?.tipo_pedido === 'autoservicio') {
+    data += _row('TIPO:', 'AUTOSERVICIO')
   } else {
     data += _row('MESA:', String(pedido?.mesa || '?'))
   }

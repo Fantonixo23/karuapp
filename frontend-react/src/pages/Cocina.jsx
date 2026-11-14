@@ -325,6 +325,10 @@ export default function Cocina() {
                       <span style={{ fontSize: '12px', fontWeight: '700', color: '#2196F3', background: '#E3F2FD', padding: '4px 8px', borderRadius: '4px' }}>
                         DELIVERY {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
+                    ) : p.tipo_pedido === 'autoservicio' ? (
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#7E57C2', background: '#EDE7F6', padding: '4px 8px', borderRadius: '4px' }}>
+                        AUTOSERVICIO
+                      </span>
                     ) : (
                       <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50', background: '#E8F5E9', padding: '4px 8px', borderRadius: '4px' }}>
                         Mesa {p.mesa?.numero || p.mesa || '?'}

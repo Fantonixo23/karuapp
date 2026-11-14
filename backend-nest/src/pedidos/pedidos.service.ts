@@ -77,11 +77,12 @@ export class PedidosService {
     private realtime: RealtimeService,
   ) {}
 
-  async listar(restauranteId: number, filtros?: { estado?: string; delivery?: string }) {
+  async listar(restauranteId: number, filtros?: { estado?: string; delivery?: string; tipo_pedido?: string }) {
     return this.db.run(async (db) => {
       let qb = PEDIDO_CON_RELACIONES(db.selectFrom('pedidos')).where('pedidos.restaurante_id', '=', restauranteId);
       if (filtros?.estado) qb = qb.where('pedidos.estado', '=', filtros.estado);
       if (filtros?.delivery) qb = qb.where('pedidos.delivery', '=', true);
+      if (filtros?.tipo_pedido) qb = qb.where('pedidos.tipo_pedido', '=', filtros.tipo_pedido);
       return qb.orderBy('pedidos.created_at', 'desc').execute();
     });
   }
@@ -91,7 +92,7 @@ export class PedidosService {
     if (!items.length) throw new BadRequestException('El pedido debe tener al menos un item');
 
     const itemsValidados = await this.validarItems(restauranteId, items);
-    const total = itemsValidados.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
+    const total = Math.round(itemsValidados.reduce((sum, item) => sum + item.cantidad * item.precio, 0));
 
     const pedido = await this.db.transaction(async (tx) => {
       const { hoy, manana } = rangoDiaParaguay();
@@ -132,7 +133,7 @@ export class PedidosService {
           direccion: data.direccion || null,
           numero_orden: numeroOrden,
         })
-        .returning(['id', 'numero_orden', 'estado', 'items', 'total', 'delivery', 'nombre_cliente', 'mesa_id'])
+        .returning(['id', 'numero_orden', 'estado', 'items', 'total', 'delivery', 'tipo_pedido', 'nombre_cliente', 'mesa_id'])
         .executeTakeFirstOrThrow();
 
       let mesaNumero: number | null = null;
@@ -162,6 +163,7 @@ export class PedidosService {
       estado: pedido.estado,
       mesa: pedido.mesa_numero,
       delivery: pedido.delivery,
+      tipo_pedido: pedido.tipo_pedido,
       nombre_cliente: pedido.nombre_cliente,
       items: pedido.items,
       total: String(pedido.total),
@@ -702,7 +704,7 @@ export class PedidosService {
 
       const itemsActuales = ((pedido.items as unknown as ItemPedido[]) || []) as ItemPedido[];
       const itemsFinales = modo === 'agregar' ? [...itemsActuales, ...itemsValidados] : itemsValidados;
-      const total = itemsFinales.reduce((sum, item) => sum + item.cantidad * item.precio, 0);
+      const total = Math.round(itemsFinales.reduce((sum, item) => sum + item.cantidad * item.precio, 0));
 
       return tx
         .updateTable('pedidos')

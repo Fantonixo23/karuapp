@@ -121,6 +121,11 @@ export default function ComandaTicket({ pedido, onClose, onImprimir }) {
                 </div>
               )}
             </>
+          ) : pedido?.tipo_pedido === 'autoservicio' ? (
+            <div style={styles.row}>
+              <span style={styles.label}>TIPO:</span>
+              <span style={styles.value}>AUTOSERVICIO</span>
+            </div>
           ) : (
             <div style={styles.row}>
               <span style={styles.label}>MESA:</span>

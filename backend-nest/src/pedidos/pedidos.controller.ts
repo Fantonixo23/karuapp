@@ -11,15 +11,16 @@ export class PedidosController {
     @CurrentUser('restauranteId') rid: number,
     @Query('estado') estado?: string,
     @Query('delivery') delivery?: string,
+    @Query('tipo_pedido') tipoPedido?: string,
   ) {
-    const pedidos = await this.service.listar(rid, { estado, delivery });
+    const pedidos = await this.service.listar(rid, { estado, delivery, tipo_pedido: tipoPedido });
     return { success: true, pedidos };
   }
 
   @Post('pedidos/crear')
   async crear(@CurrentUser('restauranteId') rid: number, @CurrentUser('sub') uid: number, @Body() body: any) {
     const pedido = await this.service.crear(rid, body, uid);
-    return { success: true, pedido: { id: pedido.id, estado: pedido.estado, delivery: pedido.delivery, total: String(pedido.total) } };
+    return { success: true, pedido: { id: pedido.id, numero_orden: pedido.numero_orden, estado: pedido.estado, delivery: pedido.delivery, total: String(pedido.total) } };
   }
 
   @Post('pedidos/:id/estado')
