@@ -26,6 +26,7 @@ interface ItemPedido {
   precio: number;
   variante: string | null;
   nota: string;
+  gramos?: number;
 }
 
 const PEDIDO_CON_RELACIONES = (qb: any) =>
@@ -866,6 +867,7 @@ export class PedidosService {
           throw new BadRequestException('El precio del menu no es valido');
         }
 
+        const gramosManual = Number(item.gramos);
         itemsValidados.push({
           producto_id: null,
           producto_nombre: item.producto_nombre || 'Autoservicio',
@@ -874,6 +876,7 @@ export class PedidosService {
           precio: Math.round(precioManual * 100) / 100,
           variante: item.variante || null,
           nota: item.nota || '',
+          gramos: Number.isFinite(gramosManual) && gramosManual > 0 ? Math.round(gramosManual) : undefined,
         });
         continue;
       }

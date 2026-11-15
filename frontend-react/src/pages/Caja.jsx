@@ -882,7 +882,7 @@ export default function Caja() {
                     <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: darkMode ? '#aaa' : '#666', padding: '2px 8px' }}>
                       <span>
                         {item.producto_id == null && item.categoria_nombre === 'Autoservicio'
-                          ? `${Math.round((item.cantidad || 0) * 1000)} g`
+                          ? `${Number(item.gramos) > 0 ? Math.round(Number(item.gramos)) : Math.round((item.cantidad || 0) * 1000)} g`
                           : `${item.cantidad}x`}{' '}
                         {item.producto_nombre || item.nombre || item.producto}{item.variante ? ` (${item.variante})` : ''}
                       </span>
@@ -1321,7 +1321,12 @@ export default function Caja() {
                           <div style={{ fontSize: '12px', fontWeight: '600', color: darkMode ? '#ccc' : '#666', marginBottom: '6px' }}>Productos:</div>
                           {(p.items || []).map((item, idx) => (
                             <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: darkMode ? '#aaa' : '#555', padding: '2px 0' }}>
-                              <span>{item.cantidad || 1}x {item.producto_nombre || item.nombre || item.producto}</span>
+                              <span>
+                                {item.producto_id == null && item.categoria_nombre === 'Autoservicio'
+                                  ? `${Number(item.gramos) > 0 ? Math.round(Number(item.gramos)) : Math.round((item.cantidad || 0) * 1000)} g`
+                                  : `${item.cantidad || 1}x`}{' '}
+                                {item.producto_nombre || item.nombre || item.producto}
+                              </span>
                               <span>{formatGuarani((item.cantidad || 1) * (item.precio || 0))}</span>
                             </div>
                           ))}

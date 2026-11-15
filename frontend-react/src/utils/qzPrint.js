@@ -210,7 +210,7 @@ function buildTicketFactura(pedido, negocio, cliente, numero) {
     items.forEach(item => {
       const nombre = _sanitize(item.producto_nombre || item.nombre || item.producto)
       const itemTotal = item.cantidad * Number(item.precio)
-      const cantStr = String(item.cantidad) + 'x'
+      const cantStr = Number(item.gramos) > 0 ? `${Math.round(Number(item.gramos))}g` : String(item.cantidad) + 'x'
       const descMax = colDesc - 2
       const nombreTrunc = nombre.length > descMax ? nombre.slice(0, descMax - 1) + '…' : nombre
       data += _left(cantStr.padEnd(colQty) + nombreTrunc.padEnd(colDesc) + _formatGuarani(itemTotal).padStart(colPrice))
@@ -388,7 +388,7 @@ function buildDeliveryTicket(pedido, empresa) {
     items.forEach(item => {
       const nombre = _sanitize(item.producto_nombre || item.producto)
       const itemTotal = item.cantidad * Number(item.precio)
-      const cantStr = String(item.cantidad) + 'x'
+      const cantStr = Number(item.gramos) > 0 ? `${Math.round(Number(item.gramos))}g` : String(item.cantidad) + 'x'
       const descMax = colDesc - 2
       const nombreTrunc = nombre.length > descMax ? nombre.slice(0, descMax - 1) + '\u2026' : nombre
       data += _left(cantStr.padEnd(colQty) + nombreTrunc.padEnd(colDesc) + _formatGuarani(itemTotal).padStart(colPrice))

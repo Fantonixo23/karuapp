@@ -148,7 +148,7 @@ export const TicketFactura = ({ pedido, negocio, cliente, onClose, numero, vuelt
             </div>
             {items.map((item, idx) => (
               <div key={idx} style={styles.itemRow}>
-                <span style={styles.itemQty}>{item.cantidad}</span>
+                <span style={styles.itemQty}>{Number(item.gramos) > 0 ? `${Math.round(Number(item.gramos))}g` : item.cantidad}</span>
                 <span style={styles.itemName}>{item.producto_nombre || item.nombre || item.producto}</span>
                 <span style={styles.itemPrice}>{formatGuarani(item.cantidad * item.precio)}</span>
               </div>
