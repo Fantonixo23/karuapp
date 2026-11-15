@@ -94,7 +94,7 @@ export default function Autoservicio() {
     width: '100%',
     padding: '9px 10px',
     border: `1px solid ${borderColor}`,
-    borderRadius: '6px',
+    borderRadius: '10px',
     background: darkMode ? '#141414' : '#fff',
     color: textColor,
     fontSize: '13px',
@@ -115,7 +115,7 @@ export default function Autoservicio() {
 
   const btnPrimary = {
     border: 'none',
-    borderRadius: '6px',
+    borderRadius: '10px',
     background: '#FF9800',
     color: '#1a1a1a',
     fontSize: '13px',
@@ -126,7 +126,7 @@ export default function Autoservicio() {
 
   const btnSecondary = {
     border: `1px solid ${borderColor}`,
-    borderRadius: '6px',
+    borderRadius: '10px',
     background: darkMode ? '#242424' : '#fff',
     color: textColor,
     fontSize: '13px',
@@ -137,7 +137,7 @@ export default function Autoservicio() {
 
   const btnDanger = {
     border: '1px solid rgba(229,57,53,0.4)',
-    borderRadius: '6px',
+    borderRadius: '10px',
     background: darkMode ? 'rgba(229,57,53,0.16)' : '#FFEBEE',
     color: darkMode ? '#FF8A80' : '#C62828',
     fontSize: '13px',
@@ -649,7 +649,7 @@ export default function Autoservicio() {
             justifyContent: 'center',
             textDecoration: 'none',
           }}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={{ fontSize: '18px', fontWeight: '700' }}>Autoservicio</span>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -801,7 +801,7 @@ export default function Autoservicio() {
                         <div style={{
                           background: softBg,
                           border: `1px solid ${borderColor}`,
-                          borderRadius: '6px',
+                          borderRadius: '10px',
                           padding: '8px 10px',
                           minHeight: '54px',
                         }}>
@@ -1018,7 +1018,7 @@ export default function Autoservicio() {
                           alignItems: 'center',
                           justifyContent: 'center',
                           overflow: 'hidden',
-                          borderRadius: '6px',
+                          borderRadius: '10px',
                           marginBottom: '8px',
                         }}>
                           {imgSrc(p) ? (
@@ -1096,7 +1096,7 @@ export default function Autoservicio() {
                     border: '1px solid rgba(255,152,0,0.35)',
                     color: darkMode ? '#FFCC80' : '#E65100',
                     padding: '8px 10px',
-                    borderRadius: '6px',
+                    borderRadius: '10px',
                     fontSize: '12px',
                     marginBottom: '10px',
                   }}>
@@ -1121,7 +1121,7 @@ export default function Autoservicio() {
                     <div key={item.key} style={{
                       border: `1px solid ${borderColor}`,
                       background: softBg,
-                      borderRadius: '6px',
+                      borderRadius: '10px',
                       padding: '8px',
                     }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
@@ -1341,7 +1341,7 @@ export default function Autoservicio() {
               gap: '6px',
               background: softBg,
               border: `1px solid ${borderColor}`,
-              borderRadius: '6px',
+              borderRadius: '10px',
               padding: '10px',
               maxHeight: '300px',
               overflowY: 'auto',

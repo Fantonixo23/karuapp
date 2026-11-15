@@ -335,7 +335,7 @@ export default function AdminRestauranteDetalle() {
                     <td style={{ padding: '8px 4px', color: 'rgba(255,255,255,0.5)' }}>{u.rol}</td>
                     <td style={{ padding: '8px 4px', textAlign: 'center' }}>
                       <span style={{
-                        padding: '2px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: '600',
+                        padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '600',
                         background: u.activo ? 'rgba(76,175,80,0.15)' : 'rgba(244,67,54,0.15)',
                         color: u.activo ? '#81C784' : '#EF5350',
                       }}>{u.activo ? 'Activo' : 'Inactivo'}</span>
@@ -411,7 +411,7 @@ function Header({ data, planActual }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '18px', fontWeight: '700' }}>{data.nombre}</span>
               <span style={{
-                padding: '3px 8px', borderRadius: '5px', fontSize: '11px', fontWeight: '700',
+                padding: '3px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '700',
                 background: es.bg, color: es.color,
               }}>{data.estado_licencia}</span>
             </div>

@@ -385,7 +385,7 @@ export default function Informes() {
       <header style={s.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btn}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Informes</span>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -548,14 +548,14 @@ export default function Informes() {
                           <div style={{
                             height: '10px',
                             background: darkMode ? '#333' : '#eee',
-                            borderRadius: '5px',
+                            borderRadius: '10px',
                             overflow: 'hidden'
                           }}>
                             <div style={{
                               height: '100%',
                               width: `${porcentaje}%`,
                               background: `linear-gradient(90deg, ${color}, ${color}CC)`,
-                              borderRadius: '5px',
+                              borderRadius: '10px',
                               transition: 'width 1s ease-out'
                             }}></div>
                           </div>
@@ -592,8 +592,8 @@ export default function Informes() {
                             <span style={{ color: darkMode ? '#ccc' : '#666', fontWeight: '600' }}>{m.motivo_cancelacion}</span>
                             <span style={{ fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{m.cantidad} ({pct.toFixed(0)}%)</span>
                           </div>
-                          <div style={{ height: '8px', background: darkMode ? '#333' : '#eee', borderRadius: '4px', overflow: 'hidden' }}>
-                            <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg, #E53935, #FF7043)', borderRadius: '4px', transition: 'width 1s ease-out' }}></div>
+                          <div style={{ height: '8px', background: darkMode ? '#333' : '#eee', borderRadius: '10px', overflow: 'hidden' }}>
+                            <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg, #E53935, #FF7043)', borderRadius: '10px', transition: 'width 1s ease-out' }}></div>
                           </div>
                         </div>
                       )

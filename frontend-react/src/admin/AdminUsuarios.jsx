@@ -229,11 +229,11 @@ function CardUsuario({ u, ocupado, onEstado, onEliminar }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <span style={{ fontWeight: '700', fontSize: '14px' }}>{u.nombre}</span>
           <span style={{
-            padding: '2px 8px', borderRadius: '5px', fontSize: '10px', fontWeight: '700',
+            padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '700',
             background: `${rol.color}22`, color: rol.color,
           }}>{rol.label}</span>
           <span style={{
-            padding: '2px 8px', borderRadius: '5px', fontSize: '10px', fontWeight: '700',
+            padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '700',
             background: u.activo ? 'rgba(76,175,80,0.15)' : 'rgba(244,67,54,0.15)',
             color: u.activo ? '#81C784' : '#EF5350',
           }}>{u.activo ? 'Activo' : 'Bloqueado'}</span>

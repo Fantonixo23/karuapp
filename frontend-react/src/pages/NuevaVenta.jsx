@@ -349,7 +349,7 @@ export default function NuevaVenta() {
       const st = getEstado(estado)
       return {
         display: 'inline-flex', alignItems: 'center', gap: '4px',
-        padding: '2px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '600',
+        padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '600',
         background: st.bgSoft, color: st.bg,
       }
     },
@@ -408,7 +408,7 @@ export default function NuevaVenta() {
     <div style={s.container(darkMode)}>
       <header style={s.header}>
         <div style={s.headerLeft}>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <h1 style={s.title}>Mesas</h1>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -541,7 +541,7 @@ export default function NuevaVenta() {
                               #{pedido.numero_orden || pedido.id}
                             </span>
                             <span style={{
-                              padding: '2px 6px', borderRadius: '4px', fontSize: '9px', fontWeight: '600',
+                              padding: '2px 6px', borderRadius: '10px', fontSize: '9px', fontWeight: '600',
                               background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(76,175,80,0.2)' : pedido.estado === 'entregado' ? 'rgba(33,150,243,0.2)' : 'rgba(229,57,53,0.2)',
                               color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#4CAF50' : pedido.estado === 'entregado' ? '#2196F3' : '#E53935',
                             }}>
@@ -564,7 +564,7 @@ export default function NuevaVenta() {
                           <div style={{ display: 'flex', gap: '6px' }}>
                             {pedido.estado === 'listo' ? (
                               <button onClick={() => { setPedidoAEntregar(pedido); setModalEntregar(true) }} style={{
-                                flex: 1, padding: '6px', border: 'none', borderRadius: '6px',
+                                flex: 1, padding: '6px', border: 'none', borderRadius: '10px',
                                 background: '#4CAF50', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
                               }}>Entregar</button>
                             ) : pedido.estado === 'entregado' ? (
@@ -574,11 +574,11 @@ export default function NuevaVenta() {
                               setPedidoParaEditar(pedido)
                               setVista('pedido')
                             }} style={{
-                              flex: 1, padding: '6px', border: 'none', borderRadius: '6px',
+                              flex: 1, padding: '6px', border: 'none', borderRadius: '10px',
                               background: '#1976D2', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
                             }}>Editar</button>
                             <button onClick={() => { setPedidoACancelar(pedido); setModalCancelarConMotivo(true) }} style={{
-                              flex: 1, padding: '6px', border: 'none', borderRadius: '6px',
+                              flex: 1, padding: '6px', border: 'none', borderRadius: '10px',
                               background: '#E53935', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
                             }}>Cancelar</button>
                           </div>
@@ -765,7 +765,7 @@ export default function NuevaVenta() {
                             #{pedido.numero_orden || pedido.id}
                           </span>
                           <span style={{
-                            padding: '3px 8px', borderRadius: '6px', fontSize: '10px', fontWeight: '600',
+                            padding: '3px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '600',
                             background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(76,175,80,0.2)' : 'rgba(229,57,53,0.2)',
                             color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#4CAF50' : '#E53935',
                           }}>

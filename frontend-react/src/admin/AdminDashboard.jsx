@@ -230,10 +230,10 @@ function CardRestaurante({ r, onCambiarPlan }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <span style={{ fontWeight: '700', fontSize: '14px' }}>{r.nombre}</span>
           <span style={{
-            padding: '2px 8px', borderRadius: '5px', fontSize: '10px', fontWeight: '700',
+            padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '700',
             background: es.bg, color: es.color,
           }}>{es.label}</span>
-          <span onClick={e => e.stopPropagation()} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: ps.bg, borderRadius: '5px', padding: '1px 6px' }}>
+          <span onClick={e => e.stopPropagation()} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: ps.bg, borderRadius: '10px', padding: '1px 6px' }}>
             <span style={{ fontSize: '10px', fontWeight: '700', color: ps.color }}>Plan:</span>
             <select
               value={PLAN_OPTIONS.includes(r.plan) ? r.plan : 'basico'}

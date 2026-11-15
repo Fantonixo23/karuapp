@@ -405,7 +405,7 @@ export default function Productos() {
       <header style={s.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btn}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Productos</span>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -672,7 +672,7 @@ export default function Productos() {
                   <span style={{ fontSize: '10px', color: darkMode ? '#888' : '#999', fontWeight: '600' }}>#{i + 1}</span>
                   <input
                     style={{ flex: 1, padding: '6px 10px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
-                      borderRadius: '6px', background: darkMode ? '#3a3a3a' : 'white',
+                      borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
                       color: darkMode ? 'white' : '#333', fontSize: '12px', outline: 'none' }}
                     placeholder="Nombre (ej: Doble Carne)"
                     value={v.nombre}
@@ -682,7 +682,7 @@ export default function Productos() {
                     <span style={{ position: 'absolute', left: '8px', top: '7px', fontSize: '9px', color: '#999', fontWeight: '600' }}>Gs.</span>
                     <input
                       style={{ width: '100px', padding: '6px 6px 6px 28px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
-                        borderRadius: '6px', background: darkMode ? '#3a3a3a' : 'white',
+                        borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
                         color: darkMode ? 'white' : '#333', fontSize: '12px', outline: 'none' }}
                       placeholder="Precio total"
                       value={v.precio}
@@ -692,7 +692,7 @@ export default function Productos() {
                   <button
                     onClick={() => eliminarVariante(i)}
                     style={{
-                      width: '28px', height: '28px', border: 'none', borderRadius: '6px',
+                      width: '28px', height: '28px', border: 'none', borderRadius: '10px',
                       background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '14px',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}
@@ -700,7 +700,7 @@ export default function Productos() {
                 </div>
                 <select
                   style={{ width: '100%', padding: '6px 10px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
-                    borderRadius: '6px', background: darkMode ? '#3a3a3a' : 'white',
+                    borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
                     color: darkMode ? 'white' : '#333', fontSize: '11px', outline: 'none', boxSizing: 'border-box' }}
                   value={v.inventario_producto_id}
                   onChange={(e) => editarVariante(i, 'inventario_producto_id', e.target.value)}

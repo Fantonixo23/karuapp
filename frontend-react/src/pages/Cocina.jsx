@@ -226,7 +226,7 @@ export default function Cocina() {
             <Link to="/app/inicio" style={{ width: '34px', height: '34px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
               <span className="material-icons">home</span>
             </Link>
-            <img src="/logo.png" alt="LaCarta" style={{ width: '24px', height: '24px', borderRadius: '6px' }} />
+            <img src="/logo.png" alt="LaCarta" style={{ width: '24px', height: '24px', borderRadius: '10px' }} />
             <span style={{ fontSize: isMobile ? '18px' : '22px', fontWeight: '800', letterSpacing: '0.5px' }}>Cocina</span>
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -318,19 +318,19 @@ export default function Cocina() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
                     <span style={{ fontSize: '24px', fontWeight: '900', color: '#FF9800' }}>#{p.numero_orden || p.id}</span>
                     {p.tipo_pedido === 'venta' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#FF6D00', background: '#FFF3E0', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#FF6D00', background: '#FFF3E0', padding: '4px 8px', borderRadius: '10px' }}>
                         VENTA {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : p.tipo_pedido === 'delivery' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#2196F3', background: '#E3F2FD', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#2196F3', background: '#E3F2FD', padding: '4px 8px', borderRadius: '10px' }}>
                         DELIVERY {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : p.tipo_pedido === 'autoservicio' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#7E57C2', background: '#EDE7F6', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#7E57C2', background: '#EDE7F6', padding: '4px 8px', borderRadius: '10px' }}>
                         AUTOSERVICIO
                       </span>
                     ) : (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50', background: '#E8F5E9', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50', background: '#E8F5E9', padding: '4px 8px', borderRadius: '10px' }}>
                         Mesa {p.mesa?.numero || p.mesa || '?'}
                       </span>
                     )}
@@ -393,7 +393,7 @@ export default function Cocina() {
                       style={{
                         padding: '8px',
                         border: 'none',
-                        borderRadius: '6px',
+                        borderRadius: '10px',
                         background: '#2196F3',
                         color: 'white',
                         fontSize: '11px',
@@ -409,7 +409,7 @@ export default function Cocina() {
                       style={{
                         padding: '8px',
                         border: 'none',
-                        borderRadius: '6px',
+                        borderRadius: '10px',
                         background: '#E53935',
                         color: 'white',
                         fontSize: '11px',

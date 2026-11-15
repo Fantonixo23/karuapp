@@ -56,8 +56,8 @@ function PasswordStrength({ password }) {
 
   return (
     <div style={{ marginBottom: '14px', marginTop: '-8px' }}>
-      <div style={{ height: '4px', borderRadius: '2px', background: 'rgba(255,255,255,0.1)', overflow: 'hidden' }}>
-        <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: '2px', transition: 'width 0.2s, background 0.2s' }} />
+      <div style={{ height: '4px', borderRadius: '10px', background: 'rgba(255,255,255,0.1)', overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${pct}%`, background: color, borderRadius: '10px', transition: 'width 0.2s, background 0.2s' }} />
       </div>
       <p style={{ color, fontSize: '11px', margin: '3px 0 0', fontWeight: 500 }}>{label}</p>
     </div>

@@ -376,7 +376,7 @@ export default function Delivery() {
     }),
     estadoBadge: (estado) => ({
       padding: '2px 8px',
-      borderRadius: '6px',
+      borderRadius: '10px',
       fontSize: '10px',
       fontWeight: '600',
       background: (ESTADOS[estado]?.color || '#666') + '20',
@@ -403,7 +403,7 @@ export default function Delivery() {
       <header style={{ ...s.header, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Delivery</span>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -734,9 +734,9 @@ export default function Delivery() {
                         {item.nota && <div style={{ fontSize: '10px', color: darkMode ? '#aaa' : '#888', fontStyle: 'italic' }}>Nota: {item.nota}</div>}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <button onClick={() => quitarDelCarrito(item.producto_id, item.variante)} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '6px', background: '#E53935', color: 'white', cursor: 'pointer' }}>-</button>
+                        <button onClick={() => quitarDelCarrito(item.producto_id, item.variante)} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '10px', background: '#E53935', color: 'white', cursor: 'pointer' }}>-</button>
                         <span style={{ fontWeight: '700', minWidth: '20px', textAlign: 'center' }}>{item.cantidad}</span>
-                        <button onClick={() => agregarAlCarrito({ id: item.producto_id, precio: item.precio }, { variante: item.variante, cantidad: 1 })} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '6px', background: '#43A047', color: 'white', cursor: 'pointer' }}>+</button>
+                        <button onClick={() => agregarAlCarrito({ id: item.producto_id, precio: item.precio }, { variante: item.variante, cantidad: 1 })} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '10px', background: '#43A047', color: 'white', cursor: 'pointer' }}>+</button>
                         <span style={{ fontWeight: '700', color: '#43A047', minWidth: '60px', textAlign: 'right' }}>{formatGuarani(item.cantidad * item.precio)}</span>
                       </div>
                     </div>

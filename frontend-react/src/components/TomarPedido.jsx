@@ -482,19 +482,19 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               <button
                 onClick={() => setPagina(Math.max(1, pagina - 1))}
                 disabled={pagina === 1}
-                style={{ padding: '6px 12px', border: 'none', borderRadius: '6px', background: pagina === 1 ? '#ccc' : '#FF9800', color: 'white', cursor: pagina === 1 ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: pagina === 1 ? '#ccc' : '#FF9800', color: 'white', cursor: pagina === 1 ? 'not-allowed' : 'pointer' }}
               >‹</button>
               {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(p => (
                 <button
                   key={p}
                   onClick={() => setPagina(p)}
-                  style={{ padding: '6px 12px', border: 'none', borderRadius: '6px', background: p === pagina ? '#FF9800' : darkMode ? '#333' : '#ddd', color: p === pagina ? 'white' : darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: p === pagina ? '700' : '400' }}
+                  style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: p === pagina ? '#FF9800' : darkMode ? '#333' : '#ddd', color: p === pagina ? 'white' : darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: p === pagina ? '700' : '400' }}
                 >{p}</button>
               ))}
               <button
                 onClick={() => setPagina(Math.min(totalPaginas, pagina + 1))}
                 disabled={pagina === totalPaginas}
-                style={{ padding: '6px 12px', border: 'none', borderRadius: '6px', background: pagina === totalPaginas ? '#ccc' : '#FF9800', color: 'white', cursor: pagina === totalPaginas ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: pagina === totalPaginas ? '#ccc' : '#FF9800', color: 'white', cursor: pagina === totalPaginas ? 'not-allowed' : 'pointer' }}
               >›</button>
             </div>
           )}

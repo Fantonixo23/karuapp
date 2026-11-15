@@ -336,7 +336,7 @@ export default function Funcionarios() {
         <header style={s.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
-            <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '6px' }} />
+            <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
             <span style={{ fontSize: '18px', fontWeight: '700' }}>Funcionarios</span>
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -418,7 +418,7 @@ export default function Funcionarios() {
                         <div style={{ fontWeight: '700', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                           {f.nombre}
                           <span style={{
-                            fontSize: '10px', fontWeight: '700', padding: '2px 8px', borderRadius: '6px',
+                            fontSize: '10px', fontWeight: '700', padding: '2px 8px', borderRadius: '10px',
                             background: rolColor + '20', color: rolColor,
                           }}>{f.rol}</span>
                           {!f.activo && <span style={{ fontSize: '10px', color: '#ef4444' }}>(Inactivo)</span>}

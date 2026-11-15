@@ -170,7 +170,7 @@ export default function LicenseBanner() {
               style={{
                 background: 'rgba(255,255,255,0.2)', border: 'none',
                 color: 'white', cursor: 'pointer', padding: '2px 8px',
-                borderRadius: '5px', fontSize: '16px'
+                borderRadius: '10px', fontSize: '16px'
               }}
             >−</button>
           </div>
@@ -184,7 +184,7 @@ export default function LicenseBanner() {
             <div style={{
               marginTop: '8px',
               background: 'rgba(0,0,0,0.2)',
-              borderRadius: '6px',
+              borderRadius: '10px',
               padding: '6px 10px',
               fontSize: '12px',
               fontWeight: esCritico ? 'bold' : 'normal'
@@ -203,7 +203,7 @@ export default function LicenseBanner() {
               <div style={{
                 width: '100%', height: '6px',
                 background: 'rgba(255,255,255,0.2)',
-                borderRadius: '3px', overflow: 'hidden'
+                borderRadius: '10px', overflow: 'hidden'
               }}>
                 <div style={{
                   width: `${Math.min(100, (license.dias_restantes / 5) * 100)}%`,
@@ -211,7 +211,7 @@ export default function LicenseBanner() {
                   background: esCritico
                     ? 'linear-gradient(90deg, #ff5252, #d32f2f)'
                     : 'linear-gradient(90deg, #fff176, #ffb300)',
-                  borderRadius: '3px',
+                  borderRadius: '10px',
                   transition: 'width 0.5s ease'
                 }} />
               </div>

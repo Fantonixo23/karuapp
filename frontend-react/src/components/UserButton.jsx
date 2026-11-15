@@ -51,7 +51,7 @@ export default function UserButton({ slim }) {
             </div>
             <button onClick={logout} style={{
               width: '100%', padding: '8px 12px', background: '#ef4444',
-              color: '#fff', border: 'none', borderRadius: '6px',
+              color: '#fff', border: 'none', borderRadius: '10px',
               fontSize: '12px', fontWeight: 600, cursor: 'pointer'
             }}>
               Cerrar sesión
