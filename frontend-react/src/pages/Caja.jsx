@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
 import UserButton from '../components/UserButton'
+import CantidadInput from '../components/CantidadInput'
 import { useStore } from '../store/useStore'
 
 import { formatGuarani } from '../utils/currency'
@@ -1157,9 +1158,17 @@ export default function Caja() {
                 <div key={d.valor} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                   <span style={{ color: darkMode ? '#ccc' : '#555', width: '90px', fontSize: '13px', textAlign: 'right' }}>{d.label}</span>
                   <span style={{ color: '#666', fontSize: '13px' }}>×</span>
-                  <input type="number" min="0" placeholder="0" value={d.cantidad}
-                    onChange={e => { const newD = [...denominaciones]; newD[idx] = { ...newD[idx], cantidad: e.target.value }; setDenominaciones(newD) }}
-                    style={{ ...st.input, width: '60px', padding: '6px', fontSize: '13px', textAlign: 'center' }} />
+                  <CantidadInput
+                    value={d.cantidad}
+                    onChange={(valor) => { const newD = [...denominaciones]; newD[idx] = { ...newD[idx], cantidad: valor }; setDenominaciones(newD) }}
+                    min={0}
+                    step={1}
+                    placeholder="0"
+                    ariaLabel={`Cantidad de ${d.label}`}
+                    buttonWidth={24}
+                    containerStyle={{ width: 'auto' }}
+                    inputStyle={{ ...st.input, width: '60px', padding: '6px', fontSize: '13px', textAlign: 'center' }}
+                  />
                   <span style={{ color: darkMode ? '#aaa' : '#888', fontSize: '12px' }}>= {formatGuarani((parseInt(d.valor) * (parseInt(d.cantidad) || 0)))}</span>
                 </div>
               ))}

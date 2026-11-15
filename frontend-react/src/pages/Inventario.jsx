@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import FullscreenButton from '../components/FullscreenButton'
 import UserButton from '../components/UserButton'
+import CantidadInput from '../components/CantidadInput'
 import { useStore } from '../store/useStore'
 
 import { getApiUrl } from '../utils/api'
@@ -459,12 +460,14 @@ export default function Inventario() {
             <div style={{ marginBottom: '15px' }}>
               <label style={{ display: 'block', marginBottom: '5px', color: darkMode ? '#aaa' : '#666' }}>Cantidad</label>
               <p style={{ fontSize: '12px', color: darkMode ? '#888' : '#999', margin: '0 0 8px' }}>{tipoMovimiento === 'entrada' ? 'Cuántos unidades estás agregando' : 'Cuántos unidades estás sacando'}</p>
-              <input
-                type="number"
+              <CantidadInput
                 value={cantidadMovimiento}
-                onChange={(e) => setCantidadMovimiento(e.target.value)}
+                onChange={setCantidadMovimiento}
+                min={0}
+                step={1}
                 placeholder="Cantidad"
-                style={s.input(darkMode)}
+                inputStyle={s.input(darkMode)}
+                ariaLabel="Cantidad"
               />
             </div>
 
@@ -527,17 +530,27 @@ export default function Inventario() {
             />
             <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Stock inicial — cantidad que tenés ahora</label>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <input
-                style={{ ...s.input(darkMode), flex: 1 }}
-                type="number" placeholder="0"
+              <CantidadInput
                 value={nuevoForm.stock}
-                onChange={(e) => setNuevoForm({ ...nuevoForm, stock: e.target.value })}
+                onChange={(valor) => setNuevoForm({ ...nuevoForm, stock: valor })}
+                min={0}
+                step={1}
+                allowDecimal
+                placeholder="0"
+                ariaLabel="Stock inicial"
+                containerStyle={{ flex: 1 }}
+                inputStyle={{ ...s.input(darkMode), marginBottom: 0 }}
               />
-              <input
-                style={{ ...s.input(darkMode), flex: 1 }}
-                type="number" placeholder="5"
+              <CantidadInput
                 value={nuevoForm.stock_minimo}
-                onChange={(e) => setNuevoForm({ ...nuevoForm, stock_minimo: e.target.value })}
+                onChange={(valor) => setNuevoForm({ ...nuevoForm, stock_minimo: valor })}
+                min={0}
+                step={1}
+                allowDecimal
+                placeholder="5"
+                ariaLabel="Stock mínimo"
+                containerStyle={{ flex: 1 }}
+                inputStyle={{ ...s.input(darkMode), marginBottom: 0 }}
               />
             </div>
             <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Stock mínimo — cuando llegue a este número, te alertará</label>
@@ -618,11 +631,16 @@ export default function Inventario() {
 
             <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Stock mínimo — alerta cuando el stock llegue a este número</label>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <input
-                style={{ ...s.input(darkMode), flex: 1 }}
-                type="number" placeholder="Stock mínimo"
+              <CantidadInput
                 value={editarForm.stock_minimo}
-                onChange={(e) => setEditarForm({ ...editarForm, stock_minimo: e.target.value })}
+                onChange={(valor) => setEditarForm({ ...editarForm, stock_minimo: valor })}
+                min={0}
+                step={1}
+                allowDecimal
+                placeholder="Stock mínimo"
+                ariaLabel="Stock mínimo"
+                containerStyle={{ flex: 1 }}
+                inputStyle={{ ...s.input(darkMode), marginBottom: 0 }}
               />
               <input
                 style={{ ...s.input(darkMode), flex: 1 }}

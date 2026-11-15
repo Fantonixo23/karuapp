@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Sidebar from '../components/Sidebar'
 import UserButton from '../components/UserButton'
 import FullscreenButton from '../components/FullscreenButton'
+import CantidadInput from '../components/CantidadInput'
 import { useStore } from '../store/useStore'
 import { getApiUrl, getMediaUrl } from '../utils/api'
 
@@ -862,13 +863,13 @@ export default function Autoservicio() {
 
                     <label style={labelStyle}>
                       Gramos
-                      <input
-                        type="number"
-                        min="0"
-                        step="10"
+                      <CantidadInput
                         value={menuGramos}
-                        onChange={(e) => setMenuGramos(e.target.value)}
-                        style={inputStyle}
+                        onChange={setMenuGramos}
+                        min={0}
+                        step={10}
+                        inputStyle={inputStyle}
+                        ariaLabel="Gramos"
                       />
                     </label>
 
@@ -1113,14 +1114,15 @@ export default function Autoservicio() {
                               />
                             </>
                           )}
-                          <input
-                            type="number"
-                            min="0"
-                            step={item.es_menu ? '10' : '1'}
+                          <CantidadInput
                             value={item.es_menu ? gramosItem(item) : item.cantidad}
-                            onChange={(e) => actualizarCantidad(item.key, e.target.value)}
-                            title={item.es_menu ? 'Gramos' : 'Cantidad'}
-                            style={{ ...inputStyle, width: '78px', padding: '4px 6px', fontSize: '12px' }}
+                            onChange={(valor) => actualizarCantidad(item.key, valor)}
+                            min={0}
+                            step={item.es_menu ? 10 : 1}
+                            ariaLabel={item.es_menu ? 'Gramos' : 'Cantidad'}
+                            buttonWidth={26}
+                            containerStyle={{ width: 'auto' }}
+                            inputStyle={{ ...inputStyle, width: '78px', padding: '4px 6px', fontSize: '12px' }}
                           />
                           <span style={{ fontSize: '11px', color: muted }}>
                             {item.es_menu ? 'g' : 'u.'}
@@ -1205,13 +1207,13 @@ export default function Autoservicio() {
             <div style={{ marginTop: '14px' }}>
               <label style={labelStyle}>
                 Cantidad
-                <input
-                  type="number"
-                  min="1"
-                  step="1"
+                <CantidadInput
                   value={cantidadModal}
-                  onChange={(e) => setCantidadModal(e.target.value)}
-                  style={inputStyle}
+                  onChange={setCantidadModal}
+                  min={1}
+                  step={1}
+                  inputStyle={inputStyle}
+                  ariaLabel="Cantidad"
                 />
               </label>
             </div>

@@ -210,3 +210,41 @@ a {
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Ocultar las flechas nativas de los inputs numéricos */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Botón cuadrado de cantidad (flechas arriba/abajo) */
+.k-stepper-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.k-stepper-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.k-stepper-btn:active {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.k-stepper-btn:disabled {
+  cursor: not-allowed;
+}
