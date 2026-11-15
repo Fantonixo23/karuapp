@@ -62,6 +62,9 @@ export default function Caja() {
   const [deliveryPedidos, setDeliveryPedidos] = useState([])
   const [deliveryPedidoSeleccionado, setDeliveryPedidoSeleccionado] = useState(null)
   const [mostrarDelivery, setMostrarDelivery] = useState(false)
+  const [autoservicioPedidos, setAutoservicioPedidos] = useState([])
+  const [autoservicioPedidoSeleccionado, setAutoservicioPedidoSeleccionado] = useState(null)
+  const [mostrarAutoservicio, setMostrarAutoservicio] = useState(false)
 
   // Caja session
   const [session, setSession] = useState(null)
@@ -266,11 +269,12 @@ export default function Caja() {
 
   const cargarDatos = async () => {
     try {
-      const [resMesas, resHistorial, resMetodos, resDelivery] = await Promise.all([
+      const [resMesas, resHistorial, resMetodos, resDelivery, resAutoservicio] = await Promise.all([
         fetch(`${API_URL}/mesas`),
         fetch(`${API_URL}/caja/movimientos`),
         fetch(`${API_URL}/facturacion/metodos-pago`),
         fetch(`${API_URL}/pedidos?delivery=true`),
+        fetch(`${API_URL}/pedidos?tipo_pedido=autoservicio`),
       ])
       const dataMesas = await resMesas.json()
       if (dataMesas.success) setMesas(dataMesas.mesas || [])
@@ -278,6 +282,8 @@ export default function Caja() {
       if (dataMetodos.success) setMetodosApi(dataMetodos.metodos || [])
       const dataDelivery = await resDelivery.json()
       if (dataDelivery.success) setDeliveryPedidos(dataDelivery.pedidos || [])
+      const dataAutoservicio = await resAutoservicio.json()
+      if (dataAutoservicio.success) setAutoservicioPedidos(dataAutoservicio.pedidos || [])
     } catch {}
   }
 
@@ -358,6 +364,22 @@ export default function Caja() {
     } catch {}
   }
 
+  const seleccionarAutoservicio = (pedido) => {
+    setAutoservicioPedidoSeleccionado(pedido)
+    setMesaSeleccionada(null)
+    setDeliveryPedidoSeleccionado(null)
+    setPedidosMesa([pedido])
+    setMetodoPago('efectivo')
+    setPropina(0)
+    setPropinaCustom('')
+    setVuelto(0)
+    setMontoRecibido('')
+    setGenerarFactura(false)
+    setClienteDatos({ nombre: '', ruc: '', tipo: 'consumidor' })
+    setComprobanteNro('')
+    setModalCobrar(true)
+  }
+
   // ====================== ENTREGAR PEDIDO ======================
 
   const marcarEntregado = async (pedido) => {
@@ -378,7 +400,8 @@ export default function Caja() {
 
   const procesarCobro = async () => {
     const esDelivery = !!deliveryPedidoSeleccionado
-    if (cargando || (!mesaSeleccionada && !esDelivery)) return
+    const esAutoservicio = !!autoservicioPedidoSeleccionado
+    if (cargando || (!mesaSeleccionada && !esDelivery && !esAutoservicio)) return
     if (metodoPago === 'efectivo' && (!montoRecibido || parseFloat(montoRecibido) < 1)) { alert('El monto recibido debe ser mayor a 0'); return }
     if (metodoPago === 'transferencia' && !comprobanteNro) { alert('Ingrese el N° de comprobante de la transferencia'); return }
 
@@ -399,9 +422,11 @@ export default function Caja() {
     }
 
     try {
-      const url = esDelivery
-        ? `${API_URL}/pedidos/${deliveryPedidoSeleccionado.id}/pagar`
-        : `${API_URL}/pedidos/mesa/${mesaSeleccionada.id}/cobrar`
+      const url = esAutoservicio
+        ? `${API_URL}/pedidos/autoservicio/${autoservicioPedidoSeleccionado.id}/cobrar`
+        : esDelivery
+          ? `${API_URL}/pedidos/${deliveryPedidoSeleccionado.id}/pagar`
+          : `${API_URL}/pedidos/mesa/${mesaSeleccionada.id}/cobrar`
       const res = await fetch(url, {
         method: 'POST', body: JSON.stringify(body)
       })
@@ -421,18 +446,28 @@ export default function Caja() {
 
       const itemsCompletos = esDelivery
         ? (deliveryPedidoSeleccionado.items || [])
-        : (data.pedidos?.flatMap(p => p.items || []) || pedidosMesa)
+        : esAutoservicio
+          ? (autoservicioPedidoSeleccionado.items || [])
+          : (data.pedidos?.flatMap(p => p.items || []) || pedidosMesa)
       const totalFinal = data.total_con_propina || calcularTotal()
       const ticketInfo = {
-        id: esDelivery ? deliveryPedidoSeleccionado.id : (data.cobrados?.[0] || mesaSeleccionada?.id || 1),
-        numero_orden: esDelivery ? (deliveryPedidoSeleccionado.numero_orden || deliveryPedidoSeleccionado.id) : (data.numero_factura || 1),
+        id: esDelivery
+          ? deliveryPedidoSeleccionado.id
+          : esAutoservicio
+            ? autoservicioPedidoSeleccionado.id
+            : (data.cobrados?.[0] || mesaSeleccionada?.id || 1),
+        numero_orden: esDelivery
+          ? (deliveryPedidoSeleccionado.numero_orden || deliveryPedidoSeleccionado.id)
+          : esAutoservicio
+            ? (autoservicioPedidoSeleccionado.numero_orden || autoservicioPedidoSeleccionado.id)
+            : (data.numero_factura || 1),
         fecha: new Date(), items: itemsCompletos,
         total: totalFinal,
         detalle_pagos: data.detalle_pagos || [],
         metodo_pago: metodoPago,
         tipo_iva: tipoIva,
         propina: calcularPropina(),
-        mesa: esDelivery ? 'Delivery' : mesaSeleccionada.numero, delivery: esDelivery, vuelto: data.vuelto || 0,
+        mesa: esDelivery ? 'Delivery' : esAutoservicio ? 'Autoservicio' : mesaSeleccionada.numero, delivery: esDelivery, vuelto: data.vuelto || 0,
         monto_recibido: data.monto_recibido || 0,
         nombre_cliente: esDelivery ? (deliveryPedidoSeleccionado.cliente_nombre || deliveryPedidoSeleccionado.nombre_cliente || '') : '',
         telefono_cliente: esDelivery ? (deliveryPedidoSeleccionado.telefono_cliente || '') : '',
@@ -459,6 +494,7 @@ export default function Caja() {
       setModalConfirmarCobro(false)
       setCargando(false)
       setDeliveryPedidoSeleccionado(null)
+      setAutoservicioPedidoSeleccionado(null)
       setSession(prev => ({ ...prev }))
       setTimeout(() => cargarDatos(), 500)
     } catch (e) { alert('Error de conexión'); setCargando(false) }
@@ -630,17 +666,17 @@ export default function Caja() {
           </button>
         </div>
 
-        {/* TABS: MESAS / DELIVERY */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-          <button onClick={() => setMostrarDelivery(false)} style={{
+        {/* TABS: MESAS / DELIVERY / AUTOSERVICIO */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '12px', flexWrap: 'wrap' }}>
+          <button onClick={() => { setMostrarDelivery(false); setMostrarAutoservicio(false) }} style={{
             padding: '8px 18px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: '700',
-            cursor: 'pointer', background: !mostrarDelivery ? '#E53935' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
-            color: !mostrarDelivery ? 'white' : (darkMode ? '#ccc' : '#666'),
+            cursor: 'pointer', background: !mostrarDelivery && !mostrarAutoservicio ? '#E53935' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
+            color: !mostrarDelivery && !mostrarAutoservicio ? 'white' : (darkMode ? '#ccc' : '#666'),
           }}>
             <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '6px' }}>table_restaurant</span>
             Mesas
           </button>
-          <button onClick={() => setMostrarDelivery(true)} style={{
+          <button onClick={() => { setMostrarDelivery(true); setMostrarAutoservicio(false) }} style={{
             padding: '8px 18px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: '700',
             cursor: 'pointer', background: mostrarDelivery ? '#E53935' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
             color: mostrarDelivery ? 'white' : (darkMode ? '#ccc' : '#666'),
@@ -653,9 +689,22 @@ export default function Caja() {
               </span>
             )}
           </button>
+          <button onClick={() => { setMostrarDelivery(false); setMostrarAutoservicio(true) }} style={{
+            padding: '8px 18px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: '700',
+            cursor: 'pointer', background: mostrarAutoservicio ? '#3B82F6' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
+            color: mostrarAutoservicio ? 'white' : (darkMode ? '#ccc' : '#666'),
+          }}>
+            <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '6px' }}>restaurant</span>
+            Autoservicio
+            {autoservicioPedidos.filter(p => !['pagado', 'cancelado'].includes(p.estado)).length > 0 && (
+              <span style={{ marginLeft: '6px', background: '#3B82F6', color: 'white', borderRadius: '50%', padding: '1px 6px', fontSize: '11px' }}>
+                {autoservicioPedidos.filter(p => !['pagado', 'cancelado'].includes(p.estado)).length}
+              </span>
+            )}
+          </button>
         </div>
 
-        {!mostrarDelivery ? (
+        {!mostrarDelivery && !mostrarAutoservicio ? (
           <>
             {/* FILTRO DE MESAS */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
@@ -698,7 +747,7 @@ export default function Caja() {
               )}
             </div>
           </>
-        ) : (
+        ) : mostrarDelivery ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
               <span style={{ color: darkMode ? '#ccc' : '#333', fontSize: '16px', fontWeight: '600' }}>
@@ -747,6 +796,47 @@ export default function Caja() {
               )}
             </div>
           </>
+        ) : (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+              <span style={{ color: darkMode ? '#ccc' : '#333', fontSize: '16px', fontWeight: '600' }}>
+                Autoservicio pendiente de cobro ({autoservicioPedidos.filter(p => !['pagado', 'cancelado'].includes(p.estado)).length})
+              </span>
+              <span style={{ fontSize: '12px', color: '#888' }}>Se cobran por ticket, independientes de las mesas.</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '12px' }}>
+              {autoservicioPedidos.filter(p => !['pagado', 'cancelado'].includes(p.estado)).map((pedido, i) => (
+                <div key={pedido.id} onClick={() => seleccionarAutoservicio(pedido)} style={{
+                  animationDelay: `${i * 0.05}s`, cursor: 'pointer',
+                  ...st.card, border: '2px solid #3B82F6', transition: 'transform 0.2s',
+                }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
+                onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <span className="material-icons" style={{ fontSize: '28px', color: '#3B82F6' }}>restaurant</span>
+                    <span style={{ fontSize: '11px', color: '#3B82F6', fontWeight: '600', textTransform: 'uppercase' }}>
+                      {pedido.estado}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '16px', fontWeight: '700', margin: '6px 0 2px', color: darkMode ? '#fff' : '#333' }}>
+                    Ticket #{pedido.numero_orden || pedido.id}
+                  </p>
+                  <p style={{ fontSize: '12px', color: darkMode ? '#aaa' : '#666', margin: '0' }}>
+                    {(pedido.items || []).length} item(s)
+                    {pedido.created_at ? ` · ${new Date(pedido.created_at).toLocaleTimeString('es-PY', { hour: '2-digit', minute: '2-digit' })}` : ''}
+                  </p>
+                  <p style={{ fontSize: '18px', fontWeight: '700', margin: '8px 0 0', color: '#3B82F6' }}>
+                    {formatGuarani(pedido.total || 0)}
+                  </p>
+                </div>
+              ))}
+              {autoservicioPedidos.filter(p => !['pagado', 'cancelado'].includes(p.estado)).length === 0 && (
+                <div style={{ ...st.card, textAlign: 'center', padding: '40px', gridColumn: '1 / -1' }}>
+                  <span className="material-icons" style={{ fontSize: '48px', color: '#888' }}>check_circle</span>
+                  <p style={{ color: '#888', margin: '8px 0 0' }}>No hay tickets de autoservicio pendientes de cobro</p>
+                </div>
+              )}
+            </div>
+          </>
         )}
       </div>
 
@@ -756,10 +846,19 @@ export default function Caja() {
           <div style={st.modalLg} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <h2 style={{ margin: 0, color: darkMode ? '#fff' : '#333', fontSize: '20px' }}>
-                {deliveryPedidoSeleccionado ? `Cobrar Delivery #${deliveryPedidoSeleccionado.numero_orden || deliveryPedidoSeleccionado.id}` : `Cobrar Mesa ${mesaSeleccionada?.numero}`}
+                {deliveryPedidoSeleccionado
+                  ? `Cobrar Delivery #${deliveryPedidoSeleccionado.numero_orden || deliveryPedidoSeleccionado.id}`
+                  : autoservicioPedidoSeleccionado
+                    ? `Cobrar Autoservicio #${autoservicioPedidoSeleccionado.numero_orden || autoservicioPedidoSeleccionado.id}`
+                    : `Cobrar Mesa ${mesaSeleccionada?.numero}`}
               </h2>
               <span className="material-icons" style={{ cursor: 'pointer', color: '#888' }}
-                onClick={() => { setModalCobrar(false); setMesaSeleccionada(null) }}>close</span>
+                onClick={() => {
+                  setModalCobrar(false)
+                  setMesaSeleccionada(null)
+                  setDeliveryPedidoSeleccionado(null)
+                  setAutoservicioPedidoSeleccionado(null)
+                }}>close</span>
             </div>
 
             {/* Items del pedido */}
@@ -781,7 +880,12 @@ export default function Caja() {
                   </p>
                   {(p.items || []).map((item, idx) => (
                     <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: darkMode ? '#aaa' : '#666', padding: '2px 8px' }}>
-                      <span>{item.cantidad}x {item.producto_nombre || item.nombre || item.producto}{item.variante ? ` (${item.variante})` : ''}</span>
+                      <span>
+                        {item.producto_id == null && item.categoria_nombre === 'Autoservicio'
+                          ? `${Math.round((item.cantidad || 0) * 1000)} g`
+                          : `${item.cantidad}x`}{' '}
+                        {item.producto_nombre || item.nombre || item.producto}{item.variante ? ` (${item.variante})` : ''}
+                      </span>
                       <span>{formatGuarani((item.cantidad || 1) * (item.precio || 0))}</span>
                     </div>
                   ))}
@@ -942,7 +1046,12 @@ export default function Caja() {
 
             {/* Botones acción */}
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button onClick={() => { setModalCobrar(false); setMesaSeleccionada(null) }}
+              <button onClick={() => {
+                setModalCobrar(false)
+                setMesaSeleccionada(null)
+                setDeliveryPedidoSeleccionado(null)
+                setAutoservicioPedidoSeleccionado(null)
+              }}
                 style={{ ...st.btn, background: darkMode ? '#3a3a3a' : '#f0f0f0', color: darkMode ? '#ccc' : '#555', flex: 1 }}>Cancelar</button>
               <button onClick={() => setModalConfirmarCobro(true)} disabled={cargando || (metodoPago === 'efectivo' && (!montoRecibido || parseFloat(montoRecibido) < 1)) || (metodoPago === 'transferencia' && !comprobanteNro)}
                 style={{ ...st.btnPrimary, flex: 2, opacity: (cargando || (metodoPago === 'efectivo' && (!montoRecibido || parseFloat(montoRecibido) < 1)) || (metodoPago === 'transferencia' && !comprobanteNro)) ? 0.5 : 1 }}>
@@ -959,7 +1068,13 @@ export default function Caja() {
           <div style={st.modal} onClick={e => e.stopPropagation()}>
             <h3 style={{ color: darkMode ? '#fff' : '#333', margin: '0 0 12px', textAlign: 'center' }}>Confirmar Cobro</h3>
             <div style={{ marginBottom: '16px' }}>
-              <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Mesa: {mesaSeleccionada?.numero}</p>
+              <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>
+                {deliveryPedidoSeleccionado
+                  ? `Delivery #${deliveryPedidoSeleccionado.numero_orden || deliveryPedidoSeleccionado.id}`
+                  : autoservicioPedidoSeleccionado
+                    ? `Autoservicio #${autoservicioPedidoSeleccionado.numero_orden || autoservicioPedidoSeleccionado.id}`
+                    : `Mesa ${mesaSeleccionada?.numero || ''}`}
+              </p>
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Total: <strong>{formatGuarani(totalConPropina)}</strong></p>
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Método: {metodosApi.find(m => m.nombre === metodoPago)?.etiqueta || metodoPago}</p>
               {parseFloat(montoRecibido) > 0 && <p style={{ color: '#22C55E', fontSize: '14px', margin: '4px 0' }}>Recibido: {formatGuarani(parseFloat(montoRecibido))}</p>}
@@ -992,6 +1107,8 @@ export default function Caja() {
             setShowTicket(false)
             setModalCobrar(false)
             setMesaSeleccionada(null)
+            setDeliveryPedidoSeleccionado(null)
+            setAutoservicioPedidoSeleccionado(null)
             setPedidosMesa([])
             setClienteDatos({ nombre: '', ruc: '', tipo: 'consumidor' })
             verificarSesion()

@@ -27,6 +27,17 @@ const fmtCantidad = (n) => {
   return Number.isInteger(num) ? String(num) : num.toFixed(2).replace(/\.?0+$/, '')
 }
 
+const esItemPeso = (item) =>
+  !!item && item.producto_id == null && (item.categoria_nombre === 'Autoservicio' || /autoservicio/i.test(item.producto_nombre || ''))
+
+const fmtItemCantidad = (item) => {
+  if (esItemPeso(item)) {
+    const gramos = Math.round((Number(item.cantidad) || 0) * 1000)
+    return gramos > 0 ? `${gramos} g` : (item.nota || '')
+  }
+  return `${fmtCantidad(item?.cantidad)}x`
+}
+
 const fmtHora = (fecha) => {
   if (!fecha) return ''
   const d = new Date(fecha)
@@ -59,9 +70,8 @@ export default function Autoservicio() {
   const [ticketEditando, setTicketEditando] = useState(null)
   const [guardando, setGuardando] = useState(false)
 
-  const [menuProductoId, setMenuProductoId] = useState('')
   const [menuPrecio, setMenuPrecio] = useState('0')
-  const [menuPeso, setMenuPeso] = useState('1')
+  const [menuGramos, setMenuGramos] = useState('0')
   const [categoriaFiltro, setCategoriaFiltro] = useState('todas')
   const [busqueda, setBusqueda] = useState('')
 
@@ -194,33 +204,6 @@ export default function Autoservicio() {
     return map
   }, [categorias])
 
-  const menuProducts = useMemo(() => {
-    const conMenu = categorias.filter((c) => /men[uú]/i.test(c.nombre || ''))
-    const principales = conMenu.length
-      ? conMenu
-      : categorias.filter((c) => /plato|principal/i.test(c.nombre || ''))
-
-    let ids = new Set(principales.map((c) => Number(c.id)))
-    let lista = productos.filter((p) => ids.has(Number(p.categoria_id)))
-
-    if (!lista.length) {
-      const excluir = new Set(
-        categorias
-          .filter((c) => /bebida|postre|trago|helado/i.test(c.nombre || ''))
-          .map((c) => Number(c.id)),
-      )
-      lista = productos.filter((p) => !excluir.has(Number(p.categoria_id)))
-    }
-
-    return lista.length ? lista : productos
-  }, [categorias, productos])
-
-  useEffect(() => {
-    if (menuProducts.length && !menuProducts.some((p) => Number(p.id) === Number(menuProductoId))) {
-      setMenuProductoId(String(menuProducts[0].id))
-    }
-  }, [menuProducts, menuProductoId])
-
   const productosFiltrados = useMemo(() => {
     const q = busqueda.trim().toLowerCase()
     return productos.filter((p) => {
@@ -230,19 +213,9 @@ export default function Autoservicio() {
     })
   }, [productos, categoriaFiltro, busqueda])
 
-  const menuProducto = useMemo(
-    () => productos.find((p) => Number(p.id) === Number(menuProductoId)) || null,
-    [productos, menuProductoId],
-  )
-
-  useEffect(() => {
-    const p = productos.find((x) => Number(x.id) === Number(menuProductoId))
-    if (p) setMenuPrecio(String(Number(p.precio) || 0))
-  }, [menuProductoId])
-
-  const pesoNum = Number.parseFloat(menuPeso) || 0
+  const gramosNum = Math.max(0, Math.round(Number.parseFloat(menuGramos) || 0))
   const precioNum = Number.parseFloat(menuPrecio) || 0
-  const subtotalMenu = Math.round(precioNum * pesoNum)
+  const subtotalMenu = Math.round((precioNum * gramosNum) / 1000)
   const totalCarrito = Math.round(
     carrito.reduce((sum, item) => sum + (Number(item.precio) || 0) * (Number(item.cantidad) || 0), 0),
   )
@@ -348,46 +321,47 @@ export default function Autoservicio() {
   }
 
   const agregarMenu = () => {
-    if (!menuProducto) {
-      setMensajeError('Seleccioná un menú')
-      return
-    }
-    const peso = Math.round(pesoNum * 100) / 100
-    if (!(peso > 0)) {
-      setMensajeError('Ingresá el peso en kg del menú')
+    const gramos = Math.round(gramosNum)
+    if (!(gramos > 0)) {
+      setMensajeError('Ingresá los gramos del menú')
       return
     }
     if (!Number.isFinite(precioNum) || precioNum < 0) {
-      setMensajeError('Ingresá un precio por kg válido')
+      setMensajeError('Ingresá un precio de autoservicio válido')
       return
     }
     const precio = Math.round(precioNum * 100) / 100
+    const cantidad = Math.round((gramos / 1000) * 1000) / 1000
+    const nota = `${gramos} g`
 
     setCarrito((prev) => {
-      const idx = prev.findIndex(
-        (i) => i.es_menu && Number(i.producto_id) === Number(menuProducto.id) && Number(i.precio) === precio,
-      )
+      const idx = prev.findIndex((i) => i.es_menu && Number(i.precio) === precio)
       if (idx >= 0) {
         const copia = [...prev]
-        copia[idx] = { ...copia[idx], cantidad: Math.round((Number(copia[idx].cantidad) + peso) * 100) / 100 }
+        const nuevaCantidad = Math.round((Number(copia[idx].cantidad) + cantidad) * 1000) / 1000
+        copia[idx] = {
+          ...copia[idx],
+          cantidad: nuevaCantidad,
+          nota: `${Math.round(nuevaCantidad * 1000)} g`,
+        }
         return copia
       }
       return [
         ...prev,
         {
-          key: `menu-${menuProducto.id}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-          producto_id: menuProducto.id,
-          producto_nombre: menuProducto.nombre,
-          categoria_nombre: categoriasMap[menuProducto.categoria_id] || '',
+          key: `menu-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+          producto_id: null,
+          producto_nombre: 'Autoservicio',
+          categoria_nombre: 'Autoservicio',
           precio,
-          cantidad: peso,
+          cantidad,
           es_menu: true,
-          nota: '',
+          nota,
         },
       ]
     })
 
-    setMenuPeso('1')
+    setMenuGramos('0')
     setMensajeError('')
   }
 
@@ -435,9 +409,11 @@ export default function Autoservicio() {
       prev.map((item) => {
         if (item.key !== key) return item
         const n = Number(valor) || 0
-        const cantidad = item.es_menu
-          ? Math.max(0, Math.round(n * 100) / 100)
-          : Math.max(0, Math.floor(n))
+        if (item.es_menu) {
+          const cantidad = Math.max(0, Math.round((n / 1000) * 1000) / 1000)
+          return { ...item, cantidad, nota: `${Math.round(cantidad * 1000)} g` }
+        }
+        const cantidad = Math.max(0, Math.floor(n))
         return { ...item, cantidad }
       }),
     )
@@ -476,7 +452,7 @@ export default function Autoservicio() {
         cantidad: Number(item.cantidad),
         precio: Number(item.precio),
         variante: null,
-        nota: item.es_menu ? `${fmtCantidad(item.cantidad)} kg` : (item.nota || ''),
+        nota: item.es_menu ? `${Math.round(Number(item.cantidad) * 1000)} g` : (item.nota || ''),
       }
       return item.es_menu ? { ...base, precio_manual: true } : base
     })
@@ -697,7 +673,7 @@ export default function Autoservicio() {
               </h1>
               <p style={{ margin: '3px 0 0', color: muted, fontSize: '13px' }}>
                 {vista === 'nuevo'
-                  ? 'Menú por kg + añadidos de la sección Productos.'
+                  ? 'Precio de autoservicio por peso + añadidos de la sección Productos.'
                   : 'Tickets activos. El cliente se sirve y se cobra por ticket.'}
               </p>
             </div>
@@ -762,7 +738,7 @@ export default function Autoservicio() {
                     {verTodos ? 'Todavía no hay tickets' : 'No hay tickets activos'}
                   </h2>
                   <p style={{ margin: '0 0 14px', color: muted, fontSize: '13px' }}>
-                    Creá un ticket con menú por kg y añadidos.
+                    Creá un ticket con menú de autoservicio y añadidos.
                   </p>
                   <button onClick={nuevoTicket} style={btnPrimary}>+ Nuevo ticket</button>
                 </div>
@@ -814,7 +790,7 @@ export default function Autoservicio() {
                               padding: '2px 0',
                             }}>
                               <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                {fmtCantidad(it.cantidad)}x {it.producto_nombre}
+                                {fmtItemCantidad(it)} {it.producto_nombre}
                               </span>
                               <span style={{ color: muted, whiteSpace: 'nowrap' }}>
                                 {fmtGs(Number(it.precio) * Number(it.cantidad))}
@@ -859,26 +835,10 @@ export default function Autoservicio() {
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', minWidth: 0 }}>
                 <div style={{ ...card, padding: '14px' }}>
-                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>1. Menú por kg</h2>
+                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>1. Menú de autoservicio</h2>
                   <p style={{ margin: '3px 0 10px', fontSize: '12px', color: muted }}>
-                    Cargá el precio por kilogramo y el peso. Ambos valores se pueden modificar a gusto.
+                    Cargá el precio de autoservicio (por kg) y los gramos. Ambos valores se pueden modificar a gusto.
                   </p>
-
-                  <label style={{ ...labelStyle, marginBottom: '10px' }}>
-                    Producto / Menú (para cocina)
-                    <select
-                      value={menuProductoId}
-                      onChange={(e) => setMenuProductoId(e.target.value)}
-                      style={inputStyle}
-                    >
-                      {menuProducts.map((p) => (
-                        <option key={p.id} value={p.id}>
-                          {p.nombre} — {fmtGs(p.precio)}/kg
-                        </option>
-                      ))}
-                      {menuProducts.length === 0 && <option value="">Sin menús configurados</option>}
-                    </select>
-                  </label>
 
                   <div style={{
                     display: 'grid',
@@ -887,7 +847,7 @@ export default function Autoservicio() {
                     alignItems: 'end',
                   }}>
                     <label style={labelStyle}>
-                      Precio por kg
+                      Precio de autoservicio (Gs/kg)
                       <input
                         type="number"
                         min="0"
@@ -899,23 +859,23 @@ export default function Autoservicio() {
                     </label>
 
                     <label style={labelStyle}>
-                      Peso (kg)
+                      Gramos
                       <input
                         type="number"
-                        min="0.01"
-                        step="0.1"
-                        value={menuPeso}
-                        onChange={(e) => setMenuPeso(e.target.value)}
+                        min="0"
+                        step="10"
+                        value={menuGramos}
+                        onChange={(e) => setMenuGramos(e.target.value)}
                         style={inputStyle}
                       />
                     </label>
 
                     <button
                       onClick={agregarMenu}
-                      disabled={!menuProducto || !(pesoNum > 0) || !Number.isFinite(precioNum) || precioNum < 0}
+                      disabled={!(gramosNum > 0) || !Number.isFinite(precioNum) || precioNum < 0}
                       style={{ ...btnPrimary, height: '38px' }}
                     >
-                      Agregar menú
+                      Agregar
                     </button>
                   </div>
 
@@ -928,32 +888,9 @@ export default function Autoservicio() {
                     color: muted,
                     flexWrap: 'wrap',
                   }}>
-                    <span>
-                      {menuProducto
-                        ? `${menuProducto.nombre} · ${fmtGs(precioNum)}/kg · ${fmtCantidad(pesoNum)} kg`
-                        : 'Seleccioná un menú'}
-                    </span>
+                    <span>{fmtGs(precioNum)}/kg · {fmtCantidad(gramosNum)} g</span>
                     <span style={{ fontWeight: 700, color: textColor }}>Subtotal: {fmtGs(subtotalMenu)}</span>
                   </div>
-
-                  {menuProducts.length > 0 && (
-                    <div style={{ marginTop: '8px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                      {menuProducts.slice(0, 6).map((p) => (
-                        <button
-                          key={p.id}
-                          onClick={() => setMenuProductoId(String(p.id))}
-                          style={chip(Number(menuProductoId) === Number(p.id))}
-                        >
-                          {p.nombre}
-                        </button>
-                      ))}
-                      {menuProducts.length > 6 && (
-                        <span style={{ fontSize: '11px', color: muted, alignSelf: 'center' }}>
-                          +{menuProducts.length - 6}
-                        </span>
-                      )}
-                    </div>
-                  )}
                 </div>
 
                 <div style={{ ...card, padding: '14px' }}>
@@ -1115,7 +1052,7 @@ export default function Autoservicio() {
                 }}>
                   {carrito.length === 0 ? (
                     <div style={{ padding: '18px 8px', textAlign: 'center', color: muted, fontSize: '13px' }}>
-                      Agregá un menú por kg o un añadido.
+                      Agregá un menú de autoservicio o un añadido.
                     </div>
                   ) : carrito.map((item) => (
                     <div key={item.key} style={{
@@ -1137,9 +1074,9 @@ export default function Autoservicio() {
                           </div>
                           <div style={{ fontSize: '11px', color: muted }}>
                             {item.es_menu
-                              ? 'Menú por kg'
+                              ? 'Autoservicio'
                               : (item.categoria_nombre || 'Añadido')}
-                            {item.nota && !item.es_menu ? ` · ${item.nota}` : ''}
+                            {item.nota ? ` · ${item.nota}` : ''}
                           </div>
                         </div>
                         <button
@@ -1178,14 +1115,14 @@ export default function Autoservicio() {
                           <input
                             type="number"
                             min="0"
-                            step={item.es_menu ? '0.1' : '1'}
-                            value={item.cantidad}
+                            step={item.es_menu ? '10' : '1'}
+                            value={item.es_menu ? Math.round(Number(item.cantidad) * 1000) : item.cantidad}
                             onChange={(e) => actualizarCantidad(item.key, e.target.value)}
-                            title={item.es_menu ? 'Peso (kg)' : 'Cantidad'}
+                            title={item.es_menu ? 'Gramos' : 'Cantidad'}
                             style={{ ...inputStyle, width: '78px', padding: '4px 6px', fontSize: '12px' }}
                           />
                           <span style={{ fontSize: '11px', color: muted }}>
-                            {item.es_menu ? 'kg' : 'u.'}
+                            {item.es_menu ? 'g' : 'u.'}
                           </span>
                         </div>
                         <span style={{ fontSize: '12px', fontWeight: 700 }}>
@@ -1350,7 +1287,7 @@ export default function Autoservicio() {
                 <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', fontSize: '12px' }}>
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {fmtCantidad(it.cantidad)}x {it.producto_nombre}
+                      {fmtItemCantidad(it)} {it.producto_nombre}
                     </div>
                     {(it.nota || it.variante) && (
                       <div style={{ fontSize: '11px', color: muted }}>{it.nota || it.variante}</div>
@@ -1392,14 +1329,22 @@ export default function Autoservicio() {
                   Marcar entregado
                 </button>
               )}
-              {ticketDetalle.estado === 'entregado' && (
-                <button
-                  onClick={() => setConfirmacion({ tipo: 'cobrar', pedido: ticketDetalle })}
-                  disabled={accionCargando}
-                  style={{ ...btnPrimary, flex: '1 1 150px' }}
-                >
-                  Cobrar
-                </button>
+              {ESTADOS_ACTIVOS.includes(ticketDetalle.estado) && (
+                <div style={{
+                  flex: '1 1 150px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '12px',
+                  color: muted,
+                  background: softBg,
+                  border: `1px solid ${borderColor}`,
+                  borderRadius: '10px',
+                  padding: '10px 12px',
+                }}>
+                  <span className="material-icons" style={{ fontSize: '16px' }}>point_of_sale</span>
+                  Cobrar en Caja
+                </div>
               )}
               {ESTADOS_ACTIVOS.includes(ticketDetalle.estado) && (
                 <button

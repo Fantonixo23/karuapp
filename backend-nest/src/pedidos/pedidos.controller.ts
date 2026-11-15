@@ -107,6 +107,16 @@ export class PedidosController {
     return this.service.cobrarMesa(rid, +mesaId, body, uid);
   }
 
+  @Post('pedidos/autoservicio/:id/cobrar')
+  async cobrarAutoservicio(
+    @CurrentUser('restauranteId') rid: number,
+    @CurrentUser('sub') uid: number,
+    @Param('id') id: string,
+    @Body() body: any,
+  ) {
+    return this.service.cobrarAutoservicio(rid, +id, body, uid);
+  }
+
   @Get('pedidos/delivery/dashboard')
   async dashboardDelivery(@CurrentUser('restauranteId') rid: number) {
     return this.service.dashboardDelivery(rid);

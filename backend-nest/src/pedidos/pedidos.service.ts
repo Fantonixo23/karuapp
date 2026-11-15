@@ -19,7 +19,7 @@ const TRANSICIONES_VALIDAS: Record<string, string[]> = {
 const ESTADOS_ACTIVOS = ['pendiente', 'cocinando', 'listo', 'en_camino', 'entregado'];
 
 interface ItemPedido {
-  producto_id: number;
+  producto_id: number | null;
   producto_nombre: string;
   categoria_nombre: string | null;
   cantidad: number;
@@ -517,6 +517,109 @@ export class PedidosService {
     };
   }
 
+  /**
+   * Cobra un ticket de autoservicio desde Caja. A diferencia de `pagar`, no
+   * exige que el ticket haya pasado por cocina: el cliente se sirve y paga,
+   * y el estado de preparacion es independiente. Registra la venta en la caja
+   * abierta y descuenta inventario igual que el cobro de una mesa.
+   */
+  async cobrarAutoservicio(restauranteId: number, id: number, body: any, usuarioId: number) {
+    const resultado = await this.db.transaction(async (tx) => {
+      const session = await tx
+        .selectFrom('caja_sesiones')
+        .select('id')
+        .where('restaurante_id', '=', restauranteId)
+        .where('estado', '=', 'abierta')
+        .executeTakeFirst();
+      if (!session) return { error: 'No hay una sesión de caja abierta' as const, need_apertura: true };
+
+      const pedido = await tx
+        .selectFrom('pedidos')
+        .select(['id', 'estado', 'total', 'tipo_pedido', 'numero_orden', 'items'])
+        .where('id', '=', id)
+        .where('restaurante_id', '=', restauranteId)
+        .executeTakeFirst();
+      if (!pedido) return { error: 'Pedido no encontrado' as const };
+      if (pedido.tipo_pedido !== 'autoservicio') return { error: 'Este pedido no es de autoservicio' as const };
+      if (pedido.estado === 'pagado') return { error: 'Este ticket ya fue cobrado' as const };
+      if (pedido.estado === 'cancelado') return { error: 'No se puede cobrar un ticket cancelado' as const };
+
+      const metodoPago = body.metodo_pago || 'efectivo';
+      const propina = this.normalizarPropina(body.propina);
+      const detallePagos = body.detalle_pagos ? JSON.stringify(body.detalle_pagos) : null;
+      const montoRecibido = this.normalizarMontoRecibido(body.monto_recibido);
+      const totalConPropina = pedido.total + propina;
+      const vuelto = montoRecibido > 0 ? Math.max(0, montoRecibido - totalConPropina) : 0;
+
+      await tx
+        .updateTable('pedidos')
+        .set({
+          estado: 'pagado',
+          metodo_pago: metodoPago,
+          propina,
+          detalle_pagos: detallePagos,
+          cliente_tipo: body.cliente_tipo || 'consumidor',
+          cliente_ruc: body.cliente_ruc || '44444444-7',
+          cliente_nombre: body.cliente_nombre || 'Consumidor Final',
+          tipo_iva: body.tipo_iva || 10,
+          updated_at: new Date(),
+        })
+        .where('id', '=', id)
+        .execute();
+
+      await tx
+        .insertInto('caja_movimientos')
+        .values({
+          restaurante_id: restauranteId,
+          session_id: session.id,
+          tipo: 'venta',
+          metodo_pago: metodoPago,
+          monto: totalConPropina,
+          moneda: 'PYG',
+          monto_pyg: totalConPropina,
+          pedido_id: id,
+          detalle_pagos: detallePagos,
+          propina,
+          vuelto,
+          usuario_id: usuarioId || null,
+        })
+        .execute();
+
+      await this.descontarInventario(tx, restauranteId, id, pedido.items);
+
+      return { pedido, totalConPropina, metodoPago, vuelto, montoRecibido };
+    });
+
+    if ('error' in resultado) {
+      return { success: false as const, error: resultado.error, need_apertura: 'need_apertura' in resultado ? true : undefined };
+    }
+
+    await this.realtime.emitPedidoUpdate(restauranteId, {
+      id,
+      numero_orden: resultado.pedido.numero_orden,
+      estado: 'pagado',
+    });
+
+    await this.realtime.emitCobro(restauranteId, {
+      pedido_id: id,
+      total: resultado.totalConPropina,
+      metodo_pago: resultado.metodoPago,
+    });
+
+    return {
+      success: true as const,
+      cobrados: [id],
+      total_cobrado: String(resultado.pedido.total),
+      total_con_propina: String(resultado.totalConPropina),
+      vuelto: resultado.vuelto,
+      monto_recibido: resultado.montoRecibido,
+      numero_factura: resultado.pedido.numero_orden,
+      factura: null,
+      detalle_pagos: body.detalle_pagos || [],
+      pedidos: [resultado.pedido],
+    };
+  }
+
   async dashboardDelivery(restauranteId: number) {
     return this.db.run(async (db) => {
       const { hoy, manana } = rangoDiaParaguay();
@@ -746,7 +849,34 @@ export class PedidosService {
   ) {
     const itemsValidados: ItemPedido[] = [];
     for (const item of items) {
-      if (!item.producto_id) throw new BadRequestException('Cada item debe tener producto_id');
+      // Autoservicio vende el menu por peso sin un producto de catalogo: se
+      // acepta una linea libre con nombre y precio manual (el ticket la respalda).
+      if (!item.producto_id) {
+        if (!opciones.permitirPrecioManual || item.precio_manual !== true) {
+          throw new BadRequestException('Cada item debe tener producto_id');
+        }
+
+        const cantidad = Number(item.cantidad);
+        if (!Number.isFinite(cantidad) || cantidad <= 0) {
+          throw new BadRequestException('La cantidad del menu debe ser mayor a 0');
+        }
+
+        const precioManual = Number(item.precio);
+        if (!Number.isFinite(precioManual) || precioManual < 0) {
+          throw new BadRequestException('El precio del menu no es valido');
+        }
+
+        itemsValidados.push({
+          producto_id: null,
+          producto_nombre: item.producto_nombre || 'Autoservicio',
+          categoria_nombre: item.categoria_nombre || 'Autoservicio',
+          cantidad: Math.round(cantidad * 1000) / 1000,
+          precio: Math.round(precioManual * 100) / 100,
+          variante: item.variante || null,
+          nota: item.nota || '',
+        });
+        continue;
+      }
 
       const producto = await this.db.run(async (db) =>
         db
@@ -764,7 +894,7 @@ export class PedidosService {
       if (!Number.isFinite(cantidad) || cantidad <= 0) {
         throw new BadRequestException(`La cantidad del producto ${producto.nombre} debe ser mayor a 0`);
       }
-      const cantidadRedondeada = Math.round(cantidad * 100) / 100;
+      const cantidadRedondeada = Math.round(cantidad * 1000) / 1000;
 
       // El precio sale del catalogo, salvo en autoservicio donde se cobra por kg
       // y quien opera puede fijarlo manualmente (el ticket lo respalda).
