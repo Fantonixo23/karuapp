@@ -22,6 +22,14 @@ const ESTADOS_ACTIVOS = ['pendiente', 'cocinando', 'listo', 'entregado']
 
 const fmtGs = (n) => `Gs. ${Math.round(Number(n) || 0).toLocaleString('es-PY')}`
 
+const fmtGsInput = (val) => {
+  const digitos = String(val ?? '').replace(/[^0-9]/g, '')
+  if (!digitos) return ''
+  return Number(digitos).toLocaleString('es-PY')
+}
+
+const soloDigitos = (val) => String(val ?? '').replace(/[^0-9]/g, '')
+
 const fmtCantidad = (n) => {
   const num = Number(n) || 0
   return Number.isInteger(num) ? String(num) : num.toFixed(2).replace(/\.?0+$/, '')
@@ -843,11 +851,11 @@ export default function Autoservicio() {
                     <label style={labelStyle}>
                       Precio (Gs)
                       <input
-                        type="number"
-                        min="0"
-                        step="100"
-                        value={menuPrecio}
-                        onChange={(e) => setMenuPrecio(e.target.value)}
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="0"
+                        value={fmtGsInput(menuPrecio)}
+                        onChange={(e) => setMenuPrecio(soloDigitos(e.target.value))}
                         style={inputStyle}
                       />
                     </label>
@@ -1095,11 +1103,11 @@ export default function Autoservicio() {
                             <>
                               <span style={{ fontSize: '11px', color: muted }}>Gs.</span>
                               <input
-                                type="number"
-                                min="0"
-                                step="100"
-                                value={item.precio}
-                                onChange={(e) => actualizarPrecio(item.key, e.target.value)}
+                                type="text"
+                                inputMode="numeric"
+                                placeholder="0"
+                                value={fmtGsInput(item.precio)}
+                                onChange={(e) => actualizarPrecio(item.key, soloDigitos(e.target.value))}
                                 title="Precio"
                                 style={{ ...inputStyle, width: '92px', padding: '4px 6px', fontSize: '12px' }}
                               />
