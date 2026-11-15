@@ -9,7 +9,7 @@ const PLANES = {
     label: 'Básico',
     precio: 250000,
     moneda: 'Gs',
-    color: '#4CAF50',
+    color: '#22C55E',
     features: [
       'Mesas', 'Caja', 'Productos', 'Configuración',
     ],
@@ -19,7 +19,7 @@ const PLANES = {
     label: 'Estándar',
     precio: 350000,
     moneda: 'Gs',
-    color: '#FF9800',
+    color: '#E53935',
     features: [
       'Todo lo del Básico',
       'Inventario',
@@ -181,7 +181,7 @@ export default function AdminRestauranteDetalle() {
         {msg.text && (
           <div style={{
             padding: '12px', borderRadius: '10px', marginBottom: '16px',
-            background: msg.type === 'error' ? 'rgba(244,67,54,0.12)' : 'rgba(76,175,80,0.12)',
+            background: msg.type === 'error' ? 'rgba(229,57,53,0.12)' : 'rgba(76,175,80,0.12)',
             color: msg.type === 'error' ? '#EF5350' : '#81C784',
             fontSize: '13px', fontWeight: '600', textAlign: 'center',
           }}>{msg.text}</div>
@@ -250,7 +250,7 @@ export default function AdminRestauranteDetalle() {
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end' }}>
               {PLANES[editPlan]?.precio > 0 && (
-                <div style={{ fontSize: '22px', fontWeight: '800', color: PLANES[editPlan]?.color }}>
+                <div style={{ fontSize: '22px', fontWeight: '700', color: PLANES[editPlan]?.color }}>
                   Gs {PLANES[editPlan]?.precio.toLocaleString('es-PY')}/mes
                 </div>
               )}
@@ -266,9 +266,9 @@ export default function AdminRestauranteDetalle() {
           )}
 
           <button onClick={asignarPrueba7Dias} style={{
-            width: '100%', padding: '11px', borderRadius: '8px', border: 'none',
-            background: 'rgba(255,152,0,0.15)', color: '#FFB74D', fontWeight: '700', fontSize: '13px',
-            cursor: 'pointer', marginTop: '8px', border: '1px solid rgba(255,152,0,0.3)',
+            width: '100%', padding: '11px', borderRadius: '8px',
+            background: 'rgba(229,57,53,0.15)', color: '#FFB74D', fontWeight: '700', fontSize: '13px',
+            cursor: 'pointer', marginTop: '8px', border: '1px solid rgba(229,57,53,0.3)',
           }}>
             Asignar prueba gratuita de 7 días
           </button>
@@ -289,7 +289,7 @@ export default function AdminRestauranteDetalle() {
                 placeholder="Pago mensual..." style={s.input} />
             </div>
           </Grid>
-          <button onClick={registrarPago} style={{ ...s.btn, background: '#FF9800' }}>Registrar pago</button>
+          <button onClick={registrarPago} style={{ ...s.btn, background: '#E53935' }}>Registrar pago</button>
         </Card>
 
         {data.pagos?.length > 0 && (
@@ -336,7 +336,7 @@ export default function AdminRestauranteDetalle() {
                     <td style={{ padding: '8px 4px', textAlign: 'center' }}>
                       <span style={{
                         padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '600',
-                        background: u.activo ? 'rgba(76,175,80,0.15)' : 'rgba(244,67,54,0.15)',
+                        background: u.activo ? 'rgba(76,175,80,0.15)' : 'rgba(229,57,53,0.15)',
                         color: u.activo ? '#81C784' : '#EF5350',
                       }}>{u.activo ? 'Activo' : 'Inactivo'}</span>
                     </td>
@@ -353,7 +353,7 @@ export default function AdminRestauranteDetalle() {
           </Card>
         )}
 
-        <Card title="Eliminar restaurante" style={{ border: '1px solid rgba(244,67,54,0.2)' }}>
+        <Card title="Eliminar restaurante" style={{ border: '1px solid rgba(229,57,53,0.2)' }}>
           <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', margin: '0 0 10px 0' }}>
             Esta acción eliminará <strong>todos los datos</strong> del restaurante (usuarios, productos, pedidos, pagos, etc.) de forma permanente. No se puede deshacer.
           </p>
@@ -364,7 +364,7 @@ export default function AdminRestauranteDetalle() {
           </div>
           <button onClick={eliminarRestaurante} disabled={deleteConfirm !== data.nombre} style={{
             width: '100%', padding: '11px', borderRadius: '8px', border: 'none',
-            background: deleteConfirm === data.nombre ? '#F44336' : '#333',
+            background: deleteConfirm === data.nombre ? '#E53935' : '#333',
             color: deleteConfirm === data.nombre ? 'white' : '#666',
             fontWeight: '700', fontSize: '13px', cursor: deleteConfirm === data.nombre ? 'pointer' : 'not-allowed',
           }}>
@@ -381,8 +381,8 @@ function PantallaCarga() {
     <div style={{ minHeight: '100vh', background: '#0f0f0f', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{
-          width: '36px', height: '36px', border: '3px solid rgba(244,67,54,0.2)',
-          borderTopColor: '#F44336', borderRadius: '50%',
+          width: '36px', height: '36px', border: '3px solid rgba(229,57,53,0.2)',
+          borderTopColor: '#E53935', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 12px',
         }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
@@ -394,9 +394,9 @@ function PantallaCarga() {
 
 function Header({ data, planActual }) {
   const estadoStyles = {
-    pendiente: { bg: 'rgba(255,152,0,0.15)', color: '#FFB74D' },
+    pendiente: { bg: 'rgba(229,57,53,0.15)', color: '#FFB74D' },
     activo: { bg: 'rgba(76,175,80,0.15)', color: '#81C784' },
-    suspendido: { bg: 'rgba(244,67,54,0.15)', color: '#EF5350' },
+    suspendido: { bg: 'rgba(229,57,53,0.15)', color: '#EF5350' },
   }
   const es = estadoStyles[data.estado_licencia] || { bg: 'rgba(255,255,255,0.1)', color: '#999' }
   return (
@@ -439,7 +439,7 @@ function PlanCard({ plan, selected, onClick }) {
     }}>
       <div style={{ fontSize: '14px', fontWeight: '700', color: selected ? p.color : 'white' }}>{p.label}</div>
       {p.precio > 0 && (
-        <div style={{ fontSize: '20px', fontWeight: '800', color: p.color, margin: '6px 0' }}>
+        <div style={{ fontSize: '20px', fontWeight: '700', color: p.color, margin: '6px 0' }}>
           Gs {p.precio.toLocaleString('es-PY')}
           <span style={{ fontSize: '11px', fontWeight: '400', color: 'rgba(255,255,255,0.4)' }}>/mes</span>
         </div>
@@ -494,7 +494,7 @@ const s = {
   },
   btn: {
     width: '100%', padding: '11px', borderRadius: '8px', border: 'none',
-    background: '#4CAF50', color: 'white', fontWeight: '700', fontSize: '13px',
+    background: '#22C55E', color: 'white', fontWeight: '700', fontSize: '13px',
     cursor: 'pointer', marginTop: '8px',
   },
 }

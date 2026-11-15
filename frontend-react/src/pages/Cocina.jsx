@@ -13,8 +13,8 @@ const API_URL = getApiUrl()
 const FILTROS = [
   { key: 'todo', label: 'Todo', color: '#666' },
   { key: 'pendiente', label: 'Pendiente', color: '#E53935' },
-  { key: 'cocinando', label: 'Preparando', color: '#FBC02D' },
-  { key: 'listo', label: 'Listo', color: '#4CAF50' }
+  { key: 'cocinando', label: 'Preparando', color: '#F59E0B' },
+  { key: 'listo', label: 'Listo', color: '#22C55E' }
 ]
 
 export default function Cocina() {
@@ -135,8 +135,8 @@ export default function Cocina() {
   }, [filtro])
 
   const getEstadoColor = (estado) => {
-    if (estado === 'cocinando') return { border: '#FBC02D', texto: 'Cocinando', color: '#FBC02D' }
-    if (estado === 'listo') return { border: '#4CAF50', texto: 'Listo', color: '#4CAF50' }
+    if (estado === 'cocinando') return { border: '#F59E0B', texto: 'Cocinando', color: '#F59E0B' }
+    if (estado === 'listo') return { border: '#22C55E', texto: 'Listo', color: '#22C55E' }
     return { border: '#E53935', texto: 'Pendiente', color: '#E53935' }
   }
 
@@ -218,7 +218,7 @@ export default function Cocina() {
         alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'space-between',
         padding: isMobile ? '8px 12px' : '10px 20px',
         background: '#1a1a1a', color: 'white',
-        borderBottom: '1px solid rgba(255,152,0,0.2)', boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+        borderBottom: '1px solid rgba(229,57,53,0.2)', boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
         gap: isMobile ? '8px' : '0',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -226,12 +226,12 @@ export default function Cocina() {
             <Link to="/app/inicio" style={{ width: '34px', height: '34px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
               <span className="material-icons">home</span>
             </Link>
-            <img src="/logo.png" alt="LaCarta" style={{ width: '24px', height: '24px', borderRadius: '10px' }} />
-            <span style={{ fontSize: isMobile ? '18px' : '22px', fontWeight: '800', letterSpacing: '0.5px' }}>Cocina</span>
+            <img src="/logo.png" alt="KaruApp" style={{ width: '24px', height: '24px', borderRadius: '10px' }} />
+            <span style={{ fontSize: isMobile ? '18px' : '22px', fontWeight: '700', letterSpacing: '0.5px' }}>Cocina</span>
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <div style={{ textAlign: 'right', marginRight: '2px' }}>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#FF9800', lineHeight: 1.2 }}>{horaStr}</div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: '#E53935', lineHeight: 1.2 }}>{horaStr}</div>
               <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
             </div>
             {!isMobile && <FullscreenButton />}
@@ -316,13 +316,13 @@ export default function Cocina() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                    <span style={{ fontSize: '24px', fontWeight: '900', color: '#FF9800' }}>#{p.numero_orden || p.id}</span>
+                    <span style={{ fontSize: '24px', fontWeight: '700', color: '#E53935' }}>#{p.numero_orden || p.id}</span>
                     {p.tipo_pedido === 'venta' ? (
                       <span style={{ fontSize: '12px', fontWeight: '700', color: '#FF6D00', background: '#FFF3E0', padding: '4px 8px', borderRadius: '10px' }}>
                         VENTA {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : p.tipo_pedido === 'delivery' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#2196F3', background: '#E3F2FD', padding: '4px 8px', borderRadius: '10px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#3B82F6', background: '#E3F2FD', padding: '4px 8px', borderRadius: '10px' }}>
                         DELIVERY {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : p.tipo_pedido === 'autoservicio' ? (
@@ -330,7 +330,7 @@ export default function Cocina() {
                         AUTOSERVICIO
                       </span>
                     ) : (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50', background: '#E8F5E9', padding: '4px 8px', borderRadius: '10px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#22C55E', background: '#E8F5E9', padding: '4px 8px', borderRadius: '10px' }}>
                         Mesa {p.mesa?.numero || p.mesa || '?'}
                       </span>
                     )}
@@ -343,16 +343,16 @@ export default function Cocina() {
                   )}
 
                   <div style={{ flex: 1, background: darkMode ? '#1a1a1a' : '#f5f5f5', padding: '12px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '10px', color: '#888', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Pedido:</div>
+                    <div style={{ fontSize: '11px', color: '#888', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Pedido:</div>
                     {(!p.items || p.items.length === 0) ? (
                       <div style={{ color: '#E53935', fontSize: '12px' }}>Sin items</div>
                     ) : (
                       p.items.slice(0, 5).map((item, i) => (
                         <div key={i} style={{ fontSize: '14px', marginBottom: '6px', borderBottom: '1px solid #eee', paddingBottom: '4px' }}>
-                          <span style={{ color: '#4CAF50', fontWeight: '700' }}>{item.cantidad}x </span>
+                          <span style={{ color: '#22C55E', fontWeight: '700' }}>{item.cantidad}x </span>
                           <span style={{ fontWeight: '600' }}>{item.producto_nombre || item.producto}</span>
                           {item.categoria_nombre && (
-                            <span style={{ fontSize: '9px', color: '#888', marginLeft: '6px', fontWeight: '400' }}>
+                            <span style={{ fontSize: '11px', color: '#888', marginLeft: '6px', fontWeight: '400' }}>
                               ({item.categoria_nombre})
                             </span>
                           )}
@@ -362,7 +362,7 @@ export default function Cocina() {
                             </div>
                           )}
                           {item.nota && (
-                            <div style={{ fontSize: '11px', color: '#FF9800', fontStyle: 'italic', marginTop: '2px' }}>
+                            <div style={{ fontSize: '11px', color: '#E53935', fontStyle: 'italic', marginTop: '2px' }}>
                              {item.nota}
                             </div>
                           )}
@@ -370,7 +370,7 @@ export default function Cocina() {
                       ))
                     )}
                     {p.items && p.items.length > 5 && (
-                      <div style={{ fontSize: '12px', color: '#FF9800', marginTop: '4px' }}>+{p.items.length - 5} más</div>
+                      <div style={{ fontSize: '12px', color: '#E53935', marginTop: '4px' }}>+{p.items.length - 5} más</div>
                     )}
                   </div>
 
@@ -394,7 +394,7 @@ export default function Cocina() {
                         padding: '8px',
                         border: 'none',
                         borderRadius: '10px',
-                        background: '#2196F3',
+                        background: '#3B82F6',
                         color: 'white',
                         fontSize: '11px',
                         fontWeight: '600',
@@ -446,19 +446,19 @@ export default function Cocina() {
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
-              <h2 style={{ fontSize: '28px', fontWeight: '900', color: '#FF9800' }}>#{pedidoSeleccionado.numero_orden || pedidoSeleccionado.id}</h2>
+              <h2 style={{ fontSize: '28px', fontWeight: '700', color: '#E53935' }}>#{pedidoSeleccionado.numero_orden || pedidoSeleccionado.id}</h2>
               <span style={{ color: '#666' }}>{pedidoSeleccionado.delivery ? 'Delivery' : `Mesa ${pedidoSeleccionado.mesa?.numero || pedidoSeleccionado.mesa}`}</span>
             </div>
             <button onClick={() => { setPanelAbierto(false); setPedidoSeleccionado(null) }} style={{ fontSize: '30px', border: 'none', background: 'none', cursor: 'pointer' }}>×</button>
           </div>
 
-          <h3 style={{ color: '#4CAF50', fontSize: '14px', marginBottom: '10px' }}>PEDIDO</h3>
+          <h3 style={{ color: '#22C55E', fontSize: '14px', marginBottom: '10px' }}>PEDIDO</h3>
           {(pedidoSeleccionado.items || []).map((item, i) => (
             <div key={i} style={{ marginBottom: '10px' }}>
               <div style={{ fontSize: '14px', fontWeight: '600' }}>
                 <strong>{item.cantidad}x</strong> {item.producto_nombre || item.producto}
                 {item.categoria_nombre && (
-                  <span style={{ fontSize: '10px', color: '#888', marginLeft: '6px', fontWeight: '400' }}>
+                  <span style={{ fontSize: '11px', color: '#888', marginLeft: '6px', fontWeight: '400' }}>
                     ({item.categoria_nombre})
                   </span>
                 )}
@@ -469,7 +469,7 @@ export default function Cocina() {
                 </div>
               )}
               {item.nota && (
-                <div style={{ fontSize: '11px', color: '#FF9800', fontStyle: 'italic', marginTop: '1px' }}>
+                <div style={{ fontSize: '11px', color: '#E53935', fontStyle: 'italic', marginTop: '1px' }}>
                    {item.nota}
                 </div>
               )}
@@ -480,10 +480,10 @@ export default function Cocina() {
             <button onClick={() => cambiarEstado('pendiente')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#E53935', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
               Pendiente
             </button>
-            <button onClick={() => cambiarEstado('cocinando')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#FBC02D', color: '#333', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => cambiarEstado('cocinando')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#F59E0B', color: '#333', fontWeight: '700', cursor: 'pointer' }}>
               Preparando
             </button>
-            <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#4CAF50', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#22C55E', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
               Listo!
             </button>
           </div>
@@ -498,7 +498,7 @@ export default function Cocina() {
             <p style={{ color: darkMode ? '#aaa' : '#666', marginBottom: '20px', fontSize: '14px' }}>#{pedidoSeleccionado?.numero_orden}</p>
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
               <button onClick={() => setModalConfirmar(false)} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: darkMode ? '#2a2a2a' : '#e8e8e8', color: darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: '600' }}>Cancelar</button>
-              <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: 'linear-gradient(135deg, #4CAF50, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+              <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: 'linear-gradient(135deg, #22C55E, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
                 {cargando ? '...' : 'Confirmar'}
               </button>
             </div>

@@ -289,8 +289,8 @@ export default function NuevaVenta() {
 
   const getEstado = (estado) => {
     if (estado === 'ocupada') return { bg: '#E53935', bgSoft: 'rgba(229,57,53,0.12)', border: '#E53935', texto: 'Ocupada', icono: 'block' }
-    if (estado === 'limpieza') return { bg: '#FBC02D', bgSoft: 'rgba(251,192,45,0.12)', border: '#FBC02D', texto: 'Limpieza', icono: 'cleaning_services' }
-    return { bg: '#4CAF50', bgSoft: 'rgba(76,175,80,0.12)', border: '#4CAF50', texto: 'Disponible', icono: 'check_circle' }
+    if (estado === 'limpieza') return { bg: '#F59E0B', bgSoft: 'rgba(251,192,45,0.12)', border: '#F59E0B', texto: 'Limpieza', icono: 'cleaning_services' }
+    return { bg: '#22C55E', bgSoft: 'rgba(76,175,80,0.12)', border: '#22C55E', texto: 'Disponible', icono: 'check_circle' }
   }
 
   const getAreaIcono = (area) => {
@@ -309,7 +309,7 @@ export default function NuevaVenta() {
     header: {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '10px 20px', background: '#1a1a1a',
-      color: 'white', borderBottom: '1px solid rgba(255,152,0,0.2)',
+      color: 'white', borderBottom: '1px solid rgba(229,57,53,0.2)',
       boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
     },
     headerLeft: { display: 'flex', alignItems: 'center', gap: '10px' },
@@ -320,7 +320,7 @@ export default function NuevaVenta() {
       display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none',
       transition: 'all 0.15s'
     },
-    title: { fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px' },
+    title: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px' },
     error: { padding: '10px 16px', background: '#E53935', color: 'white', fontSize: '13px' },
     gridMesas: {
       display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
@@ -329,17 +329,17 @@ export default function NuevaVenta() {
     mesaCard: (m, selected, dm) => {
       const st = getEstado(m.estado)
       const baseBg = selected
-        ? (dm ? 'rgba(255,152,0,0.12)' : 'rgba(255,152,0,0.08)')
+        ? (dm ? 'rgba(229,57,53,0.12)' : 'rgba(229,57,53,0.08)')
         : st.bgSoft
       return {
         padding: '16px 12px', borderRadius: '14px', cursor: 'pointer',
         transition: 'all 0.2s',
         border: selected
-          ? `2px solid #FF9800`
+          ? `2px solid #E53935`
           : `1px solid ${st.border}30`,
         background: baseBg,
         boxShadow: selected
-          ? '0 4px 20px rgba(255,152,0,0.2)'
+          ? '0 4px 20px rgba(229,57,53,0.2)'
           : (dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)'),
         transform: selected ? 'translateY(-2px)' : 'none',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
@@ -349,7 +349,7 @@ export default function NuevaVenta() {
       const st = getEstado(estado)
       return {
         display: 'inline-flex', alignItems: 'center', gap: '4px',
-        padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '600',
+        padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '600',
         background: st.bgSoft, color: st.bg,
       }
     },
@@ -408,7 +408,7 @@ export default function NuevaVenta() {
     <div style={s.container(darkMode)}>
       <header style={s.header}>
         <div style={s.headerLeft}>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <h1 style={s.title}>Mesas</h1>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -442,7 +442,7 @@ export default function NuevaVenta() {
             <div style={{ ...s.gridMesas, maxHeight: 'calc(100vh - 110px)', overflowY: 'auto' }}>
               {mesas.length === 0 ? (
                 <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '60px', color: darkMode ? '#666' : '#999' }}>
-                  <span className="material-icons" style={{ fontSize: '48px', color: '#FF9800' }}>table_restaurant</span>
+                  <span className="material-icons" style={{ fontSize: '48px', color: '#E53935' }}>table_restaurant</span>
                   <p style={{ marginTop: '12px', fontSize: '14px' }}>No hay mesas registradas</p>
                 </div>
               ) : (
@@ -450,8 +450,8 @@ export default function NuevaVenta() {
                   const st = getEstado(m.estado)
                   return (
                     <div key={m.id} onClick={() => seleccionarMesa(m)} style={s.mesaCard(m, mesaSeleccionada?.id === m.id, darkMode)}>
-                      <div style={{ fontSize: '22px', fontWeight: '800', color: darkMode ? '#fff' : '#1a1a1a', lineHeight: 1.1 }}>{m.numero}</div>
-                      <div style={{ fontSize: '10px', color: darkMode ? 'rgba(255,255,255,0.35)' : '#999', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                      <div style={{ fontSize: '22px', fontWeight: '700', color: darkMode ? '#fff' : '#1a1a1a', lineHeight: 1.1 }}>{m.numero}</div>
+                      <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.35)' : '#999', display: 'flex', alignItems: 'center', gap: '3px' }}>
                         <span className="material-icons" style={{ fontSize: '12px' }}>{getAreaIcono(m.area)}</span>
                         {m.area || 'Principal'}
                       </div>
@@ -486,7 +486,7 @@ export default function NuevaVenta() {
                 <div style={{ padding: '20px', borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`, flexShrink: 0 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
-                      <h2 style={{ fontSize: '22px', fontWeight: '800', margin: 0, color: darkMode ? '#fff' : '#1a1a1a' }}>
+                      <h2 style={{ fontSize: '22px', fontWeight: '700', margin: 0, color: darkMode ? '#fff' : '#1a1a1a' }}>
                         Mesa {mesaSeleccionada.numero}
                       </h2>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
@@ -506,7 +506,7 @@ export default function NuevaVenta() {
                 </div>
 
                 <div style={{ padding: '16px 20px', flexShrink: 0 }}>
-                  <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#FF9800', marginBottom: '10px' }}>Detalles</div>
+                  <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '10px' }}>Detalles</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '13px', color: darkMode ? 'rgba(255,255,255,0.7)' : '#555' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span className="material-icons" style={{ fontSize: '16px', color: darkMode ? 'rgba(255,255,255,0.3)' : '#999' }}>group</span>
@@ -524,10 +524,10 @@ export default function NuevaVenta() {
                 </div>
 
                 <div style={{ padding: '16px 20px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`, flex: 1, overflowY: 'auto', minHeight: 0 }}>
-                  <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#FF9800', marginBottom: '10px' }}>Pedido</div>
+                  <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '10px' }}>Pedido</div>
                   {pedidosMesa.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '20px', color: darkMode ? 'rgba(255,255,255,0.25)' : '#999' }}>
-                      <span className="material-icons" style={{ fontSize: '32px', color: '#FF9800' }}>receipt_long</span>
+                      <span className="material-icons" style={{ fontSize: '32px', color: '#E53935' }}>receipt_long</span>
                       <p style={{ marginTop: '8px', fontSize: '12px' }}>
                         {mesaSeleccionada.estado === 'ocupada' ? 'Cargando pedidos...' : 'Sin pedidos en esta mesa'}
                       </p>
@@ -537,13 +537,13 @@ export default function NuevaVenta() {
                       {pedidosMesa.map((pedido, idx) => (
                         <div key={pedido.id || idx} style={{ background: darkMode ? '#2a2a2a' : '#f5f5f5', borderRadius: '10px', padding: '12px' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                            <span style={{ fontWeight: '700', color: '#FF9800', fontSize: '13px' }}>
+                            <span style={{ fontWeight: '700', color: '#E53935', fontSize: '13px' }}>
                               #{pedido.numero_orden || pedido.id}
                             </span>
                             <span style={{
-                              padding: '2px 6px', borderRadius: '10px', fontSize: '9px', fontWeight: '600',
+                              padding: '2px 6px', borderRadius: '10px', fontSize: '11px', fontWeight: '600',
                               background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(76,175,80,0.2)' : pedido.estado === 'entregado' ? 'rgba(33,150,243,0.2)' : 'rgba(229,57,53,0.2)',
-                              color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#4CAF50' : pedido.estado === 'entregado' ? '#2196F3' : '#E53935',
+                              color: pedido.estado === 'cocinando' ? '#F59E0B' : pedido.estado === 'listo' ? '#22C55E' : pedido.estado === 'entregado' ? '#3B82F6' : '#E53935',
                             }}>
                               {pedido.estado === 'pendiente' ? 'Pendiente' : pedido.estado === 'cocinando' ? 'Cocinando' : pedido.estado === 'listo' ? 'Listo' : pedido.estado === 'entregado' ? 'Entregado' : pedido.estado}
                             </span>
@@ -558,28 +558,28 @@ export default function NuevaVenta() {
                           {pedido.total && (
                             <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                               <span style={{ fontWeight: '700', fontSize: '12px' }}>Total</span>
-                              <span style={{ fontWeight: '700', color: '#4CAF50', fontSize: '13px' }}>{formatGuarani(pedido.total)}</span>
+                              <span style={{ fontWeight: '700', color: '#22C55E', fontSize: '13px' }}>{formatGuarani(pedido.total)}</span>
                             </div>
                           )}
                           <div style={{ display: 'flex', gap: '6px' }}>
                             {pedido.estado === 'listo' ? (
                               <button onClick={() => { setPedidoAEntregar(pedido); setModalEntregar(true) }} style={{
                                 flex: 1, padding: '6px', border: 'none', borderRadius: '10px',
-                                background: '#4CAF50', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
+                                background: '#22C55E', color: 'white', fontSize: '11px', fontWeight: '600', cursor: 'pointer',
                               }}>Entregar</button>
                             ) : pedido.estado === 'entregado' ? (
-                              <span style={{ flex: 1, textAlign: 'center', padding: '6px', color: '#4CAF50', fontSize: '10px', fontWeight: '600' }}>✓ Entregado</span>
+                              <span style={{ flex: 1, textAlign: 'center', padding: '6px', color: '#22C55E', fontSize: '11px', fontWeight: '600' }}>✓ Entregado</span>
                             ) : null}
                             <button onClick={() => {
                               setPedidoParaEditar(pedido)
                               setVista('pedido')
                             }} style={{
                               flex: 1, padding: '6px', border: 'none', borderRadius: '10px',
-                              background: '#1976D2', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
+                              background: '#3B82F6', color: 'white', fontSize: '11px', fontWeight: '600', cursor: 'pointer',
                             }}>Editar</button>
                             <button onClick={() => { setPedidoACancelar(pedido); setModalCancelarConMotivo(true) }} style={{
                               flex: 1, padding: '6px', border: 'none', borderRadius: '10px',
-                              background: '#E53935', color: 'white', fontSize: '10px', fontWeight: '600', cursor: 'pointer',
+                              background: '#E53935', color: 'white', fontSize: '11px', fontWeight: '600', cursor: 'pointer',
                             }}>Cancelar</button>
                           </div>
                         </div>
@@ -593,11 +593,11 @@ export default function NuevaVenta() {
                     <button onClick={() => {
                       localStorage.setItem('mesa_seleccionada', JSON.stringify({ id: mesaSeleccionada.id, numero: mesaSeleccionada.numero }))
                       setVista('pedido')
-                    }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}>
+                    }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #22C55E, #388E3C)' }}>
                       <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '4px' }}>add_circle</span>
                       Nuevo Pedido
                     </button>
-                    <button onClick={() => setModalCuenta(true)} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #FF9800, #F57C00)' }}>
+                    <button onClick={() => setModalCuenta(true)} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #E53935, #F57C00)' }}>
                       <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '4px' }}>receipt_long</span>
                       Cuenta
                     </button>
@@ -616,10 +616,10 @@ export default function NuevaVenta() {
       {vista === 'mesas' && (
         <>
           <div style={{ position: 'fixed', bottom: isMobile ? (isLandscape ? '56px' : '70px') : '20px', left: isMobile ? '12px' : '90px', display: 'flex', gap: '8px', zIndex: isMobile && isLandscape ? 300 : 200 }}>
-            <button onClick={() => setModalCrear(true)} style={s.btnAction('#4CAF50', false)}>
+            <button onClick={() => setModalCrear(true)} style={s.btnAction('#22C55E', false)}>
               <span className="material-icons" style={{ fontSize: '22px' }}>add</span>
             </button>
-            <button onClick={() => { if (mesaSeleccionada) { setMesaNumero(String(mesaSeleccionada.numero)); setMesaArea(mesaSeleccionada.area || ''); setMesaCapacidad(String(mesaSeleccionada.capacidad || 4)); setModalEditar(true) }}} disabled={!mesaSeleccionada} style={s.btnAction('#1976D2', !mesaSeleccionada)}>
+            <button onClick={() => { if (mesaSeleccionada) { setMesaNumero(String(mesaSeleccionada.numero)); setMesaArea(mesaSeleccionada.area || ''); setMesaCapacidad(String(mesaSeleccionada.capacidad || 4)); setModalEditar(true) }}} disabled={!mesaSeleccionada} style={s.btnAction('#3B82F6', !mesaSeleccionada)}>
               <span className="material-icons" style={{ fontSize: '22px' }}>edit</span>
             </button>
             <button onClick={() => mesaSeleccionada && confirmarBorrarMesa(mesaSeleccionada)} disabled={!mesaSeleccionada} style={s.btnAction('#E53935', !mesaSeleccionada)}>
@@ -637,7 +637,7 @@ export default function NuevaVenta() {
                 <input type="number" value={mesaCapacidad} onChange={(e) => setMesaCapacidad(e.target.value)} placeholder="Capacidad" style={s.input(darkMode)} />
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                   <button onClick={() => { setModalCrear(false); setMesaNumero(''); setMesaArea(''); setMesaCapacidad('') }} style={s.btnSecundario(darkMode)}>Cancelar</button>
-                  <button onClick={crearMesa} disabled={cargando || !mesaNumero} style={{ ...s.btnPrimario(cargando || !mesaNumero), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}>
+                  <button onClick={crearMesa} disabled={cargando || !mesaNumero} style={{ ...s.btnPrimario(cargando || !mesaNumero), background: 'linear-gradient(135deg, #22C55E, #388E3C)' }}>
                     {cargando ? 'Creando...' : 'Crear'}
                   </button>
                 </div>
@@ -651,14 +651,14 @@ export default function NuevaVenta() {
               <div style={s.modalCard(darkMode)}>
                 <div style={{ textAlign: 'center', marginBottom: '8px' }}>
                   <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(76,175,80,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span className="material-icons" style={{ fontSize: '28px', color: '#4CAF50' }}>check_circle</span>
+                    <span className="material-icons" style={{ fontSize: '28px', color: '#22C55E' }}>check_circle</span>
                   </div>
                   <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>Mesa {mesaSeleccionada.numero}</h3>
                   <p style={{ color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', fontSize: '14px', margin: 0 }}>Ocupar esta mesa?</p>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
                   <button onClick={rechazarOcupar} style={s.btnSecundario(darkMode)}>Cancelar</button>
-                  <button onClick={confirmarOcupar} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}>
+                  <button onClick={confirmarOcupar} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #22C55E, #388E3C)' }}>
                     {cargando ? 'Ocupando...' : 'Ocupar Mesa'}
                   </button>
                 </div>
@@ -676,7 +676,7 @@ export default function NuevaVenta() {
                 <input type="number" value={mesaCapacidad} onChange={(e) => setMesaCapacidad(e.target.value)} placeholder="Capacidad" style={s.input(darkMode)} />
                 <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                   <button onClick={() => setModalEditar(false)} style={s.btnSecundario(darkMode)}>Cancelar</button>
-                  <button onClick={editarMesa} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #1976D2, #1565C0)' }}>
+                  <button onClick={editarMesa} disabled={cargando} style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #3B82F6, #1565C0)' }}>
                     {cargando ? 'Guardando...' : 'Guardar'}
                   </button>
                 </div>
@@ -691,9 +691,9 @@ export default function NuevaVenta() {
                 <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a', textAlign: 'center' }}>Cambiar Estado</h3>
                 <p style={{ textAlign: 'center', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', fontSize: '13px', marginBottom: '20px' }}>Mesa {mesaSeleccionada.numero}</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {[{ estado: 'disponible', label: 'Disponible', color: '#4CAF50', icono: 'check_circle' },
+                  {[{ estado: 'disponible', label: 'Disponible', color: '#22C55E', icono: 'check_circle' },
                     { estado: 'ocupada', label: 'Ocupada', color: '#E53935', icono: 'block' },
-                    { estado: 'limpieza', label: 'Limpieza', color: '#FBC02D', icono: 'cleaning_services' }
+                    { estado: 'limpieza', label: 'Limpieza', color: '#F59E0B', icono: 'cleaning_services' }
                   ].map(({ estado, label, color, icono }) => (
                     <button key={estado} onClick={() => cambiarEstado(estado)}
                       disabled={cargando || mesaSeleccionada.estado === estado}
@@ -753,7 +753,7 @@ export default function NuevaVenta() {
 
                 {pedidosMesa.length === 0 ? (
                   <div style={{ textAlign: 'center', padding: '30px', color: darkMode ? '#666' : '#999' }}>
-                    <span className="material-icons" style={{ fontSize: '48px', color: '#FF9800' }}>receipt_long</span>
+                    <span className="material-icons" style={{ fontSize: '48px', color: '#E53935' }}>receipt_long</span>
                     <p style={{ marginTop: '10px', fontSize: '14px' }}>No hay pedidos activos en esta mesa</p>
                   </div>
                 ) : (
@@ -761,13 +761,13 @@ export default function NuevaVenta() {
                     {pedidosMesa.map((pedido, idx) => (
                       <div key={pedido.id || idx} style={{ background: darkMode ? '#2a2a2a' : '#f5f5f5', borderRadius: '12px', padding: '14px' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                          <span style={{ fontWeight: '700', color: '#FF9800', fontSize: '15px' }}>
+                          <span style={{ fontWeight: '700', color: '#E53935', fontSize: '15px' }}>
                             #{pedido.numero_orden || pedido.id}
                           </span>
                           <span style={{
-                            padding: '3px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '600',
+                            padding: '3px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '600',
                             background: pedido.estado === 'cocinando' ? 'rgba(251,192,45,0.2)' : pedido.estado === 'listo' ? 'rgba(76,175,80,0.2)' : 'rgba(229,57,53,0.2)',
-                            color: pedido.estado === 'cocinando' ? '#FBC02D' : pedido.estado === 'listo' ? '#4CAF50' : '#E53935',
+                            color: pedido.estado === 'cocinando' ? '#F59E0B' : pedido.estado === 'listo' ? '#22C55E' : '#E53935',
                           }}>
                             {pedido.estado === 'pendiente' ? 'Pendiente' : pedido.estado === 'cocinando' ? 'Cocinando' : pedido.estado === 'listo' ? 'Listo' : pedido.estado}
                           </span>
@@ -782,7 +782,7 @@ export default function NuevaVenta() {
                         </div>
                         <div style={{ marginTop: '8px', paddingTop: '8px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, display: 'flex', justifyContent: 'space-between' }}>
                           <span style={{ fontWeight: '700', fontSize: '13px' }}>Total</span>
-                          <span style={{ fontWeight: '700', color: '#4CAF50', fontSize: '15px' }}>{formatGuarani(pedido.total)}</span>
+                          <span style={{ fontWeight: '700', color: '#22C55E', fontSize: '15px' }}>{formatGuarani(pedido.total)}</span>
                         </div>
                       </div>
                     ))}
@@ -794,7 +794,7 @@ export default function NuevaVenta() {
                   <button onClick={() => {
                     localStorage.setItem('mesa_seleccionada', JSON.stringify({ id: mesaSeleccionada.id, numero: mesaSeleccionada.numero }))
                     setVista('pedido')
-                  }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #4CAF50, #388E3C)', maxWidth: '160px' }}>
+                  }} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #22C55E, #388E3C)', maxWidth: '160px' }}>
                     Agregar Productos
                   </button>
                 </div>
@@ -872,7 +872,7 @@ export default function NuevaVenta() {
               <div style={{ ...s.modalCard(darkMode), maxWidth: '420px' }}>
                 <div style={{ textAlign: 'center', marginBottom: '16px' }}>
                   <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(76,175,80,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span className="material-icons" style={{ fontSize: '28px', color: '#4CAF50' }}>check_circle</span>
+                    <span className="material-icons" style={{ fontSize: '28px', color: '#22C55E' }}>check_circle</span>
                   </div>
                   <h3 style={{ fontSize: '18px', fontWeight: '700', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>Entregar Pedido</h3>
                   <p style={{ color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', fontSize: '13px', margin: '0' }}>
@@ -909,7 +909,7 @@ export default function NuevaVenta() {
                       setCargando(false)
                     }}
                     disabled={cargando}
-                    style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}
+                    style={{ ...s.btnPrimario(cargando), background: 'linear-gradient(135deg, #22C55E, #388E3C)' }}
                   >{cargando ? 'Entregando...' : 'Sí, entregar'}</button>
                 </div>
               </div>
@@ -967,10 +967,10 @@ export default function NuevaVenta() {
                   return (
                     <>
                       <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                        <h2 style={{ fontSize: '20px', fontWeight: '800', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>
+                        <h2 style={{ fontSize: '20px', fontWeight: '700', margin: '0 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>
                           {empresa.nombre || 'RESTAURANTE'}
                         </h2>
-                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#FF9800', letterSpacing: '2px', marginBottom: '12px' }}>
+                        <div style={{ fontSize: '16px', fontWeight: '700', color: '#E53935', letterSpacing: '2px', marginBottom: '12px' }}>
                           *** C U E N T A ***
                         </div>
                         <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#000', display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
@@ -1027,7 +1027,7 @@ export default function NuevaVenta() {
 
                       <div className="no-print" style={{ display: 'flex', gap: '10px', marginTop: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <button onClick={() => setModalCuenta(false)} style={s.btnSecundario(darkMode)}>Cerrar</button>
-                        <button onClick={handlePrintBluetooth} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #FF9800, #F57C00)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                        <button onClick={handlePrintBluetooth} style={{ ...s.btnPrimario(false), background: 'linear-gradient(135deg, #E53935, #F57C00)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>print</span>
                           Imprimir
                         </button>

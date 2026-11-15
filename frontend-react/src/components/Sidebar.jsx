@@ -103,7 +103,7 @@ export default function Sidebar({ activePath }) {
         width: '70px', height: '60px', display: 'flex',
         flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         border: 'none', background: RED, color: 'white',
-        fontSize: '9px', fontWeight: '700', borderRadius: '10px', textDecoration: 'none',
+        fontSize: '11px', fontWeight: '700', borderRadius: '10px', textDecoration: 'none',
         marginBottom: '4px',
       }}>
         <span className="material-icons" style={{ fontSize: '24px' }}>home</span>
@@ -126,7 +126,7 @@ export default function Sidebar({ activePath }) {
             border: 'none',
             background: currentPath === item.path ? RED : 'transparent',
             color: currentPath === item.path ? 'white' : '#bbb',
-            fontSize: '9px',
+            fontSize: '11px',
             fontWeight: '700',
             borderRadius: '10px',
             textDecoration: 'none',

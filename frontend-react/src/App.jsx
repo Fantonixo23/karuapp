@@ -49,8 +49,8 @@ export default function App() {
       }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{
-            width: '40px', height: '40px', border: '3px solid rgba(244,67,54,0.2)',
-            borderTopColor: '#F44336', borderRadius: '50%',
+            width: '40px', height: '40px', border: '3px solid rgba(229,57,53,0.2)',
+            borderTopColor: '#E53935', borderRadius: '50%',
             animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
           }} />
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>

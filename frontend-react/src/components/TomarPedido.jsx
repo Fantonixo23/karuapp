@@ -274,12 +274,12 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
     },
     backBtn: {
       width: '36px', height: '36px', border: 'none', borderRadius: '8px',
-      background: '#FF9800', color: 'white', cursor: 'pointer',
+      background: '#E53935', color: 'white', cursor: 'pointer',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: '18px', flexShrink: 0,
     },
     mesaBadge: {
-      background: 'linear-gradient(135deg, #FF9800, #F57C00)',
+      background: 'linear-gradient(135deg, #E53935, #F57C00)',
       color: 'white', padding: '6px 14px', borderRadius: '20px',
       fontSize: '13px', fontWeight: '700', whiteSpace: 'nowrap', flexShrink: 0,
     },
@@ -297,7 +297,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
     catBtn: (active) => ({
       padding: '6px 14px', border: 'none', borderRadius: '16px',
       cursor: 'pointer', whiteSpace: 'nowrap', fontSize: '12px', fontWeight: '600',
-      background: active ? '#FF9800' : darkMode ? '#333' : '#eee',
+      background: active ? '#E53935' : darkMode ? '#333' : '#eee',
       color: active ? 'white' : darkMode ? '#ccc' : '#666',
       transition: 'all 0.2s',
     }),
@@ -332,12 +332,12 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
       marginBottom: '2px', lineHeight: 1.2,
     },
     cardPrecio: {
-      fontSize: '13px', fontWeight: '700', color: '#FF9800',
+      fontSize: '13px', fontWeight: '700', color: '#E53935',
     },
     variantBadge: {
       position: 'absolute', top: '6px', right: '6px',
-      background: '#FF9800', color: 'white', borderRadius: '8px',
-      padding: '2px 6px', fontSize: '9px', fontWeight: '700',
+      background: '#E53935', color: 'white', borderRadius: '8px',
+      padding: '2px 6px', fontSize: '11px', fontWeight: '700',
     },
     rightPanel: {
       position: 'fixed', right: 0, top: '56px', bottom: isMobile ? '65px' : 0,
@@ -350,7 +350,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
     },
     panelHeader: {
       padding: '12px 16px',
-      background: 'linear-gradient(135deg, #FF9800, #F57C00)',
+      background: 'linear-gradient(135deg, #E53935, #F57C00)',
       color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
     },
     toggleBtn: {
@@ -390,7 +390,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
     },
     btnOrange: {
       padding: '12px 20px', border: 'none', borderRadius: '10px',
-      background: 'linear-gradient(135deg, #FF9800, #F57C00)',
+      background: 'linear-gradient(135deg, #E53935, #F57C00)',
       color: 'white', fontWeight: '700', cursor: 'pointer',
       width: '100%', fontSize: '14px',
     },
@@ -409,7 +409,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
         <div style={styles.headerBar}>
           <button onClick={onVolver} style={styles.backBtn}>←</button>
           {mesa && <span style={styles.mesaBadge}>Mesa {mesa.numero}</span>}
-          {esEdicion && <span style={{ background: '#1976D2', color: 'white', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' }}>Editando #{pedidoExistente.numero_orden || pedidoExistente.id}</span>}
+          {esEdicion && <span style={{ background: '#3B82F6', color: 'white', padding: '4px 10px', borderRadius: '12px', fontSize: '11px', fontWeight: '700' }}>Editando #{pedidoExistente.numero_orden || pedidoExistente.id}</span>}
           <input
             style={styles.searchInput}
             placeholder="Buscar producto..."
@@ -482,19 +482,19 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               <button
                 onClick={() => setPagina(Math.max(1, pagina - 1))}
                 disabled={pagina === 1}
-                style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: pagina === 1 ? '#ccc' : '#FF9800', color: 'white', cursor: pagina === 1 ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: pagina === 1 ? '#ccc' : '#E53935', color: 'white', cursor: pagina === 1 ? 'not-allowed' : 'pointer' }}
               >‹</button>
               {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(p => (
                 <button
                   key={p}
                   onClick={() => setPagina(p)}
-                  style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: p === pagina ? '#FF9800' : darkMode ? '#333' : '#ddd', color: p === pagina ? 'white' : darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: p === pagina ? '700' : '400' }}
+                  style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: p === pagina ? '#E53935' : darkMode ? '#333' : '#ddd', color: p === pagina ? 'white' : darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: p === pagina ? '700' : '400' }}
                 >{p}</button>
               ))}
               <button
                 onClick={() => setPagina(Math.min(totalPaginas, pagina + 1))}
                 disabled={pagina === totalPaginas}
-                style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: pagina === totalPaginas ? '#ccc' : '#FF9800', color: 'white', cursor: pagina === totalPaginas ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '6px 12px', border: 'none', borderRadius: '10px', background: pagina === totalPaginas ? '#ccc' : '#E53935', color: 'white', cursor: pagina === totalPaginas ? 'not-allowed' : 'pointer' }}
               >›</button>
             </div>
           )}
@@ -507,11 +507,11 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
           style={{
             position: 'fixed', right: '12px', bottom: isMobile ? '80px' : '20px',
             width: '50px', height: '50px', border: 'none', borderRadius: '50%',
-            background: 'linear-gradient(135deg, #FF9800, #F57C00)',
+            background: 'linear-gradient(135deg, #E53935, #F57C00)',
             color: 'white', cursor: 'pointer', zIndex: 60,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: '22px', fontWeight: '700',
-            boxShadow: '0 4px 12px rgba(255,152,0,0.4)',
+            boxShadow: '0 4px 12px rgba(229,57,53,0.4)',
           }}
         ><span className="material-icons" style={{ fontSize: '22px' }}>shopping_cart</span></button>
       )}
@@ -536,10 +536,10 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                       <div style={{ fontSize: '12px', fontWeight: '600', color: darkMode ? 'white' : '#333' }}>
                         {item.cantidad}x {item.producto_nombre}
                       </div>
-                      {item.variante && <div style={{ fontSize: '10px', color: '#FF9800' }}>+ {item.variante}</div>}
+                      {item.variante && <div style={{ fontSize: '11px', color: '#E53935' }}>+ {item.variante}</div>}
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(item.precio_total)}</span>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#22C55E' }}>{formatGuarani(item.precio_total)}</span>
                       <button onClick={() => eliminarDelCarrito(i)} style={styles.deleteBtn}>×</button>
                     </div>
                   </div>
@@ -554,13 +554,13 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: darkMode ? '#ccc' : '#666', marginBottom: '4px' }}>
                   <span>Total</span>
-                  <span style={{ fontWeight: '700', color: '#4CAF50', fontSize: '16px' }}>{formatGuarani(totalCarrito)}</span>
+                  <span style={{ fontWeight: '700', color: '#22C55E', fontSize: '16px' }}>{formatGuarani(totalCarrito)}</span>
                 </div>
                 {esEdicion ? (
                   <>
                     <button
                       onClick={() => setModalConfirmarCocina(true)}
-                      style={{ ...styles.btnOrange, marginTop: '8px', background: 'linear-gradient(135deg, #4CAF50, #388E3C)' }}
+                      style={{ ...styles.btnOrange, marginTop: '8px', background: 'linear-gradient(135deg, #22C55E, #388E3C)' }}
                     >Actualizar Pedido</button>
                     <button
                       onClick={() => setModalCancelarPedido(true)}
@@ -588,7 +588,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
             {modalProducto.imagen && <img src={modalProducto.imagen} alt={modalProducto.nombre} style={styles.modalImg} />}
             <div style={{ padding: '16px 20px 20px' }}>
               <h3 style={{ color: darkMode ? 'white' : '#333', margin: '0 0 4px', fontSize: '18px' }}>{modalProducto.nombre}</h3>
-              <div style={{ color: '#FF9800', fontWeight: '700', fontSize: '22px', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
+              <div style={{ color: '#E53935', fontWeight: '700', fontSize: '22px', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
 
               {(modalProducto.variantes && (
                 Array.isArray(modalProducto.variantes) ? modalProducto.variantes : Object.values(modalProducto.variantes)
@@ -605,9 +605,9 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                           key={i}
                           onClick={() => setVariante(isSelected ? null : vName)}
                           style={{
-                            padding: '8px 14px', border: `2px solid ${isSelected ? '#FF9800' : darkMode ? '#444' : '#ddd'}`,
+                            padding: '8px 14px', border: `2px solid ${isSelected ? '#E53935' : darkMode ? '#444' : '#ddd'}`,
                             borderRadius: '10px', cursor: 'pointer', fontSize: '12px',
-                            background: isSelected ? '#FF9800' : darkMode ? '#333' : '#f5f5f5',
+                            background: isSelected ? '#E53935' : darkMode ? '#333' : '#f5f5f5',
                             color: isSelected ? 'white' : darkMode ? '#ccc' : '#333',
                             fontWeight: isSelected ? '700' : '400',
                           }}
@@ -626,7 +626,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
                 <span style={{ fontSize: '22px', fontWeight: '700', color: darkMode ? 'white' : '#333', minWidth: '40px', textAlign: 'center' }}>{cantidad}</span>
                 <button onClick={() => setCantidad(cantidad + 1)} style={{
                   width: '36px', height: '36px', border: 'none', borderRadius: '10px',
-                  background: '#4CAF50', color: 'white', cursor: 'pointer', fontSize: '18px', fontWeight: '700',
+                  background: '#22C55E', color: 'white', cursor: 'pointer', fontSize: '18px', fontWeight: '700',
                 }}>+</button>
               </div>
 
@@ -656,7 +656,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
             <div style={{ fontSize: '48px', marginBottom: '10px' }}><span className="material-icons" style={{ fontSize: '48px' }}>{esEdicion ? 'edit' : 'restaurant_menu'}</span></div>
             <h3 style={{ color: darkMode ? 'white' : '#333', margin: '0 0 6px' }}>{esEdicion ? 'Actualizar Pedido?' : 'Enviar a Cocina?'}</h3>
             {mesa && <p style={{ color: darkMode ? '#ccc' : '#666', fontSize: '14px' }}>Mesa: {mesa.numero}</p>}
-            {esEdicion && <p style={{ color: '#FF9800', fontSize: '12px' }}>Los items modificados se enviaran a cocina</p>}
+            {esEdicion && <p style={{ color: '#E53935', fontSize: '12px' }}>Los items modificados se enviaran a cocina</p>}
             <p style={{ color: darkMode ? '#999' : '#999', fontSize: '13px' }}>{carrito.length} item(s) · Total: {formatGuarani(totalCarrito)}</p>
             <div style={{ display: 'flex', gap: '10px', marginTop: '16px', justifyContent: 'center' }}>
               <button onClick={() => setModalConfirmarCocina(false)} style={{
@@ -665,7 +665,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
               }}>Cancelar</button>
               <button onClick={() => { setModalConfirmarCocina(false); esEdicion ? enviarActualizacion() : enviarAPedido() }} style={{
                 padding: '12px 24px', border: 'none', borderRadius: '10px',
-                background: 'linear-gradient(135deg, #4CAF50, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer',
+                background: 'linear-gradient(135deg, #22C55E, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer',
               }}>Confirmar</button>
             </div>
           </div>
@@ -721,7 +721,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
       {modalExito && (
         <div style={{ ...styles.modalOverlay, zIndex: 400 }}>
           <div style={{
-            background: 'linear-gradient(135deg, #4CAF50, #388E3C)', borderRadius: '20px',
+            background: 'linear-gradient(135deg, #22C55E, #388E3C)', borderRadius: '20px',
             padding: '40px', textAlign: 'center', color: 'white', maxWidth: '350px',
           }}>
             <span className="material-icons" style={{ fontSize: '80px' }}>check_circle</span>
@@ -729,7 +729,7 @@ export default function TomarPedido({ mesa, onVolver, usuario, pedidoExistente, 
             <p style={{ opacity: 0.8, fontSize: '14px' }}>{esEdicion ? 'Los cambios se enviaron a cocina' : 'El pedido está siendo preparado'}</p>
             <button onClick={() => { setModalExito(false); onVolver() }} style={{
               marginTop: '20px', padding: '12px 30px', border: 'none', borderRadius: '10px',
-              background: 'white', color: '#4CAF50', fontWeight: '700', cursor: 'pointer',
+              background: 'white', color: '#22C55E', fontWeight: '700', cursor: 'pointer',
             }}>Aceptar</button>
           </div>
         </div>

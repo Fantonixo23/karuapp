@@ -60,7 +60,7 @@ export default function Configuracion() {
   const [mensaje, setMensaje] = useState('')
 
   const [metodos, setMetodos] = useState([])
-  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: '#4CAF50', activo: true, orden: 0 })
+  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: '#22C55E', activo: true, orden: 0 })
   const [editMetodoId, setEditMetodoId] = useState(null)
   const [showMetodoModal, setShowMetodoModal] = useState(false)
   const [metodoMsg, setMetodoMsg] = useState('')
@@ -99,7 +99,7 @@ export default function Configuracion() {
       })
       setEditMetodoId(metodo.id)
     } else {
-      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: '#4CAF50', activo: true, orden: metodos.length + 1 })
+      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: '#22C55E', activo: true, orden: metodos.length + 1 })
       setEditMetodoId(null)
     }
     setMetodoMsg('')
@@ -209,13 +209,13 @@ export default function Configuracion() {
           color: ${darkMode ? 'white' : '#1a1a1a'};
           outline: none; box-sizing: border-box; transition: border 0.15s;
         }
-        .cfg-input:focus, .cfg-select:focus, .cfg-textarea:focus { border-color: #FF9800; }
+        .cfg-input:focus, .cfg-select:focus, .cfg-textarea:focus { border-color: #E53935; }
       `}</style>
 
       <header style={{ ...s.header, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Configuracion</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -322,7 +322,7 @@ export default function Configuracion() {
             <h2 style={s.cardTitle(darkMode)}>Metodos de Pago</h2>
             <button onClick={() => abrirMetodoModal(null)} style={{
               padding: '8px 16px', border: 'none', borderRadius: '8px',
-              background: '#4CAF50', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
+              background: '#22C55E', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
             }}>+ Agregar</button>
           </div>
           <p style={s.subtitle(darkMode)}>Estos metodos aparecen al cobrar en Caja</p>
@@ -373,13 +373,13 @@ export default function Configuracion() {
                   border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : '#eee'}`,
                   opacity: oculto ? 0.5 : 1,
                 }}>
-                  <span className="material-icons" style={{ color: '#FF9800', fontSize: '22px' }}>{a.icon}</span>
+                  <span className="material-icons" style={{ color: '#E53935', fontSize: '22px' }}>{a.icon}</span>
                   <div style={{ flex: 1 }}>
                     <div style={{ fontWeight: '700', fontSize: '14px', color: darkMode ? '#fff' : '#333' }}>{a.label}</div>
                     <div style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#999' }}>{a.desc}</div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#4CAF50' }}>
+                    <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#22C55E' }}>
                       {oculto ? 'Oculto' : 'Visible'}
                     </span>
                     <button
@@ -388,7 +388,7 @@ export default function Configuracion() {
                       style={{
                         width: '44px', height: '24px', borderRadius: '12px', border: 'none', cursor: 'pointer',
                         padding: '2px', display: 'flex', alignItems: 'center',
-                        background: oculto ? '#666' : '#4CAF50',
+                        background: oculto ? '#666' : '#22C55E',
                         justifyContent: oculto ? 'flex-start' : 'flex-end',
                         transition: 'all 0.15s',
                       }}
@@ -461,7 +461,7 @@ export default function Configuracion() {
                   }}
                   style={{
                     padding: '10px 14px', border: 'none', borderRadius: '10px',
-                    background: '#FF9800', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
+                    background: '#E53935', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
                   }}
                 >
                   Buscar
@@ -521,7 +521,7 @@ export default function Configuracion() {
                   }}
                   style={{
                     padding: '10px 14px', border: 'none', borderRadius: '10px',
-                    background: '#FF9800', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
+                    background: '#E53935', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
                   }}
                 >
                   Buscar
@@ -541,7 +541,7 @@ export default function Configuracion() {
                 }}
                 style={{
                   flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                  background: paperSize === '58mm' ? '#FF9800' : (darkMode ? '#333' : '#e0e0e0'),
+                  background: paperSize === '58mm' ? '#E53935' : (darkMode ? '#333' : '#e0e0e0'),
                   color: paperSize === '58mm' ? 'white' : (darkMode ? '#ccc' : '#333'),
                   fontWeight: '700', fontSize: '13px', cursor: 'pointer',
                   transition: 'all 0.15s'
@@ -556,7 +556,7 @@ export default function Configuracion() {
                 }}
                 style={{
                   flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                  background: paperSize === '80mm' ? '#FF9800' : (darkMode ? '#333' : '#e0e0e0'),
+                  background: paperSize === '80mm' ? '#E53935' : (darkMode ? '#333' : '#e0e0e0'),
                   color: paperSize === '80mm' ? 'white' : (darkMode ? '#ccc' : '#333'),
                   fontWeight: '700', fontSize: '13px', cursor: 'pointer',
                   transition: 'all 0.15s'
@@ -670,11 +670,11 @@ export default function Configuracion() {
                   {ICONOS_DISPONIBLES.map(ic => (
                     <button key={ic} onClick={() => setMetodoForm({ ...metodoForm, icono: ic })} style={{
                       padding: '8px', borderRadius: '8px',
-                      border: `2px solid ${metodoForm.icono === ic ? '#FF9800' : '#ddd'}`,
-                      background: metodoForm.icono === ic ? 'rgba(255,152,0,0.1)' : 'white',
+                      border: `2px solid ${metodoForm.icono === ic ? '#E53935' : '#ddd'}`,
+                      background: metodoForm.icono === ic ? 'rgba(229,57,53,0.1)' : 'white',
                       cursor: 'pointer'
                     }}>
-                      <span className="material-icons" style={{ fontSize: '20px', color: metodoForm.icono === ic ? '#FF9800' : '#666' }}>{ic}</span>
+                      <span className="material-icons" style={{ fontSize: '20px', color: metodoForm.icono === ic ? '#E53935' : '#666' }}>{ic}</span>
                     </button>
                   ))}
                 </div>
@@ -716,7 +716,7 @@ export default function Configuracion() {
                 }}>Cancelar</button>
                 <button onClick={guardarMetodo} style={{
                   flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white',
+                  background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white',
                   fontWeight: '700', cursor: 'pointer'
                 }}>{editMetodoId ? 'Guardar' : 'Crear'}</button>
               </div>
@@ -769,7 +769,7 @@ const s = {
     padding: '10px 20px',
     background: '#1a1a1a',
     color: 'white',
-    borderBottom: '1px solid rgba(255,152,0,0.2)',
+    borderBottom: '1px solid rgba(229,57,53,0.2)',
     boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
   },
   btnHeader: {
@@ -787,7 +787,7 @@ const s = {
     textDecoration: 'none',
     transition: 'all 0.15s'
   },
-  title: { fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px' },
+  title: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px' },
   content: {
     padding: '20px',
     maxWidth: '600px',
@@ -835,7 +835,7 @@ const s = {
     padding: '12px',
     border: 'none',
     borderRadius: '10px',
-    background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+    background: 'linear-gradient(135deg, #22C55E, #388E3C)',
     color: 'white',
     fontSize: '14px',
     fontWeight: '700',

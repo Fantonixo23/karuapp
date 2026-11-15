@@ -5,14 +5,14 @@ import { getApiUrl } from '../utils/api'
 const API = getApiUrl()
 
 const ESTADO_STYLES = {
-  pendiente: { bg: 'rgba(255,152,0,0.15)', color: '#FFB74D', label: 'Pendiente' },
+  pendiente: { bg: 'rgba(229,57,53,0.15)', color: '#FFB74D', label: 'Pendiente' },
   activo: { bg: 'rgba(76,175,80,0.15)', color: '#81C784', label: 'Activo' },
-  suspendido: { bg: 'rgba(244,67,54,0.15)', color: '#EF5350', label: 'Suspendido' },
+  suspendido: { bg: 'rgba(229,57,53,0.15)', color: '#EF5350', label: 'Suspendido' },
 }
 
 const PLAN_STYLES = {
   basico: { bg: 'rgba(76,175,80,0.12)', color: '#81C784', label: 'Básico' },
-  estandar: { bg: 'rgba(255,152,0,0.12)', color: '#FFB74D', label: 'Estándar' },
+  estandar: { bg: 'rgba(229,57,53,0.12)', color: '#FFB74D', label: 'Estándar' },
   pro: { bg: 'rgba(156,39,176,0.12)', color: '#CE93D8', label: 'Pro' },
 }
 const PLAN_OPTIONS = ['basico', 'estandar', 'pro']
@@ -114,8 +114,8 @@ function PantallaCarga() {
     <div style={{ minHeight: '100vh', background: '#0f0f0f', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{
-          width: '36px', height: '36px', border: '3px solid rgba(244,67,54,0.2)',
-          borderTopColor: '#F44336', borderRadius: '50%',
+          width: '36px', height: '36px', border: '3px solid rgba(229,57,53,0.2)',
+          borderTopColor: '#E53935', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 12px',
         }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
@@ -134,7 +134,7 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '14px 20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <div>
-            <span style={{ fontSize: '20px', fontWeight: '800', color: '#F44336' }}>LaCarta</span>
+            <span style={{ fontSize: '20px', fontWeight: '700', color: '#E53935' }}>KaruApp</span>
             <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginLeft: '8px' }}>Admin Panel</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -145,7 +145,7 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
               fontWeight: '600', fontSize: '12px',
             }}>Usuarios</Link>
             <button onClick={logout} style={{
-              padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(244,67,54,0.3)',
+              padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(229,57,53,0.3)',
               background: 'transparent', color: '#EF5350',
               fontWeight: '600', fontSize: '12px', cursor: 'pointer',
             }}>Salir</button>
@@ -183,13 +183,13 @@ function Resumen({ restaurantes }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '24px' }}>
       {[
-        { label: 'Pendientes', count: counts.pendiente, color: '#FFB74D', bg: 'rgba(255,152,0,0.1)' },
+        { label: 'Pendientes', count: counts.pendiente, color: '#FFB74D', bg: 'rgba(229,57,53,0.1)' },
         { label: 'Activos', count: counts.activo, color: '#81C784', bg: 'rgba(76,175,80,0.1)' },
-        { label: 'Suspendidos', count: counts.suspendido, color: '#EF5350', bg: 'rgba(244,67,54,0.1)' },
+        { label: 'Suspendidos', count: counts.suspendido, color: '#EF5350', bg: 'rgba(229,57,53,0.1)' },
         { label: 'Total', count: restaurantes.length, color: 'white', bg: 'rgba(255,255,255,0.04)' },
       ].map((item, i) => (
         <div key={i} style={{ borderRadius: '12px', padding: '16px', background: item.bg, border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
-          <div style={{ fontSize: '26px', fontWeight: '800', color: item.color }}>{item.count}</div>
+          <div style={{ fontSize: '26px', fontWeight: '700', color: item.color }}>{item.count}</div>
           <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{item.label}</div>
         </div>
       ))}
@@ -230,18 +230,18 @@ function CardRestaurante({ r, onCambiarPlan }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
           <span style={{ fontWeight: '700', fontSize: '14px' }}>{r.nombre}</span>
           <span style={{
-            padding: '2px 8px', borderRadius: '10px', fontSize: '10px', fontWeight: '700',
+            padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: '700',
             background: es.bg, color: es.color,
           }}>{es.label}</span>
           <span onClick={e => e.stopPropagation()} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: ps.bg, borderRadius: '10px', padding: '1px 6px' }}>
-            <span style={{ fontSize: '10px', fontWeight: '700', color: ps.color }}>Plan:</span>
+            <span style={{ fontSize: '11px', fontWeight: '700', color: ps.color }}>Plan:</span>
             <select
               value={PLAN_OPTIONS.includes(r.plan) ? r.plan : 'basico'}
               onChange={e => onCambiarPlan(r.id, e.target.value)}
               onClick={e => e.stopPropagation()}
               title="Cambiar plan"
               style={{
-                fontSize: '10px', fontWeight: '700', color: ps.color,
+                fontSize: '11px', fontWeight: '700', color: ps.color,
                 background: 'transparent', border: 'none', outline: 'none', cursor: 'pointer',
                 padding: '2px 0',
               }}
@@ -253,7 +253,7 @@ function CardRestaurante({ r, onCambiarPlan }) {
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           {r.estado_licencia === 'pendiente' && (
             <span style={{ color: '#FFB74D', fontWeight: '700', fontSize: '13px', width: '100%' }}>
-               {r.nombre} quiere ingresar a LaCarta
+               {r.nombre} quiere ingresar a KaruApp
             </span>
           )}
           {admin?.email && <span>{admin.email}</span>}
@@ -271,7 +271,7 @@ function CardRestaurante({ r, onCambiarPlan }) {
           </div>
         )}
         {r.fecha_expiracion && (
-          <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.25)', marginTop: '2px' }}>
+          <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)', marginTop: '2px' }}>
             {new Date(r.fecha_expiracion).toLocaleDateString('es-PY')}
           </div>
         )}

@@ -305,7 +305,7 @@ export default function Productos() {
       padding: '10px 20px',
       background: '#1a1a1a',
       color: 'white',
-      borderBottom: '1px solid rgba(255,152,0,0.2)',
+      borderBottom: '1px solid rgba(229,57,53,0.2)',
       boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
     },
     btn: {
@@ -315,7 +315,7 @@ export default function Productos() {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       textDecoration: 'none', transition: 'all 0.15s',
     },
-    title: { fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px' },
+    title: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px' },
     body: {
       display: 'flex', height: 'calc(100vh - 64px)',
     },
@@ -329,7 +329,7 @@ export default function Productos() {
     catBtn: (active) => ({
       padding: '6px 14px', border: 'none', borderRadius: '8px',
       cursor: 'pointer', whiteSpace: 'nowrap', fontSize: '12px', fontWeight: '600',
-      background: active ? '#FF9800' : darkMode ? '#2a2a2a' : '#e8e8e8',
+      background: active ? '#E53935' : darkMode ? '#2a2a2a' : '#e8e8e8',
       color: active ? 'white' : darkMode ? '#ccc' : '#666',
     }),
     grid: {
@@ -359,7 +359,7 @@ export default function Productos() {
     fab: {
       position: 'fixed', bottom: '24px', right: '24px',
       width: '48px', height: '48px', border: 'none', borderRadius: '14px',
-      background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+      background: 'linear-gradient(135deg, #22C55E, #388E3C)',
       color: 'white', fontSize: '22px', cursor: 'pointer',
       boxShadow: '0 4px 12px rgba(76,175,80,0.3)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -392,9 +392,9 @@ export default function Productos() {
       marginBottom: '10px', boxSizing: 'border-box',
     },
     dropZone: (active) => ({
-      border: `2px dashed ${active ? '#FF9800' : darkMode ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
+      border: `2px dashed ${active ? '#E53935' : darkMode ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
       borderRadius: '12px', padding: '20px', textAlign: 'center',
-      background: active ? 'rgba(255,152,0,0.1)' : 'transparent',
+      background: active ? 'rgba(229,57,53,0.1)' : 'transparent',
       cursor: 'pointer', marginBottom: '10px',
       color: darkMode ? '#888' : '#999', fontSize: '12px',
     }),
@@ -405,7 +405,7 @@ export default function Productos() {
       <header style={s.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btn}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Productos</span>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
@@ -465,7 +465,7 @@ export default function Productos() {
             </div>
           ) : productosFiltrados.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px', color: darkMode ? '#666' : '#999' }}>
-              <span className="material-icons" style={{ fontSize: '48px', color: '#FF9800' }}>inventory_2</span>
+              <span className="material-icons" style={{ fontSize: '48px', color: '#E53935' }}>inventory_2</span>
               <p style={{ marginTop: '12px' }}>No hay productos. Tocá + para crear.</p>
             </div>
           ) : (
@@ -481,26 +481,26 @@ export default function Productos() {
                     <div style={{ fontSize: '12px', fontWeight: '700', color: darkMode ? 'white' : '#333', marginBottom: '2px' }}>
                       {p.nombre}
                     </div>
-                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#FF9800' }}>
+                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#E53935' }}>
                       {formatGuarani(p.precio)}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <span style={{ fontSize: '10px', color: darkMode ? '#888' : '#999' }}>
+                        <span style={{ fontSize: '11px', color: darkMode ? '#888' : '#999' }}>
                           {p.categoria_nombre || 'Sin categoría'}
                         </span>
                       </div>
                       <span
                         onClick={(e) => { e.stopPropagation(); toggleDisponible(p.id, p.disponible) }}
                         style={{
-                          padding: '2px 8px', borderRadius: '8px', fontSize: '9px', fontWeight: '700',
-                          background: p.disponible ? '#4CAF50' : '#E53935',
+                          padding: '2px 8px', borderRadius: '8px', fontSize: '11px', fontWeight: '700',
+                          background: p.disponible ? '#22C55E' : '#E53935',
                           color: 'white', cursor: 'pointer',
                         }}
                       >{p.disponible ? 'DISP' : 'NO'}</span>
                     </div>
                     {p.variantes?.length > 0 && (
-                      <div style={{ fontSize: '9px', color: '#FF9800', marginTop: '4px' }}>
+                      <div style={{ fontSize: '11px', color: '#E53935', marginTop: '4px' }}>
                         {p.variantes.length} variante(s)
                       </div>
                     )}
@@ -604,7 +604,7 @@ export default function Productos() {
                 onClick={() => handleChange('disponible', !form.disponible)}
                 style={{
                   padding: '6px 16px', border: 'none', borderRadius: '8px', cursor: 'pointer',
-                  background: form.disponible ? '#4CAF50' : '#E53935',
+                  background: form.disponible ? '#22C55E' : '#E53935',
                   color: 'white', fontWeight: '700', fontSize: '11px',
                 }}
               >{form.disponible ? 'SÍ' : 'NO'}</button>
@@ -630,15 +630,15 @@ export default function Productos() {
               {form.imagen ? (
                 <div>
                   <img src={form.imagen} alt="preview" style={{ maxHeight: '100px', borderRadius: '8px', marginBottom: '6px' }} />
-                  <div style={{ fontSize: '11px', color: '#4CAF50' }}>✓ Imagen cargada</div>
+                  <div style={{ fontSize: '11px', color: '#22C55E' }}>✓ Imagen cargada</div>
                 </div>
               ) : subiendo ? (
-                <div style={{ fontSize: '13px', color: '#FF9800' }}>Subiendo imagen...</div>
+                <div style={{ fontSize: '13px', color: '#E53935' }}>Subiendo imagen...</div>
               ) : (
                 <div>
                   <span className="material-icons" style={{ fontSize: '28px' }}>cloud_upload</span>
                   <p style={{ margin: '4px 0' }}>Arrastrá una imagen o hacé clic</p>
-                  <p style={{ fontSize: '10px', color: darkMode ? '#666' : '#aaa', margin: 0 }}>PNG o JPEG · Máx 5MB</p>
+                  <p style={{ fontSize: '11px', color: darkMode ? '#666' : '#aaa', margin: 0 }}>PNG o JPEG · Máx 5MB</p>
                 </div>
               )}
             </div>
@@ -659,7 +659,7 @@ export default function Productos() {
               </span>
               <button onClick={agregarVariante} style={{
                 padding: '4px 12px', border: 'none', borderRadius: '8px',
-                background: '#FF9800', color: 'white', cursor: 'pointer', fontSize: '11px', fontWeight: '700',
+                background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '11px', fontWeight: '700',
               }}>+ Variante</button>
             </div>
 
@@ -669,7 +669,7 @@ export default function Productos() {
                 padding: '10px', marginBottom: '8px',
               }}>
                 <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-                  <span style={{ fontSize: '10px', color: darkMode ? '#888' : '#999', fontWeight: '600' }}>#{i + 1}</span>
+                  <span style={{ fontSize: '11px', color: darkMode ? '#888' : '#999', fontWeight: '600' }}>#{i + 1}</span>
                   <input
                     style={{ flex: 1, padding: '6px 10px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
                       borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
@@ -679,7 +679,7 @@ export default function Productos() {
                     onChange={(e) => editarVariante(i, 'nombre', e.target.value)}
                   />
                   <div style={{ position: 'relative' }}>
-                    <span style={{ position: 'absolute', left: '8px', top: '7px', fontSize: '9px', color: '#999', fontWeight: '600' }}>Gs.</span>
+                    <span style={{ position: 'absolute', left: '8px', top: '7px', fontSize: '11px', color: '#999', fontWeight: '600' }}>Gs.</span>
                     <input
                       style={{ width: '100px', padding: '6px 6px 6px 28px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
                         borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
@@ -729,7 +729,7 @@ export default function Productos() {
               )}
               <button onClick={guardar} disabled={!form.nombre || !form.precio} style={{
                 flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white',
+                background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white',
                 fontWeight: '700', cursor: (!form.nombre || !form.precio) ? 'not-allowed' : 'pointer',
                 opacity: (!form.nombre || !form.precio) ? 0.5 : 1,
               }}>Guardar</button>
@@ -784,7 +784,7 @@ export default function Productos() {
                     } catch (e) { console.error(e) }
                   }} style={{
                     flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                    background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white',
+                    background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white',
                     fontWeight: '700', cursor: formCategoria.nombre ? 'pointer' : 'not-allowed',
                     opacity: formCategoria.nombre ? 1 : 0.5,
                   }}>Guardar</button>
@@ -809,7 +809,7 @@ export default function Productos() {
                         setFormCategoria({ nombre: cat.nombre })
                       }} style={{
                         width: '30px', height: '30px', border: 'none', borderRadius: '8px',
-                        background: '#FF9800', color: 'white', cursor: 'pointer', fontSize: '14px',
+                        background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '14px',
                       }}><span className="material-icons" style={{ fontSize: '14px' }}>edit</span></button>
                       <button onClick={async () => {
                         if (!window.confirm(`¿Eliminar categoría "${cat.nombre}"?`)) return
@@ -834,7 +834,7 @@ export default function Productos() {
                 }} style={{
                   width: '100%', padding: '12px', border: `1px dashed ${darkMode ? 'rgba(255,255,255,0.2)' : '#d0d0d0'}`,
                   borderRadius: '10px', background: 'transparent', cursor: 'pointer',
-                  color: '#FF9800', fontWeight: '700', fontSize: '13px', marginTop: '8px',
+                  color: '#E53935', fontWeight: '700', fontSize: '13px', marginTop: '8px',
                 }}>+ Añadir categoría</button>
               </div>
             )}

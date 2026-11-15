@@ -22,7 +22,7 @@ const s = {
     padding: '10px 20px',
     background: '#1a1a1a',
     color: 'white',
-    borderBottom: '1px solid rgba(244,67,54,0.2)',
+    borderBottom: '1px solid rgba(229,57,53,0.2)',
     boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
   },
   btnHeader: {
@@ -245,7 +245,7 @@ export default function Funcionarios() {
       {!verificado && (
         <div style={s.overlay}>
           <div style={s.overlayCard}>
-            <span className="material-icons" style={{ fontSize: '48px', color: '#FF9800', marginBottom: '12px' }}>lock</span>
+            <span className="material-icons" style={{ fontSize: '48px', color: '#E53935', marginBottom: '12px' }}>lock</span>
             <h2 style={{ color: '#fff', fontSize: '18px', margin: '0 0 6px' }}>Verificación de seguridad</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0 0 24px' }}>
               Para acceder a funcionarios, primero verificá tu identidad con un código enviado a tu email.
@@ -254,7 +254,7 @@ export default function Funcionarios() {
             {error2FA && (
               <div style={{
                 padding: '10px 14px', borderRadius: '10px',
-                background: 'rgba(244,67,54,0.15)', color: '#ef5350',
+                background: 'rgba(229,57,53,0.15)', color: '#ef5350',
                 fontSize: '13px', marginBottom: '16px', textAlign: 'center',
               }}>{error2FA}</div>
             )}
@@ -268,7 +268,7 @@ export default function Funcionarios() {
                 <button onClick={() => { setBloqueadoHasta(null); setError2FA(''); setCodigo2FA('') }}
                   style={{
                     padding: '10px 20px', borderRadius: '10px', border: 'none',
-                    background: '#FF9800', color: '#fff', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
+                    background: '#E53935', color: '#fff', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
                   }}>
                   Reintentar
                 </button>
@@ -279,7 +279,7 @@ export default function Funcionarios() {
               <div>
                 <button onClick={enviar2FA} style={{
                   width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
-                  background: '#FF9800', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+                  background: '#E53935', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
                 }}>
                   Enviar código
                 </button>
@@ -311,13 +311,13 @@ export default function Funcionarios() {
                 />
                 <button onClick={verificar2FA} style={{
                   width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
-                  background: '#F44336', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+                  background: '#E53935', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
                 }}>
                   Verificar
                 </button>
                 <p style={{ marginTop: '12px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
                   <button onClick={enviar2FA}
-                    style={{ background: 'none', border: 'none', color: '#FF9800', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+                    style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
                     Reenviar código
                   </button>
                   {' · '}
@@ -336,7 +336,7 @@ export default function Funcionarios() {
         <header style={s.header}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
-            <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+            <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
             <span style={{ fontSize: '18px', fontWeight: '700' }}>Funcionarios</span>
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
@@ -346,7 +346,7 @@ export default function Funcionarios() {
             </button>
             {verificado && (
               <button onClick={bloquear} title="Bloquear acceso" style={{
-                ...s.btnHeader, color: '#FF9800',
+                ...s.btnHeader, color: '#E53935',
               }}>
                 <span className="material-icons" style={{ fontSize: '18px' }}>lock</span>
               </button>
@@ -361,7 +361,7 @@ export default function Funcionarios() {
               <h2 style={{ margin: 0, fontSize: '20px' }}>Empleados</h2>
               <button onClick={() => { setEditando(null); setForm({ nombre: '', rol: 'mesero', email: '', pin: '' }); setShowForm(true); setError('') }} style={{
                 padding: '10px 20px', borderRadius: '10px', border: 'none',
-                background: '#FF9800', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer',
+                background: '#E53935', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', gap: '6px',
               }}>
                 <span className="material-icons" style={{ fontSize: '18px' }}>add</span>
@@ -395,7 +395,7 @@ export default function Funcionarios() {
                     }}>Cancelar</button>
                     <button onClick={guardarFuncionario} disabled={loading} style={{
                       padding: '10px 20px', borderRadius: '8px', border: 'none',
-                      background: '#FF9800', color: 'white', cursor: 'pointer', fontWeight: '600', opacity: loading ? 0.5 : 1,
+                      background: '#E53935', color: 'white', cursor: 'pointer', fontWeight: '600', opacity: loading ? 0.5 : 1,
                     }}>{loading ? '...' : editando ? 'Guardar' : 'Crear'}</button>
                   </div>
                 </div>
@@ -405,12 +405,12 @@ export default function Funcionarios() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {funcionarios.length === 0 && !loading && (
                 <div style={{ textAlign: 'center', padding: '40px', color: darkMode ? '#666' : '#999' }}>
-                  <span className="material-icons" style={{ fontSize: '48px', color: '#FF9800' }}>people</span>
+                  <span className="material-icons" style={{ fontSize: '48px', color: '#E53935' }}>people</span>
                   <p style={{ marginTop: '12px' }}>No hay funcionarios registrados</p>
                 </div>
               )}
               {funcionarios.map(f => {
-                const rolColor = f.rol === 'administrador' ? '#F44336' : f.rol === 'cajero' ? '#1976D2' : f.rol === 'cocina' ? '#FF9800' : '#4CAF50'
+                const rolColor = f.rol === 'administrador' ? '#E53935' : f.rol === 'cajero' ? '#3B82F6' : f.rol === 'cocina' ? '#E53935' : '#22C55E'
                 return (
                   <div key={f.id} style={s.card(darkMode)}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -418,10 +418,10 @@ export default function Funcionarios() {
                         <div style={{ fontWeight: '700', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                           {f.nombre}
                           <span style={{
-                            fontSize: '10px', fontWeight: '700', padding: '2px 8px', borderRadius: '10px',
+                            fontSize: '11px', fontWeight: '700', padding: '2px 8px', borderRadius: '10px',
                             background: rolColor + '20', color: rolColor,
                           }}>{f.rol}</span>
-                          {!f.activo && <span style={{ fontSize: '10px', color: '#ef4444' }}>(Inactivo)</span>}
+                          {!f.activo && <span style={{ fontSize: '11px', color: '#ef4444' }}>(Inactivo)</span>}
                         </div>
                         <div style={{ fontSize: '12px', color: darkMode ? '#aaa' : '#888', marginTop: '4px', display: 'flex', gap: '16px' }}>
                           {f.email && <span>Email: {f.email}</span>}
@@ -429,20 +429,20 @@ export default function Funcionarios() {
                       </div>
                       <div style={{ display: 'flex', gap: '6px' }}>
                         <button onClick={() => regenerarPin(f)} title="Regenerar PIN" style={{
-                          width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(255,152,0,0.3)',
-                          background: 'rgba(255,152,0,0.1)', color: '#FF9800', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(229,57,53,0.3)',
+                          background: 'rgba(229,57,53,0.1)', color: '#E53935', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>refresh</span>
                         </button>
                         <button onClick={() => editar(f)} title="Editar" style={{
                           width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(33,150,243,0.3)',
-                          background: 'rgba(33,150,243,0.1)', color: '#2196F3', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: 'rgba(33,150,243,0.1)', color: '#3B82F6', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>edit</span>
                         </button>
                         <button onClick={() => eliminarFuncionario(f)} title="Eliminar" style={{
-                          width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(244,67,54,0.3)',
-                          background: 'rgba(244,67,54,0.1)', color: '#F44336', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(229,57,53,0.3)',
+                          background: 'rgba(229,57,53,0.1)', color: '#E53935', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>delete</span>
                         </button>

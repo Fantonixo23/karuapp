@@ -22,7 +22,7 @@ const s = {
     padding: '10px 20px',
     background: '#1a1a1a',
     color: 'white',
-    borderBottom: '1px solid rgba(244,67,54,0.2)',
+    borderBottom: '1px solid rgba(229,57,53,0.2)',
     boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
   },
   btnHeader: {
@@ -91,15 +91,15 @@ export default function Inicio() {
     <div style={s.container(darkMode)}>
       <header style={s.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '36px', height: '36px', borderRadius: '8px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '36px', height: '36px', borderRadius: '8px' }} />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '0.5px' }}>LaCarta</span>
+            <span style={{ fontSize: '18px', fontWeight: '700', letterSpacing: '0.5px' }}>KaruApp</span>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ textAlign: 'right', marginRight: '4px' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#F44336', lineHeight: 1.2 }}>{horaStr}</div>
-            <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#E53935', lineHeight: 1.2 }}>{horaStr}</div>
+            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
           <UserButton />
           <button onClick={toggleDarkMode} style={s.btnHeader}>
@@ -126,24 +126,24 @@ export default function Inicio() {
               border: '1px solid rgba(76,175,80,0.25)',
               background: darkMode ? 'rgba(76,175,80,0.1)' : 'rgba(76,175,80,0.06)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '800', color: '#4CAF50' }}>{formatGuarani(stats.total_hoy)}</div>
-              <div style={{ fontSize: '10px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Ventas hoy</div>
+              <div style={{ fontSize: '20px', fontWeight: '700', color: '#22C55E' }}>{formatGuarani(stats.total_hoy)}</div>
+              <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Ventas hoy</div>
             </div>
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
-              border: '1px solid rgba(244,67,54,0.25)',
-              background: darkMode ? 'rgba(244,67,54,0.1)' : 'rgba(244,67,54,0.06)',
+              border: '1px solid rgba(229,57,53,0.25)',
+              background: darkMode ? 'rgba(229,57,53,0.1)' : 'rgba(229,57,53,0.06)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '800', color: '#F44336' }}>{stats.mesas_ocupadas}</div>
-              <div style={{ fontSize: '10px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Mesas ocupadas</div>
+              <div style={{ fontSize: '20px', fontWeight: '700', color: '#E53935' }}>{stats.mesas_ocupadas}</div>
+              <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Mesas ocupadas</div>
             </div>
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
               border: '1px solid rgba(33,150,243,0.25)',
               background: darkMode ? 'rgba(33,150,243,0.1)' : 'rgba(33,150,243,0.06)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '800', color: '#2196F3' }}>{stats.pedidos_pendientes}</div>
-              <div style={{ fontSize: '10px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Pendientes</div>
+              <div style={{ fontSize: '20px', fontWeight: '700', color: '#3B82F6' }}>{stats.pedidos_pendientes}</div>
+              <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Pendientes</div>
             </div>
           </div>
         )}
@@ -161,10 +161,10 @@ export default function Inicio() {
             }}>
               <div style={{
                 width: '44px', height: '44px', borderRadius: '12px',
-                background: 'rgba(244,67,54,0.12)',
+                background: 'rgba(229,57,53,0.12)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
-                <span className="material-icons" style={{ fontSize: '22px', color: '#F44336' }}>{area.icon}</span>
+                <span className="material-icons" style={{ fontSize: '22px', color: '#E53935' }}>{area.icon}</span>
               </div>
               <span style={{ fontSize: '11px', fontWeight: '700', color: darkMode ? '#fff' : '#1a1a1a', textAlign: 'center', lineHeight: 1.2 }}>{area.label}</span>
             </Link>
@@ -187,12 +187,12 @@ export default function Inicio() {
           <div style={{
             position: 'fixed', top: 0, right: 0, width: '280px', height: '100vh',
             background: 'linear-gradient(180deg, #1a1a1a, #0d0d0d)', zIndex: 200,
-            borderLeft: '1px solid rgba(244,67,54,0.2)',
+            borderLeft: '1px solid rgba(229,57,53,0.2)',
             display: 'flex', flexDirection: 'column',
             transform: 'translateX(0)', transition: 'transform 0.25s'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-              <span style={{ color: '#F44336', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Menu</span>
+              <span style={{ color: '#E53935', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Menu</span>
               <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
             </div>
 
@@ -204,7 +204,7 @@ export default function Inicio() {
                 borderBottom: '1px solid rgba(255,255,255,0.04)',
                 transition: 'background 0.15s'
               }}>
-                <span className="material-icons" style={{ fontSize: '20px', color: '#F44336' }}>{area.icon}</span>
+                <span className="material-icons" style={{ fontSize: '20px', color: '#E53935' }}>{area.icon}</span>
                 <div>
                   <div style={{ fontWeight: '600' }}>{area.label}</div>
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>{area.desc}</div>

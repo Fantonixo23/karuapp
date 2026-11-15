@@ -3,14 +3,24 @@ import { getApiUrl } from '../utils/api'
 
 const API = getApiUrl()
 
+// Migración de tema KaruApp: aplica una sola vez la identidad oscura a todos
+// los usuarios existentes; después se respeta la preferencia guardada.
+if (typeof window !== 'undefined') {
+  const THEME_VERSION = 'karuapp-theme-1'
+  if (localStorage.getItem('karuappThemeVersion') !== THEME_VERSION) {
+    localStorage.setItem('darkMode', 'true')
+    localStorage.setItem('karuappThemeVersion', THEME_VERSION)
+  }
+}
+
 const getInitialDarkMode = () => {
-  if (typeof window === 'undefined') return false
+  if (typeof window === 'undefined') return true
   const saved = localStorage.getItem('darkMode')
   if (saved === null) {
-    localStorage.setItem('darkMode', 'false')
-    return false
+    localStorage.setItem('darkMode', 'true')
+    return true
   }
-  return saved === 'true'
+  return saved !== 'false'
 }
 
 const getInitialLicense = () => {
@@ -81,9 +91,11 @@ export const useStore = create((set, get) => ({
   },
 
   initDarkMode: () => {
-    const saved = localStorage.getItem('darkMode') === 'true'
-    set({ darkMode: saved })
-    if (saved) {
+    const saved = localStorage.getItem('darkMode')
+    const enabled = saved === null ? true : saved === 'true'
+    if (saved === null) localStorage.setItem('darkMode', 'true')
+    set({ darkMode: enabled })
+    if (enabled) {
       document.body.classList.add('dark')
     } else {
       document.body.classList.remove('dark')

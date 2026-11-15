@@ -35,8 +35,8 @@ const DENOMINACIONES = [
 
 const s = (dm) => ({
   page: { minHeight: '100vh', background: dm ? '#121212' : '#f0f2f5', fontFamily: "'Roboto', sans-serif" },
-  header: { background: '#1a1a1a', padding: '12px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,152,0,0.2)' },
-  headerTitle: { color: '#FF9800', fontSize: '22px', fontWeight: '700', margin: 0 },
+  header: { background: '#1a1a1a', padding: '12px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(229,57,53,0.2)' },
+  headerTitle: { color: '#E53935', fontSize: '22px', fontWeight: '700', margin: 0 },
   content: { padding: '24px', maxWidth: '1800px', margin: '0 auto' },
   overlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' },
   modal: { background: dm ? '#2d2d2d' : 'white', borderRadius: '20px', padding: '25px', width: '90%', maxWidth: '500px', maxHeight: '90vh', overflow: 'auto' },
@@ -44,7 +44,7 @@ const s = (dm) => ({
   card: { background: dm ? '#2d2d2d' : 'white', borderRadius: '14px', padding: '16px', boxShadow: dm ? '0 2px 8px rgba(0,0,0,0.3)' : '0 2px 8px rgba(0,0,0,0.08)' },
   input: { width: '100%', padding: '10px 14px', border: 'none', borderRadius: '10px', background: dm ? '#3a3a3a' : '#f5f5f5', color: dm ? '#fff' : '#333', fontSize: '14px', outline: 'none', boxSizing: 'border-box' },
   btn: { padding: '10px 20px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '14px', fontWeight: '600' },
-  btnPrimary: { padding: '12px 24px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white' },
+  btnPrimary: { padding: '12px 24px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white' },
   grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
   grid4: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '10px' },
 })
@@ -512,7 +512,7 @@ export default function Caja() {
   if (loadingSession) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#1a1a1a' }}>
-        <p style={{ color: '#FF9800', fontSize: '18px' }}>Verificando sesión de caja...</p>
+        <p style={{ color: '#E53935', fontSize: '18px' }}>Verificando sesión de caja...</p>
       </div>
     )
   }
@@ -522,7 +522,7 @@ export default function Caja() {
     return (
       <div style={{ minHeight: '100vh', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ background: '#2d2d2d', borderRadius: '24px', padding: '40px', width: '90%', maxWidth: '420px', textAlign: 'center' }}>
-          <span className="material-icons" style={{ fontSize: '64px', color: '#FF9800', marginBottom: '16px' }}>point_of_sale</span>
+          <span className="material-icons" style={{ fontSize: '64px', color: '#E53935', marginBottom: '16px' }}>point_of_sale</span>
           <h2 style={{ color: 'white', fontSize: '24px', margin: '0 0 6px' }}>Apertura de Caja</h2>
           <p style={{ color: '#aaa', fontSize: '14px', margin: '0 0 24px' }}>Ingrese el fondo inicial para comenzar el turno</p>
 
@@ -534,7 +534,7 @@ export default function Caja() {
 
           <button onClick={abrirCaja} style={{
             width: '100%', padding: '14px', border: 'none', borderRadius: '12px', cursor: 'pointer',
-            fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white',
+            fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white',
           }}>
             ABRIR CAJA
           </button>
@@ -561,8 +561,8 @@ export default function Caja() {
           <Link to="/app/inicio" style={{ width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
             <span className="material-icons">home</span>
           </Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
-          <span style={{ fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px', color: 'white', flex: 1 }}>CAJA</span>
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <span style={{ fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px', color: 'white', flex: 1 }}>CAJA</span>
 
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -570,8 +570,8 @@ export default function Caja() {
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <div style={{ textAlign: 'right', marginRight: '4px' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#FF9800', lineHeight: 1.2 }}>{horaStr}</div>
-            <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#E53935', lineHeight: 1.2 }}>{horaStr}</div>
+            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
           {!isMobile && <FullscreenButton />}
           <UserButton />
@@ -590,19 +590,19 @@ export default function Caja() {
         <div style={st.content}>
         {/* TARJETAS RESUMEN */}
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }}>
-          <div style={{ ...st.card, borderLeft: '4px solid #4CAF50' }}>
+          <div style={{ ...st.card, borderLeft: '4px solid #22C55E' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>EFECTIVO</p>
             <p style={{ color: darkMode ? '#81C784' : '#2E7D32', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.ventas_efectivo || 0)}</p>
-            <p style={{ color: '#888', fontSize: '10px', margin: '2px 0 0' }}>En caja: {formatGuarani(efectivoEsperado)}</p>
+            <p style={{ color: '#888', fontSize: '11px', margin: '2px 0 0' }}>En caja: {formatGuarani(efectivoEsperado)}</p>
           </div>
-          <div style={{ ...st.card, borderLeft: '4px solid #2196F3' }}>
+          <div style={{ ...st.card, borderLeft: '4px solid #3B82F6' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>TRANSFERENCIA</p>
             <p style={{ color: '#64B5F6', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.ventas_transferencia || 0)}</p>
           </div>
-          <div style={{ ...st.card, borderLeft: '4px solid #FF9800' }}>
+          <div style={{ ...st.card, borderLeft: '4px solid #E53935' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>TOTAL VENTAS</p>
             <p style={{ color: '#FFB74D', fontSize: '18px', fontWeight: '700', margin: 0 }}>{formatGuarani(sTotales.total_general || 0)}</p>
-            <p style={{ color: '#888', fontSize: '10px', margin: '2px 0 0' }}>{sTotales.total_pedidos || 0} pedidos</p>
+            <p style={{ color: '#888', fontSize: '11px', margin: '2px 0 0' }}>{sTotales.total_pedidos || 0} pedidos</p>
           </div>
           <div style={{ ...st.card, borderLeft: '4px solid #E91E63' }}>
             <p style={{ color: '#888', fontSize: '11px', margin: '0 0 4px' }}>PROPINAS</p>
@@ -613,7 +613,7 @@ export default function Caja() {
         {/* BOTONES ACCION */}
         <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
           <button onClick={() => { setMovTipo('ingreso_extra'); setMovMonto(''); setMovMotivo(''); setShowMovimiento(true) }}
-            style={{ ...st.btnPrimary, background: 'linear-gradient(135deg, #4CAF50, #388E3C)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            style={{ ...st.btnPrimary, background: 'linear-gradient(135deg, #22C55E, #388E3C)', display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span className="material-icons" style={{ fontSize: '18px' }}>add_circle</span> Ingreso
           </button>
           <button onClick={() => { setMovTipo('retiro'); setMovMonto(''); setMovMotivo(''); setShowMovimiento(true) }}
@@ -634,7 +634,7 @@ export default function Caja() {
         <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
           <button onClick={() => setMostrarDelivery(false)} style={{
             padding: '8px 18px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: '700',
-            cursor: 'pointer', background: !mostrarDelivery ? '#FF9800' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
+            cursor: 'pointer', background: !mostrarDelivery ? '#E53935' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
             color: !mostrarDelivery ? 'white' : (darkMode ? '#ccc' : '#666'),
           }}>
             <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '6px' }}>table_restaurant</span>
@@ -642,13 +642,13 @@ export default function Caja() {
           </button>
           <button onClick={() => setMostrarDelivery(true)} style={{
             padding: '8px 18px', borderRadius: '8px', border: 'none', fontSize: '14px', fontWeight: '700',
-            cursor: 'pointer', background: mostrarDelivery ? '#FF9800' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
+            cursor: 'pointer', background: mostrarDelivery ? '#E53935' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
             color: mostrarDelivery ? 'white' : (darkMode ? '#ccc' : '#666'),
           }}>
             <span className="material-icons" style={{ fontSize: '16px', verticalAlign: 'middle', marginRight: '6px' }}>delivery_dining</span>
             Delivery
             {deliveryPedidos.filter(p => ['listo', 'entregado'].includes(p.estado)).length > 0 && (
-              <span style={{ marginLeft: '6px', background: '#F44336', color: 'white', borderRadius: '50%', padding: '1px 6px', fontSize: '11px' }}>
+              <span style={{ marginLeft: '6px', background: '#E53935', color: 'white', borderRadius: '50%', padding: '1px 6px', fontSize: '11px' }}>
                 {deliveryPedidos.filter(p => ['listo', 'entregado'].includes(p.estado)).length}
               </span>
             )}
@@ -663,7 +663,7 @@ export default function Caja() {
               {['todos', 'libres', 'para_cobrar'].map(f => (
                 <button key={f} onClick={() => setFiltroMesas(f)} style={{
                   padding: '6px 14px', borderRadius: '8px', border: 'none', fontSize: '12px', fontWeight: '600',
-                  cursor: 'pointer', background: filtroMesas === f ? '#FF9800' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
+                  cursor: 'pointer', background: filtroMesas === f ? '#E53935' : (darkMode ? '#2a2a2a' : '#e0e0e0'),
                   color: filtroMesas === f ? 'white' : (darkMode ? '#ccc' : '#666'), transition: 'all 0.15s'
                 }}>
                   {f === 'todos' ? 'Todos' : f === 'libres' ? 'Libres' : 'Para cobrar'}
@@ -682,9 +682,9 @@ export default function Caja() {
                     opacity: ocupada ? 1 : 0.7, transition: 'transform 0.2s',
                   }} onMouseEnter={e => { if (ocupada) e.currentTarget.style.transform = 'scale(1.03)' }}
                   onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
-                    <span className="material-icons" style={{ fontSize: '36px', color: ocupada ? '#E53935' : '#4CAF50', marginBottom: '4px' }}>table_restaurant</span>
+                    <span className="material-icons" style={{ fontSize: '36px', color: ocupada ? '#E53935' : '#22C55E', marginBottom: '4px' }}>table_restaurant</span>
                     <p style={{ fontSize: '20px', fontWeight: '700', margin: '0', color: darkMode ? '#fff' : '#333' }}>Mesa {mesa.numero}</p>
-                    <p style={{ fontSize: '11px', color: ocupada ? '#E53935' : '#4CAF50', margin: '2px 0 0' }}>{ocupada ? 'OCUPADA' : 'LIBRE'}</p>
+                    <p style={{ fontSize: '11px', color: ocupada ? '#E53935' : '#22C55E', margin: '2px 0 0' }}>{ocupada ? 'OCUPADA' : 'LIBRE'}</p>
                   </div>
                 )
               })}
@@ -721,12 +721,12 @@ export default function Caja() {
                   setDeliveryPedidoSeleccionado(pedido); setMesaSeleccionada(null); setPedidosMesa([pedido]); setModalCobrar(true); setMetodoPago('efectivo'); setPropina(0); setPropinaCustom(''); setVuelto(0); setMontoRecibido(''); setGenerarFactura(false); setClienteDatos({ nombre: pedido.cliente_nombre || '', ruc: pedido.cliente_ruc || '', tipo: pedido.cliente_ruc ? 'factura' : 'consumidor' }); setComprobanteNro('')
                 }} style={{
                   animationDelay: `${i * 0.05}s`, cursor: 'pointer',
-                  ...st.card, border: `2px solid ${pedido.estado === 'listo' ? '#4CAF50' : '#FF9800'}`, transition: 'transform 0.2s',
+                  ...st.card, border: `2px solid ${pedido.estado === 'listo' ? '#22C55E' : '#E53935'}`, transition: 'transform 0.2s',
                 }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.03)'}
                 onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <span className="material-icons" style={{ fontSize: '28px', color: '#FF9800' }}>delivery_dining</span>
-                    <span style={{ fontSize: '10px', color: pedido.estado === 'listo' ? '#4CAF50' : '#FF9800', fontWeight: '600' }}>{pedido.estado === 'listo' ? 'LISTO' : 'ENTREGADO'}</span>
+                    <span className="material-icons" style={{ fontSize: '28px', color: '#E53935' }}>delivery_dining</span>
+                    <span style={{ fontSize: '11px', color: pedido.estado === 'listo' ? '#22C55E' : '#E53935', fontWeight: '600' }}>{pedido.estado === 'listo' ? 'LISTO' : 'ENTREGADO'}</span>
                   </div>
                   <p style={{ fontSize: '16px', fontWeight: '700', margin: '6px 0 2px', color: darkMode ? '#fff' : '#333' }}>
                     {pedido.cliente_nombre || 'Cliente'}
@@ -734,7 +734,7 @@ export default function Caja() {
                   <p style={{ fontSize: '12px', color: darkMode ? '#aaa' : '#666', margin: '0' }}>
                     #{pedido.numero_orden || pedido.id}
                   </p>
-                  <p style={{ fontSize: '18px', fontWeight: '700', margin: '8px 0 0', color: '#FF9800' }}>
+                  <p style={{ fontSize: '18px', fontWeight: '700', margin: '8px 0 0', color: '#E53935' }}>
                     {formatGuarani(pedido.total || 0)}
                   </p>
                 </div>
@@ -769,10 +769,10 @@ export default function Caja() {
                   <p style={{ fontWeight: '600', color: darkMode ? '#ddd' : '#555', fontSize: '13px', margin: '0 0 4px' }}>
                     Pedido #{p.numero_orden} - {formatGuarani(p.total || 0)}
                     {p.estado === 'entregado' ? (
-                      <span style={{ color: '#4CAF50', fontSize: '12px', marginLeft: '8px' }}>✓ Entregado</span>
+                      <span style={{ color: '#22C55E', fontSize: '12px', marginLeft: '8px' }}>✓ Entregado</span>
                     ) : p.estado === 'listo' ? (
                       <button onClick={() => marcarEntregado(p)} disabled={entregando[p.id]}
-                        style={{ marginLeft: '8px', padding: '4px 12px', border: 'none', borderRadius: '10px', cursor: entregando[p.id] ? 'not-allowed' : 'pointer', background: '#4CAF50', color: 'white', fontSize: '12px', fontWeight: '600' }}>
+                        style={{ marginLeft: '8px', padding: '4px 12px', border: 'none', borderRadius: '10px', cursor: entregando[p.id] ? 'not-allowed' : 'pointer', background: '#22C55E', color: 'white', fontSize: '12px', fontWeight: '600' }}>
                         {entregando[p.id] ? '...' : 'Entregar'}
                       </button>
                     ) : (
@@ -810,13 +810,13 @@ export default function Caja() {
                     onBlur={() => setTimeout(() => setRucShowDropdown(false), 200)}
                     style={{ ...st.input, fontSize: '13px' }} />
                   {rucSearching && <span style={{ position: 'absolute', right: '10px', top: '32px', color: '#888' }}>...</span>}
-                  {rucError && <div style={{ color: '#f44336', fontSize: '12px', marginTop: '4px' }}>{rucError}</div>}
+                  {rucError && <div style={{ color: '#E53935', fontSize: '12px', marginTop: '4px' }}>{rucError}</div>}
                   {rucShowDropdown && (
-                    <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: darkMode ? '#2d2d2d' : 'white', border: '1px solid rgba(255,152,0,0.3)', borderRadius: '8px', zIndex: 10, maxHeight: '200px', overflow: 'auto' }}>
+                    <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: darkMode ? '#2d2d2d' : 'white', border: '1px solid rgba(229,57,53,0.3)', borderRadius: '8px', zIndex: 10, maxHeight: '200px', overflow: 'auto' }}>
                       {rucResults.map((r, i) => (
                         <div key={i} onMouseDown={() => { setClienteDatos({ ...clienteDatos, ruc: r.ruc, nombre: r.nombre, tipo: 'factura' }); setRucShowDropdown(false); setRucResults([]) }} style={{ padding: '10px 12px', cursor: 'pointer', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', justifyContent: 'space-between' }}>
                           <span style={{ color: darkMode ? '#fff' : '#333', fontSize: '13px', fontWeight: '600' }}>{r.nombre}</span>
-                          <span style={{ color: '#FF9800', fontSize: '12px' }}>{r.ruc}</span>
+                          <span style={{ color: '#E53935', fontSize: '12px' }}>{r.ruc}</span>
                         </div>
                       ))}
                     </div>
@@ -859,7 +859,7 @@ export default function Caja() {
                 {parseFloat(montoRecibido) > 0 && (
                   <div style={{ textAlign: 'center', marginTop: '8px' }}>
                     {parseFloat(montoRecibido) >= totalConPropina ? (
-                      <p style={{ color: '#4CAF50', fontSize: '14px', fontWeight: '700' }}>
+                      <p style={{ color: '#22C55E', fontSize: '14px', fontWeight: '700' }}>
                         Vuelto: {formatGuarani(parseFloat(montoRecibido) - totalConPropina)}
                       </p>
                     ) : (
@@ -891,7 +891,7 @@ export default function Caja() {
                 {PROPINAS.map(p => (
                   <button key={p.porcentaje} onClick={() => { setPropina(p.porcentaje); setPropinaCustom('') }}
                     style={{
-                      padding: '6px 14px', border: propina === p.porcentaje && !propinaCustom ? '2px solid #FF9800' : '2px solid transparent',
+                      padding: '6px 14px', border: propina === p.porcentaje && !propinaCustom ? '2px solid #E53935' : '2px solid transparent',
                       borderRadius: '8px', background: propina === p.porcentaje && !propinaCustom ? (darkMode ? '#3a3a3a' : '#fff') : (darkMode ? '#2a2a2a' : '#f5f5f5'),
                       cursor: 'pointer', color: darkMode ? '#ccc' : '#555', fontSize: '12px',
                     }}>{p.label}</button>
@@ -908,7 +908,7 @@ export default function Caja() {
                 {[0, 5, 10].map(iva => (
                   <button key={iva} onClick={() => setTipoIva(iva)}
                     style={{
-                      padding: '6px 14px', border: tipoIva === iva ? '2px solid #FF9800' : '2px solid transparent',
+                      padding: '6px 14px', border: tipoIva === iva ? '2px solid #E53935' : '2px solid transparent',
                       borderRadius: '8px', background: tipoIva === iva ? (darkMode ? '#3a3a3a' : '#fff') : (darkMode ? '#2a2a2a' : '#f5f5f5'),
                       cursor: 'pointer', color: darkMode ? '#ccc' : '#555', fontSize: '12px',
                     }}>{iva === 0 ? 'Exento' : `${iva}%`}</button>
@@ -917,7 +917,7 @@ export default function Caja() {
             </div>
 
             {/* Totales */}
-            <div style={{ background: 'linear-gradient(135deg, #FF9800, #F57C00)', borderRadius: '12px', padding: '14px', marginBottom: '16px' }}>
+            <div style={{ background: 'linear-gradient(135deg, #E53935, #F57C00)', borderRadius: '12px', padding: '14px', marginBottom: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(255,255,255,0.8)', fontSize: '13px' }}>
                 <span>Subtotal sin IVA</span>
                 <span>{formatGuarani(Math.round(calcularIva().subtotal))}</span>
@@ -962,9 +962,9 @@ export default function Caja() {
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Mesa: {mesaSeleccionada?.numero}</p>
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Total: <strong>{formatGuarani(totalConPropina)}</strong></p>
               <p style={{ color: darkMode ? '#ccc' : '#555', fontSize: '14px', margin: '4px 0' }}>Método: {metodosApi.find(m => m.nombre === metodoPago)?.etiqueta || metodoPago}</p>
-              {parseFloat(montoRecibido) > 0 && <p style={{ color: '#4CAF50', fontSize: '14px', margin: '4px 0' }}>Recibido: {formatGuarani(parseFloat(montoRecibido))}</p>}
+              {parseFloat(montoRecibido) > 0 && <p style={{ color: '#22C55E', fontSize: '14px', margin: '4px 0' }}>Recibido: {formatGuarani(parseFloat(montoRecibido))}</p>}
               {parseFloat(montoRecibido) > totalConPropina && (
-                <p style={{ color: '#4CAF50', fontSize: '16px', fontWeight: '700', margin: '4px 0', textAlign: 'center' }}>
+                <p style={{ color: '#22C55E', fontSize: '16px', fontWeight: '700', margin: '4px 0', textAlign: 'center' }}>
                   Vuelto a entregar: {formatGuarani(parseFloat(montoRecibido) - totalConPropina)}
                 </p>
               )}
@@ -1046,7 +1046,7 @@ export default function Caja() {
                   <span style={{ color: darkMode ? '#aaa' : '#888', fontSize: '12px' }}>= {formatGuarani((parseInt(d.valor) * (parseInt(d.cantidad) || 0)))}</span>
                 </div>
               ))}
-              <p style={{ textAlign: 'right', color: '#FF9800', fontSize: '16px', fontWeight: '700', margin: '8px 0 0' }}>
+              <p style={{ textAlign: 'right', color: '#E53935', fontSize: '16px', fontWeight: '700', margin: '8px 0 0' }}>
                 Total: {formatGuarani(totalContado())}
               </p>
             </div>
@@ -1090,7 +1090,7 @@ export default function Caja() {
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', borderTop: '1px solid #ccc', paddingTop: '3px', marginTop: '3px', color: '#000' }}><span>Total Ventas:</span><span>{formatGuarani(resultadoCierre.total_ventas)}</span></div>
             </div>
             <div style={{ marginBottom: '10px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#4CAF50' }}><span>+ Ingresos:</span><span>{formatGuarani(resultadoCierre.total_ingresos_extra)}</span></div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#22C55E' }}><span>+ Ingresos:</span><span>{formatGuarani(resultadoCierre.total_ingresos_extra)}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#E53935' }}><span>- Retiros:</span><span>{formatGuarani(resultadoCierre.total_retiros)}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontWeight: 'bold', color: '#E91E63' }}><span>Propinas:</span><span>{formatGuarani(resultadoCierre.total_propinas)}</span></div>
             </div>
@@ -1099,17 +1099,17 @@ export default function Caja() {
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', fontWeight: 'bold', color: '#000' }}><span>CONTADO:</span><span>{formatGuarani(resultadoCierre.total_contado_efectivo)}</span></div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', fontWeight: 'bold', paddingTop: '4px', color: '#000' }}>
                 <span>{resultadoCierre.tipo_diferencia === 'sobrante' ? 'SOBRANTE' : resultadoCierre.tipo_diferencia === 'faltante' ? 'FALTANTE' : 'DIFERENCIA'}:</span>
-                <span style={{ color: resultadoCierre.diferencia > 0 ? '#4CAF50' : resultadoCierre.diferencia < 0 ? '#E53935' : '#000', fontWeight: 'bold' }}>
+                <span style={{ color: resultadoCierre.diferencia > 0 ? '#22C55E' : resultadoCierre.diferencia < 0 ? '#E53935' : '#000', fontWeight: 'bold' }}>
                   {resultadoCierre.diferencia > 0 ? '+' : ''}{formatGuarani(resultadoCierre.diferencia)}
                 </span>
               </div>
             </div>
-            {resultadoCierre.observaciones && <p style={{ fontSize: '10px', fontWeight: 'bold', color: '#000', textAlign: 'center', margin: '0 0 12px' }}>Obs: {resultadoCierre.observaciones}</p>}
+            {resultadoCierre.observaciones && <p style={{ fontSize: '11px', fontWeight: 'bold', color: '#000', textAlign: 'center', margin: '0 0 12px' }}>Obs: {resultadoCierre.observaciones}</p>}
             <button
               onClick={() => { setShowCorteTicket(false); setSession(null); setShowApertura(true) }}
               style={{
                 width: '100%', padding: '14px', border: 'none', borderRadius: '12px',
-                background: 'linear-gradient(135deg, #FF9800, #F57C00)',
+                background: 'linear-gradient(135deg, #E53935, #F57C00)',
                 color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer'
               }}
             >
@@ -1138,12 +1138,12 @@ export default function Caja() {
                   style={st.input} />
                 {rucSearching && <span style={{ position: 'absolute', right: '8px', top: '10px', color: '#888', fontSize: '12px' }}>...</span>}
                 {rucShowDropdown && (
-                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: darkMode ? '#2d2d2d' : 'white', border: '1px solid rgba(255,152,0,0.3)', borderRadius: '8px', zIndex: 10, maxHeight: '150px', overflow: 'auto' }}>
+                  <div style={{ position: 'absolute', top: '100%', left: 0, right: 0, background: darkMode ? '#2d2d2d' : 'white', border: '1px solid rgba(229,57,53,0.3)', borderRadius: '8px', zIndex: 10, maxHeight: '150px', overflow: 'auto' }}>
                     {rucResults.map((r, i) => (
                       <div key={i} onMouseDown={() => { setBuscarRucInput(r.ruc); setBuscarCliente(r.nombre); setRucShowDropdown(false) }}
                         style={{ padding: '8px 10px', cursor: 'pointer', borderBottom: '1px solid rgba(0,0,0,0.05)', fontSize: '13px' }}>
                         <span style={{ color: darkMode ? '#fff' : '#333' }}>{r.nombre}</span>
-                        <span style={{ color: '#FF9800', marginLeft: '8px', fontSize: '12px' }}>{r.ruc}</span>
+                        <span style={{ color: '#E53935', marginLeft: '8px', fontSize: '12px' }}>{r.ruc}</span>
                       </div>
                     ))}
                   </div>
@@ -1188,11 +1188,11 @@ export default function Caja() {
                         <div>
                           <span style={{ fontSize: '12px', color: darkMode ? '#ddd' : '#444' }}>{p.cliente_nombre}</span>
                           {p.cliente_ruc && p.cliente_ruc !== '44444444-7' && (
-                            <span style={{ fontSize: '10px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
+                            <span style={{ fontSize: '11px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
                           )}
                         </div>
-                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(p.total)}</span>
-                        <span style={{ fontSize: '11px', color: p.factura?.numero ? '#FF9800' : '#888' }}>{p.factura?.numero || '-'}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#22C55E' }}>{formatGuarani(p.total)}</span>
+                        <span style={{ fontSize: '11px', color: p.factura?.numero ? '#E53935' : '#888' }}>{p.factura?.numero || '-'}</span>
                         <button onClick={async (e) => { e.stopPropagation(); setReimprimiendoId(p.id); try { await printTicketFactura(p, empresa, { nombre: p.cliente_nombre, ruc: p.cliente_ruc }, p.factura?.numero || p.numero_orden) } catch (e) { console.error(e) } setReimprimiendoId(null) }}
                           style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '4px' }}>
                           {reimprimiendoId === p.id ? '' : ''}
@@ -1209,7 +1209,7 @@ export default function Caja() {
                             </div>
                           ))}
                           {p.propina && parseFloat(p.propina) > 0 && (
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#FF9800', padding: '2px 0', marginTop: '4px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`, paddingTop: '4px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#E53935', padding: '2px 0', marginTop: '4px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`, paddingTop: '4px' }}>
                               <span>Propina:</span>
                               <span>{formatGuarani(p.propina)}</span>
                             </div>

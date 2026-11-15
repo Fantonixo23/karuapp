@@ -281,15 +281,15 @@ export class AuthService {
         .execute();
     }, { bypassRls: true });
 
-    await this.emailService.sendEmail(data.email, 'Activá tu cuenta en LaCarta',
+    await this.emailService.sendEmail(data.email, 'Activá tu cuenta en KaruApp',
       `Tu código de activación es: ${code}. Válido por 10 minutos.\n\n` +
       `Tu restaurante "${data.restauranteNombre}" ya está activo con una prueba gratuita de ${TRIAL_DIAS} días.`);
 
     if (this.emailService.isConfigured && SUPERADMIN_EMAILS.length) {
       await this.emailService.sendEmail(
         SUPERADMIN_EMAILS[0],
-        'Nuevo restaurante en LaCarta',
-        `El restaurante "${data.restauranteNombre}" (${data.email}) se registró en LaCarta\n` +
+        'Nuevo restaurante en KaruApp',
+        `El restaurante "${data.restauranteNombre}" (${data.email}) se registró en KaruApp\n` +
         `y empezó su prueba gratuita de ${TRIAL_DIAS} días.\n` +
         `Ingresá al panel de administración para asignarle el plan que corresponda.`,
       );
@@ -349,7 +349,7 @@ export class AuthService {
         .execute(),
     );
 
-    await this.emailService.sendEmail(email, 'Tu código de activación de LaCarta',
+    await this.emailService.sendEmail(email, 'Tu código de activación de KaruApp',
       `Tu código de activación es: ${code}. Válido por 10 minutos.`);
 
     return { success: true, message: 'Código reenviado' };
@@ -406,7 +406,7 @@ export class AuthService {
         .execute(),
     );
 
-    await this.emailService.sendEmail(emailUsuario, 'Recuperación de contraseña LaCarta',
+    await this.emailService.sendEmail(emailUsuario, 'Recuperación de contraseña KaruApp',
       `Tu código de verificación es: ${code}. Válido por 10 minutos.`);
 
     return generico;
@@ -466,7 +466,7 @@ export class AuthService {
         .execute(),
     );
 
-    await this.emailService.sendEmail(emailUsuario, 'Código de verificación LaCarta',
+    await this.emailService.sendEmail(emailUsuario, 'Código de verificación KaruApp',
       `Tu código de verificación es: ${code}. Válido por 10 minutos.`);
 
     return { success: true, message: 'Código enviado a tu email' };

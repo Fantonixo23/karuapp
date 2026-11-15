@@ -243,7 +243,7 @@ export default function Login() {
     },
     btn: {
       width: '100%', padding: '12px', borderRadius: '10px',
-      border: 'none', background: '#F44336', color: '#fff',
+      border: 'none', background: '#E53935', color: '#fff',
       fontSize: '15px', fontWeight: 700, cursor: 'pointer',
       fontFamily: "'Inter', 'Roboto', sans-serif",
     },
@@ -281,13 +281,13 @@ export default function Login() {
               }}>
               <span className="material-icons" style={{ fontSize: '24px' }}>arrow_back</span>
             </button>
-            <span className="material-icons" style={{ fontSize: '48px', color: '#FF9800', marginBottom: '8px' }}>mail</span>
+            <span className="material-icons" style={{ fontSize: '48px', color: '#E53935', marginBottom: '8px' }}>mail</span>
             <h2 style={{ color: '#fff', fontSize: '18px', margin: '0 0 6px' }}>Activá tu cuenta</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0' }}>
               Te enviamos un código a tu email.
             </p>
             {verifyDevCode && (
-              <p style={{ color: '#FF9800', fontSize: '11px', margin: '8px 0 0', background: 'rgba(255,152,0,0.1)', padding: '6px 10px', borderRadius: '8px' }}>
+              <p style={{ color: '#E53935', fontSize: '11px', margin: '8px 0 0', background: 'rgba(229,57,53,0.1)', padding: '6px 10px', borderRadius: '8px' }}>
                 Modo desarrollo — Código: <strong>{verifyDevCode}</strong>
               </p>
             )}
@@ -295,7 +295,7 @@ export default function Login() {
           {error && (
             <div style={{
               padding: '10px 14px', borderRadius: '10px',
-              background: 'rgba(244,67,54,0.15)', color: '#ef5350',
+              background: 'rgba(229,57,53,0.15)', color: '#ef5350',
               fontSize: '13px', marginBottom: '16px', textAlign: 'center',
             }}>{error}</div>
           )}
@@ -317,7 +317,7 @@ export default function Login() {
           </form>
           <p style={{ textAlign: 'center', marginTop: '16px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
             <button type="button" onClick={handleReenviar}
-              style={{ background: 'none', border: 'none', color: '#FF9800', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+              style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
               Reenviar código
             </button>
           </p>
@@ -330,15 +330,15 @@ export default function Login() {
     <div style={s.page}>
       <div style={s.card}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '56px', height: '56px', borderRadius: '14px', marginBottom: '12px' }} />
-          <h1 style={{ color: '#fff', fontSize: '24px', fontWeight: 800, margin: 0 }}>LaCarta</h1>
+          <img src="/logo.png" alt="KaruApp" style={{ width: '56px', height: '56px', borderRadius: '14px', marginBottom: '12px' }} />
+          <h1 style={{ color: '#fff', fontSize: '24px', fontWeight: 700, margin: 0 }}>KaruApp</h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginTop: '4px' }}>Sistema POS para restaurantes</p>
         </div>
 
         {(error || forgotMsg) && (
           <div style={{
             padding: '10px 14px', borderRadius: '10px',
-            background: error ? 'rgba(244,67,54,0.15)' : 'rgba(76,175,80,0.15)',
+            background: error ? 'rgba(229,57,53,0.15)' : 'rgba(76,175,80,0.15)',
             color: error ? '#ef5350' : '#66bb6a',
             fontSize: '13px', marginBottom: '16px', textAlign: 'center',
           }}>{error || forgotMsg}</div>
@@ -348,7 +348,7 @@ export default function Login() {
           <form onSubmit={handleSaaSMagic}>
             <div style={{ marginBottom: '14px' }}>
               <label style={labelStyle}>EMAIL</label>
-              <input style={s.input} type="email" placeholder="admin@lacarta.com" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
+              <input style={s.input} type="email" placeholder="admin@karuapp.com" value={email} onChange={(e) => setEmail(e.target.value)} autoFocus />
             </div>
             <InputPass value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••" show={showPass} toggleShow={() => setShowPass(!showPass)} label="CONTRASEÑA" />
             <button type="submit" style={s.btn} disabled={loading}>
@@ -356,14 +356,14 @@ export default function Login() {
             </button>
             <p style={{ textAlign: 'center', marginTop: '16px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
               <button type="button" onClick={() => { setForgotStep('email'); setForgotEmail(email); setError(''); setForgotMsg('') }}
-                style={{ background: 'none', border: 'none', color: '#FF9800', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+                style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
                 ¿Olvidó su contraseña?
               </button>
             </p>
             <p style={{ textAlign: 'center', marginTop: '8px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
               ¿No tenés cuenta?{' '}
               <button type="button" onClick={() => { setShowRegister(true); setError('') }}
-                style={{ background: 'none', border: 'none', color: '#F44336', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+                style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
                 Registrarse
               </button>
             </p>
@@ -392,7 +392,7 @@ export default function Login() {
             <p style={{ textAlign: 'center', marginTop: '16px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
               ¿Ya tenés cuenta?{' '}
               <button type="button" onClick={() => { setShowRegister(false); setError('') }}
-                style={{ background: 'none', border: 'none', color: '#F44336', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+                style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
                 Iniciar sesión
               </button>
             </p>
@@ -407,7 +407,7 @@ export default function Login() {
             </p>
             <div style={{ marginBottom: '20px' }}>
               <label style={labelStyle}>EMAIL</label>
-              <input style={s.input} type="email" placeholder="admin@lacarta.com" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} autoFocus />
+              <input style={s.input} type="email" placeholder="admin@karuapp.com" value={forgotEmail} onChange={(e) => setForgotEmail(e.target.value)} autoFocus />
             </div>
             <button type="submit" style={s.btn} disabled={loading}>
               {loading ? 'Enviando...' : 'Enviar código'}

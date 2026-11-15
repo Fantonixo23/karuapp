@@ -29,10 +29,10 @@ const estilosAnimados = `
 `
 
 const ESTADOS = {
-  pendiente: { color: '#FBC02D', label: 'Pendiente', icono: 'schedule' },
-  cocinando: { color: '#1976D2', label: 'Preparando', icon: 'restaurant' },
-  listo: { color: '#4CAF50', label: 'Listo para Entregar', icon: 'check_circle' },
-  en_camino: { color: '#FF9800', label: 'En Camino', icon: 'local_shipping' },
+  pendiente: { color: '#F59E0B', label: 'Pendiente', icono: 'schedule' },
+  cocinando: { color: '#3B82F6', label: 'Preparando', icon: 'restaurant' },
+  listo: { color: '#22C55E', label: 'Listo para Entregar', icon: 'check_circle' },
+  en_camino: { color: '#E53935', label: 'En Camino', icon: 'local_shipping' },
   entregado: { color: '#7B1FA2', label: 'Entregado', icon: 'done_all' },
   cancelado: { color: '#E53935', label: 'Cancelado', icon: 'cancel' },
   pagado: { color: '#00BCD4', label: 'Pagado', icon: 'payments' }
@@ -272,7 +272,7 @@ export default function Delivery() {
       padding: '10px 20px',
       background: '#1a1a1a',
       color: 'white',
-      borderBottom: '1px solid rgba(255,152,0,0.2)',
+      borderBottom: '1px solid rgba(229,57,53,0.2)',
       boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
     },
     btnHeader: {
@@ -292,7 +292,7 @@ export default function Delivery() {
     },
     title: {
       fontSize: '22px',
-      fontWeight: '800',
+      fontWeight: '700',
       letterSpacing: '0.5px'
     },
     kpiCard: (dm, color) => ({
@@ -308,7 +308,7 @@ export default function Delivery() {
       border: 'none',
       borderRadius: '8px',
       background: activo ? `${ESTADOS[Object.keys(ESTADOS).find(k => k === activo) || 'pendiente']?.color}30` : (dm ? '#2a2a2a' : '#e8e8e8'),
-      color: activo ? (ESTADOS[Object.keys(ESTADOS).find(k => k === activo)]?.color || '#FF9800') : (dm ? '#ccc' : '#666'),
+      color: activo ? (ESTADOS[Object.keys(ESTADOS).find(k => k === activo)]?.color || '#E53935') : (dm ? '#ccc' : '#666'),
       fontSize: '13px',
       cursor: 'pointer',
       fontWeight: '600',
@@ -372,12 +372,12 @@ export default function Delivery() {
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
       color: 'white',
-      background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+      background: 'linear-gradient(135deg, #22C55E, #388E3C)',
     }),
     estadoBadge: (estado) => ({
       padding: '2px 8px',
       borderRadius: '10px',
-      fontSize: '10px',
+      fontSize: '11px',
       fontWeight: '600',
       background: (ESTADOS[estado]?.color || '#666') + '20',
       color: ESTADOS[estado]?.color || '#666',
@@ -388,10 +388,10 @@ export default function Delivery() {
   }
 
   const kpis = dashboard ? [
-    { label: 'Pendientes', valor: dashboard.pendientes, color: '#FBC02D', estado: 'pendiente' },
-    { label: 'Preparando', valor: dashboard.preparando, color: '#1976D2', estado: 'cocinando' },
-    { label: 'Listos', valor: dashboard.listos, color: '#4CAF50', estado: 'listo' },
-    { label: 'En Camino', valor: dashboard.en_camino, color: '#FF9800', estado: 'en_camino' },
+    { label: 'Pendientes', valor: dashboard.pendientes, color: '#F59E0B', estado: 'pendiente' },
+    { label: 'Preparando', valor: dashboard.preparando, color: '#3B82F6', estado: 'cocinando' },
+    { label: 'Listos', valor: dashboard.listos, color: '#22C55E', estado: 'listo' },
+    { label: 'En Camino', valor: dashboard.en_camino, color: '#E53935', estado: 'en_camino' },
     { label: 'Entregados', valor: dashboard.entregados, color: '#7B1FA2', estado: 'entregado' },
     { label: 'Hoy', valor: formatGuarani(dashboard.total_hoy || 0), color: '#00BCD4', esMoneda: true }
   ] : []
@@ -403,13 +403,13 @@ export default function Delivery() {
       <header style={{ ...s.header, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btnHeader}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Delivery</span>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <div style={{ textAlign: 'right', marginRight: '4px' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#FF9800', lineHeight: 1.2 }}>{horaStr}</div>
-            <div style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: '#E53935', lineHeight: 1.2 }}>{horaStr}</div>
+            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
           <FullscreenButton />
           <UserButton />
@@ -442,7 +442,7 @@ export default function Delivery() {
                     <span className="material-icons" style={{ fontSize: '32px', color: kpi.color, marginBottom: '8px' }}>
                       {kpi.esMoneda ? 'attach_money' : ESTADOS[kpi.estado]?.icono || 'inventory'}
                     </span>
-                    <p style={{ fontSize: '28px', fontWeight: '800', color: kpi.color, margin: 0 }}>{kpi.valor}</p>
+                    <p style={{ fontSize: '28px', fontWeight: '700', color: kpi.color, margin: 0 }}>{kpi.valor}</p>
                     <p style={{ fontSize: '12px', color: darkMode ? '#aaa' : '#666', marginTop: '5px' }}>{kpi.label}</p>
                   </div>
                 ))}
@@ -552,7 +552,7 @@ export default function Delivery() {
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '20px', fontWeight: '800', color: '#43A047' }}>
+                      <span style={{ fontSize: '20px', fontWeight: '700', color: '#43A047' }}>
                         {formatGuarani(pedido.total)}
                       </span>
                       {pedido.created_at && (
@@ -572,7 +572,7 @@ export default function Delivery() {
                           }}
                           style={{
                             flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                            background: '#FF9800', color: 'white', fontWeight: '700', fontSize: '12px',
+                            background: '#E53935', color: 'white', fontWeight: '700', fontSize: '12px',
                             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px'
                           }}
                         >
@@ -603,7 +603,7 @@ export default function Delivery() {
                   <p style={{ marginTop: '20px', fontSize: '18px' }}>No hay pedidos de delivery</p>
                   <button
                     onClick={() => setModalNuevo(true)}
-                    style={{ marginTop: '20px', padding: '14px 28px', border: 'none', borderRadius: '12px', background: 'linear-gradient(135deg, #4CAF50, #388E3C)', color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                    style={{ marginTop: '20px', padding: '14px 28px', border: 'none', borderRadius: '12px', background: 'linear-gradient(135deg, #22C55E, #388E3C)', color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
                   >
                     <span className="material-icons" style={{ fontSize: '20px' }}>add_circle</span>
                     Crear primer pedido
@@ -617,7 +617,7 @@ export default function Delivery() {
                 style={{
                   position: 'fixed', bottom: isMobile ? '75px' : '30px', right: isMobile ? '16px' : '30px',
                   width: '60px', height: '60px', borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+                  background: 'linear-gradient(135deg, #22C55E, #388E3C)',
                   color: 'white', border: 'none',
                   boxShadow: '0 4px 20px rgba(76, 175, 80, 0.5)',
                   cursor: 'pointer', zIndex: 100,
@@ -640,7 +640,7 @@ export default function Delivery() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', zIndex: 150, display: 'flex' }}>
           <div style={{ ...s.modal(darkMode), maxWidth: '95%', width: '800px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: '800', color: darkMode ? '#fff' : '#333', margin: 0 }}>
+              <h2 style={{ fontSize: '24px', fontWeight: '700', color: darkMode ? '#fff' : '#333', margin: 0 }}>
                 {editandoPedido ? 'Editar Pedido' : 'Nuevo Pedido Delivery'}
               </h2>
               <button onClick={cerrarModal} style={{ background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: darkMode ? '#fff' : '#333' }}>×</button>
@@ -701,7 +701,7 @@ export default function Delivery() {
                       </div>
                     )}
                     {producto.variantes?.length > 0 && (
-                      <div style={{ position: 'absolute', top: '4px', right: '4px', width: '18px', height: '18px', borderRadius: '50%', background: '#FF9800', color: 'white', fontSize: '10px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>V</div>
+                      <div style={{ position: 'absolute', top: '4px', right: '4px', width: '18px', height: '18px', borderRadius: '50%', background: '#E53935', color: 'white', fontSize: '11px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>V</div>
                     )}
                     <div style={{ padding: '6px 8px', textAlign: 'center' }}>
                       <div style={{ fontWeight: '600', fontSize: '11px', color: darkMode ? '#fff' : '#1a1a1a', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{producto.nombre}</div>
@@ -730,8 +730,8 @@ export default function Delivery() {
                     <div key={`${item.producto_id}_${item.variante || ''}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '8px', background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', borderRadius: '8px' }}>
                       <div>
                         <span style={{ fontWeight: '600' }}>{item.producto_nombre}</span>
-                        {item.variante && <div style={{ fontSize: '10px', color: '#FF9800' }}>+ {item.variante}</div>}
-                        {item.nota && <div style={{ fontSize: '10px', color: darkMode ? '#aaa' : '#888', fontStyle: 'italic' }}>Nota: {item.nota}</div>}
+                        {item.variante && <div style={{ fontSize: '11px', color: '#E53935' }}>+ {item.variante}</div>}
+                        {item.nota && <div style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#888', fontStyle: 'italic' }}>Nota: {item.nota}</div>}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                         <button onClick={() => quitarDelCarrito(item.producto_id, item.variante)} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '10px', background: '#E53935', color: 'white', cursor: 'pointer' }}>-</button>
@@ -745,7 +745,7 @@ export default function Delivery() {
               )}
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px', paddingTop: '15px', borderTop: `2px solid ${darkMode ? '#444' : '#ddd'}` }}>
                 <span style={{ fontSize: '18px', fontWeight: '700' }}>TOTAL:</span>
-                <span style={{ fontSize: '24px', fontWeight: '800', color: '#43A047' }}>{formatGuarani(totalCarrito)}</span>
+                <span style={{ fontSize: '24px', fontWeight: '700', color: '#43A047' }}>{formatGuarani(totalCarrito)}</span>
               </div>
             </div>
 
@@ -754,8 +754,8 @@ export default function Delivery() {
               disabled={!cliente.nombre || !carrito.length || guardando}
               style={{
                 padding: '16px', border: 'none', borderRadius: '10px',
-                background: guardando ? '#999' : 'linear-gradient(135deg, #4CAF50, #388E3C)',
-                color: 'white', fontWeight: '800', fontSize: '16px',
+                background: guardando ? '#999' : 'linear-gradient(135deg, #22C55E, #388E3C)',
+                color: 'white', fontWeight: '700', fontSize: '16px',
                 cursor: (!cliente.nombre || !carrito.length || guardando) ? 'not-allowed' : 'pointer',
                 opacity: (!cliente.nombre || !carrito.length || guardando) ? 0.5 : 1,
                 width: '100%'
@@ -783,11 +783,11 @@ export default function Delivery() {
               <img src={modalProducto.imagen} alt={modalProducto.nombre} style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '12px', marginBottom: '16px', background: darkMode ? '#2a2a2a' : '#f0f2f5' }} />
             )}
 
-            <div style={{ fontSize: '22px', fontWeight: '800', color: '#43A047', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
+            <div style={{ fontSize: '22px', fontWeight: '700', color: '#43A047', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
 
             {modalProducto.variantes && Array.isArray(modalProducto.variantes) && modalProducto.variantes.length > 0 && (
               <div style={{ marginBottom: '16px' }}>
-                <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#FF9800', marginBottom: '8px' }}>VARIANTES</div>
+                <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '8px' }}>VARIANTES</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                   {modalProducto.variantes.map((v, i) => {
                     const vName = typeof v === 'string' ? v : v?.nombre || 'Opci\u00f3n ' + (i + 1)
@@ -800,7 +800,7 @@ export default function Delivery() {
                         style={{
                           padding: '8px 14px', border: 'none', borderRadius: '8px', cursor: 'pointer',
                           fontWeight: '600', fontSize: '12px', transition: 'all 0.15s',
-                          background: isSelected ? '#FF9800' : (darkMode ? '#2a2a2a' : '#f0f0f0'),
+                          background: isSelected ? '#E53935' : (darkMode ? '#2a2a2a' : '#f0f0f0'),
                           color: isSelected ? 'white' : (darkMode ? '#ccc' : '#333'),
                         }}
                       >{vName}{vPrice > 0 ? ' +' + formatGuarani(vPrice) : ''}</button>
@@ -811,7 +811,7 @@ export default function Delivery() {
             )}
 
             <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#FF9800', marginBottom: '8px' }}>CANTIDAD</div>
+              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '8px' }}>CANTIDAD</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <button onClick={() => setCantidad(Math.max(1, cantidad - 1))} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&minus;</button>
                 <span style={{ fontSize: '22px', fontWeight: '700', minWidth: '30px', textAlign: 'center', color: darkMode ? '#fff' : '#1a1a1a' }}>{cantidad}</span>
@@ -820,7 +820,7 @@ export default function Delivery() {
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#FF9800', marginBottom: '8px' }}>NOTA</div>
+              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '8px' }}>NOTA</div>
               <textarea
                 value={nota}
                 onChange={(e) => setNota(e.target.value)}
@@ -842,7 +842,7 @@ export default function Delivery() {
               }}
               style={{
                 width: '100%', padding: '14px', border: 'none', borderRadius: '12px',
-                background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+                background: 'linear-gradient(135deg, #22C55E, #388E3C)',
                 color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer',
               }}
             >Agregar al Carrito</button>
@@ -934,7 +934,7 @@ export default function Delivery() {
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <div>
-                  <h2 style={{ fontSize: '24px', fontWeight: '800', color: darkMode ? '#fff' : '#333', margin: 0 }}>
+                  <h2 style={{ fontSize: '24px', fontWeight: '700', color: darkMode ? '#fff' : '#333', margin: 0 }}>
                     #{modalDetalle.numero_orden || modalDetalle.id}
                   </h2>
                 <span style={s.estadoBadge(modalDetalle.estado)}>
@@ -950,7 +950,7 @@ export default function Delivery() {
               <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', margin: '0' }}>Tel: {modalDetalle.telefono_cliente}</p>
               <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', margin: '5px 0 0 0' }}>Dir: {modalDetalle.direccion}</p>
               {modalDetalle.notas && (
-                <p style={{ fontSize: '13px', color: '#FF9800', margin: '10px 0 0 0', fontStyle: 'italic' }}>Nota: {modalDetalle.notas}</p>
+                <p style={{ fontSize: '13px', color: '#E53935', margin: '10px 0 0 0', fontStyle: 'italic' }}>Nota: {modalDetalle.notas}</p>
               )}
             </div>
 
@@ -968,7 +968,7 @@ export default function Delivery() {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', padding: '15px', background: 'rgba(67, 160, 71, 0.1)', borderRadius: '12px' }}>
               <span style={{ fontSize: '20px', fontWeight: '700' }}>TOTAL:</span>
-              <span style={{ fontSize: '28px', fontWeight: '800', color: '#43A047' }}>{formatGuarani(modalDetalle.total)}</span>
+              <span style={{ fontSize: '28px', fontWeight: '700', color: '#43A047' }}>{formatGuarani(modalDetalle.total)}</span>
             </div>
 
             {modalDetalle.estado !== 'cancelado' && modalDetalle.estado !== 'pagado' && (
@@ -990,7 +990,7 @@ export default function Delivery() {
                     padding: '16px',
                     border: 'none',
                     borderRadius: '12px',
-                    background: imprimiendo ? '#999' : '#FF9800',
+                    background: imprimiendo ? '#999' : '#E53935',
                     color: 'white',
                     fontWeight: '700',
                     fontSize: '16px',

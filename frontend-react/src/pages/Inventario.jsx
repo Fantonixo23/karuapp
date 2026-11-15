@@ -207,8 +207,8 @@ export default function Inventario() {
 
   const getEstadoStock = (estado) => {
     const estilos = {
-      normal: { color: '#4CAF50', bg: 'rgba(76, 175, 80, 0.15)', texto: 'Normal' },
-      bajo: { color: '#FBC02D', bg: 'rgba(251, 192, 45, 0.15)', texto: 'Stock Bajo' },
+      normal: { color: '#22C55E', bg: 'rgba(76, 175, 80, 0.15)', texto: 'Normal' },
+      bajo: { color: '#F59E0B', bg: 'rgba(251, 192, 45, 0.15)', texto: 'Stock Bajo' },
       agotado: { color: '#E53935', bg: 'rgba(229, 57, 53, 0.15)', texto: 'Agotado' }
     }
     return estilos[estado] || estilos.normal
@@ -216,9 +216,9 @@ export default function Inventario() {
 
   const s = {
     container: (dm) => ({ minHeight: '100vh', background: dm ? '#121212' : '#f0f2f5', color: dm ? '#fff' : '#1a1a1a', overflow: 'hidden' }),
-    header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: '#1a1a1a', color: 'white', borderBottom: '1px solid rgba(255,152,0,0.2)', boxShadow: '0 1px 4px rgba(0,0,0,0.3)' },
+    header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: '#1a1a1a', color: 'white', borderBottom: '1px solid rgba(229,57,53,0.2)', boxShadow: '0 1px 4px rgba(0,0,0,0.3)' },
     btn: { width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', transition: 'all 0.15s' },
-    title: { fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px' },
+    title: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px' },
     kpiCard: (dm) => ({ borderRadius: '14px', padding: '18px', textAlign: 'center', border: `1px solid ${dm ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`, background: dm ? '#1e1e1e' : 'white', boxShadow: dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)' }),
     gridKpi: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '20px' },
     overlay: {
@@ -243,7 +243,7 @@ export default function Inventario() {
     fab: {
       position: 'fixed', bottom: '24px', right: '24px',
       width: '48px', height: '48px', border: 'none', borderRadius: '14px',
-      background: 'linear-gradient(135deg, #4CAF50, #388E3C)',
+      background: 'linear-gradient(135deg, #22C55E, #388E3C)',
       color: 'white', fontSize: '22px', cursor: 'pointer',
       boxShadow: '0 4px 12px rgba(76,175,80,0.3)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -256,7 +256,7 @@ export default function Inventario() {
       <header style={{ ...s.header, flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btn}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Inventario</span>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -316,14 +316,14 @@ export default function Inventario() {
               <p style={{ fontSize: '24px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{resumen.total_productos || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
-              <span className="material-icons" style={{ fontSize: '35px', color: '#4CAF50' }}>check_circle</span>
+              <span className="material-icons" style={{ fontSize: '35px', color: '#22C55E' }}>check_circle</span>
               <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Normal</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: '#4CAF50' }}>{resumen.normal || 0}</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#22C55E' }}>{resumen.normal || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
-              <span className="material-icons" style={{ fontSize: '35px', color: '#FBC02D' }}>warning</span>
+              <span className="material-icons" style={{ fontSize: '35px', color: '#F59E0B' }}>warning</span>
               <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Stock Bajo</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: '#FBC02D' }}>{resumen.bajo || 0}</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: '#F59E0B' }}>{resumen.bajo || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
               <span className="material-icons" style={{ fontSize: '35px', color: '#E53935' }}>cancel</span>
@@ -411,7 +411,7 @@ export default function Inventario() {
                               <button
                                 onClick={() => abrirMovimiento(item, 'entrada')}
                                 title="Entrada"
-                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#4CAF50', color: 'white', cursor: 'pointer' }}
+                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#22C55E', color: 'white', cursor: 'pointer' }}
                               >
                                 <span className="material-icons" style={{ fontSize: '18px' }}>add</span>
                               </button>
@@ -503,7 +503,7 @@ export default function Inventario() {
               </button>
               <button
                 onClick={ejecutarMovimiento}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: tipoMovimiento === 'entrada' ? '#4CAF50' : '#E53935', color: 'white', cursor: 'pointer', fontWeight: '700' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: tipoMovimiento === 'entrada' ? '#22C55E' : '#E53935', color: 'white', cursor: 'pointer', fontWeight: '700' }}
               >
                 {tipoMovimiento === 'entrada' ? 'Entrada' : 'Salida'}
               </button>

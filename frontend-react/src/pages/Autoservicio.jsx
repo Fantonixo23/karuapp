@@ -116,10 +116,10 @@ export default function Autoservicio() {
   const btnPrimary = {
     border: 'none',
     borderRadius: '10px',
-    background: '#FF9800',
-    color: '#1a1a1a',
+    background: '#E53935',
+    color: '#fff',
     fontSize: '13px',
-    fontWeight: 800,
+    fontWeight: 700,
     padding: '10px 14px',
     cursor: 'pointer',
   }
@@ -141,7 +141,7 @@ export default function Autoservicio() {
     background: darkMode ? 'rgba(229,57,53,0.16)' : '#FFEBEE',
     color: darkMode ? '#FF8A80' : '#C62828',
     fontSize: '13px',
-    fontWeight: 800,
+    fontWeight: 700,
     padding: '10px 14px',
     cursor: 'pointer',
   }
@@ -177,8 +177,8 @@ export default function Autoservicio() {
   }
 
   const chip = (activo, suave = false) => ({
-    border: activo ? '1px solid #FF9800' : `1px solid ${borderColor}`,
-    background: activo ? (suave ? 'rgba(255,152,0,0.14)' : '#FF9800') : (darkMode ? '#202020' : '#fff'),
+    border: activo ? '1px solid #E53935' : `1px solid ${borderColor}`,
+    background: activo ? (suave ? 'rgba(229,57,53,0.14)' : '#E53935') : (darkMode ? '#202020' : '#fff'),
     color: activo && !suave ? '#1a1a1a' : textColor,
     fontSize: '12px',
     fontWeight: 700,
@@ -632,7 +632,7 @@ export default function Autoservicio() {
         padding: '10px 20px',
         background: '#1a1a1a',
         color: 'white',
-        borderBottom: '1px solid rgba(255,152,0,0.2)',
+        borderBottom: '1px solid rgba(229,57,53,0.2)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={{
@@ -649,7 +649,7 @@ export default function Autoservicio() {
             justifyContent: 'center',
             textDecoration: 'none',
           }}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={{ fontSize: '18px', fontWeight: '700' }}>Autoservicio</span>
         </div>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
@@ -690,7 +690,7 @@ export default function Autoservicio() {
             marginBottom: '14px',
           }}>
             <div>
-              <h1 style={{ margin: 0, fontSize: isMobile ? '20px' : '24px', fontWeight: 800 }}>
+              <h1 style={{ margin: 0, fontSize: isMobile ? '20px' : '24px', fontWeight: 700 }}>
                 {vista === 'nuevo'
                   ? (ticketEditando ? `Agregar al ticket #${ticketEditando.numero_orden || ticketEditando.id}` : 'Nuevo ticket')
                   : 'Autoservicio'}
@@ -757,8 +757,8 @@ export default function Autoservicio() {
                 <div style={{ ...card, padding: '30px', textAlign: 'center', color: muted }}>Cargando tickets...</div>
               ) : ticketsMostrados.length === 0 ? (
                 <div style={{ ...card, padding: '34px 20px', textAlign: 'center' }}>
-                  <span className="material-icons" style={{ fontSize: '52px', color: '#FF9800' }}>confirmation_number</span>
-                  <h2 style={{ margin: '10px 0 4px', fontSize: '18px', fontWeight: 800 }}>
+                  <span className="material-icons" style={{ fontSize: '52px', color: '#E53935' }}>confirmation_number</span>
+                  <h2 style={{ margin: '10px 0 4px', fontSize: '18px', fontWeight: 700 }}>
                     {verTodos ? 'Todavía no hay tickets' : 'No hay tickets activos'}
                   </h2>
                   <p style={{ margin: '0 0 14px', color: muted, fontSize: '13px' }}>
@@ -779,7 +779,7 @@ export default function Autoservicio() {
                       <div key={p.id} style={{ ...card, padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
                           <div>
-                            <div style={{ fontSize: '24px', fontWeight: 900, color: '#FF9800', lineHeight: 1 }}>
+                            <div style={{ fontSize: '24px', fontWeight: 700, color: '#E53935', lineHeight: 1 }}>
                               #{p.numero_orden || p.id}
                             </div>
                             <div style={{ fontSize: '12px', color: muted, marginTop: '4px' }}>
@@ -788,7 +788,7 @@ export default function Autoservicio() {
                           </div>
                           <span style={{
                             fontSize: '11px',
-                            fontWeight: 800,
+                            fontWeight: 700,
                             textTransform: 'uppercase',
                             letterSpacing: '0.4px',
                             padding: '4px 8px',
@@ -836,7 +836,7 @@ export default function Autoservicio() {
                             <div style={{ fontSize: '11px', color: muted, textTransform: 'uppercase', letterSpacing: '0.4px' }}>
                               Total
                             </div>
-                            <div style={{ fontSize: '17px', fontWeight: 800 }}>{fmtGs(p.total)}</div>
+                            <div style={{ fontSize: '17px', fontWeight: 700 }}>{fmtGs(p.total)}</div>
                           </div>
                           <button onClick={() => setDetalleId(p.id)} style={{ ...btnPrimary, padding: '8px 12px' }}>
                             Ver ticket
@@ -859,7 +859,7 @@ export default function Autoservicio() {
             }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', minWidth: 0 }}>
                 <div style={{ ...card, padding: '14px' }}>
-                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 800 }}>1. Menú por kg</h2>
+                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>1. Menú por kg</h2>
                   <p style={{ margin: '3px 0 10px', fontSize: '12px', color: muted }}>
                     Cargá el precio por kilogramo y el peso. Ambos valores se pueden modificar a gusto.
                   </p>
@@ -933,7 +933,7 @@ export default function Autoservicio() {
                         ? `${menuProducto.nombre} · ${fmtGs(precioNum)}/kg · ${fmtCantidad(pesoNum)} kg`
                         : 'Seleccioná un menú'}
                     </span>
-                    <span style={{ fontWeight: 800, color: textColor }}>Subtotal: {fmtGs(subtotalMenu)}</span>
+                    <span style={{ fontWeight: 700, color: textColor }}>Subtotal: {fmtGs(subtotalMenu)}</span>
                   </div>
 
                   {menuProducts.length > 0 && (
@@ -957,7 +957,7 @@ export default function Autoservicio() {
                 </div>
 
                 <div style={{ ...card, padding: '14px' }}>
-                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 800 }}>2. Añadidos</h2>
+                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>2. Añadidos</h2>
                   <p style={{ margin: '3px 0 10px', fontSize: '12px', color: muted }}>
                     Todo lo que está en la sección de productos. Tocá un producto para agregarlo por unidad.
                   </p>
@@ -1028,7 +1028,7 @@ export default function Autoservicio() {
                               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
                           ) : (
-                            <span className="material-icons" style={{ color: '#FF9800', fontSize: '30px' }}>
+                            <span className="material-icons" style={{ color: '#E53935', fontSize: '30px' }}>
                               restaurant
                             </span>
                           )}
@@ -1036,7 +1036,7 @@ export default function Autoservicio() {
                         <div style={{ fontSize: '12px', fontWeight: 700, lineHeight: 1.2, minHeight: '29px' }}>
                           {p.nombre}
                         </div>
-                        <div style={{ fontSize: '10px', color: muted, marginTop: '2px', minHeight: '12px' }}>
+                        <div style={{ fontSize: '11px', color: muted, marginTop: '2px', minHeight: '12px' }}>
                           {categoriasMap[p.categoria_id] || ''}
                         </div>
                         <div style={{
@@ -1046,10 +1046,10 @@ export default function Autoservicio() {
                           marginTop: '6px',
                           gap: '4px',
                         }}>
-                          <span style={{ fontSize: '12px', fontWeight: 800, color: '#FF9800' }}>
+                          <span style={{ fontSize: '12px', fontWeight: 700, color: '#E53935' }}>
                             {fmtGs(p.precio)}
                           </span>
-                          <span className="material-icons" style={{ fontSize: '20px', color: '#FF9800' }}>
+                          <span className="material-icons" style={{ fontSize: '20px', color: '#E53935' }}>
                             add_circle
                           </span>
                         </div>
@@ -1084,7 +1084,7 @@ export default function Autoservicio() {
                   gap: '8px',
                   marginBottom: '10px',
                 }}>
-                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 800 }}>
+                  <h2 style={{ margin: 0, fontSize: '16px', fontWeight: 700 }}>
                     {ticketEditando ? 'Agregar al ticket' : 'Ticket'}
                   </h2>
                   <span style={{ fontSize: '12px', color: muted }}>{carrito.length} línea(s)</span>
@@ -1092,8 +1092,8 @@ export default function Autoservicio() {
 
                 {ticketEditando && (
                   <div style={{
-                    background: darkMode ? 'rgba(255,152,0,0.12)' : '#FFF3E0',
-                    border: '1px solid rgba(255,152,0,0.35)',
+                    background: darkMode ? 'rgba(229,57,53,0.12)' : '#FFF3E0',
+                    border: '1px solid rgba(229,57,53,0.35)',
                     color: darkMode ? '#FFCC80' : '#E65100',
                     padding: '8px 10px',
                     borderRadius: '10px',
@@ -1135,7 +1135,7 @@ export default function Autoservicio() {
                           }}>
                             {item.producto_nombre}
                           </div>
-                          <div style={{ fontSize: '10px', color: muted }}>
+                          <div style={{ fontSize: '11px', color: muted }}>
                             {item.es_menu
                               ? 'Menú por kg'
                               : (item.categoria_nombre || 'Añadido')}
@@ -1162,7 +1162,7 @@ export default function Autoservicio() {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexWrap: 'wrap' }}>
                           {item.es_menu && (
                             <>
-                              <span style={{ fontSize: '10px', color: muted }}>Gs.</span>
+                              <span style={{ fontSize: '11px', color: muted }}>Gs.</span>
                               <input
                                 type="number"
                                 min="0"
@@ -1188,7 +1188,7 @@ export default function Autoservicio() {
                             {item.es_menu ? 'kg' : 'u.'}
                           </span>
                         </div>
-                        <span style={{ fontSize: '12px', fontWeight: 800 }}>
+                        <span style={{ fontSize: '12px', fontWeight: 700 }}>
                           {fmtGs(Number(item.precio) * Number(item.cantidad))}
                         </span>
                       </div>
@@ -1218,7 +1218,7 @@ export default function Autoservicio() {
                   marginTop: '6px',
                 }}>
                   <span style={{ fontSize: '13px', color: muted, fontWeight: 700 }}>TOTAL</span>
-                  <span style={{ fontSize: '20px', fontWeight: 900, color: '#FF9800' }}>{fmtGs(totalCarrito)}</span>
+                  <span style={{ fontSize: '20px', fontWeight: 700, color: '#E53935' }}>{fmtGs(totalCarrito)}</span>
                 </div>
 
                 <button
@@ -1254,7 +1254,7 @@ export default function Autoservicio() {
           <div style={modal} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', alignItems: 'flex-start' }}>
               <div>
-                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800 }}>{productoModal.nombre}</h3>
+                <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 700 }}>{productoModal.nombre}</h3>
                 <p style={{ margin: '3px 0 0', fontSize: '12px', color: muted }}>
                   {categoriasMap[productoModal.categoria_id] || 'Añadido'} · {fmtGs(productoModal.precio)} por unidad
                 </p>
@@ -1323,7 +1323,7 @@ export default function Autoservicio() {
                 <div style={{ fontSize: '11px', color: muted, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   Ticket
                 </div>
-                <h3 style={{ margin: '2px 0 0', fontSize: '28px', fontWeight: 900, color: '#FF9800' }}>
+                <h3 style={{ margin: '2px 0 0', fontSize: '28px', fontWeight: 700, color: '#E53935' }}>
                   #{ticketDetalle.numero_orden || ticketDetalle.id}
                 </h3>
                 <div style={{ fontSize: '12px', color: muted }}>
@@ -1353,7 +1353,7 @@ export default function Autoservicio() {
                       {fmtCantidad(it.cantidad)}x {it.producto_nombre}
                     </div>
                     {(it.nota || it.variante) && (
-                      <div style={{ fontSize: '10px', color: muted }}>{it.nota || it.variante}</div>
+                      <div style={{ fontSize: '11px', color: muted }}>{it.nota || it.variante}</div>
                     )}
                   </div>
                   <span style={{ color: muted, whiteSpace: 'nowrap' }}>
@@ -1374,7 +1374,7 @@ export default function Autoservicio() {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '12px 0' }}>
               <span style={{ fontSize: '13px', color: muted, fontWeight: 700 }}>TOTAL</span>
-              <span style={{ fontSize: '22px', fontWeight: 900, color: '#FF9800' }}>{fmtGs(ticketDetalle.total)}</span>
+              <span style={{ fontSize: '22px', fontWeight: 700, color: '#E53935' }}>{fmtGs(ticketDetalle.total)}</span>
             </div>
 
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -1428,7 +1428,7 @@ export default function Autoservicio() {
       {confirmacion && (
         <div style={overlay} onClick={() => !accionCargando && setConfirmacion(null)}>
           <div style={{ ...modal, maxWidth: '420px' }} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ margin: '0 0 6px', fontSize: '18px', fontWeight: 900 }}>
+            <h3 style={{ margin: '0 0 6px', fontSize: '18px', fontWeight: 700 }}>
               {confirmacion.tipo === 'cobrar' ? 'Cobrar ticket' : 'Cancelar ticket'}
             </h3>
             <p style={{ margin: 0, color: muted, fontSize: '14px', lineHeight: 1.5 }}>
@@ -1466,11 +1466,11 @@ export default function Autoservicio() {
       {exito && (
         <div style={overlay} onClick={() => setExito(null)}>
           <div style={{ ...modal, maxWidth: '430px', textAlign: 'center' }} onClick={(e) => e.stopPropagation()}>
-            <span className="material-icons" style={{ fontSize: '56px', color: '#4CAF50' }}>check_circle</span>
-            <h3 style={{ margin: '8px 0 2px', fontSize: '20px', fontWeight: 900 }}>{exito.titulo}</h3>
+            <span className="material-icons" style={{ fontSize: '56px', color: '#22C55E' }}>check_circle</span>
+            <h3 style={{ margin: '8px 0 2px', fontSize: '20px', fontWeight: 700 }}>{exito.titulo}</h3>
             <p style={{ margin: '4px 0', fontSize: '15px', color: muted }}>{exito.mensaje}</p>
             {exito.total !== undefined && (
-              <p style={{ margin: '6px 0 0', fontSize: '22px', fontWeight: 900, color: '#FF9800' }}>
+              <p style={{ margin: '6px 0 0', fontSize: '22px', fontWeight: 700, color: '#E53935' }}>
                 {fmtGs(exito.total)}
               </p>
             )}

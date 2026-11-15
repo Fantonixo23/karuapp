@@ -206,12 +206,12 @@ export const TicketFactura = ({ pedido, negocio, cliente, onClose, numero, vuelt
                   style={{ width: '100px', height: '100px', margin: '4px auto', display: 'block' }}
                 />
                 {pedido?.cdc && (
-                  <p style={{ fontSize: '9px', wordBreak: 'break-all', margin: '2px 0', color: '#000' }}>
+                  <p style={{ fontSize: '11px', wordBreak: 'break-all', margin: '2px 0', color: '#000' }}>
                     CDC: {pedido.cdc}
                   </p>
                 )}
                 {pedido?.kude && (
-                  <p style={{ fontSize: '9px', wordBreak: 'break-all', margin: '2px 0', color: '#000' }}>
+                  <p style={{ fontSize: '11px', wordBreak: 'break-all', margin: '2px 0', color: '#000' }}>
                     KUDE: {pedido.kude}
                   </p>
                 )}
@@ -230,7 +230,7 @@ export const TicketFactura = ({ pedido, negocio, cliente, onClose, numero, vuelt
 
           {sifen_error && (
             <div style={{ textAlign: 'center', margin: '4px 0', padding: '4px', border: '1px solid #E53935' }}>
-              <p style={{ fontWeight: 'bold', fontSize: '10px', color: '#E53935', margin: '2px 0' }}>
+              <p style={{ fontWeight: 'bold', fontSize: '11px', color: '#E53935', margin: '2px 0' }}>
                 Error SIFEN: {sifen_error}
               </p>
             </div>

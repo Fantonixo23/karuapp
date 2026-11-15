@@ -45,7 +45,7 @@ export class EmailService {
 
     if (this.resend) {
       try {
-        const from = process.env.RESEND_FROM || 'LaCarta <no-reply@lacarta.com>';
+        const from = process.env.RESEND_FROM || 'KaruApp <no-reply@karuapp.com>';
         const { error } = await this.resend.emails.send({ from, to, subject, text });
         if (error) throw new Error(error.message);
         this.logger.log(`Email enviado a ${to} (Resend): ${subject}`);
@@ -56,7 +56,7 @@ export class EmailService {
       }
     }
 
-    const from = process.env.SMTP_FROM || process.env.SMTP_USER || 'no-reply@lacarta.com';
+    const from = process.env.SMTP_FROM || process.env.SMTP_USER || 'no-reply@karuapp.com';
     try {
       await this.transporter!.sendMail({ from, to, subject, text });
       this.logger.log(`Email enviado a ${to}: ${subject}`);

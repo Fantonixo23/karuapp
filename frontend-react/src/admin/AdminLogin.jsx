@@ -56,14 +56,14 @@ export default function AdminLogin() {
         boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div style={{ fontSize: '28px', fontWeight: '800', color: '#F44336', letterSpacing: '1px' }}>LaCarta</div>
+          <div style={{ fontSize: '28px', fontWeight: '700', color: '#E53935', letterSpacing: '1px' }}>KaruApp</div>
           <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginTop: '4px' }}>Panel de Administración</div>
         </div>
 
         {error && (
           <div style={{
             padding: '10px', borderRadius: '8px', marginBottom: '16px',
-            background: 'rgba(244,67,54,0.12)', color: '#EF5350',
+            background: 'rgba(229,57,53,0.12)', color: '#EF5350',
             fontSize: '13px', fontWeight: '600', textAlign: 'center',
           }}>{error}</div>
         )}
@@ -84,7 +84,7 @@ export default function AdminLogin() {
 
         <button type="submit" disabled={loading} style={{
           width: '100%', padding: '13px', borderRadius: '10px', border: 'none',
-          background: loading ? '#555' : 'linear-gradient(135deg, #F44336, #D32F2F)',
+          background: loading ? '#555' : 'linear-gradient(135deg, #E53935, #D32F2F)',
           color: 'white', fontSize: '14px', fontWeight: '700', cursor: loading ? 'not-allowed' : 'pointer',
           transition: 'all 0.15s',
         }}>

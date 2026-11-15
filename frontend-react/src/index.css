@@ -1,9 +1,47 @@
+/* =====================================================================
+   KaruApp — Sistema tipográfico y de color oficial
+   ===================================================================== */
+
 :root {
-  --primary: #FF9800;
-  --red: #F44336;
-  --green: #4CAF50;
-  --blue: #1976D2;
-  --bg: #1a1a1a;
+  /* ===== Paleta oficial ===== */
+  --k-bg: #121212;
+  --k-surface: #1E1E1E;
+  --k-primary: #E53935;
+  --k-text: #FFFFFF;
+  --k-text-secondary: #A3A3A3;
+  --k-success: #22C55E;
+  --k-info: #3B82F6;
+  --k-warning: #F59E0B;
+  --k-border: rgba(255, 255, 255, 0.08);
+
+  /* Alias de compatibilidad con estilos existentes */
+  --primary: var(--k-primary);
+  --red: var(--k-primary);
+  --green: var(--k-success);
+  --blue: var(--k-info);
+  --bg: var(--k-bg);
+
+  /* ===== Tipografía: familia ===== */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* ===== Tipografía: escala ===== */
+  --fs-h1: 24px;            --fw-h1: 700;
+  --fs-h2: 20px;            --fw-h2: 600;
+  --fs-h3: 16px;            --fw-h3: 600;
+  --fs-body: 14px;          --fw-body: 400;
+  --fs-body-medium: 14px;   --fw-body-medium: 500;
+  --fs-button: 14px;        --fw-button: 600;
+  --fs-button-small: 13px;  --fw-button-small: 500;
+  --fs-menu: 13px;          --fw-menu: 500;
+  --fs-tab: 13px;           --fw-tab: 600;
+  --fs-table: 13px;         --fw-table: 400;
+  --fs-table-header: 12px;  --fw-table-header: 600;
+  --fs-label: 13px;         --fw-label: 500;
+  --fs-caption: 12px;       --fw-caption: 400;
+  --fs-small: 11px;         --fw-small: 500;
+  --fs-kpi: 24px;           --fw-kpi: 700;
+
+  /* ===== Radios ===== */
   --radius: 12px;
   --radius-sm: 10px;
 }
@@ -14,7 +52,7 @@
   box-sizing: border-box;
 }
 
-/* ===== Estilo LaCarta: bordes suaves y minimalistas, sin animaciones ===== */
+/* ===== Estilo KaruApp: bordes suaves, minimalista, sin animaciones ===== */
 
 *,
 *::before,
@@ -36,15 +74,85 @@ select {
   border-radius: var(--radius-sm);
 }
 
+/* ===== Tipografía global ===== */
+html,
 body {
-  font-family: 'Roboto', sans-serif;
-  background: transparent;
-  color: inherit;
+  font-family: var(--font-sans) !important;
+}
+
+/* Inter en todos los elementos de la interfaz, salvo los íconos. */
+body,
+body *:not(.material-icons) {
+  font-family: var(--font-sans) !important;
+}
+
+body {
+  font-size: var(--fs-body);
+  font-weight: var(--fw-body);
+  line-height: 1.45;
+  background: var(--k-bg);
+  color: var(--k-text);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body.dark {
-  background: transparent;
-  color: inherit;
+  background: var(--k-bg);
+  color: var(--k-text);
+}
+
+/* Jerarquía de títulos */
+h1 {
+  font-size: var(--fs-h1) !important;
+  font-weight: var(--fw-h1) !important;
+}
+
+h2 {
+  font-size: var(--fs-h2) !important;
+  font-weight: var(--fw-h2) !important;
+}
+
+h3 {
+  font-size: var(--fs-h3) !important;
+  font-weight: var(--fw-h3) !important;
+}
+
+/* Controles y tablas */
+button {
+  font-size: var(--fs-button);
+  font-weight: var(--fw-button);
+}
+
+input,
+select,
+textarea {
+  font-size: var(--fs-body);
+}
+
+label {
+  font-size: var(--fs-label);
+  font-weight: var(--fw-label);
+}
+
+table {
+  font-size: var(--fs-table);
+}
+
+th {
+  font-size: var(--fs-table-header);
+  font-weight: var(--fw-table-header);
+}
+
+/* Importes, cantidades, estadísticas y horarios con números tabulares */
+table,
+th,
+td,
+input[type="number"],
+.tnum,
+.tabular-nums,
+.k-numeric {
+  font-variant-numeric: tabular-nums;
 }
 
 a {
@@ -52,9 +160,32 @@ a {
   color: inherit;
 }
 
+/* Íconos Material (deben conservar su fuente) */
 .material-icons {
-  font-family: 'Material Icons';
+  font-family: 'Material Icons' !important;
   font-size: 24px;
+}
+
+/* ===== Utilidades tipográficas reutilizables ===== */
+.k-h1 { font-size: var(--fs-h1); font-weight: var(--fw-h1); }
+.k-h2 { font-size: var(--fs-h2); font-weight: var(--fw-h2); }
+.k-h3 { font-size: var(--fs-h3); font-weight: var(--fw-h3); }
+.k-body { font-size: var(--fs-body); font-weight: var(--fw-body); }
+.k-body-medium { font-size: var(--fs-body-medium); font-weight: var(--fw-body-medium); }
+.k-button { font-size: var(--fs-button); font-weight: var(--fw-button); }
+.k-button-small { font-size: var(--fs-button-small); font-weight: var(--fw-button-small); }
+.k-menu { font-size: var(--fs-menu); font-weight: var(--fw-menu); }
+.k-tab { font-size: var(--fs-tab); font-weight: var(--fw-tab); }
+.k-table { font-size: var(--fs-table); font-weight: var(--fw-table); }
+.k-table-header { font-size: var(--fs-table-header); font-weight: var(--fw-table-header); }
+.k-label { font-size: var(--fs-label); font-weight: var(--fw-label); }
+.k-caption { font-size: var(--fs-caption); font-weight: var(--fw-caption); }
+.k-small { font-size: var(--fs-small); font-weight: var(--fw-small); }
+.k-kpi { font-size: var(--fs-kpi); font-weight: var(--fw-kpi); }
+
+/* Color de texto secundario reutilizable */
+.k-muted {
+  color: var(--k-text-secondary);
 }
 
 @media (max-width: 1279px) {

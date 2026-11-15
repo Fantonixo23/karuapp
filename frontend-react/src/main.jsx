@@ -26,7 +26,7 @@ if (window.caches) {
 }
 
 if (localStorage.getItem('darkMode') === null) {
-  localStorage.setItem('darkMode', 'false')
+  localStorage.setItem('darkMode', 'true')
 }
 
 createRoot(document.getElementById('root')).render(

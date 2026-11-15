@@ -13,10 +13,10 @@ export const ALL_AREAS = [
 ]
 
 export const ROL_INFO = {
-  administrador: { label: 'Administrador', color: '#F44336' },
-  cajero: { label: 'Cajero', color: '#1976D2' },
-  mesero: { label: 'Mesero', color: '#4CAF50' },
-  cocina: { label: 'Cocina', color: '#FF9800' },
+  administrador: { label: 'Administrador', color: '#E53935' },
+  cajero: { label: 'Cajero', color: '#3B82F6' },
+  mesero: { label: 'Mesero', color: '#22C55E' },
+  cocina: { label: 'Cocina', color: '#E53935' },
 }
 
 export const MODULOS_POR_ROL = {

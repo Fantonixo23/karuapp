@@ -174,7 +174,7 @@ export default function Informes() {
       padding: '10px 20px',
       background: '#1a1a1a',
       color: 'white',
-      borderBottom: '1px solid rgba(255,152,0,0.2)',
+      borderBottom: '1px solid rgba(229,57,53,0.2)',
       boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
     },
     btn: {
@@ -184,7 +184,7 @@ export default function Informes() {
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       textDecoration: 'none', transition: 'all 0.15s'
     },
-    title: { fontSize: '22px', fontWeight: '800', letterSpacing: '0.5px' },
+    title: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px' },
     kpiCard: (dm, index) => ({
       borderRadius: '14px',
       padding: '20px',
@@ -224,7 +224,7 @@ export default function Informes() {
         gradient.addColorStop(1, 'rgba(25, 118, 210, 0.3)')
         return gradient
       },
-      borderColor: '#1976D2',
+      borderColor: '#3B82F6',
       borderWidth: 3,
       borderRadius: 12,
       borderSkipped: false,
@@ -259,10 +259,10 @@ export default function Informes() {
       label: 'Ventas ($)',
       data: productos.slice(0, 8).map(p => p.ventas),
       backgroundColor: [
-        '#FF9800',
-        '#4CAF50',
         '#E53935',
-        '#1976D2',
+        '#22C55E',
+        '#E53935',
+        '#3B82F6',
         '#9C27B0',
         '#00BCD4',
         '#795548',
@@ -287,7 +287,7 @@ export default function Informes() {
         'rgba(33, 150, 243, 0.9)',
         'rgba(255, 152, 0, 0.9)'
       ],
-      borderColor: ['#4CAF50', '#2196F3', '#FF9800'],
+      borderColor: ['#22C55E', '#3B82F6', '#E53935'],
       borderWidth: 3,
       hoverOffset: 15
     }]
@@ -303,18 +303,18 @@ export default function Informes() {
   }
 
   const getEstadoColor = (estado) => {
-    const colores = { pendiente: '#FBC02D', cocinando: '#1976D2', listo: '#4CAF50', pagado: '#7B1FA2', cancelado: '#E53935' }
+    const colores = { pendiente: '#F59E0B', cocinando: '#3B82F6', listo: '#22C55E', pagado: '#7B1FA2', cancelado: '#E53935' }
     return colores[estado] || '#666'
   }
 
   const kpis = [
-    { label: 'Ventas Totales', valor: resumen?.ventas_totales || 0, color: '#4CAF50', icono: 'attach_money', formato: 'moneda' },
-    { label: 'Total Pedidos', valor: resumen?.total_pedidos || 0, color: '#1976D2', icono: 'receipt_long', formato: 'numero' },
-    { label: 'Ticket Promedio', valor: resumen?.ticket_promedio || 0, color: '#FF9800', icono: 'trending_up', formato: 'moneda' },
+    { label: 'Ventas Totales', valor: resumen?.ventas_totales || 0, color: '#22C55E', icono: 'attach_money', formato: 'moneda' },
+    { label: 'Total Pedidos', valor: resumen?.total_pedidos || 0, color: '#3B82F6', icono: 'receipt_long', formato: 'numero' },
+    { label: 'Ticket Promedio', valor: resumen?.ticket_promedio || 0, color: '#E53935', icono: 'trending_up', formato: 'moneda' },
     { label: 'Tasa Cancelación', valor: resumen?.tasa_cancelacion || 0, color: '#E53935', icono: 'cancel', formato: 'porcentaje' }
   ]
 
-  const kpiColors = { '#4CAF50': '#81C784', '#1976D2': '#64B5F6', '#FF9800': '#FFB74D', '#E53935': '#EF5350' }
+  const kpiColors = { '#22C55E': '#81C784', '#3B82F6': '#64B5F6', '#E53935': '#EF5350' }
 
   const formatearNumero = (valor, tipo) => {
     if (tipo === 'moneda') return formatGuarani(valor)
@@ -375,7 +375,7 @@ export default function Informes() {
     modal: { background: darkMode ? '#2d2d2d' : 'white', borderRadius: '20px', padding: '25px', width: '90%', maxWidth: '900px', maxHeight: '90vh', overflow: 'auto' },
     input: { width: '100%', padding: '10px 14px', border: 'none', borderRadius: '10px', background: darkMode ? '#3a3a3a' : '#f5f5f5', color: darkMode ? '#fff' : '#333', fontSize: '14px', outline: 'none', boxSizing: 'border-box' },
     btn: { padding: '10px 20px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '14px', fontWeight: '600' },
-    btnPrimary: { padding: '12px 24px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #FF9800, #F57C00)', color: 'white' },
+    btnPrimary: { padding: '12px 24px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white' },
   }
 
   return (
@@ -385,7 +385,7 @@ export default function Informes() {
       <header style={s.header}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={s.btn}><span className="material-icons">home</span></Link>
-          <img src="/logo.png" alt="LaCarta" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
+          <img src="/logo.png" alt="KaruApp" style={{ width: '28px', height: '28px', borderRadius: '10px' }} />
           <span style={s.title}>Informes</span>
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -415,7 +415,7 @@ export default function Informes() {
         <div style={{ padding: isMobile ? '12px' : '25px', overflowY: 'auto', overflowX: 'hidden' }}>
           {cargando ? (
             <div style={{ textAlign: 'center', padding: '100px', color: darkMode ? '#888' : '#666' }}>
-              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid #eee', borderTop: '4px solid #1976D2', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid #eee', borderTop: '4px solid #3B82F6', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
               <p style={{ marginTop: '25px', fontSize: '18px', fontWeight: '600' }}>Cargando estadísticas...</p>
               <p style={{ marginTop: '10px', fontSize: '14px', opacity: 0.7 }}>Analizando datos de ventas</p>
             </div>
@@ -442,7 +442,7 @@ export default function Informes() {
                       animationDelay: `${index * 0.3}s`
                     }}>{kpi.icono}</span>
                     <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', marginTop: '12px', fontWeight: '500' }}>{kpi.label}</p>
-                    <p style={{ fontSize: '28px', fontWeight: '800', color: kpi.color, margin: '8px 0 0' }}>{formatearNumero(kpi.valor, kpi.formato)}</p>
+                    <p style={{ fontSize: '28px', fontWeight: '700', color: kpi.color, margin: '8px 0 0' }}>{formatearNumero(kpi.valor, kpi.formato)}</p>
                     {index === 0 && (
                       <div style={{
                         position: 'absolute',
@@ -450,7 +450,7 @@ export default function Informes() {
                         right: '10px',
                         animation: 'pulse 2s infinite'
                       }}>
-                        <span className="material-icons" style={{ fontSize: '20px', color: '#4CAF50' }}>arrow_upward</span>
+                        <span className="material-icons" style={{ fontSize: '20px', color: '#22C55E' }}>arrow_upward</span>
                       </div>
                     )}
                   </div>
@@ -472,7 +472,7 @@ export default function Informes() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Ventas Diarias</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#1976D2' }}>show_chart</span>
+                    <span className="material-icons animate-bounce" style={{ color: '#3B82F6' }}>show_chart</span>
                   </div>
                   <div style={{ height: '280px', position: 'relative' }}>
                     <Bar data={datosGraficoVentas} options={opcionesGrafico} />
@@ -489,7 +489,7 @@ export default function Informes() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Productos Más Vendidos</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#FF9800' }}>emoji_events</span>
+                    <span className="material-icons animate-bounce" style={{ color: '#E53935' }}>emoji_events</span>
                   </div>
                   <div style={{ height: '280px', position: 'relative' }}>
                     <Bar data={datosGraficoProductos} options={opcionesProductos} />
@@ -508,7 +508,7 @@ export default function Informes() {
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Métodos de Pago</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#4CAF50' }}>payment</span>
+                    <span className="material-icons animate-bounce" style={{ color: '#22C55E' }}>payment</span>
                   </div>
                   <div style={{ height: '220px', position: 'relative', display: 'flex', justifyContent: 'center' }}>
                     <Doughnut data={datosGraficoMetodos} options={opcionesDoughnut} />
@@ -644,8 +644,8 @@ export default function Informes() {
                         >
                           <td style={{ padding: '15px' }}>
                             <span style={{
-                              fontWeight: '800',
-                              color: '#1976D2',
+                              fontWeight: '700',
+                              color: '#3B82F6',
                               background: 'rgba(25, 118, 210, 0.1)',
                               padding: '5px 10px',
                               borderRadius: '8px'
@@ -677,8 +677,8 @@ export default function Informes() {
                           </td>
                           <td style={{ padding: '15px', textAlign: 'right' }}>
                             <span style={{
-                              fontWeight: '800',
-                              color: '#4CAF50',
+                              fontWeight: '700',
+                              color: '#22C55E',
                               fontSize: '16px'
                             }}>
                               {formatGuarani(pedido.total)}
@@ -752,11 +752,11 @@ export default function Informes() {
                         <div>
                           <span style={{ fontSize: '12px', color: darkMode ? '#ddd' : '#444' }}>{p.cliente_nombre}</span>
                           {p.cliente_ruc && p.cliente_ruc !== '44444444-7' && (
-                            <span style={{ fontSize: '10px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
+                            <span style={{ fontSize: '11px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
                           )}
                         </div>
-                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#4CAF50' }}>{formatGuarani(p.total)}</span>
-                        <span style={{ fontSize: '11px', color: p.factura?.numero ? '#FF9800' : '#888' }}>{p.factura?.numero || '-'}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#22C55E' }}>{formatGuarani(p.total)}</span>
+                        <span style={{ fontSize: '11px', color: p.factura?.numero ? '#E53935' : '#888' }}>{p.factura?.numero || '-'}</span>
                         <button onClick={(e) => { e.stopPropagation(); setPedidoPrint(p) }}
                           style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '4px' }}>
 
@@ -773,7 +773,7 @@ export default function Informes() {
                             </div>
                           ))}
                           {p.propina && parseFloat(p.propina) > 0 && (
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#FF9800', padding: '2px 0', marginTop: '4px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`, paddingTop: '4px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#E53935', padding: '2px 0', marginTop: '4px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`, paddingTop: '4px' }}>
                               <span>Propina:</span>
                               <span>{formatGuarani(p.propina)}</span>
                             </div>

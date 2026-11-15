@@ -81,19 +81,19 @@ export default function LicenseBanner() {
           boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
         }}>
           <span className="material-icons" style={{ fontSize: '80px' }}>lock</span>
-          <h1 style={{ fontSize: '36px', marginTop: '20px', fontWeight: '800' }}>
+          <h1 style={{ fontSize: '36px', marginTop: '20px', fontWeight: '700' }}>
             SISTEMA BLOQUEADO
           </h1>
           <p style={{ fontSize: '18px', marginTop: '15px', opacity: 0.9 }}>
             {license.mensaje || 'Su licencia ha vencido. Contacte al administrador.'}
           </p>
           <div style={{ marginTop: '30px', padding: '20px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
-            <p style={{ fontSize: '14px', margin: '5px 0' }}>Contacte a LaCarta para renovar</p>
+            <p style={{ fontSize: '14px', margin: '5px 0' }}>Contacte a KaruApp para renovar</p>
             <p style={{ fontSize: '14px', margin: '5px 0' }}>Solicite renovación de licencia</p>
           </div>
         </div>
         <p style={{ marginTop: '20px', fontSize: '12px', opacity: 0.5 }}>
-          LaCarta License Server
+          KaruApp License Server
         </p>
       </div>
     )
