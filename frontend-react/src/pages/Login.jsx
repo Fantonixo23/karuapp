@@ -223,7 +223,7 @@ export default function Login() {
   const s = {
     page: {
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0d0d0d 100%)',
+      background: 'transparent',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontFamily: "'Inter', 'Roboto', sans-serif",
     },

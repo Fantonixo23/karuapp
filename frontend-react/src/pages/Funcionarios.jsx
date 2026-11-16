@@ -12,7 +12,7 @@ const F2A_TIMEOUT = 60 * 60 * 1000
 const s = {
   container: (dm) => ({
     minHeight: '100vh',
-    background: dm ? '#121212' : '#f0f2f5',
+    background: 'transparent',
     color: dm ? '#fff' : '#1a1a1a',
   }),
   header: {

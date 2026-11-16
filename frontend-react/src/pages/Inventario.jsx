@@ -216,7 +216,7 @@ export default function Inventario() {
   }
 
   const s = {
-    container: (dm) => ({ minHeight: '100vh', background: dm ? '#121212' : '#f0f2f5', color: dm ? '#fff' : '#1a1a1a', overflow: 'hidden' }),
+    container: (dm) => ({ minHeight: '100vh', background: 'transparent', color: dm ? '#fff' : '#1a1a1a', overflow: 'hidden' }),
     header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: '#1a1a1a', color: 'white', borderBottom: '1px solid rgba(229,57,53,0.2)', boxShadow: '0 1px 4px rgba(0,0,0,0.3)' },
     btn: { width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', transition: 'all 0.15s' },
     title: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px' },

@@ -212,7 +212,7 @@ export default function Cocina() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: darkMode ? '#121212' : '#f0f2f5', color: darkMode ? '#fff' : '#1a1a1a', overflow: 'hidden' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', color: darkMode ? '#fff' : '#1a1a1a', overflow: 'hidden' }}>
       <header style={{
         display: 'flex', flexDirection: isMobile ? 'column' : 'row',
         alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'space-between',

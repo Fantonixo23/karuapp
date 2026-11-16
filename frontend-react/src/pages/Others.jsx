@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 
 const Page = ({ title, color, icon, children }) => (
-  <div style={{ minHeight: '100vh', background: '#1a1a1a' }}>
+  <div style={{ minHeight: '100vh', background: 'transparent' }}>
     <header style={{ display: 'flex', alignItems: 'center', padding: '12px 20px', background: color, color: 'white' }}>
       <h1 style={{ flex: 1, fontSize: '22px' }}>{title}</h1>
       <Link to="/app/inicio" style={{ width: '42px', height: '42px', border: '2px solid rgba(255,255,255,0.3)', background: 'rgba(255,255,255,0.15)', color: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

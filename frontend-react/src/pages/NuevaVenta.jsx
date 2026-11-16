@@ -305,7 +305,7 @@ export default function NuevaVenta() {
   }
 
   const s = {
-    container: (dm) => ({ minHeight: '100vh', background: dm ? '#121212' : '#f0f2f5', color: dm ? '#fff' : '#1a1a1a', overflow: 'hidden' }),
+    container: (dm) => ({ minHeight: '100vh', background: 'transparent', color: dm ? '#fff' : '#1a1a1a', overflow: 'hidden' }),
     header: {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '10px 20px', background: '#1a1a1a',

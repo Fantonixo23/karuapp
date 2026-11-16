@@ -296,7 +296,7 @@ export default function Productos() {
   const s = {
     container: {
       minHeight: '100vh',
-      background: darkMode ? '#121212' : '#f0f2f5',
+      background: 'transparent',
       color: darkMode ? '#fff' : '#1a1a1a',
       overflow: 'hidden',
     },

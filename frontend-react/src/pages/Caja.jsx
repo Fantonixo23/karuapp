@@ -35,7 +35,7 @@ const DENOMINACIONES = [
 ]
 
 const s = (dm) => ({
-  page: { minHeight: '100vh', background: dm ? '#121212' : '#f0f2f5', fontFamily: "'Roboto', sans-serif" },
+  page: { minHeight: '100vh', background: 'transparent', fontFamily: "'Roboto', sans-serif" },
   header: { background: '#1a1a1a', padding: '12px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(229,57,53,0.2)' },
   headerTitle: { color: '#E53935', fontSize: '22px', fontWeight: '700', margin: 0 },
   content: { padding: '24px', maxWidth: '1800px', margin: '0 auto' },
@@ -548,7 +548,7 @@ export default function Caja() {
 
   if (loadingSession) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#1a1a1a' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: 'transparent' }}>
         <p style={{ color: '#E53935', fontSize: '18px' }}>Verificando sesión de caja...</p>
       </div>
     )
@@ -557,7 +557,7 @@ export default function Caja() {
   // ==================== MODAL APERTURA ====================
   if (showApertura) {
     return (
-      <div style={{ minHeight: '100vh', background: '#1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ background: '#2d2d2d', borderRadius: '24px', padding: '40px', width: '90%', maxWidth: '420px', textAlign: 'center' }}>
           <span className="material-icons" style={{ fontSize: '64px', color: '#E53935', marginBottom: '16px' }}>point_of_sale</span>
           <h2 style={{ color: 'white', fontSize: '24px', margin: '0 0 6px' }}>Apertura de Caja</h2>

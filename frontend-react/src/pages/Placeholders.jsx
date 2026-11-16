@@ -18,7 +18,7 @@ const createPlaceholder = (title, color, icon, activeRoute) => {
     }, [])
 
     const styles = {
-      container: (dm) => ({ minHeight: '100vh', background: dm ? 'linear-gradient(135deg, #e0e0e0, #f5f5f5)' : 'linear-gradient(135deg, #1a1a1a, #2d2d2d)', color: dm ? '#333' : '#fff' }),
+      container: (dm) => ({ minHeight: '100vh', background: 'transparent', color: dm ? '#333' : '#fff' }),
       header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', background: color, color: 'white' },
       btn: { width: '42px', height: '42px', border: 'none', background: 'transparent', color: 'white', fontSize: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
     }

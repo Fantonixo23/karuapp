@@ -378,7 +378,7 @@ export default function AdminRestauranteDetalle() {
 
 function PantallaCarga() {
   return (
-    <div style={{ minHeight: '100vh', background: '#0f0f0f', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{
           width: '36px', height: '36px', border: '3px solid rgba(229,57,53,0.2)',
@@ -481,7 +481,7 @@ function Grid({ cols, children }) {
 
 const s = {
   container: {
-    minHeight: '100vh', background: '#0f0f0f', color: 'white',
+    minHeight: '100vh', background: 'transparent', color: 'white',
     fontFamily: "'Inter', 'Roboto', sans-serif",
   },
   body: { maxWidth: '800px', margin: '0 auto', padding: '20px' },

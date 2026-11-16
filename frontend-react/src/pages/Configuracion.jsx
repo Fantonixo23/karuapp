@@ -758,7 +758,7 @@ export default function Configuracion() {
 const s = {
   container: (dm) => ({
     minHeight: '100vh',
-    background: dm ? '#121212' : '#f0f2f5',
+    background: 'transparent',
     color: dm ? '#fff' : '#1a1a1a',
     overflow: 'hidden',
   }),

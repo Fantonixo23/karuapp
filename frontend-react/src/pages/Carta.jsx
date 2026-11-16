@@ -20,7 +20,7 @@ export default function Carta() {
   return (
     <div style={{
       minHeight: '100vh',
-      background: darkMode ? '#121212' : '#f0f2f5',
+      background: 'transparent',
       color: darkMode ? '#fff' : '#1a1a1a',
     }}>
       <header style={{

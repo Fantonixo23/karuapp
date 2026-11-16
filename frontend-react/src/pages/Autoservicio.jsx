@@ -103,7 +103,7 @@ export default function Autoservicio() {
   const [mensajeError, setMensajeError] = useState('')
   const [accionCargando, setAccionCargando] = useState(false)
 
-  const bg = darkMode ? '#121212' : '#f0f2f5'
+  const bg = 'transparent'
   const cardBg = darkMode ? '#1e1e1e' : '#ffffff'
   const softBg = darkMode ? '#161616' : '#f7f7f7'
   const borderColor = darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'

@@ -48,7 +48,7 @@ export default function AdminLogin() {
   return (
     <div style={{
       minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#0f0f0f', fontFamily: "'Inter', 'Roboto', sans-serif",
+      background: 'transparent', fontFamily: "'Inter', 'Roboto', sans-serif",
     }}>
       <form onSubmit={handleSubmit} style={{
         background: '#1a1a1a', borderRadius: '16px', padding: '36px 32px',
