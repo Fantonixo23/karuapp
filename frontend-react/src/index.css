@@ -90,10 +90,10 @@ body {
   font-size: var(--fs-body);
   font-weight: var(--fw-body);
   line-height: 1.45;
-  background-color: #17120f;
+  background-color: #0b0806;
   background-image: url('/karuapp-bg.svg');
   background-size: cover;
-  background-position: center center;
+  background-position: right center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--k-text);
@@ -103,28 +103,8 @@ body {
 }
 
 body.dark {
-  background-color: #17120f;
+  background-color: #0b0806;
   color: var(--k-text);
-}
-
-/* Marca de agua central de la app */
-body .k-app-wordmark {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-4deg);
-  z-index: -1;
-  font-family: 'Permanent Marker', 'Segoe Script', cursive !important;
-  font-size: clamp(64px, 15vw, 240px);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  color: #E53935;
-  opacity: 0.16;
-  white-space: nowrap;
-  text-align: center;
-  pointer-events: none;
-  user-select: none;
 }
 
 /* Jerarquía de títulos */

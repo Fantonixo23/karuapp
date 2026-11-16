@@ -1,181 +1,171 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1600" viewBox="0 0 2400 1600" preserveAspectRatio="xMidYMid slice">
+<svg xmlns="http://www.w3.org/2000/svg" width="3840" height="2160" viewBox="0 0 3840 2160" preserveAspectRatio="xMidYMid slice">
   <defs>
-    <radialGradient id="karuBg" cx="50%" cy="45%" r="78%">
-      <stop offset="0%" stop-color="#241c16"/>
-      <stop offset="55%" stop-color="#17120f"/>
-      <stop offset="100%" stop-color="#0e0a08"/>
+    <radialGradient id="base" cx="70%" cy="42%" r="85%">
+      <stop offset="0%" stop-color="#221812"/>
+      <stop offset="38%" stop-color="#150f0b"/>
+      <stop offset="70%" stop-color="#0c0907"/>
+      <stop offset="100%" stop-color="#060403"/>
     </radialGradient>
 
-    <g id="burger" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M14 44c0-16 16-28 36-28s36 12 36 28" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M12 46h76" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M38 30l4 5M52 25l3 5M63 32l4 4" stroke="#F3EFE7" stroke-width="3"/>
-      <path d="M15 53c6-6 10 6 16 0s10 6 16 0 10 6 16 0 10 6 16 0" stroke="#E53935" stroke-width="4"/>
-      <path d="M20 62h60" stroke="#E53935" stroke-width="7"/>
-      <path d="M18 72h64c-4 10-16 15-32 15S22 82 18 72z" stroke="#F3EFE7" stroke-width="4"/>
-    </g>
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF4436" stop-opacity="0.85"/>
+      <stop offset="32%" stop-color="#E53935" stop-opacity="0.45"/>
+      <stop offset="68%" stop-color="#8E1B17" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#8E1B17" stop-opacity="0"/>
+    </radialGradient>
 
-    <g id="pizza" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M50 12L20 82c18 9 42 9 60 0z" stroke="#E53935" stroke-width="4"/>
-      <path d="M20 82c18 9 42 9 60 0" stroke="#F3EFE7" stroke-width="6"/>
-      <circle cx="42" cy="48" r="5" stroke="#F3EFE7" stroke-width="3"/>
-      <circle cx="57" cy="60" r="5" stroke="#F3EFE7" stroke-width="3"/>
-      <circle cx="50" cy="74" r="4" stroke="#F3EFE7" stroke-width="3"/>
-      <path d="M34 34c3 4 7 4 10 0M58 40c3 4 7 4 10 0" stroke="#F3EFE7" stroke-width="3"/>
-    </g>
+    <radialGradient id="redCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF6A5C" stop-opacity="0.55"/>
+      <stop offset="45%" stop-color="#E53935" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#E53935" stop-opacity="0"/>
+    </radialGradient>
 
-    <g id="hotdog" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M16 64c0-11 8-19 19-19h30c11 0 19 8 19 19" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M18 60c11-9 53-9 64 0" stroke="#E53935" stroke-width="8"/>
-      <path d="M30 52l6 6 6-6 6 6 6-6 6 6 6-6 6 6" stroke="#F3EFE7" stroke-width="3"/>
-      <path d="M20 68c12 6 48 6 60 0" stroke="#F3EFE7" stroke-width="4"/>
-    </g>
+    <linearGradient id="redEdge" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#E53935" stop-opacity="0.34"/>
+      <stop offset="12%" stop-color="#B71C1C" stop-opacity="0.12"/>
+      <stop offset="30%" stop-color="#B71C1C" stop-opacity="0"/>
+    </linearGradient>
 
-    <g id="fries" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M32 40h36l-6 46H38z" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M38 40V18M47 40V12M56 40V16M65 40V24" stroke="#E53935" stroke-width="5"/>
-      <path d="M36 56h28" stroke="#F3EFE7" stroke-width="4"/>
-    </g>
+    <radialGradient id="dome" cx="37%" cy="16%" r="88%">
+      <stop offset="0%" stop-color="#efe6d8"/>
+      <stop offset="10%" stop-color="#cfc4b4"/>
+      <stop offset="26%" stop-color="#9a8f80"/>
+      <stop offset="45%" stop-color="#5d554a"/>
+      <stop offset="64%" stop-color="#332d27"/>
+      <stop offset="82%" stop-color="#1b1713"/>
+      <stop offset="100%" stop-color="#0d0a08"/>
+    </radialGradient>
 
-    <g id="drink" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M33 30h34l-5 56H38z" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M29 30h42l-3-9H32z" stroke="#E53935" stroke-width="4"/>
-      <path d="M57 24l9-16" stroke="#E53935" stroke-width="4"/>
-      <path d="M38 44h24M40 56h20" stroke="#F3EFE7" stroke-width="3"/>
-    </g>
+    <linearGradient id="domeRed" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#E53935" stop-opacity="0"/>
+      <stop offset="62%" stop-color="#E53935" stop-opacity="0.12"/>
+      <stop offset="88%" stop-color="#FF6A5C" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FF8A7A" stop-opacity="0.72"/>
+    </linearGradient>
 
-    <g id="coffee" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M28 42h38v24c0 9-7 16-16 16h-6c-9 0-16-7-16-16z" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M66 48c12-2 14 5 14 9s-3 11-14 9" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M38 32c6-6-6-10 0-16M50 32c6-6-6-10 0-16" stroke="#E53935" stroke-width="3.5"/>
-    </g>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a89c8c"/>
+      <stop offset="16%" stop-color="#6c6255"/>
+      <stop offset="42%" stop-color="#332d27"/>
+      <stop offset="72%" stop-color="#17130f"/>
+      <stop offset="100%" stop-color="#0a0806"/>
+    </linearGradient>
 
-    <g id="icecream" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M40 46h22L51 92z" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M44 58l8 8M50 52l8 8M46 72l6 6" stroke="#F3EFE7" stroke-width="2.5"/>
-      <circle cx="42" cy="34" r="13" stroke="#F3EFE7" stroke-width="4"/>
-      <circle cx="59" cy="38" r="12" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M32 30c4 4 8 4 12 0M54 34c3 3 6 3 9 0" stroke="#E53935" stroke-width="3"/>
-    </g>
+    <linearGradient id="tray" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7d7265"/>
+      <stop offset="22%" stop-color="#4a4239"/>
+      <stop offset="55%" stop-color="#241f1a"/>
+      <stop offset="100%" stop-color="#0b0907"/>
+    </linearGradient>
 
-    <g id="donut" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="50" cy="50" r="27" stroke="#F3EFE7" stroke-width="4"/>
-      <circle cx="50" cy="50" r="9" stroke="#E53935" stroke-width="4"/>
-      <path d="M26 46c6 5 10-4 16 1s10-4 16 1 10-4 16 1" stroke="#E53935" stroke-width="4"/>
-      <path d="M34 66l4 4M52 30l3 3M64 60l4 4" stroke="#F3EFE7" stroke-width="3"/>
-    </g>
+    <linearGradient id="surface" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0706" stop-opacity="0"/>
+      <stop offset="35%" stop-color="#0a0706" stop-opacity="0.55"/>
+      <stop offset="72%" stop-color="#070504" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#050403" stop-opacity="1"/>
+    </linearGradient>
 
-    <g id="taco" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M14 66c4-30 68-30 72 0" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M20 56c8-8 16 2 24-4s16 2 24-4" stroke="#E53935" stroke-width="4"/>
-      <path d="M22 63c6-5 10 4 16-1s10 4 16-1 10 4 16-1" stroke="#F3EFE7" stroke-width="3"/>
-    </g>
+    <radialGradient id="vignette" cx="58%" cy="46%" r="72%">
+      <stop offset="0%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="58%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="82%" stop-color="#000000" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.72"/>
+    </radialGradient>
 
-    <g id="chefhat" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M30 44c-11 0-15-15-4-19 0-10 16-14 22-6 6-8 22-4 22 6 11 4 7 19-4 19z" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M31 48h38v14H31z" stroke="#E53935" stroke-width="4"/>
-      <path d="M42 48v14M58 48v14" stroke="#F3EFE7" stroke-width="3"/>
-    </g>
-
-    <g id="utensils" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M36 18v18M30 18v12M42 18v12M36 36v46" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M64 18c9 5 9 20 0 25v39" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M64 18v25" stroke="#E53935" stroke-width="4"/>
-    </g>
-
-    <g id="snack" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M30 34h40l-5 48H35z" stroke="#F3EFE7" stroke-width="4"/>
-      <path d="M30 34l5-7 5 7 5-7 5 7 5-7 5 7 5-7 5 7" stroke="#F3EFE7" stroke-width="3"/>
-      <path d="M50 48l5 9H45z" stroke="#E53935" stroke-width="3"/>
-      <circle cx="43" cy="68" r="3" stroke="#E53935" stroke-width="2.5"/>
-      <circle cx="58" cy="66" r="3" stroke="#E53935" stroke-width="2.5"/>
-    </g>
-
-    <g id="kapp" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="10" y="10" width="80" height="80" rx="18" fill="#0b0806" stroke="#E53935" stroke-width="4"/>
-      <path d="M36 30c-6 0-8-8-2-10 0-6 10-8 14-3 4-5 14-3 14 3 6 2 4 10-2 10z" stroke="#F3EFE7" stroke-width="3"/>
-      <path d="M40 48v28" stroke="#F3EFE7" stroke-width="5"/>
-      <path d="M62 48L42 61M48 57l16 19" stroke="#E53935" stroke-width="5"/>
-    </g>
-
-    <g id="star" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M50 22l7 19 20 1-16 13 6 20-17-12-17 12 6-20-16-13 20-1z" stroke="#F3EFE7" stroke-width="3"/>
-    </g>
-
-    <g id="spark" fill="none" stroke-linecap="round">
-      <path d="M50 18v24M38 30h24M42 22l16 16M58 22L42 38" stroke="#E53935" stroke-width="3"/>
-    </g>
-
-    <g id="squiggle" fill="none" stroke-linecap="round">
-      <path d="M8 50c8-9 16 9 24 0s16 9 24 0 16 9 24 0" stroke="#F3EFE7" stroke-width="3.5"/>
-    </g>
+    <filter id="blurXL" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="150"/>
+    </filter>
+    <filter id="blurL" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="70"/>
+    </filter>
+    <filter id="blurM" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="blurS" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="steam" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.82" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.4"/>
+      </feComponentTransfer>
+    </filter>
   </defs>
 
-  <rect width="2400" height="1600" fill="url(#karuBg)"/>
+  <rect width="3840" height="2160" fill="url(#base)"/>
 
-  <!-- Iconos de la app -->
-  <use href="#kapp" transform="translate(150 110) scale(1.15) rotate(-7)" opacity="0.6"/>
-  <use href="#kapp" transform="translate(1980 90) scale(1.25) rotate(6)" opacity="0.62"/>
-  <use href="#kapp" transform="translate(890 380) scale(0.9) rotate(-10)" opacity="0.5"/>
-  <use href="#kapp" transform="translate(380 810) scale(0.85) rotate(8)" opacity="0.46"/>
-  <use href="#kapp" transform="translate(1950 1180) scale(1.2) rotate(-5)" opacity="0.6"/>
-  <use href="#kapp" transform="translate(1120 -30) scale(0.95) rotate(4)" opacity="0.5"/>
+  <!-- Ambiente rojo dramático (lado derecho) -->
+  <ellipse cx="3310" cy="960" rx="1180" ry="900" fill="url(#redGlow)" filter="url(#blurXL)" opacity="0.62"/>
+  <ellipse cx="3400" cy="860" rx="520" ry="430" fill="url(#redCore)" filter="url(#blurL)" opacity="0.7"/>
+  <rect x="3060" y="0" width="780" height="2160" fill="url(#redEdge)" filter="url(#blurL)"/>
 
-  <!-- Comida: fila superior -->
-  <use href="#burger" transform="translate(470 150) rotate(-8)" opacity="0.22"/>
-  <use href="#pizza" transform="translate(760 110) rotate(10)" opacity="0.25"/>
-  <use href="#hotdog" transform="translate(1060 185) rotate(-12)" opacity="0.2"/>
-  <use href="#fries" transform="translate(1340 130) rotate(8)" opacity="0.22"/>
-  <use href="#drink" transform="translate(1660 175) rotate(-9)" opacity="0.24"/>
-  <use href="#donut" transform="translate(2190 250) rotate(4)" opacity="0.22"/>
-  <use href="#chefhat" transform="translate(2140 40) scale(0.9) rotate(7)" opacity="0.28"/>
+  <!-- Bokeh / luces desenfocadas -->
+  <circle cx="3520" cy="560" r="58" fill="#FF6A5C" opacity="0.12" filter="url(#blurM)"/>
+  <circle cx="3660" cy="820" r="38" fill="#E53935" opacity="0.14" filter="url(#blurM)"/>
+  <circle cx="3440" cy="1160" r="72" fill="#B71C1C" opacity="0.14" filter="url(#blurL)"/>
+  <circle cx="3750" cy="1320" r="46" fill="#FF8A7A" opacity="0.1" filter="url(#blurM)"/>
+  <circle cx="3200" cy="520" r="26" fill="#F59E0B" opacity="0.08" filter="url(#blurM)"/>
+  <circle cx="3600" cy="1640" r="60" fill="#E53935" opacity="0.1" filter="url(#blurL)"/>
 
-  <!-- Comida: zona media alta -->
-  <use href="#coffee" transform="translate(290 420) rotate(7)" opacity="0.22"/>
-  <use href="#taco" transform="translate(610 520) rotate(-9)" opacity="0.22"/>
-  <use href="#icecream" transform="translate(1210 460) rotate(8)" opacity="0.22"/>
-  <use href="#snack" transform="translate(1510 410) rotate(-8)" opacity="0.22"/>
-  <use href="#chefhat" transform="translate(1810 490) scale(1.3) rotate(5)" opacity="0.26"/>
-  <use href="#utensils" transform="translate(2110 450) rotate(-7)" opacity="0.22"/>
-  <use href="#star" transform="translate(1150 700) scale(0.8) rotate(12)" opacity="0.18"/>
-  <use href="#spark" transform="translate(2150 650) scale(0.8)" opacity="0.28"/>
+  <!-- Superficie / mesa -->
+  <rect x="0" y="1380" width="3840" height="780" fill="url(#surface)"/>
+  <ellipse cx="3020" cy="1706" rx="680" ry="110" fill="#000000" opacity="0.65" filter="url(#blurM)"/>
+  <ellipse cx="3300" cy="1712" rx="330" ry="64" fill="#E53935" opacity="0.13" filter="url(#blurL)"/>
 
-  <!-- Comida: zona media baja -->
-  <use href="#burger" transform="translate(105 770) scale(0.95) rotate(9)" opacity="0.2"/>
-  <use href="#pizza" transform="translate(720 960) scale(0.85) rotate(-14)" opacity="0.18"/>
-  <use href="#donut" transform="translate(1970 880) scale(0.95) rotate(-6)" opacity="0.22"/>
-  <use href="#hotdog" transform="translate(2230 810) scale(0.95) rotate(10)" opacity="0.2"/>
-  <use href="#taco" transform="translate(1500 990) scale(0.9) rotate(8)" opacity="0.18"/>
-  <use href="#fries" transform="translate(1710 850) scale(0.85) rotate(-10)" opacity="0.18"/>
-  <use href="#squiggle" transform="translate(560 690) scale(1.1) rotate(-6)" opacity="0.22"/>
-  <use href="#star" transform="translate(2280 700) scale(0.7) rotate(-10)" opacity="0.2"/>
+  <!-- Bandeja metálica -->
+  <ellipse cx="3020" cy="1682" rx="556" ry="76" fill="url(#tray)"/>
+  <ellipse cx="3020" cy="1676" rx="556" ry="72" fill="none" stroke="#b9ab99" stroke-opacity="0.32" stroke-width="3"/>
+  <ellipse cx="3020" cy="1672" rx="500" ry="58" fill="none" stroke="#000000" stroke-opacity="0.55" stroke-width="8"/>
+  <ellipse cx="3020" cy="1692" rx="588" ry="80" fill="none" stroke="#000000" stroke-opacity="0.6" stroke-width="14" filter="url(#blurS)"/>
 
-  <!-- Comida: zona inferior -->
-  <use href="#coffee" transform="translate(150 1240) scale(1.15) rotate(-7)" opacity="0.22"/>
-  <use href="#chefhat" transform="translate(540 1190) scale(1.05) rotate(6)" opacity="0.26"/>
-  <use href="#burger" transform="translate(920 1300) scale(1.1) rotate(-6)" opacity="0.22"/>
-  <use href="#drink" transform="translate(1280 1250) scale(1.2) rotate(8)" opacity="0.24"/>
-  <use href="#pizza" transform="translate(1650 1310) scale(1.05) rotate(13)" opacity="0.2"/>
-  <use href="#icecream" transform="translate(2200 1360) scale(1.15) rotate(-8)" opacity="0.22"/>
-  <use href="#utensils" transform="translate(1900 1420) scale(0.9) rotate(10)" opacity="0.2"/>
-  <use href="#spark" transform="translate(800 1150) scale(0.9)" opacity="0.28"/>
-  <use href="#star" transform="translate(1450 1130) scale(0.75) rotate(16)" opacity="0.18"/>
+  <!-- Campana metálica (cloche) -->
+  <path d="M2570 1668 C2570 1330 3470 1330 3470 1668 C3470 1684 2570 1684 2570 1668 Z" fill="url(#dome)"/>
+  <path d="M2570 1668 C2570 1330 3470 1330 3470 1668 C3470 1684 2570 1684 2570 1668 Z" fill="url(#domeRed)" opacity="0.85"/>
 
-  <!-- Bordes (recorte) -->
-  <use href="#fries" transform="translate(-45 210) scale(1.35) rotate(12)" opacity="0.2"/>
-  <use href="#pizza" transform="translate(2310 40) scale(1.25) rotate(-10)" opacity="0.2"/>
-  <use href="#burger" transform="translate(2370 1440) scale(1.3) rotate(8)" opacity="0.2"/>
-  <use href="#hotdog" transform="translate(-30 1370) scale(1.25) rotate(-8)" opacity="0.2"/>
-  <use href="#coffee" transform="translate(590 -55) scale(1)" opacity="0.18"/>
-  <use href="#snack" transform="translate(2330 690) scale(0.9) rotate(-12)" opacity="0.18"/>
+  <!-- Reflejo especular frontal -->
+  <path d="M2700 1618 C2718 1452 2872 1378 3010 1356" fill="none" stroke="#fff7ea" stroke-opacity="0.38" stroke-width="16" stroke-linecap="round" filter="url(#blurS)"/>
+  <path d="M2782 1636 C2790 1528 2890 1458 2988 1432" fill="none" stroke="#fff7ea" stroke-opacity="0.16" stroke-width="8" stroke-linecap="round" filter="url(#blurS)"/>
+  <!-- Borde de luz roja en el costado derecho -->
+  <path d="M3414 1652 C3418 1478 3318 1392 3204 1362" fill="none" stroke="#FF6A5C" stroke-opacity="0.55" stroke-width="18" stroke-linecap="round" filter="url(#blurM)"/>
+  <path d="M3390 1660 C3388 1520 3300 1430 3210 1396" fill="none" stroke="#FF8A7A" stroke-opacity="0.4" stroke-width="7" stroke-linecap="round" filter="url(#blurS)"/>
 
-  <!-- Detalles pequeños -->
-  <use href="#spark" transform="translate(330 610) scale(0.55)" opacity="0.26"/>
-  <use href="#spark" transform="translate(1740 700) scale(0.6)" opacity="0.24"/>
-  <use href="#star" transform="translate(1000 250) scale(0.5) rotate(20)" opacity="0.18"/>
-  <use href="#star" transform="translate(2080 950) scale(0.6) rotate(-14)" opacity="0.18"/>
-  <use href="#squiggle" transform="translate(1860 1110) scale(0.9) rotate(8)" opacity="0.2"/>
-  <use href="#squiggle" transform="translate(690 1440) scale(1) rotate(-4)" opacity="0.2"/>
-  <use href="#spark" transform="translate(1570 1460) scale(0.7)" opacity="0.24"/>
-  <use href="#star" transform="translate(90 990) scale(0.55) rotate(12)" opacity="0.18"/>
+  <!-- Asa / pomo -->
+  <rect x="2968" y="1288" width="104" height="150" rx="30" fill="url(#metal)"/>
+  <path d="M2982 1304 L2982 1408" stroke="#fff7ea" stroke-opacity="0.3" stroke-width="8" stroke-linecap="round" filter="url(#blurS)"/>
+  <ellipse cx="3020" cy="1294" rx="86" ry="26" fill="url(#tray)"/>
+  <ellipse cx="3020" cy="1290" rx="86" ry="24" fill="none" stroke="#d9cdbb" stroke-opacity="0.4" stroke-width="3"/>
+  <ellipse cx="3020" cy="1292" rx="52" ry="14" fill="#171310"/>
+  <ellipse cx="3006" cy="1278" rx="20" ry="7" fill="#fff7ea" opacity="0.35" filter="url(#blurS)"/>
+  <ellipse cx="3240" cy="1368" rx="34" ry="12" fill="#FF6A5C" opacity="0.28" filter="url(#blurS)"/>
+
+  <!-- Vapor tenue -->
+  <path d="M2996 1264 C2950 1180 3028 1132 2984 1046 C2952 986 2998 946 2986 900" fill="none" stroke="#f3efe7" stroke-opacity="0.16" stroke-width="12" stroke-linecap="round" filter="url(#steam)"/>
+  <path d="M3038 1252 C3082 1182 3006 1130 3048 1052 C3080 990 3030 942 3052 892" fill="none" stroke="#f3efe7" stroke-opacity="0.13" stroke-width="10" stroke-linecap="round" filter="url(#steam)"/>
+  <path d="M3014 1238 C3002 1172 3050 1138 3024 1072" fill="none" stroke="#f3efe7" stroke-opacity="0.09" stroke-width="8" stroke-linecap="round" filter="url(#steam)"/>
+  <path d="M3064 1276 C3108 1216 3054 1168 3082 1104" fill="none" stroke="#f3efe7" stroke-opacity="0.08" stroke-width="8" stroke-linecap="round" filter="url(#steam)"/>
+
+  <!-- Polvo ambiental -->
+  <g fill="#f3efe7" opacity="0.14">
+    <circle cx="2860" cy="1040" r="2.5"/>
+    <circle cx="3120" cy="980" r="2"/>
+    <circle cx="3186" cy="1150" r="2.6"/>
+    <circle cx="2920" cy="1210" r="1.8"/>
+    <circle cx="3300" cy="1240" r="2.2"/>
+    <circle cx="2750" cy="960" r="1.6"/>
+    <circle cx="3240" cy="860" r="1.8"/>
+  </g>
+  <g fill="#E53935" opacity="0.22">
+    <circle cx="3380" cy="1040" r="2.6"/>
+    <circle cx="3460" cy="900" r="2"/>
+    <circle cx="3520" cy="1180" r="3"/>
+    <circle cx="3260" cy="720" r="2"/>
+  </g>
+
+  <!-- Viñeta cinematográfica -->
+  <rect width="3840" height="2160" fill="url(#vignette)"/>
+  <rect width="3840" height="2160" filter="url(#grain)" opacity="0.05"/>
 </svg>
