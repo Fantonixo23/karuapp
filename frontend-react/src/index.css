@@ -91,9 +91,9 @@ body {
   font-weight: var(--fw-body);
   line-height: 1.45;
   background-color: #0b0806;
-  background-image: url('/karuapp-bg.svg');
+  background-image: url('/fondocomida.jpg');
   background-size: cover;
-  background-position: right center;
+  background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--k-text);
