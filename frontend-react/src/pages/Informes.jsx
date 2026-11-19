@@ -457,7 +457,96 @@ export default function Informes() {
                 ))}
               </div>
 
-              {/* GRÁFICOS */}
+              {/* TABLA DE PEDIDOS */}
+              <h2 style={{ ...s.sectionTitle(darkMode), marginTop: '12px' }}>
+                Últimos Pedidos
+              </h2>
+              <div
+                className="animate-fade-in"
+                style={{
+                  ...s.kpiCard(darkMode, 4),
+                  animationDelay: '0.2s',
+                  overflow: 'hidden',
+                  padding: 0
+                }}
+              >
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}>
+                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>#Orden</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Fecha</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Ubicación</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Estado</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Método</th>
+                        <th style={{ padding: '18px', textAlign: 'right', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {pedidos.length === 0 ? (
+                        <tr>
+                          <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: darkMode ? '#666' : '#999' }}>
+                            <span className="material-icons" style={{ fontSize: '50px', opacity: 0.5 }}>inbox</span>
+                            <p style={{ marginTop: '10px' }}>No hay pedidos en este período</p>
+                          </td>
+                        </tr>
+                      ) : pedidos.map((pedido, i) => (
+                        <tr
+                          key={pedido.id}
+                          style={{
+                            borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          }}
+                        >
+                          <td style={{ padding: '15px' }}>
+                            <span style={{
+                              fontWeight: '700',
+                              color: '#3B82F6',
+                              background: 'rgba(25, 118, 210, 0.1)',
+                              padding: '5px 10px',
+                              borderRadius: '8px'
+                            }}>
+                              #{pedido.numero_orden}
+                            </span>
+                          </td>
+                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666' }}>
+                            {pedido.created_at ? new Date(pedido.created_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-'}
+                          </td>
+                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666' }}>
+                            {pedido.delivery ? 'Delivery' : ` Mesa ${pedido.mesa || '-'}`}
+                          </td>
+                          <td style={{ padding: '15px' }}>
+                            <span style={{
+                              padding: '6px 14px',
+                              borderRadius: '20px',
+                              background: getEstadoColor(pedido.estado) + '20',
+                              color: getEstadoColor(pedido.estado),
+                              fontSize: '12px',
+                              fontWeight: '700',
+                              textTransform: 'capitalize'
+                            }}>
+                              {pedido.estado}
+                            </span>
+                          </td>
+                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666', textTransform: 'capitalize' }}>
+                            {pedido.metodo_pago || '-'}
+                          </td>
+                          <td style={{ padding: '15px', textAlign: 'right' }}>
+                            <span style={{
+                              fontWeight: '700',
+                              color: '#22C55E',
+                              fontSize: '16px'
+                            }}>
+                              {formatGuarani(pedido.total)}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+                            {/* GRÁFICOS */}
               <h2 style={{ ...s.sectionTitle(darkMode), marginTop: '30px' }}>
                 Análisis de Rendimiento
               </h2>
@@ -602,96 +691,7 @@ export default function Informes() {
                 </div>
               )}
 
-              {/* TABLA DE PEDIDOS */}
-              <h2 style={{ ...s.sectionTitle(darkMode), marginTop: '30px' }}>
-                Últimos Pedidos
-              </h2>
-              <div
-                className="animate-fade-in"
-                style={{
-                  ...s.kpiCard(darkMode, 4),
-                  animationDelay: '0.9s',
-                  overflow: 'hidden',
-                  padding: 0
-                }}
-              >
-                <div style={{ overflowX: 'auto' }}>
-                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                    <thead>
-                      <tr style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>#Orden</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Fecha</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Ubicación</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Estado</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Método</th>
-                        <th style={{ padding: '18px', textAlign: 'right', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Total</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {pedidos.length === 0 ? (
-                        <tr>
-                          <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: darkMode ? '#666' : '#999' }}>
-                            <span className="material-icons" style={{ fontSize: '50px', opacity: 0.5 }}>inbox</span>
-                            <p style={{ marginTop: '10px' }}>No hay pedidos en este período</p>
-                          </td>
-                        </tr>
-                      ) : pedidos.map((pedido, i) => (
-                        <tr
-                          key={pedido.id}
-                          style={{
-                            borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                          }}
-                        >
-                          <td style={{ padding: '15px' }}>
-                            <span style={{
-                              fontWeight: '700',
-                              color: '#3B82F6',
-                              background: 'rgba(25, 118, 210, 0.1)',
-                              padding: '5px 10px',
-                              borderRadius: '8px'
-                            }}>
-                              #{pedido.numero_orden}
-                            </span>
-                          </td>
-                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666' }}>
-                            {pedido.created_at ? new Date(pedido.created_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-'}
-                          </td>
-                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666' }}>
-                            {pedido.delivery ? 'Delivery' : ` Mesa ${pedido.mesa || '-'}`}
-                          </td>
-                          <td style={{ padding: '15px' }}>
-                            <span style={{
-                              padding: '6px 14px',
-                              borderRadius: '20px',
-                              background: getEstadoColor(pedido.estado) + '20',
-                              color: getEstadoColor(pedido.estado),
-                              fontSize: '12px',
-                              fontWeight: '700',
-                              textTransform: 'capitalize'
-                            }}>
-                              {pedido.estado}
-                            </span>
-                          </td>
-                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666', textTransform: 'capitalize' }}>
-                            {pedido.metodo_pago || '-'}
-                          </td>
-                          <td style={{ padding: '15px', textAlign: 'right' }}>
-                            <span style={{
-                              fontWeight: '700',
-                              color: '#22C55E',
-                              fontSize: '16px'
-                            }}>
-                              {formatGuarani(pedido.total)}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              <div style={{ textAlign: 'center', padding: '30px', color: darkMode ? '#666' : '#999', fontSize: '14px' }}>
+<div style={{ textAlign: 'center', padding: '30px', color: darkMode ? '#666' : '#999', fontSize: '14px' }}>
                 <span className="material-icons" style={{ verticalAlign: 'middle', fontSize: '18px' }}>auto_graph</span>
                 Datos actualizados en tiempo real
               </div>
