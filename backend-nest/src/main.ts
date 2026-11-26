@@ -7,15 +7,17 @@ import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
 
-const DEV_ORIGINS = [
+const BASE_ORIGINS = [
   'http://localhost:5173',
   'http://127.0.0.1:5173',
   'http://localhost:3000',
   'http://127.0.0.1:3000',
+  'https://karuapp-frontend.vercel.app',
 ];
 
 function resolveOrigins(): string[] {
-  const configured = (process.env.CORS_ORIGINS || '')
+  const configured = [process.env.CORS_ORIGINS || '', process.env.FRONTEND_URL || '']
+    .join(',')
     .split(',')
     .map((origin) => origin.trim())
     .filter(Boolean);
@@ -24,7 +26,7 @@ function resolveOrigins(): string[] {
     throw new Error('CORS_ORIGINS es obligatorio en produccion (lista separada por comas).');
   }
 
-  return [...new Set([...DEV_ORIGINS, ...configured])];
+  return [...new Set([...BASE_ORIGINS, ...configured])];
 }
 
 export async function createApp(): Promise<INestApplication> {

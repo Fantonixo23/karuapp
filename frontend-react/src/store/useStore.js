@@ -1,7 +1,5 @@
 import { create } from 'zustand'
-import { getApiUrl } from '../utils/api'
-
-const API = getApiUrl()
+import { apiRequest } from '../utils/api'
 
 // Migración de tema KaruApp: aplica una sola vez la identidad oscura a todos
 // los usuarios existentes; después se respeta la preferencia guardada.
@@ -145,11 +143,9 @@ export const useStore = create((set, get) => ({
       return
     }
     try {
-      const res = await fetch(`${API}/auth/me`, {
+      const data = await apiRequest('/auth/me', {
         headers: { Authorization: `Bearer ${token}` },
       })
-      if (!res.ok) throw new Error('Token inválido')
-      const data = await res.json()
       const u = data.user || data
       const user = {
         id: u.sub || u.id,
@@ -169,13 +165,10 @@ export const useStore = create((set, get) => ({
   },
 
   loginPin: async (pin, restauranteSlug) => {
-    const res = await fetch(`${API}/auth/login-pin`, {
+    const data = await apiRequest('/auth/login-pin', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ pin, restaurante_slug: restauranteSlug }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Error al iniciar sesión')
     const user = {
       id: data.user.id,
       email: data.user.email,
@@ -191,13 +184,10 @@ export const useStore = create((set, get) => ({
   },
 
   loginSaaS: async (email, password) => {
-    const res = await fetch(`${API}/auth/login-saas`, {
+    const data = await apiRequest('/auth/login-saas', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Error al iniciar sesión')
     const user = {
       id: data.user.id,
       email: data.user.email,
@@ -213,67 +203,45 @@ export const useStore = create((set, get) => ({
   },
 
   registerSaaS: async (email, password, restauranteNombre) => {
-    const res = await fetch(`${API}/auth/register-saas`, {
+    return apiRequest('/auth/register-saas', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password, restaurante_nombre: restauranteNombre }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Error al registrar')
-    return data
   },
 
   verificarCuenta: async (email, code) => {
-    const res = await fetch(`${API}/auth/verificar-cuenta`, {
+    return apiRequest('/auth/verificar-cuenta', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, code }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Error al verificar')
-    return data
   },
 
   reenviarCodigo: async (email) => {
-    const res = await fetch(`${API}/auth/reenviar-codigo`, {
+    return apiRequest('/auth/reenviar-codigo', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Error al reenviar')
-    return data
   },
 
   olvideContrasena: async (email) => {
-    const res = await fetch(`${API}/auth/olvide-contrasena`, {
+    return apiRequest('/auth/olvide-contrasena', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
     })
-    return res.json()
   },
 
   verificarCodigo: async (email, code) => {
-    const res = await fetch(`${API}/auth/verificar-codigo`, {
+    return apiRequest('/auth/verificar-codigo', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, code }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Código inválido')
-    return data
   },
 
   restablecerContrasena: async (email, code, newPassword) => {
-    const res = await fetch(`${API}/auth/restablecer-contrasena`, {
+    return apiRequest('/auth/restablecer-contrasena', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, code, newPassword }),
     })
-    const data = await res.json()
-    if (!res.ok) throw new Error(data.message || 'Error al restablecer')
-    return data
   },
 
   logout: () => {
