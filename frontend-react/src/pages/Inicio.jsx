@@ -13,22 +13,22 @@ const s = {
   container: (dm) => ({
     minHeight: '100vh',
     background: 'transparent',
-    color: dm ? '#fff' : '#1a1a1a'
+    color: 'var(--k-text)'
   }),
   header: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '10px 20px',
-    background: '#1a1a1a',
-    color: 'white',
+    background: 'var(--k-surface)',
+    color: 'var(--k-text)',
     borderBottom: '1px solid rgba(229,57,53,0.2)',
-    boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
+    boxShadow: 'var(--k-shadow-sm)'
   },
   btnHeader: {
     width: '36px',
     height: '36px',
-    border: '1px solid rgba(255,255,255,0.12)',
+    border: '1px solid var(--k-border)',
     borderRadius: '8px',
     background: 'rgba(255,255,255,0.06)',
     color: 'rgba(255,255,255,0.8)',
@@ -98,7 +98,7 @@ export default function Inicio() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ textAlign: 'right', marginRight: '4px' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#E53935', lineHeight: 1.2 }}>{horaStr}</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--k-primary)', lineHeight: 1.2 }}>{horaStr}</div>
             <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
           <UserButton />
@@ -112,10 +112,10 @@ export default function Inicio() {
       </header>
 
       <div style={{ padding: isMobile ? '60px 12px 80px' : '70px 20px 20px', maxWidth: '700px', margin: '0 auto' }}>
-        <h2 style={{ fontSize: '22px', fontWeight: '700', margin: '20px 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>
+        <h2 style={{ fontSize: '22px', fontWeight: '700', margin: '20px 0 4px', color: 'var(--k-text)' }}>
           {saludo}
         </h2>
-        <p style={{ fontSize: '13px', color: darkMode ? '#A3A3A3' : '#6B7280', margin: '0 0 20px' }}>
+        <p style={{ fontSize: '13px', color: '#A3A3A3', margin: '0 0 20px' }}>
           Selecciona un area para comenzar
         </p>
 
@@ -124,26 +124,26 @@ export default function Inicio() {
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
               border: '1px solid rgba(76,175,80,0.25)',
-              background: darkMode ? '#1e1e1e' : 'rgba(76,175,80,0.06)',
+              background: 'var(--k-surface-2)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '700', color: '#22C55E' }}>{formatGuarani(stats.total_hoy)}</div>
-              <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Ventas hoy</div>
+              <div style={{ fontSize: '20px', fontWeight: '700', color: 'var(--k-success)' }}>{formatGuarani(stats.total_hoy)}</div>
+              <div style={{ fontSize: '11px', color: 'var(--k-text-secondary)', marginTop: '2px' }}>Ventas hoy</div>
             </div>
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
               border: '1px solid rgba(229,57,53,0.25)',
-              background: darkMode ? '#1e1e1e' : 'rgba(229,57,53,0.06)',
+              background: 'var(--k-surface-2)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '700', color: '#E53935' }}>{stats.mesas_ocupadas}</div>
-              <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Mesas ocupadas</div>
+              <div style={{ fontSize: '20px', fontWeight: '700', color: 'var(--k-primary)' }}>{stats.mesas_ocupadas}</div>
+              <div style={{ fontSize: '11px', color: 'var(--k-text-secondary)', marginTop: '2px' }}>Mesas ocupadas</div>
             </div>
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
               border: '1px solid rgba(33,150,243,0.25)',
-              background: darkMode ? '#1e1e1e' : 'rgba(33,150,243,0.06)',
+              background: 'var(--k-surface-2)',
             }}>
-              <div style={{ fontSize: '20px', fontWeight: '700', color: '#3B82F6' }}>{stats.pedidos_pendientes}</div>
-              <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Pendientes</div>
+              <div style={{ fontSize: '20px', fontWeight: '700', color: 'var(--k-info)' }}>{stats.pedidos_pendientes}</div>
+              <div style={{ fontSize: '11px', color: 'var(--k-text-secondary)', marginTop: '2px' }}>Pendientes</div>
             </div>
           </div>
         )}
@@ -156,22 +156,22 @@ export default function Inicio() {
               justifyContent: 'center', gap: '8px', cursor: 'pointer',
               textDecoration: 'none', transition: 'all 0.15s',
               minHeight: '100px',
-              border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
-              background: darkMode ? '#1e1e1e' : 'white',
+              border: `1px solid ${'var(--k-border)'}`,
+              background: 'var(--k-surface)',
             }}>
               <div style={{
                 width: '44px', height: '44px', borderRadius: '12px',
                 background: 'rgba(229,57,53,0.12)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center'
               }}>
-                <span className="material-icons" style={{ fontSize: '22px', color: '#E53935' }}>{area.icon}</span>
+                <span className="material-icons" style={{ fontSize: '22px', color: 'var(--k-primary)' }}>{area.icon}</span>
               </div>
-              <span style={{ fontSize: '11px', fontWeight: '700', color: darkMode ? '#fff' : '#1a1a1a', textAlign: 'center', lineHeight: 1.2 }}>{area.label}</span>
+              <span style={{ fontSize: '11px', fontWeight: '700', color: 'var(--k-text)', textAlign: 'center', lineHeight: 1.2 }}>{area.label}</span>
             </Link>
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', padding: '40px 20px 80px', color: darkMode ? '#A3A3A3' : '#6B7280' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px 80px', color: '#A3A3A3' }}>
           <p style={{ fontSize: '12px', margin: 0 }}>
             ¿Tienes dudas o sugerencias? Contáctenos al <strong>+0992609484</strong>
           </p>
@@ -191,20 +191,20 @@ export default function Inicio() {
             display: 'flex', flexDirection: 'column',
             transform: 'translateX(0)', transition: 'transform 0.25s'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 20px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-              <span style={{ color: '#E53935', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Menu</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 20px', borderBottom: '1px solid var(--k-border)' }}>
+              <span style={{ color: 'var(--k-primary)', fontSize: '13px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Menu</span>
               <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.5)', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
             </div>
 
             {ALL_AREAS.filter(areaVisibles).map((area, i) => (
               <Link key={i} to={area.path} onClick={() => setSidebarOpen(false)} style={{
                 display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px',
-                border: 'none', background: 'none', color: '#ccc', fontSize: '14px',
+                border: 'none', background: 'none', color: 'var(--k-text-secondary)', fontSize: '14px',
                 cursor: 'pointer', width: '100%', textAlign: 'left', textDecoration: 'none',
-                borderBottom: '1px solid rgba(255,255,255,0.04)',
+                borderBottom: '1px solid var(--k-border)',
                 transition: 'background 0.15s'
               }}>
-                <span className="material-icons" style={{ fontSize: '20px', color: '#E53935' }}>{area.icon}</span>
+                <span className="material-icons" style={{ fontSize: '20px', color: 'var(--k-primary)' }}>{area.icon}</span>
                 <div>
                   <div style={{ fontWeight: '600' }}>{area.label}</div>
                   <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>{area.desc}</div>

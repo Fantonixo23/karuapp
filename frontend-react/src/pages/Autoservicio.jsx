@@ -11,7 +11,7 @@ const API_URL = getApiUrl()
 const MEDIA_URL = getMediaUrl()
 
 const ESTADOS = {
-  pendiente: { label: 'Pendiente', color: '#E53935', bg: '#FFEBEE' },
+  pendiente: { label: 'Pendiente', color: 'var(--k-primary)', bg: '#FFEBEE' },
   cocinando: { label: 'Preparando', color: '#F9A825', bg: '#FFF8E1' },
   listo: { label: 'Listo', color: '#2E7D32', bg: '#E8F5E9' },
   entregado: { label: 'Entregado', color: '#1565C0', bg: '#E3F2FD' },
@@ -104,11 +104,11 @@ export default function Autoservicio() {
   const [accionCargando, setAccionCargando] = useState(false)
 
   const bg = 'transparent'
-  const cardBg = darkMode ? '#1e1e1e' : '#ffffff'
-  const softBg = darkMode ? '#161616' : '#f7f7f7'
-  const borderColor = darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'
-  const textColor = darkMode ? '#f5f5f5' : '#1a1a1a'
-  const muted = darkMode ? 'rgba(255,255,255,0.55)' : '#777'
+  const cardBg = '#1e1e1e'
+  const softBg = '#161616'
+  const borderColor = 'var(--k-text-secondary)'
+  const textColor = '#f5f5f5'
+  const muted = 'var(--k-text-secondary)'
 
   const card = {
     background: cardBg,
@@ -121,7 +121,7 @@ export default function Autoservicio() {
     padding: '9px 10px',
     border: `1px solid ${borderColor}`,
     borderRadius: '10px',
-    background: darkMode ? '#141414' : '#fff',
+    background: '#141414',
     color: textColor,
     fontSize: '13px',
     outline: 'none',
@@ -142,8 +142,8 @@ export default function Autoservicio() {
   const btnPrimary = {
     border: 'none',
     borderRadius: '10px',
-    background: '#E53935',
-    color: '#fff',
+    background: 'var(--k-primary)',
+    color: 'var(--k-text)',
     fontSize: '13px',
     fontWeight: 700,
     padding: '10px 14px',
@@ -153,7 +153,7 @@ export default function Autoservicio() {
   const btnSecondary = {
     border: `1px solid ${borderColor}`,
     borderRadius: '10px',
-    background: darkMode ? '#242424' : '#fff',
+    background: 'var(--k-surface-2)',
     color: textColor,
     fontSize: '13px',
     fontWeight: 700,
@@ -164,8 +164,8 @@ export default function Autoservicio() {
   const btnDanger = {
     border: '1px solid rgba(229,57,53,0.4)',
     borderRadius: '10px',
-    background: darkMode ? 'rgba(229,57,53,0.16)' : '#FFEBEE',
-    color: darkMode ? '#FF8A80' : '#C62828',
+    background: 'var(--k-surface-2)',
+    color: '#FF8A80',
     fontSize: '13px',
     fontWeight: 700,
     padding: '10px 14px',
@@ -204,7 +204,7 @@ export default function Autoservicio() {
 
   const chip = (activo, suave = false) => ({
     border: activo ? '1px solid #E53935' : `1px solid ${borderColor}`,
-    background: activo ? (suave ? 'rgba(229,57,53,0.14)' : '#E53935') : (darkMode ? '#202020' : '#fff'),
+    background: activo ? (suave ? 'rgba(229,57,53,0.14)' : '#E53935') : ('#202020'),
     color: activo && !suave ? '#1a1a1a' : textColor,
     fontSize: '12px',
     fontWeight: 700,
@@ -609,15 +609,15 @@ export default function Autoservicio() {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '10px 20px',
-        background: '#1a1a1a',
-        color: 'white',
+        background: 'var(--k-surface)',
+        color: 'var(--k-text)',
         borderBottom: '1px solid rgba(229,57,53,0.2)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={{
             width: '36px',
             height: '36px',
-            border: '1px solid rgba(255,255,255,0.12)',
+            border: '1px solid var(--k-border)',
             borderRadius: '8px',
             background: 'rgba(255,255,255,0.06)',
             color: 'rgba(255,255,255,0.8)',
@@ -637,7 +637,7 @@ export default function Autoservicio() {
           <button onClick={toggleDarkMode} style={{
             width: '36px',
             height: '36px',
-            border: '1px solid rgba(255,255,255,0.12)',
+            border: '1px solid var(--k-border)',
             borderRadius: '8px',
             background: 'rgba(255,255,255,0.06)',
             color: 'rgba(255,255,255,0.8)',
@@ -697,8 +697,8 @@ export default function Autoservicio() {
 
           {mensajeError && (
             <div style={{
-              background: darkMode ? 'rgba(229,57,53,0.14)' : '#FFEBEE',
-              color: darkMode ? '#FF8A80' : '#B71C1C',
+              background: 'var(--k-surface-2)',
+              color: '#FF8A80',
               border: '1px solid rgba(229,57,53,0.35)',
               padding: '10px 12px',
               borderRadius: '8px',
@@ -736,7 +736,7 @@ export default function Autoservicio() {
                 <div style={{ ...card, padding: '30px', textAlign: 'center', color: muted }}>Cargando tickets...</div>
               ) : ticketsMostrados.length === 0 ? (
                 <div style={{ ...card, padding: '34px 20px', textAlign: 'center' }}>
-                  <span className="material-icons" style={{ fontSize: '52px', color: '#E53935' }}>confirmation_number</span>
+                  <span className="material-icons" style={{ fontSize: '52px', color: 'var(--k-primary)' }}>confirmation_number</span>
                   <h2 style={{ margin: '10px 0 4px', fontSize: '18px', fontWeight: 700 }}>
                     {verTodos ? 'Todavía no hay tickets' : 'No hay tickets activos'}
                   </h2>
@@ -758,7 +758,7 @@ export default function Autoservicio() {
                       <div key={p.id} style={{ ...card, padding: '14px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
                           <div>
-                            <div style={{ fontSize: '24px', fontWeight: 700, color: '#E53935', lineHeight: 1 }}>
+                            <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--k-primary)', lineHeight: 1 }}>
                               #{p.numero_orden || p.id}
                             </div>
                             <div style={{ fontSize: '12px', color: muted, marginTop: '4px' }}>
@@ -968,7 +968,7 @@ export default function Autoservicio() {
                               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                             />
                           ) : (
-                            <span className="material-icons" style={{ color: '#E53935', fontSize: '30px' }}>
+                            <span className="material-icons" style={{ color: 'var(--k-primary)', fontSize: '30px' }}>
                               restaurant
                             </span>
                           )}
@@ -986,10 +986,10 @@ export default function Autoservicio() {
                           marginTop: '6px',
                           gap: '4px',
                         }}>
-                          <span style={{ fontSize: '12px', fontWeight: 700, color: '#E53935' }}>
+                          <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--k-primary)' }}>
                             {fmtGs(p.precio)}
                           </span>
-                          <span className="material-icons" style={{ fontSize: '20px', color: '#E53935' }}>
+                          <span className="material-icons" style={{ fontSize: '20px', color: 'var(--k-primary)' }}>
                             add_circle
                           </span>
                         </div>
@@ -1032,9 +1032,9 @@ export default function Autoservicio() {
 
                 {ticketEditando && (
                   <div style={{
-                    background: darkMode ? 'rgba(229,57,53,0.12)' : '#FFF3E0',
+                    background: 'var(--k-surface-2)',
                     border: '1px solid rgba(229,57,53,0.35)',
-                    color: darkMode ? '#FFCC80' : '#E65100',
+                    color: '#FFCC80',
                     padding: '8px 10px',
                     borderRadius: '10px',
                     fontSize: '12px',
@@ -1158,7 +1158,7 @@ export default function Autoservicio() {
                   marginTop: '6px',
                 }}>
                   <span style={{ fontSize: '13px', color: muted, fontWeight: 700 }}>TOTAL</span>
-                  <span style={{ fontSize: '20px', fontWeight: 700, color: '#E53935' }}>{fmtGs(totalCarrito)}</span>
+                  <span style={{ fontSize: '20px', fontWeight: 700, color: 'var(--k-primary)' }}>{fmtGs(totalCarrito)}</span>
                 </div>
 
                 <button
@@ -1263,7 +1263,7 @@ export default function Autoservicio() {
                 <div style={{ fontSize: '11px', color: muted, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                   Ticket
                 </div>
-                <h3 style={{ margin: '2px 0 0', fontSize: '28px', fontWeight: 700, color: '#E53935' }}>
+                <h3 style={{ margin: '2px 0 0', fontSize: '24px', fontWeight: 700, color: 'var(--k-primary)' }}>
                   #{ticketDetalle.numero_orden || ticketDetalle.id}
                 </h3>
                 <div style={{ fontSize: '12px', color: muted }}>
@@ -1314,7 +1314,7 @@ export default function Autoservicio() {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '12px 0' }}>
               <span style={{ fontSize: '13px', color: muted, fontWeight: 700 }}>TOTAL</span>
-              <span style={{ fontSize: '22px', fontWeight: 700, color: '#E53935' }}>{fmtGs(ticketDetalle.total)}</span>
+              <span style={{ fontSize: '22px', fontWeight: 700, color: 'var(--k-primary)' }}>{fmtGs(ticketDetalle.total)}</span>
             </div>
 
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -1367,7 +1367,7 @@ export default function Autoservicio() {
               <p style={{ fontSize: '12px', color: muted, margin: '8px 0 0' }}>Procesando...</p>
             )}
             {mensajeError && (
-              <p style={{ fontSize: '12px', color: '#E53935', margin: '8px 0 0' }}>{mensajeError}</p>
+              <p style={{ fontSize: '12px', color: 'var(--k-primary)', margin: '8px 0 0' }}>{mensajeError}</p>
             )}
           </div>
         </div>
@@ -1385,7 +1385,7 @@ export default function Autoservicio() {
                 : `¿Seguro que querés cancelar el ticket #${confirmacion.pedido.numero_orden || confirmacion.pedido.id}? Esta acción no se puede deshacer.`}
             </p>
             {mensajeError && (
-              <p style={{ margin: '10px 0 0', fontSize: '12px', color: '#E53935' }}>{mensajeError}</p>
+              <p style={{ margin: '10px 0 0', fontSize: '12px', color: 'var(--k-primary)' }}>{mensajeError}</p>
             )}
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
               <button
@@ -1414,11 +1414,11 @@ export default function Autoservicio() {
       {exito && (
         <div style={overlay} onClick={() => setExito(null)}>
           <div style={{ ...modal, maxWidth: '430px', textAlign: 'center' }} onClick={(e) => e.stopPropagation()}>
-            <span className="material-icons" style={{ fontSize: '56px', color: '#22C55E' }}>check_circle</span>
+            <span className="material-icons" style={{ fontSize: '56px', color: 'var(--k-success)' }}>check_circle</span>
             <h3 style={{ margin: '8px 0 2px', fontSize: '20px', fontWeight: 700 }}>{exito.titulo}</h3>
             <p style={{ margin: '4px 0', fontSize: '15px', color: muted }}>{exito.mensaje}</p>
             {exito.total !== undefined && (
-              <p style={{ margin: '6px 0 0', fontSize: '22px', fontWeight: 700, color: '#E53935' }}>
+              <p style={{ margin: '6px 0 0', fontSize: '22px', fontWeight: 700, color: 'var(--k-primary)' }}>
                 {fmtGs(exito.total)}
               </p>
             )}

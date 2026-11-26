@@ -208,19 +208,19 @@ export default function Inventario() {
 
   const getEstadoStock = (estado) => {
     const estilos = {
-      normal: { color: '#22C55E', bg: 'rgba(76, 175, 80, 0.15)', texto: 'Normal' },
-      bajo: { color: '#F59E0B', bg: 'rgba(251, 192, 45, 0.15)', texto: 'Stock Bajo' },
-      agotado: { color: '#E53935', bg: 'rgba(229, 57, 53, 0.15)', texto: 'Agotado' }
+      normal: { color: 'var(--k-success)', bg: 'rgba(76, 175, 80, 0.15)', texto: 'Normal' },
+      bajo: { color: 'var(--k-warning)', bg: 'rgba(251, 192, 45, 0.15)', texto: 'Stock Bajo' },
+      agotado: { color: 'var(--k-primary)', bg: 'rgba(229, 57, 53, 0.15)', texto: 'Agotado' }
     }
     return estilos[estado] || estilos.normal
   }
 
   const s = {
-    container: (dm) => ({ minHeight: '100vh', background: 'transparent', color: dm ? '#fff' : '#1a1a1a', overflow: 'hidden' }),
-    header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: '#1a1a1a', color: 'white', borderBottom: '1px solid rgba(229,57,53,0.2)', boxShadow: '0 1px 4px rgba(0,0,0,0.3)' },
-    btn: { width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', transition: 'all 0.15s' },
+    container: (dm) => ({ minHeight: '100vh', background: 'transparent', color: 'var(--k-text)', overflow: 'hidden' }),
+    header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', background: 'var(--k-surface)', color: 'var(--k-text)', borderBottom: '1px solid rgba(229,57,53,0.2)', boxShadow: 'var(--k-shadow-sm)' },
+    btn: { width: '36px', height: '36px', border: '1px solid var(--k-border)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', transition: 'all 0.15s' },
     title: { fontSize: '22px', fontWeight: '700', letterSpacing: '0.5px' },
-    kpiCard: (dm) => ({ borderRadius: '14px', padding: '18px', textAlign: 'center', border: `1px solid ${dm ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`, background: dm ? '#1e1e1e' : 'white', boxShadow: dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)' }),
+    kpiCard: (dm) => ({ borderRadius: '14px', padding: '18px', textAlign: 'center', border: `1px solid ${'var(--k-border)'}`, background: 'var(--k-surface)', boxShadow: 'var(--k-shadow-sm)' }),
     gridKpi: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '20px' },
     overlay: {
       position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
@@ -229,24 +229,24 @@ export default function Inventario() {
       backdropFilter: 'blur(4px)',
     },
     modalCard: (dm) => ({
-      background: dm ? '#1e1e1e' : 'white',
-      padding: '28px', borderRadius: '20px',
+      background: 'var(--k-surface)',
+      padding: '28px', borderRadius: '14px',
       width: '90%', maxWidth: '400px',
-      boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
+      boxShadow: 'var(--k-shadow-sm)',
     }),
     input: (dm) => ({
       width: '100%', padding: '11px 14px', borderRadius: '10px',
-      border: `1px solid ${dm ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
-      background: dm ? '#2a2a2a' : '#f8f8f8',
-      color: dm ? 'white' : '#1a1a1a', marginBottom: '10px',
+      border: `1px solid ${'var(--k-border)'}`,
+      background: 'var(--k-surface-2)',
+      color: 'var(--k-text)', marginBottom: '10px',
       boxSizing: 'border-box', outline: 'none',
     }),
     fab: {
       position: 'fixed', bottom: '24px', right: '24px',
       width: '48px', height: '48px', border: 'none', borderRadius: '14px',
       background: 'linear-gradient(135deg, #22C55E, #388E3C)',
-      color: 'white', fontSize: '22px', cursor: 'pointer',
-      boxShadow: '0 4px 12px rgba(76,175,80,0.3)',
+      color: 'var(--k-text)', fontSize: '22px', cursor: 'pointer',
+      boxShadow: 'var(--k-shadow-sm)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 50,
     },
@@ -283,17 +283,17 @@ export default function Inventario() {
               background: 'linear-gradient(135deg, #E53935, #C62828)',
               padding: '15px 20px', borderRadius: '12px', marginBottom: '20px',
               display: 'flex', alignItems: 'center', gap: '12px',
-              boxShadow: '0 4px 12px rgba(229,57,53,0.3)',
+              boxShadow: 'var(--k-shadow-sm)',
             }}>
-              <span className="material-icons" style={{ color: 'white', fontSize: '28px' }}>warning</span>
-              <span style={{ color: 'white', flex: 1, fontSize: '14px' }}>
+              <span className="material-icons" style={{ color: 'var(--k-text)', fontSize: '28px' }}>warning</span>
+              <span style={{ color: 'var(--k-text)', flex: 1, fontSize: '14px' }}>
                 <strong>{alertas.length} producto(s) con stock bajo o agotado</strong>
               </span>
               <button
                 onClick={() => setFiltroEstado('bajo')}
                 style={{
                   padding: '8px 16px', border: 'none', borderRadius: '8px',
-                  background: 'white', color: '#E53935', cursor: 'pointer',
+                  background: 'var(--k-surface)', color: 'var(--k-primary)', cursor: 'pointer',
                   fontWeight: '700', fontSize: '12px',
                 }}
               >Ver Stock Bajo</button>
@@ -301,7 +301,7 @@ export default function Inventario() {
                 onClick={() => setFiltroEstado('agotado')}
                 style={{
                   padding: '8px 16px', border: 'none', borderRadius: '8px',
-                  background: 'rgba(255,255,255,0.2)', color: 'white', cursor: 'pointer',
+                  background: 'rgba(255,255,255,0.2)', color: 'var(--k-text)', cursor: 'pointer',
                   fontWeight: '700', fontSize: '12px',
                 }}
               >Ver Agotados</button>
@@ -309,68 +309,68 @@ export default function Inventario() {
           )}
 
           {/* RESUMEN KPIs */}
-          <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '15px', color: darkMode ? '#fff' : '#333' }}>Resumen</h2>
+          <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '15px', color: 'var(--k-text)' }}>Resumen</h2>
           <div style={s.gridKpi}>
             <div style={s.kpiCard(darkMode)}>
               <span className="material-icons" style={{ fontSize: '35px', color: '#9C27B0' }}>inventory_2</span>
-              <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Total Productos</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{resumen.total_productos || 0}</p>
+              <p style={{ fontSize: '13px', color: 'var(--k-text-secondary)', marginTop: '8px' }}>Total Productos</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-text)' }}>{resumen.total_productos || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
-              <span className="material-icons" style={{ fontSize: '35px', color: '#22C55E' }}>check_circle</span>
-              <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Normal</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: '#22C55E' }}>{resumen.normal || 0}</p>
+              <span className="material-icons" style={{ fontSize: '35px', color: 'var(--k-success)' }}>check_circle</span>
+              <p style={{ fontSize: '13px', color: 'var(--k-text-secondary)', marginTop: '8px' }}>Normal</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-success)' }}>{resumen.normal || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
-              <span className="material-icons" style={{ fontSize: '35px', color: '#F59E0B' }}>warning</span>
-              <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Stock Bajo</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: '#F59E0B' }}>{resumen.bajo || 0}</p>
+              <span className="material-icons" style={{ fontSize: '35px', color: 'var(--k-warning)' }}>warning</span>
+              <p style={{ fontSize: '13px', color: 'var(--k-text-secondary)', marginTop: '8px' }}>Stock Bajo</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-warning)' }}>{resumen.bajo || 0}</p>
             </div>
             <div style={s.kpiCard(darkMode)}>
-              <span className="material-icons" style={{ fontSize: '35px', color: '#E53935' }}>cancel</span>
-              <p style={{ fontSize: '13px', color: darkMode ? '#aaa' : '#666', marginTop: '8px' }}>Agotado</p>
-              <p style={{ fontSize: '24px', fontWeight: '700', color: '#E53935' }}>{resumen.agotado || 0}</p>
+              <span className="material-icons" style={{ fontSize: '35px', color: 'var(--k-primary)' }}>cancel</span>
+              <p style={{ fontSize: '13px', color: 'var(--k-text-secondary)', marginTop: '8px' }}>Agotado</p>
+              <p style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-primary)' }}>{resumen.agotado || 0}</p>
             </div>
           </div>
 
           {/* TABLA DE INVENTARIO */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: darkMode ? '#fff' : '#333' }}>Inventario de Productos</h2>
+            <h2 style={{ fontSize: '20px', fontWeight: '700', margin: 0, color: 'var(--k-text)' }}>Inventario de Productos</h2>
             <button
               onClick={() => setModalNuevo(true)}
               style={{
                 padding: '10px 18px', border: 'none', borderRadius: '10px',
                 background: 'linear-gradient(135deg, #9C27B0, #7B1FA2)',
-                color: 'white', fontWeight: '700', cursor: 'pointer', fontSize: '13px',
+                color: 'var(--k-text)', fontWeight: '700', cursor: 'pointer', fontSize: '13px',
               }}
             >+ Nuevo Item</button>
           </div>
 
-          <div style={{ background: darkMode ? '#333' : '#fff', borderRadius: '15px', overflow: 'hidden', boxShadow: '0 4px 15px rgba(0,0,0,0.1)' }}>
+          <div style={{ background: '#333', borderRadius: '15px', overflow: 'hidden', boxShadow: 'var(--k-shadow-sm)' }}>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr style={{ background: darkMode ? '#444' : '#f5f5f5' }}>
-                    <th style={{ padding: '15px', textAlign: 'left', color: darkMode ? '#aaa' : '#666' }}>Producto</th>
-                    <th style={{ padding: '15px', textAlign: 'left', color: darkMode ? '#aaa' : '#666' }}>Categoría</th>
-                    <th style={{ padding: '15px', textAlign: 'center', color: darkMode ? '#aaa' : '#666' }}>Stock</th>
-                    <th style={{ padding: '15px', textAlign: 'center', color: darkMode ? '#aaa' : '#666' }}>Mín.</th>
-                    <th style={{ padding: '15px', textAlign: 'center', color: darkMode ? '#aaa' : '#666' }}>Costo</th>
-                    <th style={{ padding: '15px', textAlign: 'center', color: darkMode ? '#aaa' : '#666' }}>Estado</th>
-                    <th style={{ padding: '15px', textAlign: 'center', color: darkMode ? '#aaa' : '#666' }}>Acciones</th>
+                  <tr style={{ background: '#444' }}>
+                    <th style={{ padding: '15px', textAlign: 'left', color: 'var(--k-text-secondary)' }}>Producto</th>
+                    <th style={{ padding: '15px', textAlign: 'left', color: 'var(--k-text-secondary)' }}>Categoría</th>
+                    <th style={{ padding: '15px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>Stock</th>
+                    <th style={{ padding: '15px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>Mín.</th>
+                    <th style={{ padding: '15px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>Costo</th>
+                    <th style={{ padding: '15px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>Estado</th>
+                    <th style={{ padding: '15px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {cargando ? (
                     <tr>
-                      <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: darkMode ? '#666' : '#999' }}>
+                      <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>
                         <span className="material-icons" style={{ fontSize: '40px', animation: 'spin 1s linear infinite' }}>sync</span>
                         <p style={{ marginTop: '10px' }}>Cargando inventario...</p>
                       </td>
                     </tr>
                   ) : inventario.length === 0 ? (
                     <tr>
-                      <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: darkMode ? '#666' : '#999' }}>
+                      <td colSpan={7} style={{ padding: '40px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>
                         No hay productos en inventario
                       </td>
                     </tr>
@@ -380,25 +380,25 @@ export default function Inventario() {
                       return (
                         <tr
                           key={item.id}
-                          style={{ borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, cursor: 'pointer' }}
+                          style={{ borderBottom: `1px solid ${'var(--k-border)'}`, cursor: 'pointer' }}
                           onClick={() => abrirEditar(item)}
                         >
                           <td style={{ padding: '15px' }}>
-                            <span style={{ fontWeight: '600', color: darkMode ? '#fff' : '#333' }}>{item.producto_nombre}</span>
+                            <span style={{ fontWeight: '600', color: 'var(--k-text)' }}>{item.producto_nombre}</span>
                           </td>
-                          <td style={{ padding: '15px', color: darkMode ? '#aaa' : '#666' }}>{item.categoria}</td>
+                          <td style={{ padding: '15px', color: 'var(--k-text-secondary)' }}>{item.categoria}</td>
                           <td style={{ padding: '15px', textAlign: 'center' }}>
                             <span style={{ fontSize: '20px', fontWeight: '700', color: estado.color }}>{item.stock_actual}</span>
-                            <span style={{ fontSize: '12px', color: darkMode ? '#aaa' : '#666', marginLeft: '5px' }}>{item.unidad_medida}</span>
+                            <span style={{ fontSize: '12px', color: 'var(--k-text-secondary)', marginLeft: '5px' }}>{item.unidad_medida}</span>
                           </td>
-                          <td style={{ padding: '15px', textAlign: 'center', color: darkMode ? '#aaa' : '#666' }}>{item.stock_minimo}</td>
-                          <td style={{ padding: '15px', textAlign: 'center', color: darkMode ? '#aaa' : '#666' }}>
+                          <td style={{ padding: '15px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>{item.stock_minimo}</td>
+                          <td style={{ padding: '15px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>
                             {parseInt(item.precio_costo).toLocaleString('es-PY')} Gs.
                           </td>
                           <td style={{ padding: '15px', textAlign: 'center' }}>
                             <span style={{
                               padding: '5px 12px',
-                              borderRadius: '20px',
+                              borderRadius: '14px',
                               background: estado.bg,
                               color: estado.color,
                               fontSize: '12px',
@@ -412,21 +412,21 @@ export default function Inventario() {
                               <button
                                 onClick={() => abrirMovimiento(item, 'entrada')}
                                 title="Entrada"
-                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#22C55E', color: 'white', cursor: 'pointer' }}
+                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: 'var(--k-success)', color: 'var(--k-text)', cursor: 'pointer' }}
                               >
                                 <span className="material-icons" style={{ fontSize: '18px' }}>add</span>
                               </button>
                               <button
                                 onClick={() => abrirMovimiento(item, 'salida')}
                                 title="Salida"
-                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#E53935', color: 'white', cursor: 'pointer' }}
+                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer' }}
                               >
                                 <span className="material-icons" style={{ fontSize: '18px' }}>remove</span>
                               </button>
                               <button
                                 onClick={() => confirmarEliminar(item)}
                                 title="Eliminar"
-                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#9C27B0', color: 'white', cursor: 'pointer' }}
+                                style={{ padding: '8px', border: 'none', borderRadius: '8px', background: '#9C27B0', color: 'var(--k-text)', cursor: 'pointer' }}
                               >
                                 <span className="material-icons" style={{ fontSize: '18px' }}>delete</span>
                               </button>
@@ -450,16 +450,16 @@ export default function Inventario() {
       {modalMovimiento && (
         <div style={s.overlay}>
           <div style={s.modalCard(darkMode)}>
-            <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>
+            <h3 style={{ color: 'var(--k-text)', marginBottom: '20px', textAlign: 'center' }}>
               {tipoMovimiento === 'entrada' ? 'Entrada de Inventario' : 'Salida de Inventario'}
             </h3>
-            <p style={{ color: darkMode ? '#aaa' : '#666', marginBottom: '20px', textAlign: 'center' }}>
+            <p style={{ color: 'var(--k-text-secondary)', marginBottom: '20px', textAlign: 'center' }}>
               {productoSeleccionado?.producto_nombre}
             </p>
 
             <div style={{ marginBottom: '15px' }}>
-              <label style={{ display: 'block', marginBottom: '5px', color: darkMode ? '#aaa' : '#666' }}>Cantidad</label>
-              <p style={{ fontSize: '12px', color: darkMode ? '#888' : '#999', margin: '0 0 8px' }}>{tipoMovimiento === 'entrada' ? 'Cuántos unidades estás agregando' : 'Cuántos unidades estás sacando'}</p>
+              <label style={{ display: 'block', marginBottom: '5px', color: 'var(--k-text-secondary)' }}>Cantidad</label>
+              <p style={{ fontSize: '12px', color: 'var(--k-text-secondary)', margin: '0 0 8px' }}>{tipoMovimiento === 'entrada' ? 'Cuántos unidades estás agregando' : 'Cuántos unidades estás sacando'}</p>
               <CantidadInput
                 value={cantidadMovimiento}
                 onChange={setCantidadMovimiento}
@@ -472,7 +472,7 @@ export default function Inventario() {
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '5px', color: darkMode ? '#aaa' : '#666' }}>Motivo</label>
+              <label style={{ display: 'block', marginBottom: '5px', color: 'var(--k-text-secondary)' }}>Motivo</label>
               <select
                 value={motivoMovimiento}
                 onChange={(e) => setMotivoMovimiento(e.target.value)}
@@ -500,13 +500,13 @@ export default function Inventario() {
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={() => setModalMovimiento(false)}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: '#333', cursor: 'pointer' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: 'var(--k-text-secondary)', cursor: 'pointer' }}
               >
                 Cancelar
               </button>
               <button
                 onClick={ejecutarMovimiento}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: tipoMovimiento === 'entrada' ? '#22C55E' : '#E53935', color: 'white', cursor: 'pointer', fontWeight: '700' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: tipoMovimiento === 'entrada' ? '#22C55E' : '#E53935', color: 'var(--k-text)', cursor: 'pointer', fontWeight: '700' }}
               >
                 {tipoMovimiento === 'entrada' ? 'Entrada' : 'Salida'}
               </button>
@@ -519,16 +519,16 @@ export default function Inventario() {
       {modalNuevo && (
         <div style={s.overlay} onClick={() => setModalNuevo(false)}>
           <div style={s.modalCard(darkMode)} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>Nuevo Item de Inventario</h3>
+            <h3 style={{ color: 'var(--k-text)', marginBottom: '20px', textAlign: 'center' }}>Nuevo Item de Inventario</h3>
 
-            <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Nombre del producto</label>
+            <label style={{ display: 'block', marginBottom: '4px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Nombre del producto</label>
             <input
               style={s.input(darkMode)}
               placeholder="Ej: Hamburguesa, Coca Cola..."
               value={nuevoForm.nombre}
               onChange={(e) => setNuevoForm({ ...nuevoForm, nombre: e.target.value })}
             />
-            <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Stock inicial — cantidad que tenés ahora</label>
+            <label style={{ display: 'block', marginBottom: '4px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Stock inicial — cantidad que tenés ahora</label>
             <div style={{ display: 'flex', gap: '10px' }}>
               <CantidadInput
                 value={nuevoForm.stock}
@@ -553,7 +553,7 @@ export default function Inventario() {
                 inputStyle={{ ...s.input(darkMode), marginBottom: 0 }}
               />
             </div>
-            <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Stock mínimo — cuando llegue a este número, te alertará</label>
+            <label style={{ display: 'block', marginBottom: '4px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Stock mínimo — cuando llegue a este número, te alertará</label>
             <div style={{ display: 'flex', gap: '10px' }}>
               <input
                 style={{ ...s.input(darkMode), flex: 1 }}
@@ -568,13 +568,13 @@ export default function Inventario() {
                 onChange={(e) => setNuevoForm({ ...nuevoForm, unidad_medida: e.target.value })}
               />
             </div>
-            <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Precio costo = precio que pagaste por unidad (en Gs.)</label>
-            <label style={{ display: 'block', marginBottom: '10px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Unidad de medida: und = unidades, kg = kilos, lts = litros</label>
+            <label style={{ display: 'block', marginBottom: '4px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Precio costo = precio que pagaste por unidad (en Gs.)</label>
+            <label style={{ display: 'block', marginBottom: '10px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Unidad de medida: und = unidades, kg = kilos, lts = litros</label>
 
             <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
               <button
                 onClick={() => setModalNuevo(false)}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: '#333', cursor: 'pointer' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: 'var(--k-text-secondary)', cursor: 'pointer' }}
               >Cancelar</button>
               <button
                 onClick={crearNuevoItem}
@@ -582,7 +582,7 @@ export default function Inventario() {
                 style={{
                   flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
                   background: 'linear-gradient(135deg, #9C27B0, #7B1FA2)',
-                  color: 'white', cursor: nuevoForm.nombre ? 'pointer' : 'not-allowed',
+                  color: 'var(--k-text)', cursor: nuevoForm.nombre ? 'pointer' : 'not-allowed',
                   fontWeight: '700', opacity: nuevoForm.nombre ? 1 : 0.5,
                 }}
               >Crear</button>
@@ -596,27 +596,27 @@ export default function Inventario() {
         <div style={s.overlay}>
           <div style={s.modalCard(darkMode)}>
             <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: 'rgba(156,39,176,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: 'rgba(156,39,176,0.12)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span className="material-icons" style={{ fontSize: '28px', color: '#9C27B0' }}>warning_amber</span>
               </div>
-              <h3 style={{ color: darkMode ? '#fff' : '#333', margin: '0 0 4px', fontSize: '18px' }}>¿Eliminar Item?</h3>
-              <p style={{ color: darkMode ? '#aaa' : '#666', fontSize: '13px', margin: '0' }}>
+              <h3 style={{ color: 'var(--k-text)', margin: '0 0 4px', fontSize: '18px' }}>¿Eliminar Item?</h3>
+              <p style={{ color: 'var(--k-text-secondary)', fontSize: '13px', margin: '0' }}>
                 {productoSeleccionado?.producto_nombre}
               </p>
-              <p style={{ color: '#E53935', fontSize: '12px', marginTop: '12px', background: 'rgba(229,57,53,0.1)', padding: '8px', borderRadius: '8px' }}>
+              <p style={{ color: 'var(--k-primary)', fontSize: '12px', marginTop: '12px', background: 'rgba(229,57,53,0.1)', padding: '8px', borderRadius: '8px' }}>
                 Se eliminará el inventario y el producto. Esta acción no se puede deshacer.
               </p>
             </div>
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={() => { setModalEliminar(false); setProductoSeleccionado(null) }}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: '#333', cursor: 'pointer' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: 'var(--k-text-secondary)', cursor: 'pointer' }}
                 disabled={eliminando}
               >Cancelar</button>
               <button
                 onClick={ejecutarEliminar}
                 disabled={eliminando}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: eliminando ? '#999' : 'linear-gradient(135deg, #E53935, #C62828)', color: 'white', cursor: eliminando ? 'not-allowed' : 'pointer', fontWeight: '700' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: eliminando ? '#999' : 'linear-gradient(135deg, #E53935, #C62828)', color: 'var(--k-text)', cursor: eliminando ? 'not-allowed' : 'pointer', fontWeight: '700' }}
               >{eliminando ? 'Eliminando...' : 'Eliminar'}</button>
             </div>
           </div>
@@ -627,9 +627,9 @@ export default function Inventario() {
       {modalEditar && (
         <div style={s.overlay} onClick={() => setModalEditar(false)}>
           <div style={s.modalCard(darkMode)} onClick={(e) => e.stopPropagation()}>
-            <h3 style={{ color: darkMode ? '#fff' : '#333', marginBottom: '20px', textAlign: 'center' }}>Editar Configuración</h3>
+            <h3 style={{ color: 'var(--k-text)', marginBottom: '20px', textAlign: 'center' }}>Editar Configuración</h3>
 
-            <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Stock mínimo — alerta cuando el stock llegue a este número</label>
+            <label style={{ display: 'block', marginBottom: '4px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Stock mínimo — alerta cuando el stock llegue a este número</label>
             <div style={{ display: 'flex', gap: '10px' }}>
               <CantidadInput
                 value={editarForm.stock_minimo}
@@ -649,26 +649,26 @@ export default function Inventario() {
                 onChange={(e) => setEditarForm({ ...editarForm, precio_costo: e.target.value })}
               />
             </div>
-            <label style={{ display: 'block', marginBottom: '4px', marginTop: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Precio costo — lo que pagaste por unidad (en Gs.)</label>
+            <label style={{ display: 'block', marginBottom: '4px', marginTop: '4px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Precio costo — lo que pagaste por unidad (en Gs.)</label>
             <input
               style={s.input(darkMode)}
               placeholder="Unidad de medida"
               value={editarForm.unidad_medida}
               onChange={(e) => setEditarForm({ ...editarForm, unidad_medida: e.target.value })}
             />
-            <label style={{ display: 'block', marginBottom: '4px', color: darkMode ? '#aaa' : '#666', fontSize: '13px' }}>Unidad de medida: und, kg, lts...</label>
+            <label style={{ display: 'block', marginBottom: '4px', color: 'var(--k-text-secondary)', fontSize: '13px' }}>Unidad de medida: und, kg, lts...</label>
 
             <div style={{ display: 'flex', gap: '10px' }}>
               <button
                 onClick={() => setModalEditar(false)}
-                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: '#333', cursor: 'pointer' }}
+                style={{ flex: 1, padding: '12px', border: 'none', borderRadius: '10px', background: '#ccc', color: 'var(--k-text-secondary)', cursor: 'pointer' }}
               >Cancelar</button>
               <button
                 onClick={guardarEditar}
                 style={{
                   flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
                   background: 'linear-gradient(135deg, #9C27B0, #7B1FA2)',
-                  color: 'white', cursor: 'pointer', fontWeight: '700',
+                  color: 'var(--k-text)', cursor: 'pointer', fontWeight: '700',
                 }}
               >Guardar</button>
             </div>

@@ -5,11 +5,11 @@ import { getApiUrl } from '../utils/api'
 const API = getApiUrl()
 
 const ROL_STYLES = {
-  superadmin: { color: '#E53935', label: 'Superadmin' },
-  administrador: { color: '#E53935', label: 'Administrador' },
-  cajero: { color: '#3B82F6', label: 'Cajero' },
+  superadmin: { color: 'var(--k-primary)', label: 'Superadmin' },
+  administrador: { color: 'var(--k-primary)', label: 'Administrador' },
+  cajero: { color: 'var(--k-info)', label: 'Cajero' },
   cocina: { color: '#9C27B0', label: 'Cocina' },
-  mesero: { color: '#22C55E', label: 'Mesero' },
+  mesero: { color: 'var(--k-success)', label: 'Mesero' },
 }
 
 const FILTROS = [
@@ -123,13 +123,13 @@ export default function AdminUsuarios() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <Link to="/admin" style={{ color: 'rgba(255,255,255,0.4)', fontSize: '20px', textDecoration: 'none' }}>←</Link>
               <div>
-                <span style={{ fontSize: '20px', fontWeight: '700', color: '#E53935' }}>KaruApp</span>
+                <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--k-primary)' }}>KaruApp</span>
                 <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginLeft: '8px' }}>Usuarios</span>
               </div>
             </div>
             <button onClick={logout} style={{
               padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(229,57,53,0.3)',
-              background: 'transparent', color: '#EF5350', fontWeight: '600', fontSize: '12px', cursor: 'pointer',
+              background: 'transparent', color: 'var(--k-primary-hover)', fontWeight: '600', fontSize: '12px', cursor: 'pointer',
             }}>Salir</button>
           </div>
           <input type="text" value={busqueda} onChange={e => setBusqueda(e.target.value)}
@@ -185,11 +185,11 @@ export default function AdminUsuarios() {
 
 function PantallaCarga() {
   return (
-    <div style={{ minHeight: '100vh', background: '#121212', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: 'var(--k-surface)', color: 'var(--k-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{
           width: '36px', height: '36px', border: '3px solid rgba(229,57,53,0.2)',
-          borderTopColor: '#E53935', borderRadius: '50%',
+          borderTopColor: 'var(--k-primary)', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 12px',
         }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
@@ -203,12 +203,12 @@ function Resumen({ total, activos, bloqueados }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '24px' }}>
       {[
-        { label: 'Total', count: total, color: 'white', bg: 'rgba(255,255,255,0.04)' },
+        { label: 'Total', count: total, color: 'var(--k-text)', bg: 'rgba(255,255,255,0.04)' },
         { label: 'Activos', count: activos, color: '#81C784', bg: 'rgba(76,175,80,0.1)' },
-        { label: 'Bloqueados', count: bloqueados, color: '#EF5350', bg: 'rgba(229,57,53,0.1)' },
+        { label: 'Bloqueados', count: bloqueados, color: 'var(--k-primary-hover)', bg: 'rgba(229,57,53,0.1)' },
       ].map((item, i) => (
-        <div key={i} style={{ borderRadius: '12px', padding: '16px', background: item.bg, border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
-          <div style={{ fontSize: '26px', fontWeight: '700', color: item.color }}>{item.count}</div>
+        <div key={i} style={{ borderRadius: '12px', padding: '16px', background: item.bg, border: '1px solid var(--k-border)', textAlign: 'center' }}>
+          <div style={{ fontSize: '24px', fontWeight: '700', color: item.color }}>{item.count}</div>
           <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{item.label}</div>
         </div>
       ))}
@@ -217,13 +217,13 @@ function Resumen({ total, activos, bloqueados }) {
 }
 
 function CardUsuario({ u, ocupado, onEstado, onEliminar }) {
-  const rol = ROL_STYLES[u.rol] || { color: '#888', label: u.rol }
+  const rol = ROL_STYLES[u.rol] || { color: 'var(--k-text-secondary)', label: u.rol }
 
   return (
     <div style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       padding: '14px 16px', borderRadius: '12px',
-      background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.06)',
+      background: 'var(--k-surface)', border: '1px solid var(--k-border)',
     }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
@@ -256,7 +256,7 @@ function CardUsuario({ u, ocupado, onEstado, onEliminar }) {
         </button>
         <button onClick={onEliminar} disabled={ocupado} title="Eliminar" style={{
           width: '36px', height: '36px', borderRadius: '8px', cursor: ocupado ? 'wait' : 'pointer',
-          border: '1px solid rgba(229,57,53,0.3)', background: 'rgba(229,57,53,0.1)', color: '#EF5350',
+          border: '1px solid rgba(229,57,53,0.3)', background: 'rgba(229,57,53,0.1)', color: 'var(--k-primary-hover)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: ocupado ? 0.5 : 1,
         }}>
           <span className="material-icons" style={{ fontSize: '18px' }}>delete</span>
@@ -268,17 +268,17 @@ function CardUsuario({ u, ocupado, onEstado, onEliminar }) {
 
 const s = {
   container: {
-    minHeight: '100vh', background: '#121212', color: 'white',
+    minHeight: '100vh', background: 'var(--k-surface)', color: 'var(--k-text)',
     fontFamily: "'Inter', 'Roboto', sans-serif",
   },
   header: {
-    background: '#121212', borderBottom: '1px solid rgba(255,255,255,0.06)',
+    background: 'var(--k-surface)', borderBottom: '1px solid var(--k-border)',
     position: 'sticky', top: 0, zIndex: 100,
   },
   search: {
     width: '100%', padding: '10px 14px', fontSize: '13px', borderRadius: '10px',
-    border: '1px solid rgba(255,255,255,0.08)', background: '#1a1a1a',
-    color: 'white', outline: 'none', boxSizing: 'border-box',
+    border: '1px solid var(--k-border)', background: 'var(--k-surface)',
+    color: 'var(--k-text)', outline: 'none', boxSizing: 'border-box',
   },
   body: { maxWidth: '900px', margin: '0 auto', padding: '20px' },
 }

@@ -6,9 +6,9 @@ const DOMINIOS_VALIDOS = ['gmail.com', 'hotmail.com', 'outlook.com', 'yahoo.com'
 
 const inputStyle = {
   width: '100%', padding: '12px 44px 12px 16px', borderRadius: '10px',
-  border: '1px solid rgba(255,255,255,0.1)',
+  border: '1px solid var(--k-border)',
   background: 'rgba(255,255,255,0.04)',
-  color: '#fff', fontSize: '15px', outline: 'none',
+  color: 'var(--k-text)', fontSize: '15px', outline: 'none',
   boxSizing: 'border-box',
   fontFamily: "'Inter', 'Roboto', sans-serif",
 }
@@ -229,21 +229,21 @@ export default function Login() {
     },
     card: {
       width: '100%', maxWidth: '400px', padding: '40px 32px',
-      background: '#1e1e1e', borderRadius: '20px',
-      boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-      border: '1px solid rgba(255,255,255,0.06)',
+      background: 'var(--k-surface)', borderRadius: '14px',
+      boxShadow: 'var(--k-shadow-sm)',
+      border: '1px solid var(--k-border)',
     },
     input: {
       width: '100%', padding: '12px 16px', borderRadius: '10px',
-      border: '1px solid rgba(255,255,255,0.1)',
+      border: '1px solid var(--k-border)',
       background: 'rgba(255,255,255,0.04)',
-      color: '#fff', fontSize: '15px', outline: 'none',
+      color: 'var(--k-text)', fontSize: '15px', outline: 'none',
       boxSizing: 'border-box',
       fontFamily: "'Inter', 'Roboto', sans-serif",
     },
     btn: {
       width: '100%', padding: '12px', borderRadius: '10px',
-      border: 'none', background: '#E53935', color: '#fff',
+      border: 'none', background: 'var(--k-primary)', color: 'var(--k-text)',
       fontSize: '15px', fontWeight: 700, cursor: 'pointer',
       fontFamily: "'Inter', 'Roboto', sans-serif",
     },
@@ -255,9 +255,9 @@ export default function Login() {
         <div style={s.card}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
             <span className="material-icons" style={{ fontSize: '48px', color: '#66bb6a' }}>check_circle</span>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: '12px 0 6px' }}>Cuenta creada</h2>
+            <h2 style={{ color: 'var(--k-text)', fontSize: '18px', margin: '12px 0 6px' }}>Cuenta creada</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0', lineHeight: 1.7 }}>
-              Tu cuenta quedó verificada. <strong style={{ color: '#fff' }}>{regNombre}</strong> ya está activo con una <strong style={{ color: '#66bb6a' }}>prueba gratuita de 7 días</strong>. Podés iniciar sesión ahora mismo.
+              Tu cuenta quedó verificada. <strong style={{ color: 'var(--k-text)' }}>{regNombre}</strong> ya está activo con una <strong style={{ color: '#66bb6a' }}>prueba gratuita de 7 días</strong>. Podés iniciar sesión ahora mismo.
             </p>
           </div>
           <button onClick={() => navigate('/login', { replace: true })} style={s.btn}>
@@ -281,13 +281,13 @@ export default function Login() {
               }}>
               <span className="material-icons" style={{ fontSize: '24px' }}>arrow_back</span>
             </button>
-            <span className="material-icons" style={{ fontSize: '48px', color: '#E53935', marginBottom: '8px' }}>mail</span>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: '0 0 6px' }}>Activá tu cuenta</h2>
+            <span className="material-icons" style={{ fontSize: '48px', color: 'var(--k-primary)', marginBottom: '8px' }}>mail</span>
+            <h2 style={{ color: 'var(--k-text)', fontSize: '18px', margin: '0 0 6px' }}>Activá tu cuenta</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0' }}>
               Te enviamos un código a tu email.
             </p>
             {verifyDevCode && (
-              <p style={{ color: '#E53935', fontSize: '11px', margin: '8px 0 0', background: 'rgba(229,57,53,0.1)', padding: '6px 10px', borderRadius: '8px' }}>
+              <p style={{ color: 'var(--k-primary)', fontSize: '11px', margin: '8px 0 0', background: 'rgba(229,57,53,0.1)', padding: '6px 10px', borderRadius: '8px' }}>
                 Modo desarrollo — Código: <strong>{verifyDevCode}</strong>
               </p>
             )}
@@ -295,7 +295,7 @@ export default function Login() {
           {error && (
             <div style={{
               padding: '10px 14px', borderRadius: '10px',
-              background: 'rgba(229,57,53,0.15)', color: '#ef5350',
+              background: 'rgba(229,57,53,0.15)', color: 'var(--k-primary-hover)',
               fontSize: '13px', marginBottom: '16px', textAlign: 'center',
             }}>{error}</div>
           )}
@@ -317,7 +317,7 @@ export default function Login() {
           </form>
           <p style={{ textAlign: 'center', marginTop: '16px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
             <button type="button" onClick={handleReenviar}
-              style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+              style={{ background: 'none', border: 'none', color: 'var(--k-primary)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
               Reenviar código
             </button>
           </p>
@@ -331,7 +331,7 @@ export default function Login() {
       <div style={s.card}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <img src="/logo.png" alt="KaruApp" style={{ width: '56px', height: '56px', borderRadius: '14px', marginBottom: '12px' }} />
-          <h1 style={{ color: '#fff', fontSize: '24px', fontWeight: 700, margin: 0 }}>KaruApp</h1>
+          <h1 style={{ color: 'var(--k-text)', fontSize: '24px', fontWeight: 700, margin: 0 }}><span>Karu</span><span style={{ color: 'var(--k-primary)' }}>App</span></h1>
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', marginTop: '4px' }}>Sistema POS para restaurantes</p>
         </div>
 
@@ -356,14 +356,14 @@ export default function Login() {
             </button>
             <p style={{ textAlign: 'center', marginTop: '16px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
               <button type="button" onClick={() => { setForgotStep('email'); setForgotEmail(email); setError(''); setForgotMsg('') }}
-                style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+                style={{ background: 'none', border: 'none', color: 'var(--k-primary)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
                 ¿Olvidó su contraseña?
               </button>
             </p>
             <p style={{ textAlign: 'center', marginTop: '8px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
               ¿No tenés cuenta?{' '}
               <button type="button" onClick={() => { setShowRegister(true); setError('') }}
-                style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+                style={{ background: 'none', border: 'none', color: 'var(--k-primary)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
                 Registrarse
               </button>
             </p>
@@ -392,7 +392,7 @@ export default function Login() {
             <p style={{ textAlign: 'center', marginTop: '16px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
               ¿Ya tenés cuenta?{' '}
               <button type="button" onClick={() => { setShowRegister(false); setError('') }}
-                style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
+                style={{ background: 'none', border: 'none', color: 'var(--k-primary)', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
                 Iniciar sesión
               </button>
             </p>
@@ -401,7 +401,7 @@ export default function Login() {
 
         {forgotStep === 'email' && (
           <form onSubmit={handleForgotEmail}>
-            <h3 style={{ color: '#fff', fontSize: '16px', margin: '0 0 6px' }}>¿Olvidaste tu contraseña?</h3>
+            <h3 style={{ color: 'var(--k-text)', fontSize: '16px', margin: '0 0 6px' }}>¿Olvidaste tu contraseña?</h3>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', margin: '0 0 20px' }}>
               Te enviamos un código a tu email.
             </p>
@@ -423,7 +423,7 @@ export default function Login() {
 
         {forgotStep === 'code' && (
           <form onSubmit={handleVerifyCode}>
-            <h3 style={{ color: '#fff', fontSize: '16px', margin: '0 0 6px' }}>Código de verificación</h3>
+            <h3 style={{ color: 'var(--k-text)', fontSize: '16px', margin: '0 0 6px' }}>Código de verificación</h3>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', margin: '0 0 20px' }}>
               Ingresá el código de 6 dígitos que recibiste por email.
             </p>
@@ -445,7 +445,7 @@ export default function Login() {
 
         {forgotStep === 'newpass' && (
           <form onSubmit={handleResetPass}>
-            <h3 style={{ color: '#fff', fontSize: '16px', margin: '0 0 6px' }}>Nueva contraseña</h3>
+            <h3 style={{ color: 'var(--k-text)', fontSize: '16px', margin: '0 0 6px' }}>Nueva contraseña</h3>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '12px', margin: '0 0 20px' }}>
               Elegí una nueva contraseña para tu cuenta.
             </p>

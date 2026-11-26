@@ -3,7 +3,7 @@ import { useStore } from '../store/useStore'
 import { ALL_AREAS, MODULOS_POR_ROL, MOBILE_HIDDEN_MODULES } from '../constants'
 import { Link, useLocation } from 'react-router-dom'
 
-const RED = '#D32F2F'
+const RED = 'var(--k-primary)'
 
 export default function Sidebar({ activePath }) {
   const isMobile = useStore((state) => state.isMobile)
@@ -35,11 +35,11 @@ export default function Sidebar({ activePath }) {
         left: 0,
         right: 0,
         height: sidebarHeight,
-        background: '#1a1a1a',
+        background: 'var(--k-surface)',
         display: 'flex',
         alignItems: 'center',
         zIndex: 1000,
-        borderTop: '1px solid rgba(255,255,255,0.08)',
+        borderTop: '1px solid var(--k-border)',
         overflowX: 'auto',
         overflowY: 'hidden',
         WebkitOverflowScrolling: 'touch',
@@ -86,7 +86,7 @@ export default function Sidebar({ activePath }) {
 
   return (
     <div style={{
-      background: '#1a1a1a',
+      background: 'var(--k-surface)',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -102,7 +102,7 @@ export default function Sidebar({ activePath }) {
       <Link to="/app/inicio" style={{
         width: '70px', height: '60px', display: 'flex',
         flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        border: 'none', background: RED, color: 'white',
+        border: 'none', background: RED, color: 'var(--k-text)',
         fontSize: '11px', fontWeight: '700', borderRadius: '10px', textDecoration: 'none',
         marginBottom: '4px',
       }}>

@@ -11,10 +11,10 @@ import { getApiUrl } from '../utils/api'
 const API_URL = getApiUrl()
 
 const FILTROS = [
-  { key: 'todo', label: 'Todo', color: '#666' },
-  { key: 'pendiente', label: 'Pendiente', color: '#E53935' },
-  { key: 'cocinando', label: 'Preparando', color: '#F59E0B' },
-  { key: 'listo', label: 'Listo', color: '#22C55E' }
+  { key: 'todo', label: 'Todo', color: 'var(--k-text-secondary)' },
+  { key: 'pendiente', label: 'Pendiente', color: 'var(--k-primary)' },
+  { key: 'cocinando', label: 'Preparando', color: 'var(--k-warning)' },
+  { key: 'listo', label: 'Listo', color: 'var(--k-success)' }
 ]
 
 export default function Cocina() {
@@ -135,9 +135,9 @@ export default function Cocina() {
   }, [filtro])
 
   const getEstadoColor = (estado) => {
-    if (estado === 'cocinando') return { border: '#F59E0B', texto: 'Cocinando', color: '#F59E0B' }
-    if (estado === 'listo') return { border: '#22C55E', texto: 'Listo', color: '#22C55E' }
-    return { border: '#E53935', texto: 'Pendiente', color: '#E53935' }
+    if (estado === 'cocinando') return { border: 'var(--k-warning)', texto: 'Cocinando', color: 'var(--k-warning)' }
+    if (estado === 'listo') return { border: 'var(--k-success)', texto: 'Listo', color: 'var(--k-success)' }
+    return { border: 'var(--k-primary)', texto: 'Pendiente', color: 'var(--k-primary)' }
   }
 
   const cambiarEstado = async (nuevoEstado) => {
@@ -212,18 +212,18 @@ export default function Cocina() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: 'transparent', color: darkMode ? '#fff' : '#1a1a1a', overflow: 'hidden' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', color: 'var(--k-text)', overflow: 'hidden' }}>
       <header style={{
         display: 'flex', flexDirection: isMobile ? 'column' : 'row',
         alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'space-between',
         padding: isMobile ? '8px 12px' : '10px 20px',
-        background: '#1a1a1a', color: 'white',
-        borderBottom: '1px solid rgba(229,57,53,0.2)', boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+        background: 'var(--k-surface)', color: 'var(--k-text)',
+        borderBottom: '1px solid rgba(229,57,53,0.2)', boxShadow: 'var(--k-shadow-sm)',
         gap: isMobile ? '8px' : '0',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Link to="/app/inicio" style={{ width: '34px', height: '34px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
+            <Link to="/app/inicio" style={{ width: '34px', height: '34px', border: '1px solid var(--k-border)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>
               <span className="material-icons">home</span>
             </Link>
             <img src="/logo.png" alt="KaruApp" style={{ width: '24px', height: '24px', borderRadius: '10px' }} />
@@ -231,12 +231,12 @@ export default function Cocina() {
           </div>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <div style={{ textAlign: 'right', marginRight: '2px' }}>
-              <div style={{ fontSize: '13px', fontWeight: '600', color: '#E53935', lineHeight: 1.2 }}>{horaStr}</div>
+              <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--k-primary)', lineHeight: 1.2 }}>{horaStr}</div>
               <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
             </div>
             {!isMobile && <FullscreenButton />}
             <UserButton />
-            <button onClick={toggleDarkMode} style={{ width: '34px', height: '34px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <button onClick={toggleDarkMode} style={{ width: '34px', height: '34px', border: '1px solid var(--k-border)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <span className="material-icons" style={{ fontSize: '18px' }}>{darkMode ? 'dark_mode' : 'light_mode'}</span>
             </button>
           </div>
@@ -253,16 +253,16 @@ export default function Cocina() {
             style={{
               padding: '6px 10px',
               borderRadius: '8px',
-              border: '1px solid rgba(255,255,255,0.15)',
+              border: '1px solid var(--k-border)',
               fontSize: '13px',
               width: isMobile ? '100px' : '120px',
               minWidth: isMobile ? '80px' : '100px',
               background: 'rgba(255,255,255,0.08)',
-              color: 'white',
+              color: 'var(--k-text)',
               outline: 'none', flexShrink: 0,
             }}
           />
-          <button onClick={loadPedidos} style={{ width: '32px', height: '32px', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <button onClick={loadPedidos} style={{ width: '32px', height: '32px', border: '1px solid var(--k-border)', borderRadius: '8px', background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <span className="material-icons" style={{ fontSize: '16px' }}>search</span>
           </button>
           {FILTROS.map(f => (
@@ -276,7 +276,7 @@ export default function Cocina() {
                 fontSize: '12px',
                 fontWeight: '600',
                 cursor: 'pointer', whiteSpace: 'nowrap', flexShrink: 0,
-                background: filtro === f.key ? f.color : 'rgba(255,255,255,0.08)',
+                background: filtro === f.key ? f.color: 'rgba(255,255,255,0.08)',
                 color: filtro === f.key ? (f.key === 'cocinando' ? '#1a1a1a' : 'white') : 'rgba(255,255,255,0.7)',
                 transition: 'all 0.15s'
               }}
@@ -287,7 +287,7 @@ export default function Cocina() {
         </div>
       </header>
 
-      {error && <div style={{ padding: '10px', background: '#E53935', color: 'white', textAlign: 'center' }}>{error}</div>}
+      {error && <div style={{ padding: '10px', background: 'var(--k-primary)', color: 'var(--k-text)', textAlign: 'center' }}>{error}</div>}
 
       <div style={{ display: 'flex', height: 'calc(100vh - 64px)', paddingBottom: isMobile ? '60px' : '0' }}>
         <Sidebar activePath="/app/cocina" />
@@ -295,7 +295,7 @@ export default function Cocina() {
         <div style={{ flex: 1, padding: isMobile ? '10px' : '15px', overflowY: 'auto' }}>
           {pedidosMostrar.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px' }}>
-              <p style={{ marginTop: '16px', fontSize: '24px', fontWeight: '600', color: darkMode ? '#aaa' : '#888' }}>
+              <p style={{ marginTop: '16px', fontSize: '24px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>
                 {pedidos.length === 0 ? 'No hay pedidos en cocina' : 'No hay pedidos con ese filtro'}
               </p>
             </div>
@@ -306,53 +306,53 @@ export default function Cocina() {
                   key={p.id}
                   onClick={() => seleccionarPedido(p)}
                   style={{
-                    background: darkMode ? '#1e1e1e' : 'white',
+                    background: 'var(--k-surface)',
                     borderRadius: '14px',
                     padding: '15px',
                     minHeight: '230px',
                     border: `1px solid ${getEstadoColor(p.estado).border}30`,
                     cursor: 'pointer',
-                    boxShadow: darkMode ? 'none' : '0 1px 4px rgba(0,0,0,0.04)'
+                    boxShadow: 'var(--k-shadow-sm)'
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                    <span style={{ fontSize: '24px', fontWeight: '700', color: '#E53935' }}>#{p.numero_orden || p.id}</span>
+                    <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-primary)' }}>#{p.numero_orden || p.id}</span>
                     {p.tipo_pedido === 'venta' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#FF6D00', background: '#FFF3E0', padding: '4px 8px', borderRadius: '10px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--k-warning)', background: 'var(--k-surface-2)', padding: '4px 8px', borderRadius: '10px' }}>
                         VENTA {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : p.tipo_pedido === 'delivery' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#3B82F6', background: '#E3F2FD', padding: '4px 8px', borderRadius: '10px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--k-info)', background: 'var(--k-surface-2)', padding: '4px 8px', borderRadius: '10px' }}>
                         DELIVERY {p.nombre_cliente ? `- ${p.nombre_cliente}` : ''}
                       </span>
                     ) : p.tipo_pedido === 'autoservicio' ? (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#7E57C2', background: '#EDE7F6', padding: '4px 8px', borderRadius: '10px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--k-info)', background: 'var(--k-surface-2)', padding: '4px 8px', borderRadius: '10px' }}>
                         AUTOSERVICIO
                       </span>
                     ) : (
-                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#22C55E', background: '#E8F5E9', padding: '4px 8px', borderRadius: '10px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: 'var(--k-success)', background: 'var(--k-surface-2)', padding: '4px 8px', borderRadius: '10px' }}>
                         Mesa {p.mesa?.numero || p.mesa || '?'}
                       </span>
                     )}
                   </div>
 
                   {p.notas && (
-                    <div style={{ fontSize: '12px', color: '#E53935', fontWeight: '600', marginBottom: '8px', fontStyle: 'italic' }}>
+                    <div style={{ fontSize: '12px', color: 'var(--k-primary)', fontWeight: '600', marginBottom: '8px', fontStyle: 'italic' }}>
                       Notas: {p.notas}
                     </div>
                   )}
 
-                  <div style={{ flex: 1, background: darkMode ? '#1a1a1a' : '#f5f5f5', padding: '12px', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '11px', color: '#888', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Pedido:</div>
+                  <div style={{ flex: 1, background: 'var(--k-surface)', padding: '12px', borderRadius: '8px' }}>
+                    <div style={{ fontSize: '11px', color: 'var(--k-text-secondary)', marginBottom: '8px', textTransform: 'uppercase', fontWeight: '600' }}>Pedido:</div>
                     {(!p.items || p.items.length === 0) ? (
-                      <div style={{ color: '#E53935', fontSize: '12px' }}>Sin items</div>
+                      <div style={{ color: 'var(--k-primary)', fontSize: '12px' }}>Sin items</div>
                     ) : (
                       p.items.slice(0, 5).map((item, i) => (
-                        <div key={i} style={{ fontSize: '14px', marginBottom: '6px', borderBottom: '1px solid #eee', paddingBottom: '4px' }}>
-                          <span style={{ color: '#22C55E', fontWeight: '700' }}>{item.cantidad}x </span>
+                        <div key={i} style={{ fontSize: '14px', marginBottom: '6px', borderBottom: '1px solid var(--k-border)', paddingBottom: '4px' }}>
+                          <span style={{ color: 'var(--k-success)', fontWeight: '700' }}>{item.cantidad}x </span>
                           <span style={{ fontWeight: '600' }}>{item.producto_nombre || item.producto}</span>
                           {item.categoria_nombre && (
-                            <span style={{ fontSize: '11px', color: '#888', marginLeft: '6px', fontWeight: '400' }}>
+                            <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)', marginLeft: '6px', fontWeight: '400' }}>
                               ({item.categoria_nombre})
                             </span>
                           )}
@@ -362,7 +362,7 @@ export default function Cocina() {
                             </div>
                           )}
                           {item.nota && (
-                            <div style={{ fontSize: '11px', color: '#E53935', fontStyle: 'italic', marginTop: '2px' }}>
+                            <div style={{ fontSize: '11px', color: 'var(--k-primary)', fontStyle: 'italic', marginTop: '2px' }}>
                              {item.nota}
                             </div>
                           )}
@@ -370,7 +370,7 @@ export default function Cocina() {
                       ))
                     )}
                     {p.items && p.items.length > 5 && (
-                      <div style={{ fontSize: '12px', color: '#E53935', marginTop: '4px' }}>+{p.items.length - 5} más</div>
+                      <div style={{ fontSize: '12px', color: 'var(--k-primary)', marginTop: '4px' }}>+{p.items.length - 5} más</div>
                     )}
                   </div>
 
@@ -379,7 +379,7 @@ export default function Cocina() {
                       ● {getEstadoColor(p.estado).texto}
                     </span>
                     {p.created_at && (
-                      <span style={{ fontSize: '11px', color: '#888' }}>
+                      <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)' }}>
                         {new Date(p.created_at).toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'})}
                       </span>
                     )}
@@ -394,8 +394,8 @@ export default function Cocina() {
                         padding: '8px',
                         border: 'none',
                         borderRadius: '10px',
-                        background: '#3B82F6',
-                        color: 'white',
+                        background: 'var(--k-info)',
+                        color: 'var(--k-text)',
                         fontSize: '11px',
                         fontWeight: '600',
                         cursor: 'pointer',
@@ -410,8 +410,8 @@ export default function Cocina() {
                         padding: '8px',
                         border: 'none',
                         borderRadius: '10px',
-                        background: '#E53935',
-                        color: 'white',
+                        background: 'var(--k-primary)',
+                        color: 'var(--k-text)',
                         fontSize: '11px',
                         fontWeight: '600',
                         cursor: 'pointer'
@@ -436,8 +436,8 @@ export default function Cocina() {
           right: 0,
           width: isMobile ? '100%' : '320px',
           height: isMobile ? '100%' : 'calc(100vh - 64px)',
-          background: darkMode ? '#1e1e1e' : 'white',
-          borderLeft: isMobile ? 'none' : `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
+          background: 'var(--k-surface)',
+          borderLeft: isMobile ? 'none' : `1px solid ${'var(--k-border)'}`,
           padding: isMobile ? '16px' : '20px',
           paddingBottom: isMobile ? '70px' : '20px',
           overflowY: 'auto',
@@ -446,19 +446,19 @@ export default function Cocina() {
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
             <div>
-              <h2 style={{ fontSize: '28px', fontWeight: '700', color: '#E53935' }}>#{pedidoSeleccionado.numero_orden || pedidoSeleccionado.id}</h2>
-              <span style={{ color: '#666' }}>{pedidoSeleccionado.delivery ? 'Delivery' : `Mesa ${pedidoSeleccionado.mesa?.numero || pedidoSeleccionado.mesa}`}</span>
+              <h2 style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-primary)' }}>#{pedidoSeleccionado.numero_orden || pedidoSeleccionado.id}</h2>
+              <span style={{ color: 'var(--k-text-secondary)' }}>{pedidoSeleccionado.delivery ? 'Delivery' : `Mesa ${pedidoSeleccionado.mesa?.numero || pedidoSeleccionado.mesa}`}</span>
             </div>
-            <button onClick={() => { setPanelAbierto(false); setPedidoSeleccionado(null) }} style={{ fontSize: '30px', border: 'none', background: 'none', cursor: 'pointer' }}>×</button>
+            <button onClick={() => { setPanelAbierto(false); setPedidoSeleccionado(null) }} style={{ fontSize: '24px', border: 'none', background: 'none', cursor: 'pointer' }}>×</button>
           </div>
 
-          <h3 style={{ color: '#22C55E', fontSize: '14px', marginBottom: '10px' }}>PEDIDO</h3>
+          <h3 style={{ color: 'var(--k-success)', fontSize: '14px', marginBottom: '10px' }}>PEDIDO</h3>
           {(pedidoSeleccionado.items || []).map((item, i) => (
             <div key={i} style={{ marginBottom: '10px' }}>
               <div style={{ fontSize: '14px', fontWeight: '600' }}>
                 <strong>{item.cantidad}x</strong> {item.producto_nombre || item.producto}
                 {item.categoria_nombre && (
-                  <span style={{ fontSize: '11px', color: '#888', marginLeft: '6px', fontWeight: '400' }}>
+                  <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)', marginLeft: '6px', fontWeight: '400' }}>
                     ({item.categoria_nombre})
                   </span>
                 )}
@@ -469,7 +469,7 @@ export default function Cocina() {
                 </div>
               )}
               {item.nota && (
-                <div style={{ fontSize: '11px', color: '#E53935', fontStyle: 'italic', marginTop: '1px' }}>
+                <div style={{ fontSize: '11px', color: 'var(--k-primary)', fontStyle: 'italic', marginTop: '1px' }}>
                    {item.nota}
                 </div>
               )}
@@ -477,13 +477,13 @@ export default function Cocina() {
           ))}
 
           <div style={{ marginTop: '20px', display: 'grid', gap: '10px' }}>
-            <button onClick={() => cambiarEstado('pendiente')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#E53935', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => cambiarEstado('pendiente')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', cursor: 'pointer' }}>
               Pendiente
             </button>
-            <button onClick={() => cambiarEstado('cocinando')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#F59E0B', color: '#333', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => cambiarEstado('cocinando')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: 'var(--k-warning)', color: 'var(--k-text-secondary)', fontWeight: '700', cursor: 'pointer' }}>
               Preparando
             </button>
-            <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: '#22C55E', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+            <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '14px', border: 'none', borderRadius: '10px', background: 'var(--k-success)', color: 'var(--k-text)', fontWeight: '700', cursor: 'pointer' }}>
               Listo!
             </button>
           </div>
@@ -493,12 +493,12 @@ export default function Cocina() {
       {/* Modal Confirmar */}
       {modalConfirmar && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
-          <div style={{ background: darkMode ? '#1e1e1e' : 'white', padding: '28px', borderRadius: '20px', textAlign: 'center', width: '90%', maxWidth: '360px', boxShadow: '0 10px 40px rgba(0,0,0,0.3)' }}>
-            <h2 style={{ marginBottom: '15px', fontSize: '18px', color: darkMode ? '#fff' : '#1a1a1a' }}>¿Marcar como Listo?</h2>
-            <p style={{ color: darkMode ? '#aaa' : '#666', marginBottom: '20px', fontSize: '14px' }}>#{pedidoSeleccionado?.numero_orden}</p>
+          <div style={{ background: 'var(--k-surface)', padding: '28px', borderRadius: '14px', textAlign: 'center', width: '90%', maxWidth: '360px', boxShadow: 'var(--k-shadow-sm)' }}>
+            <h2 style={{ marginBottom: '15px', fontSize: '18px', color: 'var(--k-text)' }}>¿Marcar como Listo?</h2>
+            <p style={{ color: 'var(--k-text-secondary)', marginBottom: '20px', fontSize: '14px' }}>#{pedidoSeleccionado?.numero_orden}</p>
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-              <button onClick={() => setModalConfirmar(false)} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: darkMode ? '#2a2a2a' : '#e8e8e8', color: darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: '600' }}>Cancelar</button>
-              <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: 'linear-gradient(135deg, #22C55E, #388E3C)', color: 'white', fontWeight: '700', cursor: 'pointer' }}>
+              <button onClick={() => setModalConfirmar(false)} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: 'var(--k-surface-2)', color: 'var(--k-text-secondary)', cursor: 'pointer', fontWeight: '600' }}>Cancelar</button>
+              <button onClick={() => cambiarEstado('listo')} disabled={cargando} style={{ padding: '12px 24px', border: 'none', borderRadius: '10px', background: 'linear-gradient(135deg, #22C55E, #388E3C)', color: 'var(--k-text)', fontWeight: '700', cursor: 'pointer' }}>
                 {cargando ? '...' : 'Confirmar'}
               </button>
             </div>
@@ -509,13 +509,13 @@ export default function Cocina() {
       {/* Modal Cancelar Pedido */}
       {modalCancelar && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
-          <div style={{ background: darkMode ? '#1e1e1e' : 'white', padding: '28px', borderRadius: '20px', maxWidth: '400px', width: '90%', boxShadow: '0 10px 40px rgba(0,0,0,0.3)' }}>
+          <div style={{ background: 'var(--k-surface)', padding: '28px', borderRadius: '14px', maxWidth: '400px', width: '90%', boxShadow: 'var(--k-shadow-sm)' }}>
             <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-              <h2 style={{ margin: '0 0 4px', color: '#E53935', fontSize: '18px' }}>Cancelar Pedido</h2>
-              <p style={{ fontWeight: '700', fontSize: '16px', color: darkMode ? '#fff' : '#1a1a1a', margin: '4px 0 0' }}>#{modalCancelar.numero_orden} - Mesa {modalCancelar.mesa?.numero || modalCancelar.mesa}</p>
+              <h2 style={{ margin: '0 0 4px', color: 'var(--k-primary)', fontSize: '18px' }}>Cancelar Pedido</h2>
+              <p style={{ fontWeight: '700', fontSize: '16px', color: 'var(--k-text)', margin: '4px 0 0' }}>#{modalCancelar.numero_orden} - Mesa {modalCancelar.mesa?.numero || modalCancelar.mesa}</p>
             </div>
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ fontSize: '12px', fontWeight: '600', color: darkMode ? '#aaa' : '#666', display: 'block', marginBottom: '6px' }}>
+              <label style={{ fontSize: '12px', fontWeight: '600', color: 'var(--k-text-secondary)', display: 'block', marginBottom: '6px' }}>
                 Motivo de cancelación
               </label>
               <textarea
@@ -524,19 +524,19 @@ export default function Cocina() {
                 placeholder="Ej: Cliente canceló, Sin stock, etc."
                 style={{
                   width: '100%', padding: '10px', fontSize: '13px', borderRadius: '10px',
-                  border: `1px solid ${darkMode ? '#444' : '#ddd'}`,
-                  background: darkMode ? '#2a2a2a' : '#f5f5f5',
-                  color: darkMode ? 'white' : '#333', outline: 'none', resize: 'vertical',
+                  border: `1px solid var(--k-border)`,
+                  background: 'var(--k-surface-2)',
+                  color: 'var(--k-text)', outline: 'none', resize: 'vertical',
                   minHeight: '60px', boxSizing: 'border-box',
                 }}
               />
             </div>
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
-              <button onClick={() => { setModalCancelar(null); setMotivoCancelacionCocina('') }} style={{ padding: '12px 20px', border: 'none', borderRadius: '10px', background: darkMode ? '#2a2a2a' : '#e8e8e8', color: darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: '600', flex: 1 }}>Volver</button>
+              <button onClick={() => { setModalCancelar(null); setMotivoCancelacionCocina('') }} style={{ padding: '12px 20px', border: 'none', borderRadius: '10px', background: 'var(--k-surface-2)', color: 'var(--k-text-secondary)', cursor: 'pointer', fontWeight: '600', flex: 1 }}>Volver</button>
               <button onClick={() => cancelarPedido(modalCancelar)} disabled={cargando || !motivoCancelacionCocina.trim()} style={{
                 padding: '12px 20px', border: 'none', borderRadius: '10px',
-                background: (!motivoCancelacionCocina.trim() || cargando) ? (darkMode ? '#555' : '#ccc') : '#E53935',
-                color: 'white', fontWeight: '700', cursor: (!motivoCancelacionCocina.trim() || cargando) ? 'not-allowed' : 'pointer', flex: 1,
+                background: (!motivoCancelacionCocina.trim() || cargando) ? ('#555') : '#E53935',
+                color: 'var(--k-text)', fontWeight: '700', cursor: (!motivoCancelacionCocina.trim() || cargando) ? 'not-allowed' : 'pointer', flex: 1,
               }}>
                 {cargando ? '...' : 'Sí, cancelar'}
               </button>

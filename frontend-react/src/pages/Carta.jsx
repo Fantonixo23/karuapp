@@ -21,17 +21,17 @@ export default function Carta() {
     <div style={{
       minHeight: '100vh',
       background: 'transparent',
-      color: darkMode ? '#fff' : '#1a1a1a',
+      color: 'var(--k-text)',
     }}>
       <header style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '10px 20px', background: '#1a1a1a', color: 'white',
+        padding: '10px 20px', background: 'var(--k-surface)', color: 'var(--k-text)',
         borderBottom: '1px solid rgba(229,57,53,0.2)',
-        boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+        boxShadow: 'var(--k-shadow-sm)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <Link to="/app/inicio" style={{
-            width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)',
+            width: '36px', height: '36px', border: '1px solid var(--k-border)',
             borderRadius: '8px', background: 'rgba(255,255,255,0.06)',
             color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none',
@@ -43,7 +43,7 @@ export default function Carta() {
           <FullscreenButton />
           <UserButton slim />
           <button onClick={toggleDarkMode} style={{
-            width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)',
+            width: '36px', height: '36px', border: '1px solid var(--k-border)',
             borderRadius: '8px', background: 'rgba(255,255,255,0.06)',
             color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer',
           }}>
@@ -57,12 +57,12 @@ export default function Carta() {
         <div style={{ flex: 1, padding: isMobile ? '12px' : '20px', maxWidth: '700px', margin: '0 auto', width: '100%' }}>
           <div style={{
             borderRadius: '14px', padding: '20px', textAlign: 'center',
-            background: darkMode ? '#1e1e1e' : 'white',
-            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+            background: 'var(--k-surface)',
+            border: `1px solid ${'var(--k-border)'}`,
           }}>
-            <span className="material-icons" style={{ fontSize: '56px', color: '#E53935' }}>menu_book</span>
+            <span className="material-icons" style={{ fontSize: '56px', color: 'var(--k-primary)' }}>menu_book</span>
             <h2 style={{ fontSize: '18px', fontWeight: '700', margin: '12px 0 4px' }}>Carta</h2>
-            <p style={{ fontSize: '13px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', margin: 0 }}>
+            <p style={{ fontSize: '13px', color: 'var(--k-text-secondary)', margin: 0 }}>
               Sección para subir el menu del local. En construccion.
             </p>
           </div>

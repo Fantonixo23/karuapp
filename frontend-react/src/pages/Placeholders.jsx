@@ -18,9 +18,9 @@ const createPlaceholder = (title, color, icon, activeRoute) => {
     }, [])
 
     const styles = {
-      container: (dm) => ({ minHeight: '100vh', background: 'transparent', color: dm ? '#333' : '#fff' }),
-      header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', background: color, color: 'white' },
-      btn: { width: '42px', height: '42px', border: 'none', background: 'transparent', color: 'white', fontSize: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+      container: (dm) => ({ minHeight: '100vh', background: 'transparent', color: 'var(--k-text-secondary)' }),
+      header: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px', background: color, color: 'var(--k-text)' },
+      btn: { width: '42px', height: '42px', border: 'none', background: 'transparent', color: 'var(--k-text)', fontSize: '24px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' },
     }
 
     return (
@@ -38,9 +38,9 @@ const createPlaceholder = (title, color, icon, activeRoute) => {
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '70px 1fr', height: 'calc(100vh - 64px)', paddingBottom: isMobile ? '60px' : '0' }}>
           <Sidebar activePath={activeRoute} />
           <div style={{ padding: isMobile ? '12px' : '20px' }}>
-            <div style={{ textAlign: 'center', padding: '60px', color: darkMode ? '#666' : '#888' }}>
-              <span className="material-icons" style={{ fontSize: '60px', color: darkMode ? '#ccc' : '#333' }}>{icon}</span>
-              <p style={{ marginTop: '16px', color: darkMode ? '#666' : '#888' }}>Página en construcción</p>
+            <div style={{ textAlign: 'center', padding: '60px', color: 'var(--k-text-secondary)' }}>
+              <span className="material-icons" style={{ fontSize: '60px', color: 'var(--k-text-secondary)' }}>{icon}</span>
+              <p style={{ marginTop: '16px', color: 'var(--k-text-secondary)' }}>Página en construcción</p>
             </div>
           </div>
         </div>

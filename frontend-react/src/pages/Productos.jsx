@@ -297,19 +297,19 @@ export default function Productos() {
     container: {
       minHeight: '100vh',
       background: 'transparent',
-      color: darkMode ? '#fff' : '#1a1a1a',
+      color: 'var(--k-text)',
       overflow: 'hidden',
     },
     header: {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '10px 20px',
-      background: '#1a1a1a',
-      color: 'white',
+      background: 'var(--k-surface)',
+      color: 'var(--k-text)',
       borderBottom: '1px solid rgba(229,57,53,0.2)',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+      boxShadow: 'var(--k-shadow-sm)',
     },
     btn: {
-      width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)',
+      width: '36px', height: '36px', border: '1px solid var(--k-border)',
       borderRadius: '8px', background: 'rgba(255,255,255,0.06)',
       color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -329,8 +329,8 @@ export default function Productos() {
     catBtn: (active) => ({
       padding: '6px 14px', border: 'none', borderRadius: '8px',
       cursor: 'pointer', whiteSpace: 'nowrap', fontSize: '12px', fontWeight: '600',
-      background: active ? '#E53935' : darkMode ? '#2a2a2a' : '#e8e8e8',
-      color: active ? 'white' : darkMode ? '#ccc' : '#666',
+      background: active ? '#E53935' : '#2a2a2a',
+      color: active ? 'white' : '#ccc',
     }),
     grid: {
       display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
@@ -338,20 +338,20 @@ export default function Productos() {
     },
     card: (disponible) => ({
       borderRadius: '14px', overflow: 'hidden', cursor: 'pointer',
-      background: darkMode ? '#1e1e1e' : 'white',
-      border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+      background: 'var(--k-surface)',
+      border: `1px solid ${'var(--k-border)'}`,
       opacity: disponible ? 1 : 0.5,
       transition: 'all 0.15s',
     }),
     img: {
       width: '100%', height: '120px', objectFit: 'cover',
-      background: darkMode ? '#2a2a2a' : '#f0f2f5',
+      background: 'var(--k-surface-2)',
     },
     placeholderImg: {
       width: '100%', height: '120px', display: 'flex',
       alignItems: 'center', justifyContent: 'center',
-      background: darkMode ? '#2a2a2a' : '#f0f2f5',
-      color: darkMode ? '#555' : '#ccc', fontSize: '32px',
+      background: 'var(--k-surface-2)',
+      color: 'var(--k-text-secondary)', fontSize: '24px',
     },
     cardBody: {
       padding: '10px 12px',
@@ -360,8 +360,8 @@ export default function Productos() {
       position: 'fixed', bottom: '24px', right: '24px',
       width: '48px', height: '48px', border: 'none', borderRadius: '14px',
       background: 'linear-gradient(135deg, #22C55E, #388E3C)',
-      color: 'white', fontSize: '22px', cursor: 'pointer',
-      boxShadow: '0 4px 12px rgba(76,175,80,0.3)',
+      color: 'var(--k-text)', fontSize: '22px', cursor: 'pointer',
+      boxShadow: 'var(--k-shadow-sm)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       zIndex: 50,
     },
@@ -372,31 +372,31 @@ export default function Productos() {
       backdropFilter: 'blur(4px)',
     },
     modalCard: {
-      background: darkMode ? '#1e1e1e' : 'white',
-      borderRadius: '20px', width: '92%', maxWidth: '500px',
+      background: 'var(--k-surface)',
+      borderRadius: '14px', width: '92%', maxWidth: '500px',
       maxHeight: '85vh', overflow: 'auto', padding: '24px',
-      boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
+      boxShadow: 'var(--k-shadow-sm)',
     },
     input: {
       width: '100%', padding: '10px 14px',
-      border: `1px solid ${darkMode ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
-      borderRadius: '10px', background: darkMode ? '#2a2a2a' : '#f8f8f8',
-      color: darkMode ? 'white' : '#1a1a1a', fontSize: '13px', outline: 'none',
+      border: `1px solid ${'var(--k-border)'}`,
+      borderRadius: '10px', background: 'var(--k-surface-2)',
+      color: 'var(--k-text)', fontSize: '13px', outline: 'none',
       marginBottom: '10px', boxSizing: 'border-box',
     },
     select: {
       width: '100%', padding: '10px 14px',
-      border: `1px solid ${darkMode ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
-      borderRadius: '10px', background: darkMode ? '#2a2a2a' : '#f8f8f8',
-      color: darkMode ? 'white' : '#1a1a1a', fontSize: '13px', outline: 'none',
+      border: `1px solid ${'var(--k-border)'}`,
+      borderRadius: '10px', background: 'var(--k-surface-2)',
+      color: 'var(--k-text)', fontSize: '13px', outline: 'none',
       marginBottom: '10px', boxSizing: 'border-box',
     },
     dropZone: (active) => ({
-      border: `2px dashed ${active ? '#E53935' : darkMode ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
+      border: `2px dashed ${active ? '#E53935' : 'var(--k-border)'}`,
       borderRadius: '12px', padding: '20px', textAlign: 'center',
       background: active ? 'rgba(229,57,53,0.1)' : 'transparent',
       cursor: 'pointer', marginBottom: '10px',
-      color: darkMode ? '#888' : '#999', fontSize: '12px',
+      color: 'var(--k-text-secondary)', fontSize: '12px',
     }),
   }
 
@@ -419,15 +419,15 @@ export default function Productos() {
         <Sidebar activePath="/app/productos" />
 
         <div style={s.main}>
-          <div style={{ padding: '8px 12px', background: darkMode ? '#222' : '#fff', borderBottom: `1px solid ${darkMode ? '#333' : '#ddd'}` }}>
+          <div style={{ padding: '8px 12px', background: '#222', borderBottom: `1px solid var(--k-border)` }}>
             <input
               value={busqueda}
               onChange={e => setBusqueda(e.target.value)}
               placeholder="Buscar producto..."
               style={{
-                width: '100%', padding: '8px 12px', border: `1px solid ${darkMode ? '#444' : '#ddd'}`,
-                borderRadius: '8px', background: darkMode ? '#333' : '#f5f5f5',
-                color: darkMode ? 'white' : '#333', fontSize: '13px', outline: 'none',
+                width: '100%', padding: '8px 12px', border: `1px solid var(--k-border)`,
+                borderRadius: '8px', background: '#333',
+                color: 'var(--k-text)', fontSize: '13px', outline: 'none',
                 boxSizing: 'border-box',
               }}
             />
@@ -460,12 +460,12 @@ export default function Productos() {
           </div>
 
           {cargando ? (
-            <div style={{ textAlign: 'center', padding: '60px', color: darkMode ? '#666' : '#999' }}>
+            <div style={{ textAlign: 'center', padding: '60px', color: 'var(--k-text-secondary)' }}>
               <span className="material-icons" style={{ fontSize: '48px' }}>sync</span>
             </div>
           ) : productosFiltrados.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '60px', color: darkMode ? '#666' : '#999' }}>
-              <span className="material-icons" style={{ fontSize: '48px', color: '#E53935' }}>inventory_2</span>
+            <div style={{ textAlign: 'center', padding: '60px', color: 'var(--k-text-secondary)' }}>
+              <span className="material-icons" style={{ fontSize: '48px', color: 'var(--k-primary)' }}>inventory_2</span>
               <p style={{ marginTop: '12px' }}>No hay productos. Tocá + para crear.</p>
             </div>
           ) : (
@@ -478,15 +478,15 @@ export default function Productos() {
                     <div style={s.placeholderImg}></div>
                   )}
                   <div style={s.cardBody}>
-                    <div style={{ fontSize: '12px', fontWeight: '700', color: darkMode ? 'white' : '#333', marginBottom: '2px' }}>
+                    <div style={{ fontSize: '12px', fontWeight: '700', color: 'var(--k-text)', marginBottom: '2px' }}>
                       {p.nombre}
                     </div>
-                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#E53935' }}>
+                    <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--k-primary)' }}>
                       {formatGuarani(p.precio)}
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '6px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <span style={{ fontSize: '11px', color: darkMode ? '#888' : '#999' }}>
+                        <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)' }}>
                           {p.categoria_nombre || 'Sin categoría'}
                         </span>
                       </div>
@@ -495,12 +495,12 @@ export default function Productos() {
                         style={{
                           padding: '2px 8px', borderRadius: '8px', fontSize: '11px', fontWeight: '700',
                           background: p.disponible ? '#22C55E' : '#E53935',
-                          color: 'white', cursor: 'pointer',
+                          color: 'var(--k-text)', cursor: 'pointer',
                         }}
                       >{p.disponible ? 'DISP' : 'NO'}</span>
                     </div>
                     {p.variantes?.length > 0 && (
-                      <div style={{ fontSize: '11px', color: '#E53935', marginTop: '4px' }}>
+                      <div style={{ fontSize: '11px', color: 'var(--k-primary)', marginTop: '4px' }}>
                         {p.variantes.length} variante(s)
                       </div>
                     )}
@@ -517,24 +517,24 @@ export default function Productos() {
       {confirmDelete && (
         <div style={s.overlay}>
           <div style={{ ...s.modalCard, textAlign: 'center', maxWidth: '350px' }}>
-            <span className="material-icons" style={{ fontSize: '60px', color: '#E53935' }}>warning</span>
-            <h3 style={{ margin: '10px 0', color: darkMode ? 'white' : '#333' }}>¿Eliminar producto?</h3>
-            <p style={{ color: darkMode ? '#aaa' : '#666', fontSize: '13px', marginBottom: '16px' }}>
+            <span className="material-icons" style={{ fontSize: '60px', color: 'var(--k-primary)' }}>warning</span>
+            <h3 style={{ margin: '10px 0', color: 'var(--k-text)' }}>¿Eliminar producto?</h3>
+            <p style={{ color: 'var(--k-text-secondary)', fontSize: '13px', marginBottom: '16px' }}>
               Esta acción no se puede deshacer
             </p>
             {error && (
-              <p style={{ color: '#E53935', fontSize: '12px', marginBottom: '12px', background: 'rgba(229,57,53,0.1)', padding: '8px', borderRadius: '8px' }}>
+              <p style={{ color: 'var(--k-primary)', fontSize: '12px', marginBottom: '12px', background: 'rgba(229,57,53,0.1)', padding: '8px', borderRadius: '8px' }}>
                 {error}
               </p>
             )}
             <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
               <button onClick={() => { setConfirmDelete(null); setError(null) }} style={{
                 padding: '10px 24px', border: 'none', borderRadius: '10px',
-                background: darkMode ? '#444' : '#ccc', color: darkMode ? 'white' : '#333', cursor: 'pointer',
+                background: '#444', color: 'var(--k-text)', cursor: 'pointer',
               }}>Cancelar</button>
               <button onClick={eliminar} style={{
                 padding: '10px 24px', border: 'none', borderRadius: '10px',
-                background: '#E53935', color: 'white', fontWeight: '700', cursor: 'pointer',
+                background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', cursor: 'pointer',
               }}>Eliminar</button>
             </div>
           </div>
@@ -545,18 +545,18 @@ export default function Productos() {
         <div style={s.overlay} onClick={() => { setModal(false); setError(null) }}>
           <div style={s.modalCard} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h2 style={{ margin: 0, color: darkMode ? 'white' : '#333', fontSize: '20px' }}>
+              <h2 style={{ margin: 0, color: 'var(--k-text)', fontSize: '20px' }}>
                 {editId ? 'Editar Producto' : 'Nuevo Producto'}
               </h2>
               <button onClick={() => setModal(false)} style={{
                 width: '32px', height: '32px', border: 'none', borderRadius: '8px',
-                background: darkMode ? '#444' : '#eee', cursor: 'pointer',
-                color: darkMode ? 'white' : '#333', fontSize: '18px',
+                background: '#444', cursor: 'pointer',
+                color: 'var(--k-text)', fontSize: '18px',
               }}>×</button>
             </div>
 
             {error && (
-              <div style={{ fontSize: '12px', color: '#E53935', marginBottom: '12px', padding: '8px 10px', background: 'rgba(229,57,53,0.1)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '12px', color: 'var(--k-primary)', marginBottom: '12px', padding: '8px 10px', background: 'rgba(229,57,53,0.1)', borderRadius: '8px' }}>
                 {error}
               </div>
             )}
@@ -577,7 +577,7 @@ export default function Productos() {
               <div style={{ flex: 1, position: 'relative' }}>
                 <span style={{
                   position: 'absolute', left: '14px', top: '11px',
-                  fontSize: '12px', color: darkMode ? '#888' : '#999',
+                  fontSize: '12px', color: 'var(--k-text-secondary)',
                 }}>Gs.</span>
                 <input
                   style={{ ...s.input, paddingLeft: '36px' }}
@@ -599,18 +599,18 @@ export default function Productos() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-              <span style={{ fontSize: '12px', color: darkMode ? '#ccc' : '#666' }}>Disponible:</span>
+              <span style={{ fontSize: '12px', color: 'var(--k-text-secondary)' }}>Disponible:</span>
               <button
                 onClick={() => handleChange('disponible', !form.disponible)}
                 style={{
                   padding: '6px 16px', border: 'none', borderRadius: '8px', cursor: 'pointer',
                   background: form.disponible ? '#22C55E' : '#E53935',
-                  color: 'white', fontWeight: '700', fontSize: '11px',
+                  color: 'var(--k-text)', fontWeight: '700', fontSize: '11px',
                 }}
               >{form.disponible ? 'SÍ' : 'NO'}</button>
             </div>
 
-            <div style={{ fontSize: '13px', fontWeight: '600', color: darkMode ? '#ccc' : '#666', marginBottom: '6px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)', marginBottom: '6px' }}>
               IMAGEN
             </div>
             <div
@@ -630,20 +630,20 @@ export default function Productos() {
               {form.imagen ? (
                 <div>
                   <img src={form.imagen} alt="preview" style={{ maxHeight: '100px', borderRadius: '8px', marginBottom: '6px' }} />
-                  <div style={{ fontSize: '11px', color: '#22C55E' }}>✓ Imagen cargada</div>
+                  <div style={{ fontSize: '11px', color: 'var(--k-success)' }}>✓ Imagen cargada</div>
                 </div>
               ) : subiendo ? (
-                <div style={{ fontSize: '13px', color: '#E53935' }}>Subiendo imagen...</div>
+                <div style={{ fontSize: '13px', color: 'var(--k-primary)' }}>Subiendo imagen...</div>
               ) : (
                 <div>
                   <span className="material-icons" style={{ fontSize: '28px' }}>cloud_upload</span>
                   <p style={{ margin: '4px 0' }}>Arrastrá una imagen o hacé clic</p>
-                  <p style={{ fontSize: '11px', color: darkMode ? '#666' : '#aaa', margin: 0 }}>PNG o JPEG · Máx 5MB</p>
+                  <p style={{ fontSize: '11px', color: 'var(--k-text-secondary)', margin: 0 }}>PNG o JPEG · Máx 5MB</p>
                 </div>
               )}
             </div>
             {imagenError && (
-              <div style={{ fontSize: '11px', color: '#E53935', marginBottom: '10px', padding: '6px 10px', background: 'rgba(229,57,53,0.1)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '11px', color: 'var(--k-primary)', marginBottom: '10px', padding: '6px 10px', background: 'rgba(229,57,53,0.1)', borderRadius: '8px' }}>
                  {imagenError}
               </div>
             )}
@@ -654,36 +654,36 @@ export default function Productos() {
             />
 
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', marginTop: '16px' }}>
-              <span style={{ fontSize: '13px', fontWeight: '600', color: darkMode ? '#ccc' : '#666' }}>
+              <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>
                 VARIANTES {form.variantes.length > 0 && `(${form.variantes.length})`}
               </span>
               <button onClick={agregarVariante} style={{
                 padding: '4px 12px', border: 'none', borderRadius: '8px',
-                background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '11px', fontWeight: '700',
+                background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer', fontSize: '11px', fontWeight: '700',
               }}>+ Variante</button>
             </div>
 
             {form.variantes.map((v, i) => (
               <div key={i} style={{
-                background: darkMode ? '#333' : '#f5f5f5', borderRadius: '10px',
+                background: '#333', borderRadius: '10px',
                 padding: '10px', marginBottom: '8px',
               }}>
                 <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '6px' }}>
-                  <span style={{ fontSize: '11px', color: darkMode ? '#888' : '#999', fontWeight: '600' }}>#{i + 1}</span>
+                  <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)', fontWeight: '600' }}>#{i + 1}</span>
                   <input
-                    style={{ flex: 1, padding: '6px 10px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
-                      borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
-                      color: darkMode ? 'white' : '#333', fontSize: '12px', outline: 'none' }}
+                    style={{ flex: 1, padding: '6px 10px', border: `1px solid var(--k-border)`,
+                      borderRadius: '10px', background: 'var(--k-surface-2)',
+                      color: 'var(--k-text)', fontSize: '12px', outline: 'none' }}
                     placeholder="Nombre (ej: Doble Carne)"
                     value={v.nombre}
                     onChange={(e) => editarVariante(i, 'nombre', e.target.value)}
                   />
                   <div style={{ position: 'relative' }}>
-                    <span style={{ position: 'absolute', left: '8px', top: '7px', fontSize: '11px', color: '#999', fontWeight: '600' }}>Gs.</span>
+                    <span style={{ position: 'absolute', left: '8px', top: '7px', fontSize: '11px', color: 'var(--k-text-secondary)', fontWeight: '600' }}>Gs.</span>
                     <input
-                      style={{ width: '100px', padding: '6px 6px 6px 28px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
-                        borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
-                        color: darkMode ? 'white' : '#333', fontSize: '12px', outline: 'none' }}
+                      style={{ width: '100px', padding: '6px 6px 6px 28px', border: `1px solid var(--k-border)`,
+                        borderRadius: '10px', background: 'var(--k-surface-2)',
+                        color: 'var(--k-text)', fontSize: '12px', outline: 'none' }}
                       placeholder="Precio total"
                       value={v.precio}
                       onChange={(e) => editarVariante(i, 'precio', e.target.value.replace(/[^0-9]/g, ''))}
@@ -693,15 +693,15 @@ export default function Productos() {
                     onClick={() => eliminarVariante(i)}
                     style={{
                       width: '28px', height: '28px', border: 'none', borderRadius: '10px',
-                      background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '14px',
+                      background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer', fontSize: '14px',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}
                   >×</button>
                 </div>
                 <select
-                  style={{ width: '100%', padding: '6px 10px', border: `1px solid ${darkMode ? '#555' : '#ddd'}`,
-                    borderRadius: '10px', background: darkMode ? '#3a3a3a' : 'white',
-                    color: darkMode ? 'white' : '#333', fontSize: '11px', outline: 'none', boxSizing: 'border-box' }}
+                  style={{ width: '100%', padding: '6px 10px', border: `1px solid var(--k-border)`,
+                    borderRadius: '10px', background: 'var(--k-surface-2)',
+                    color: 'var(--k-text)', fontSize: '11px', outline: 'none', boxSizing: 'border-box' }}
                   value={v.inventario_producto_id}
                   onChange={(e) => editarVariante(i, 'inventario_producto_id', e.target.value)}
                 >
@@ -718,18 +718,18 @@ export default function Productos() {
             <div style={{ display: 'flex', gap: '10px', marginTop: '16px' }}>
               <button onClick={() => setModal(false)} style={{
                 flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                background: darkMode ? '#444' : '#ccc', cursor: 'pointer',
-                color: darkMode ? 'white' : '#333', fontWeight: '600',
+                background: '#444', cursor: 'pointer',
+                color: 'var(--k-text)', fontWeight: '600',
               }}>Cancelar</button>
               {editId && (
                 <button onClick={() => { setModal(false); setConfirmDelete(editId) }} style={{
                   padding: '12px 16px', border: 'none', borderRadius: '10px',
-                  background: '#E53935', color: 'white', fontWeight: '700', cursor: 'pointer',
+                  background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', cursor: 'pointer',
                 }}><span className="material-icons" style={{ fontSize: '18px' }}>delete</span></button>
               )}
               <button onClick={guardar} disabled={!form.nombre || !form.precio} style={{
                 flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white',
+                background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'var(--k-text)',
                 fontWeight: '700', cursor: (!form.nombre || !form.precio) ? 'not-allowed' : 'pointer',
                 opacity: (!form.nombre || !form.precio) ? 0.5 : 1,
               }}>Guardar</button>
@@ -742,11 +742,11 @@ export default function Productos() {
         <div style={s.overlay} onClick={() => setModalCategorias(false)}>
           <div style={s.modalCard} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h2 style={{ margin: 0, color: darkMode ? 'white' : '#333', fontSize: '20px' }}>Gestionar Categorías</h2>
+              <h2 style={{ margin: 0, color: 'var(--k-text)', fontSize: '20px' }}>Gestionar Categorías</h2>
               <button onClick={() => setModalCategorias(false)} style={{
                 width: '32px', height: '32px', border: 'none', borderRadius: '8px',
-                background: darkMode ? '#444' : '#eee', cursor: 'pointer',
-                color: darkMode ? 'white' : '#333', fontSize: '18px',
+                background: '#444', cursor: 'pointer',
+                color: 'var(--k-text)', fontSize: '18px',
               }}>×</button>
             </div>
 
@@ -760,8 +760,8 @@ export default function Productos() {
                 <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
                   <button onClick={() => { setEditCategoria(null); setFormCategoria({ nombre: '' }) }} style={{
                     flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                    background: darkMode ? '#444' : '#ccc', cursor: 'pointer',
-                    color: darkMode ? 'white' : '#333', fontWeight: '600',
+                    background: '#444', cursor: 'pointer',
+                    color: 'var(--k-text)', fontWeight: '600',
                   }}>Cancelar</button>
                   <button onClick={async () => {
                     if (!formCategoria.nombre) return
@@ -784,7 +784,7 @@ export default function Productos() {
                     } catch (e) { console.error(e) }
                   }} style={{
                     flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                    background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white',
+                    background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'var(--k-text)',
                     fontWeight: '700', cursor: formCategoria.nombre ? 'pointer' : 'not-allowed',
                     opacity: formCategoria.nombre ? 1 : 0.5,
                   }}>Guardar</button>
@@ -793,7 +793,7 @@ export default function Productos() {
             ) : (
               <div>
                 {categorias.length === 0 ? (
-                  <p style={{ textAlign: 'center', color: darkMode ? '#888' : '#999', padding: '20px' }}>
+                  <p style={{ textAlign: 'center', color: 'var(--k-text-secondary)', padding: '20px' }}>
                     No hay categorías. Creá la primera.
                   </p>
                 ) : (
@@ -801,7 +801,7 @@ export default function Productos() {
                     <div key={cat.id} style={{
                       display: 'flex', alignItems: 'center', gap: '10px',
                       padding: '10px 12px', marginBottom: '6px',
-                      borderRadius: '10px', background: darkMode ? '#2a2a2a' : '#f5f5f5',
+                      borderRadius: '10px', background: 'var(--k-surface-2)',
                     }}>
                       <span style={{ flex: 1, fontWeight: '600', fontSize: '13px' }}>{cat.nombre}</span>
                       <button onClick={() => {
@@ -809,7 +809,7 @@ export default function Productos() {
                         setFormCategoria({ nombre: cat.nombre })
                       }} style={{
                         width: '30px', height: '30px', border: 'none', borderRadius: '8px',
-                        background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '14px',
+                        background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer', fontSize: '14px',
                       }}><span className="material-icons" style={{ fontSize: '14px' }}>edit</span></button>
                       <button onClick={async () => {
                         if (!window.confirm(`¿Eliminar categoría "${cat.nombre}"?`)) return
@@ -823,7 +823,7 @@ export default function Productos() {
                         } catch (e) { console.error(e) }
                       }} style={{
                         width: '30px', height: '30px', border: 'none', borderRadius: '8px',
-                        background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '14px',
+                        background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer', fontSize: '14px',
                       }}><span className="material-icons" style={{ fontSize: '14px' }}>delete</span></button>
                     </div>
                   ))
@@ -832,9 +832,9 @@ export default function Productos() {
                   setEditCategoria('nueva')
                   setFormCategoria({ nombre: '' })
                 }} style={{
-                  width: '100%', padding: '12px', border: `1px dashed ${darkMode ? 'rgba(255,255,255,0.2)' : '#d0d0d0'}`,
+                  width: '100%', padding: '12px', border: `1px dashed ${'var(--k-border)'}`,
                   borderRadius: '10px', background: 'transparent', cursor: 'pointer',
-                  color: '#E53935', fontWeight: '700', fontSize: '13px', marginTop: '8px',
+                  color: 'var(--k-primary)', fontWeight: '700', fontSize: '13px', marginTop: '8px',
                 }}>+ Añadir categoría</button>
               </div>
             )}

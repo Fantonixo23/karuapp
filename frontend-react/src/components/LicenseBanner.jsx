@@ -73,15 +73,15 @@ export default function LicenseBanner() {
         background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%)',
         zIndex: 9999,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        color: 'white', fontFamily: 'system-ui, sans-serif'
+        color: 'var(--k-text)', fontFamily: 'system-ui, sans-serif'
       }}>
         <div style={{
           background: 'linear-gradient(135deg, #d32f2f, #b71c1c)',
-          padding: '40px 60px', borderRadius: '20px', textAlign: 'center',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.5)'
+          padding: '40px 60px', borderRadius: '14px', textAlign: 'center',
+          boxShadow: 'var(--k-shadow-sm)'
         }}>
           <span className="material-icons" style={{ fontSize: '80px' }}>lock</span>
-          <h1 style={{ fontSize: '36px', marginTop: '20px', fontWeight: '700' }}>
+          <h1 style={{ fontSize: '24px', marginTop: '20px', fontWeight: '700' }}>
             SISTEMA BLOQUEADO
           </h1>
           <p style={{ fontSize: '18px', marginTop: '15px', opacity: 0.9 }}>
@@ -110,10 +110,10 @@ export default function LicenseBanner() {
         onClick={() => setMinimized(false)}
         style={{
           position: 'fixed', bottom: '10px', right: '10px',
-          background: estilo.bg, color: 'white', border: 'none',
+          background: estilo.bg, color: 'var(--k-text)', border: 'none',
           borderRadius: '50%', width: '40px', height: '40px',
           cursor: 'pointer', fontSize: '20px',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.4)',
+          boxShadow: 'var(--k-shadow-sm)',
           zIndex: 9999,
           display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
@@ -128,7 +128,7 @@ export default function LicenseBanner() {
       background: esCritico
         ? 'linear-gradient(135deg, #d32f2f, #b71c1c)'
         : estilo.bg,
-      color: 'white', padding: '12px 20px', borderRadius: '12px',
+      color: 'var(--k-text)', padding: '12px 20px', borderRadius: '12px',
       boxShadow: esCritico
         ? '0 0 30px rgba(211, 47, 47, 0.6)'
         : '0 8px 25px rgba(0,0,0,0.3)',
@@ -169,7 +169,7 @@ export default function LicenseBanner() {
               onClick={() => setMinimized(true)}
               style={{
                 background: 'rgba(255,255,255,0.2)', border: 'none',
-                color: 'white', cursor: 'pointer', padding: '2px 8px',
+                color: 'var(--k-text)', cursor: 'pointer', padding: '2px 8px',
                 borderRadius: '10px', fontSize: '16px'
               }}
             >−</button>

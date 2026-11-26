@@ -29,12 +29,12 @@ const estilosAnimados = `
 `
 
 const ESTADOS = {
-  pendiente: { color: '#F59E0B', label: 'Pendiente', icono: 'schedule' },
-  cocinando: { color: '#3B82F6', label: 'Preparando', icon: 'restaurant' },
-  listo: { color: '#22C55E', label: 'Listo para Entregar', icon: 'check_circle' },
-  en_camino: { color: '#E53935', label: 'En Camino', icon: 'local_shipping' },
+  pendiente: { color: 'var(--k-warning)', label: 'Pendiente', icono: 'schedule' },
+  cocinando: { color: 'var(--k-info)', label: 'Preparando', icon: 'restaurant' },
+  listo: { color: 'var(--k-success)', label: 'Listo para Entregar', icon: 'check_circle' },
+  en_camino: { color: 'var(--k-primary)', label: 'En Camino', icon: 'local_shipping' },
   entregado: { color: '#7B1FA2', label: 'Entregado', icon: 'done_all' },
-  cancelado: { color: '#E53935', label: 'Cancelado', icon: 'cancel' },
+  cancelado: { color: 'var(--k-primary)', label: 'Cancelado', icon: 'cancel' },
   pagado: { color: '#00BCD4', label: 'Pagado', icon: 'payments' }
 }
 
@@ -262,7 +262,7 @@ export default function Delivery() {
     container: (dm) => ({
       minHeight: '100vh',
       background: 'transparent',
-      color: dm ? '#fff' : '#1a1a1a',
+      color: 'var(--k-text)',
       overflow: 'hidden',
     }),
     header: {
@@ -270,15 +270,15 @@ export default function Delivery() {
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: '10px 20px',
-      background: '#1a1a1a',
-      color: 'white',
+      background: 'var(--k-surface)',
+      color: 'var(--k-text)',
       borderBottom: '1px solid rgba(229,57,53,0.2)',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
+      boxShadow: 'var(--k-shadow-sm)'
     },
     btnHeader: {
       width: '36px',
       height: '36px',
-      border: '1px solid rgba(255,255,255,0.12)',
+      border: '1px solid var(--k-border)',
       borderRadius: '8px',
       background: 'rgba(255,255,255,0.06)',
       color: 'rgba(255,255,255,0.8)',
@@ -300,15 +300,15 @@ export default function Delivery() {
       padding: '18px',
       textAlign: 'center',
       border: `1px solid ${color}30`,
-      background: dm ? '#1e1e1e' : 'white',
-      boxShadow: dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)',
+      background: 'var(--k-surface)',
+      boxShadow: 'var(--k-shadow-sm)',
     }),
     filtro: (dm, activo) => ({
       padding: '8px 16px',
       border: 'none',
       borderRadius: '8px',
-      background: activo ? `${ESTADOS[Object.keys(ESTADOS).find(k => k === activo) || 'pendiente']?.color}30` : (dm ? '#2a2a2a' : '#e8e8e8'),
-      color: activo ? (ESTADOS[Object.keys(ESTADOS).find(k => k === activo)]?.color || '#E53935') : (dm ? '#ccc' : '#666'),
+      background: activo ? `${ESTADOS[Object.keys(ESTADOS).find(k => k === activo) || 'pendiente']?.color}30` : ('#2a2a2a'),
+      color: activo ? (ESTADOS[Object.keys(ESTADOS).find(k => k === activo)]?.color || '#E53935') : ('#ccc'),
       fontSize: '13px',
       cursor: 'pointer',
       fontWeight: '600',
@@ -318,17 +318,17 @@ export default function Delivery() {
       borderRadius: '14px',
       padding: '18px',
       border: `1px solid ${ESTADOS[pedido.estado]?.color || '#666'}30`,
-      background: dm ? '#1e1e1e' : 'white',
+      background: 'var(--k-surface)',
       cursor: 'pointer',
       transition: 'all 0.15s',
-      boxShadow: dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)',
+      boxShadow: 'var(--k-shadow-sm)',
     }),
     productoBtn: (dm) => ({
       padding: '10px 8px',
-      border: `1px solid ${dm ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+      border: `1px solid ${'var(--k-border)'}`,
       borderRadius: '10px',
-      background: dm ? '#1e1e1e' : 'white',
-      color: dm ? '#fff' : '#1a1a1a',
+      background: 'var(--k-surface)',
+      color: 'var(--k-text)',
       fontSize: '12px',
       cursor: 'pointer',
       transition: 'all 0.15s',
@@ -340,24 +340,24 @@ export default function Delivery() {
       justifyContent: 'center'
     }),
     modal: (dm) => ({
-      background: dm ? '#1e1e1e' : 'white',
-      borderRadius: '20px',
+      background: 'var(--k-surface)',
+      borderRadius: '14px',
       padding: '28px',
       width: '95%',
       maxWidth: '500px',
       zIndex: 200,
       maxHeight: '90vh',
       overflowY: 'auto',
-      boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+      boxShadow: 'var(--k-shadow-sm)'
     }),
     input: (dm) => ({
       width: '100%',
       padding: '11px 14px',
       fontSize: '14px',
       borderRadius: '10px',
-      border: `1px solid ${dm ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
-      background: dm ? '#2a2a2a' : '#f8f8f8',
-      color: dm ? 'white' : '#1a1a1a',
+      border: `1px solid ${'var(--k-border)'}`,
+      background: 'var(--k-surface-2)',
+      color: 'var(--k-text)',
       outline: 'none',
       boxSizing: 'border-box',
       marginBottom: '10px',
@@ -371,7 +371,7 @@ export default function Delivery() {
       fontSize: '14px',
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
-      color: 'white',
+      color: 'var(--k-text)',
       background: 'linear-gradient(135deg, #22C55E, #388E3C)',
     }),
     estadoBadge: (estado) => ({
@@ -388,10 +388,10 @@ export default function Delivery() {
   }
 
   const kpis = dashboard ? [
-    { label: 'Pendientes', valor: dashboard.pendientes, color: '#F59E0B', estado: 'pendiente' },
-    { label: 'Preparando', valor: dashboard.preparando, color: '#3B82F6', estado: 'cocinando' },
-    { label: 'Listos', valor: dashboard.listos, color: '#22C55E', estado: 'listo' },
-    { label: 'En Camino', valor: dashboard.en_camino, color: '#E53935', estado: 'en_camino' },
+    { label: 'Pendientes', valor: dashboard.pendientes, color: 'var(--k-warning)', estado: 'pendiente' },
+    { label: 'Preparando', valor: dashboard.preparando, color: 'var(--k-info)', estado: 'cocinando' },
+    { label: 'Listos', valor: dashboard.listos, color: 'var(--k-success)', estado: 'listo' },
+    { label: 'En Camino', valor: dashboard.en_camino, color: 'var(--k-primary)', estado: 'en_camino' },
     { label: 'Entregados', valor: dashboard.entregados, color: '#7B1FA2', estado: 'entregado' },
     { label: 'Hoy', valor: formatGuarani(dashboard.total_hoy || 0), color: '#00BCD4', esMoneda: true }
   ] : []
@@ -408,7 +408,7 @@ export default function Delivery() {
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <div style={{ textAlign: 'right', marginRight: '4px' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', color: '#E53935', lineHeight: 1.2 }}>{horaStr}</div>
+            <div style={{ fontSize: '14px', fontWeight: '600', color: 'var(--k-primary)', lineHeight: 1.2 }}>{horaStr}</div>
             <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', textTransform: 'capitalize' }}>{fechaStr}</div>
           </div>
           <FullscreenButton />
@@ -424,7 +424,7 @@ export default function Delivery() {
           {cargando ? (
             <div style={{ textAlign: 'center', padding: '100px' }}>
               <div style={{ width: '60px', height: '60px', margin: '0 auto', border: '4px solid #43A047', borderTop: '4px solid transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-              <p style={{ marginTop: '20px', color: darkMode ? '#888' : '#666' }}>Cargando delivery...</p>
+              <p style={{ marginTop: '20px', color: 'var(--k-text-secondary)' }}>Cargando delivery...</p>
             </div>
           ) : (
             <>
@@ -442,8 +442,8 @@ export default function Delivery() {
                     <span className="material-icons" style={{ fontSize: '32px', color: kpi.color, marginBottom: '8px' }}>
                       {kpi.esMoneda ? 'attach_money' : ESTADOS[kpi.estado]?.icono || 'inventory'}
                     </span>
-                    <p style={{ fontSize: '28px', fontWeight: '700', color: kpi.color, margin: 0 }}>{kpi.valor}</p>
-                    <p style={{ fontSize: '12px', color: darkMode ? '#aaa' : '#666', marginTop: '5px' }}>{kpi.label}</p>
+                    <p style={{ fontSize: '24px', fontWeight: '700', color: kpi.color, margin: 0 }}>{kpi.valor}</p>
+                    <p style={{ fontSize: '12px', color: 'var(--k-text-secondary)', marginTop: '5px' }}>{kpi.label}</p>
                   </div>
                 ))}
               </div>
@@ -506,7 +506,7 @@ export default function Delivery() {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
                       <div>
-                        <span style={{ fontSize: '14px', fontWeight: '700', color: '#43A047' }}>
+                        <span style={{ fontSize: '14px', fontWeight: '700', color: 'var(--k-success)' }}>
                           #{pedido.numero_orden || pedido.id}
                         </span>
                         <span style={s.estadoBadge(pedido.estado)}>
@@ -519,44 +519,44 @@ export default function Delivery() {
                     </div>
 
                     <div style={{ marginBottom: '10px' }}>
-                      <p style={{ fontSize: '16px', fontWeight: '700', color: darkMode ? '#fff' : '#333', margin: 0 }}>
+                      <p style={{ fontSize: '16px', fontWeight: '700', color: 'var(--k-text)', margin: 0 }}>
                         {pedido.nombre_cliente || 'Cliente'}
                       </p>
-                      <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', margin: '4px 0' }}>
+                      <p style={{ fontSize: '14px', color: 'var(--k-text-secondary)', margin: '4px 0' }}>
                         Tel: {pedido.telefono_cliente || 'Sin teléfono'}
                       </p>
-                      <p style={{ fontSize: '13px', color: darkMode ? '#888' : '#999', margin: 0 }}>
+                      <p style={{ fontSize: '13px', color: 'var(--k-text-secondary)', margin: 0 }}>
                         Dir: {pedido.direccion || 'Sin dirección'}
                       </p>
                     </div>
 
                     <div style={{
-                      background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                      background: 'var(--k-surface-2)',
                       borderRadius: '10px',
                       padding: '10px',
                       marginBottom: '12px'
                     }}>
-                      <p style={{ fontSize: '12px', color: darkMode ? '#888' : '#666', margin: '0 0 5px 0' }}>
+                      <p style={{ fontSize: '12px', color: 'var(--k-text-secondary)', margin: '0 0 5px 0' }}>
                         {pedido.items?.length || 0} items
                       </p>
-                      <div style={{ fontSize: '12px', color: darkMode ? '#ccc' : '#444' }}>
+                      <div style={{ fontSize: '12px', color: 'var(--k-text-secondary)' }}>
                         {pedido.items?.slice(0, 3).map((item, i) => (
                           <div key={i} style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <span>{item.cantidad}x {item.producto_nombre}</span>
                           </div>
                         ))}
                         {(pedido.items?.length || 0) > 3 && (
-                          <span style={{ color: '#43A047' }}>+{pedido.items.length - 3} más...</span>
+                          <span style={{ color: 'var(--k-success)' }}>+{pedido.items.length - 3} más...</span>
                         )}
                       </div>
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '20px', fontWeight: '700', color: '#43A047' }}>
+                      <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--k-success)' }}>
                         {formatGuarani(pedido.total)}
                       </span>
                       {pedido.created_at && (
-                        <span style={{ fontSize: '11px', color: darkMode ? '#666' : '#999' }}>
+                        <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)' }}>
                           {new Date(pedido.created_at).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       )}
@@ -572,7 +572,7 @@ export default function Delivery() {
                           }}
                           style={{
                             flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                            background: '#E53935', color: 'white', fontWeight: '700', fontSize: '12px',
+                            background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', fontSize: '12px',
                             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px'
                           }}
                         >
@@ -585,7 +585,7 @@ export default function Delivery() {
                           }}
                           style={{
                             flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                            background: '#E53935', color: 'white', fontWeight: '700', fontSize: '12px',
+                            background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', fontSize: '12px',
                             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px'
                           }}
                         >
@@ -598,12 +598,12 @@ export default function Delivery() {
               </div>
 
               {pedidosFiltrados.length === 0 && (
-                <div style={{ textAlign: 'center', padding: '60px', color: darkMode ? '#666' : '#999' }}>
+                <div style={{ textAlign: 'center', padding: '60px', color: 'var(--k-text-secondary)' }}>
                   <span className="material-icons" style={{ fontSize: '80px', opacity: 0.3 }}>delivery_dining</span>
                   <p style={{ marginTop: '20px', fontSize: '18px' }}>No hay pedidos de delivery</p>
                   <button
                     onClick={() => setModalNuevo(true)}
-                    style={{ marginTop: '20px', padding: '14px 28px', border: 'none', borderRadius: '12px', background: 'linear-gradient(135deg, #22C55E, #388E3C)', color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
+                    style={{ marginTop: '20px', padding: '14px 28px', border: 'none', borderRadius: '12px', background: 'linear-gradient(135deg, #22C55E, #388E3C)', color: 'var(--k-text)', fontWeight: '700', fontSize: '15px', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '8px' }}
                   >
                     <span className="material-icons" style={{ fontSize: '20px' }}>add_circle</span>
                     Crear primer pedido
@@ -618,11 +618,11 @@ export default function Delivery() {
                   position: 'fixed', bottom: isMobile ? '75px' : '30px', right: isMobile ? '16px' : '30px',
                   width: '60px', height: '60px', borderRadius: '50%',
                   background: 'linear-gradient(135deg, #22C55E, #388E3C)',
-                  color: 'white', border: 'none',
-                  boxShadow: '0 4px 20px rgba(76, 175, 80, 0.5)',
+                  color: 'var(--k-text)', border: 'none',
+                  boxShadow: 'var(--k-shadow-sm)',
                   cursor: 'pointer', zIndex: 100,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '32px', fontWeight: '300',
+                  fontSize: '24px', fontWeight: '300',
                   transition: 'transform 0.15s'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.08)'}
@@ -640,15 +640,15 @@ export default function Delivery() {
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', zIndex: 150, display: 'flex' }}>
           <div style={{ ...s.modal(darkMode), maxWidth: '95%', width: '800px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: '700', color: darkMode ? '#fff' : '#333', margin: 0 }}>
+              <h2 style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-text)', margin: 0 }}>
                 {editandoPedido ? 'Editar Pedido' : 'Nuevo Pedido Delivery'}
               </h2>
-              <button onClick={cerrarModal} style={{ background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: darkMode ? '#fff' : '#333' }}>×</button>
+              <button onClick={cerrarModal} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: 'var(--k-text)' }}>×</button>
             </div>
 
             {/* DATOS DEL CLIENTE */}
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Datos del Cliente</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--k-success)', marginBottom: '12px' }}>Datos del Cliente</h3>
               <input
                 type="text"
                 placeholder="Nombre del cliente *"
@@ -680,7 +680,7 @@ export default function Delivery() {
 
             {/* CATÁLOGO DE PRODUCTOS */}
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Seleccionar Productos</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--k-success)', marginBottom: '12px' }}>Seleccionar Productos</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '8px', maxHeight: '220px', overflowY: 'auto' }}>
                 {productos.map((producto) => (
                   <div
@@ -688,24 +688,24 @@ export default function Delivery() {
                     onClick={() => { setModalProducto(producto); setCantidad(1); setVariante(null); setNota('') }}
                     style={{
                       borderRadius: '10px', cursor: 'pointer', transition: 'all 0.15s', position: 'relative',
-                      border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
-                      background: darkMode ? '#1e1e1e' : 'white',
+                      border: `1px solid ${'var(--k-border)'}`,
+                      background: 'var(--k-surface)',
                       overflow: 'hidden',
                     }}
                   >
                     {producto.imagen ? (
-                      <img src={producto.imagen} alt={producto.nombre} style={{ width: '100%', height: '70px', objectFit: 'cover', background: darkMode ? '#2a2a2a' : '#f0f2f5' }} />
+                      <img src={producto.imagen} alt={producto.nombre} style={{ width: '100%', height: '70px', objectFit: 'cover', background: 'var(--k-surface-2)' }} />
                     ) : (
-                      <div style={{ width: '100%', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: darkMode ? '#2a2a2a' : '#f0f2f5', fontSize: '24px' }}>
+                      <div style={{ width: '100%', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--k-surface-2)', fontSize: '24px' }}>
                         <span className="material-icons" style={{ opacity: 0.3, fontSize: '32px' }}>restaurant</span>
                       </div>
                     )}
                     {producto.variantes?.length > 0 && (
-                      <div style={{ position: 'absolute', top: '4px', right: '4px', width: '18px', height: '18px', borderRadius: '50%', background: '#E53935', color: 'white', fontSize: '11px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>V</div>
+                      <div style={{ position: 'absolute', top: '4px', right: '4px', width: '18px', height: '18px', borderRadius: '50%', background: 'var(--k-primary)', color: 'var(--k-text)', fontSize: '11px', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>V</div>
                     )}
                     <div style={{ padding: '6px 8px', textAlign: 'center' }}>
-                      <div style={{ fontWeight: '600', fontSize: '11px', color: darkMode ? '#fff' : '#1a1a1a', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{producto.nombre}</div>
-                      <div style={{ color: '#43A047', fontWeight: '700', fontSize: '12px' }}>{formatGuarani(producto.precio)}</div>
+                      <div style={{ fontWeight: '600', fontSize: '11px', color: 'var(--k-text)', marginBottom: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{producto.nombre}</div>
+                      <div style={{ color: 'var(--k-success)', fontWeight: '700', fontSize: '12px' }}>{formatGuarani(producto.precio)}</div>
                     </div>
                   </div>
                 ))}
@@ -714,38 +714,38 @@ export default function Delivery() {
 
             {/* CARRITO */}
             <div style={{
-              background: darkMode ? 'rgba(76, 175, 80, 0.1)' : 'rgba(76, 175, 80, 0.1)',
+              background: 'var(--k-surface-2)',
               borderRadius: '12px',
               padding: '15px',
               marginBottom: '20px'
             }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--k-success)', marginBottom: '12px' }}>
                 Carrito ({carrito.length} items)
               </h3>
               {carrito.length === 0 ? (
-                <p style={{ color: darkMode ? '#888' : '#666', textAlign: 'center' }}>Agregue productos del catálogo</p>
+                <p style={{ color: 'var(--k-text-secondary)', textAlign: 'center' }}>Agregue productos del catálogo</p>
               ) : (
                 <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
                   {carrito.map((item) => (
-                    <div key={`${item.producto_id}_${item.variante || ''}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '8px', background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', borderRadius: '8px' }}>
+                    <div key={`${item.producto_id}_${item.variante || ''}`} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', padding: '8px', background: 'var(--k-surface-2)', borderRadius: '8px' }}>
                       <div>
                         <span style={{ fontWeight: '600' }}>{item.producto_nombre}</span>
-                        {item.variante && <div style={{ fontSize: '11px', color: '#E53935' }}>+ {item.variante}</div>}
-                        {item.nota && <div style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#888', fontStyle: 'italic' }}>Nota: {item.nota}</div>}
+                        {item.variante && <div style={{ fontSize: '11px', color: 'var(--k-primary)' }}>+ {item.variante}</div>}
+                        {item.nota && <div style={{ fontSize: '11px', color: 'var(--k-text-secondary)', fontStyle: 'italic' }}>Nota: {item.nota}</div>}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                        <button onClick={() => quitarDelCarrito(item.producto_id, item.variante)} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '10px', background: '#E53935', color: 'white', cursor: 'pointer' }}>-</button>
+                        <button onClick={() => quitarDelCarrito(item.producto_id, item.variante)} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '10px', background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer' }}>-</button>
                         <span style={{ fontWeight: '700', minWidth: '20px', textAlign: 'center' }}>{item.cantidad}</span>
-                        <button onClick={() => agregarAlCarrito({ id: item.producto_id, precio: item.precio }, { variante: item.variante, cantidad: 1 })} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '10px', background: '#43A047', color: 'white', cursor: 'pointer' }}>+</button>
-                        <span style={{ fontWeight: '700', color: '#43A047', minWidth: '60px', textAlign: 'right' }}>{formatGuarani(item.cantidad * item.precio)}</span>
+                        <button onClick={() => agregarAlCarrito({ id: item.producto_id, precio: item.precio }, { variante: item.variante, cantidad: 1 })} style={{ width: '28px', height: '28px', border: 'none', borderRadius: '10px', background: 'var(--k-success)', color: 'var(--k-text)', cursor: 'pointer' }}>+</button>
+                        <span style={{ fontWeight: '700', color: 'var(--k-success)', minWidth: '60px', textAlign: 'right' }}>{formatGuarani(item.cantidad * item.precio)}</span>
                       </div>
                     </div>
                   ))}
                 </div>
               )}
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px', paddingTop: '15px', borderTop: `2px solid ${darkMode ? '#444' : '#ddd'}` }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px', paddingTop: '15px', borderTop: `2px solid var(--k-border)` }}>
                 <span style={{ fontSize: '18px', fontWeight: '700' }}>TOTAL:</span>
-                <span style={{ fontSize: '24px', fontWeight: '700', color: '#43A047' }}>{formatGuarani(totalCarrito)}</span>
+                <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-success)' }}>{formatGuarani(totalCarrito)}</span>
               </div>
             </div>
 
@@ -755,7 +755,7 @@ export default function Delivery() {
               style={{
                 padding: '16px', border: 'none', borderRadius: '10px',
                 background: guardando ? '#999' : 'linear-gradient(135deg, #22C55E, #388E3C)',
-                color: 'white', fontWeight: '700', fontSize: '16px',
+                color: 'var(--k-text)', fontWeight: '700', fontSize: '16px',
                 cursor: (!cliente.nombre || !carrito.length || guardando) ? 'not-allowed' : 'pointer',
                 opacity: (!cliente.nombre || !carrito.length || guardando) ? 0.5 : 1,
                 width: '100%'
@@ -770,24 +770,24 @@ export default function Delivery() {
       {modalProducto && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.7)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
           <div style={{
-            background: darkMode ? '#1e1e1e' : 'white', borderRadius: '20px', padding: '24px',
+            background: 'var(--k-surface)', borderRadius: '14px', padding: '24px',
             width: '90%', maxWidth: '400px', maxHeight: '85vh', overflowY: 'auto',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.3)'
+            boxShadow: 'var(--k-shadow-sm)'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ margin: 0, fontSize: '18px', color: darkMode ? '#fff' : '#1a1a1a' }}>{modalProducto.nombre}</h3>
-              <button onClick={() => setModalProducto(null)} style={{ width: '32px', height: '32px', border: 'none', borderRadius: '8px', background: darkMode ? '#444' : '#eee', cursor: 'pointer', color: darkMode ? 'white' : '#333', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
+              <h3 style={{ margin: 0, fontSize: '18px', color: 'var(--k-text)' }}>{modalProducto.nombre}</h3>
+              <button onClick={() => setModalProducto(null)} style={{ width: '32px', height: '32px', border: 'none', borderRadius: '8px', background: '#444', cursor: 'pointer', color: 'var(--k-text)', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>×</button>
             </div>
 
             {modalProducto.imagen && (
-              <img src={modalProducto.imagen} alt={modalProducto.nombre} style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '12px', marginBottom: '16px', background: darkMode ? '#2a2a2a' : '#f0f2f5' }} />
+              <img src={modalProducto.imagen} alt={modalProducto.nombre} style={{ width: '100%', height: '140px', objectFit: 'cover', borderRadius: '12px', marginBottom: '16px', background: 'var(--k-surface-2)' }} />
             )}
 
-            <div style={{ fontSize: '22px', fontWeight: '700', color: '#43A047', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
+            <div style={{ fontSize: '22px', fontWeight: '700', color: 'var(--k-success)', marginBottom: '16px' }}>{formatGuarani(modalProducto.precio)}</div>
 
             {modalProducto.variantes && Array.isArray(modalProducto.variantes) && modalProducto.variantes.length > 0 && (
               <div style={{ marginBottom: '16px' }}>
-                <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '8px' }}>VARIANTES</div>
+                <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--k-primary)', marginBottom: '8px' }}>VARIANTES</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                   {modalProducto.variantes.map((v, i) => {
                     const vName = typeof v === 'string' ? v : v?.nombre || 'Opci\u00f3n ' + (i + 1)
@@ -800,8 +800,8 @@ export default function Delivery() {
                         style={{
                           padding: '8px 14px', border: 'none', borderRadius: '8px', cursor: 'pointer',
                           fontWeight: '600', fontSize: '12px', transition: 'all 0.15s',
-                          background: isSelected ? '#E53935' : (darkMode ? '#2a2a2a' : '#f0f0f0'),
-                          color: isSelected ? 'white' : (darkMode ? '#ccc' : '#333'),
+                          background: isSelected ? '#E53935' : ('#2a2a2a'),
+                          color: isSelected ? 'white' : ('#ccc'),
                         }}
                       >{vName}{vPrice > 0 ? ' +' + formatGuarani(vPrice) : ''}</button>
                     )
@@ -811,25 +811,25 @@ export default function Delivery() {
             )}
 
             <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '8px' }}>CANTIDAD</div>
+              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--k-primary)', marginBottom: '8px' }}>CANTIDAD</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <button onClick={() => setCantidad(Math.max(1, cantidad - 1))} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: '#E53935', color: 'white', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&minus;</button>
-                <span style={{ fontSize: '22px', fontWeight: '700', minWidth: '30px', textAlign: 'center', color: darkMode ? '#fff' : '#1a1a1a' }}>{cantidad}</span>
-                <button onClick={() => setCantidad(cantidad + 1)} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: '#43A047', color: 'white', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
+                <button onClick={() => setCantidad(Math.max(1, cantidad - 1))} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>&minus;</button>
+                <span style={{ fontSize: '22px', fontWeight: '700', minWidth: '30px', textAlign: 'center', color: 'var(--k-text)' }}>{cantidad}</span>
+                <button onClick={() => setCantidad(cantidad + 1)} style={{ width: '36px', height: '36px', border: 'none', borderRadius: '8px', background: 'var(--k-success)', color: 'var(--k-text)', cursor: 'pointer', fontSize: '18px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>+</button>
               </div>
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: '#E53935', marginBottom: '8px' }}>NOTA</div>
+              <div style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.8px', color: 'var(--k-primary)', marginBottom: '8px' }}>NOTA</div>
               <textarea
                 value={nota}
                 onChange={(e) => setNota(e.target.value)}
                 placeholder="Sin cebolla, extra salsa, etc."
                 style={{
                   width: '100%', padding: '10px 12px', borderRadius: '10px',
-                  border: '1px solid ' + (darkMode ? 'rgba(255,255,255,0.15)' : '#d0d0d0'),
-                  background: darkMode ? '#2a2a2a' : '#f8f8f8',
-                  color: darkMode ? 'white' : '#1a1a1a', fontSize: '13px',
+                  border: '1px solid ' + ('var(--k-border)'),
+                  background: 'var(--k-surface-2)',
+                  color: 'var(--k-text)', fontSize: '13px',
                   outline: 'none', resize: 'none', minHeight: '60px', boxSizing: 'border-box',
                 }}
               />
@@ -843,7 +843,7 @@ export default function Delivery() {
               style={{
                 width: '100%', padding: '14px', border: 'none', borderRadius: '12px',
                 background: 'linear-gradient(135deg, #22C55E, #388E3C)',
-                color: 'white', fontWeight: '700', fontSize: '15px', cursor: 'pointer',
+                color: 'var(--k-text)', fontWeight: '700', fontSize: '15px', cursor: 'pointer',
               }}
             >Agregar al Carrito</button>
           </div>
@@ -934,33 +934,33 @@ export default function Delivery() {
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <div>
-                  <h2 style={{ fontSize: '24px', fontWeight: '700', color: darkMode ? '#fff' : '#333', margin: 0 }}>
+                  <h2 style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-text)', margin: 0 }}>
                     #{modalDetalle.numero_orden || modalDetalle.id}
                   </h2>
                 <span style={s.estadoBadge(modalDetalle.estado)}>
                   {ESTADOS[modalDetalle.estado]?.label}
                 </span>
               </div>
-              <button onClick={() => setModalDetalle(null)} style={{ background: 'none', border: 'none', fontSize: '28px', cursor: 'pointer', color: darkMode ? '#fff' : '#333' }}>×</button>
+              <button onClick={() => setModalDetalle(null)} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: 'var(--k-text)' }}>×</button>
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Cliente</h3>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--k-success)', marginBottom: '12px' }}>Cliente</h3>
               <p style={{ fontSize: '16px', fontWeight: '600', margin: '0 0 5px 0' }}>{modalDetalle.nombre_cliente}</p>
-              <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', margin: '0' }}>Tel: {modalDetalle.telefono_cliente}</p>
-              <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', margin: '5px 0 0 0' }}>Dir: {modalDetalle.direccion}</p>
+              <p style={{ fontSize: '14px', color: 'var(--k-text-secondary)', margin: '0' }}>Tel: {modalDetalle.telefono_cliente}</p>
+              <p style={{ fontSize: '14px', color: 'var(--k-text-secondary)', margin: '5px 0 0 0' }}>Dir: {modalDetalle.direccion}</p>
               {modalDetalle.notas && (
-                <p style={{ fontSize: '13px', color: '#E53935', margin: '10px 0 0 0', fontStyle: 'italic' }}>Nota: {modalDetalle.notas}</p>
+                <p style={{ fontSize: '13px', color: 'var(--k-primary)', margin: '10px 0 0 0', fontStyle: 'italic' }}>Nota: {modalDetalle.notas}</p>
               )}
             </div>
 
             <div style={{ marginBottom: '20px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: '700', color: '#43A047', marginBottom: '12px' }}>Items</h3>
-              <div style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)', borderRadius: '12px', padding: '15px' }}>
+              <h3 style={{ fontSize: '16px', fontWeight: '700', color: 'var(--k-success)', marginBottom: '12px' }}>Items</h3>
+              <div style={{ background: 'var(--k-surface-2)', borderRadius: '12px', padding: '15px' }}>
                 {modalDetalle.items?.map((item, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', paddingBottom: '8px', borderBottom: i < modalDetalle.items.length - 1 ? `1px solid ${darkMode ? '#333' : '#eee'}` : 'none' }}>
+                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', paddingBottom: '8px', borderBottom: i < modalDetalle.items.length - 1 ? `1px solid var(--k-border)` : 'none' }}>
                     <span style={{ fontWeight: '600' }}>{item.cantidad}x {item.producto_nombre}</span>
-                    <span style={{ fontWeight: '700', color: '#43A047' }}>{formatGuarani(item.cantidad * Number(item.precio))}</span>
+                    <span style={{ fontWeight: '700', color: 'var(--k-success)' }}>{formatGuarani(item.cantidad * Number(item.precio))}</span>
                   </div>
                 ))}
               </div>
@@ -968,7 +968,7 @@ export default function Delivery() {
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', padding: '15px', background: 'rgba(67, 160, 71, 0.1)', borderRadius: '12px' }}>
               <span style={{ fontSize: '20px', fontWeight: '700' }}>TOTAL:</span>
-              <span style={{ fontSize: '28px', fontWeight: '700', color: '#43A047' }}>{formatGuarani(modalDetalle.total)}</span>
+              <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--k-success)' }}>{formatGuarani(modalDetalle.total)}</span>
             </div>
 
             {modalDetalle.estado !== 'cancelado' && modalDetalle.estado !== 'pagado' && (
@@ -991,7 +991,7 @@ export default function Delivery() {
                     border: 'none',
                     borderRadius: '12px',
                     background: imprimiendo ? '#999' : '#E53935',
-                    color: 'white',
+                    color: 'var(--k-text)',
                     fontWeight: '700',
                     fontSize: '16px',
                     cursor: imprimiendo ? 'not-allowed' : 'pointer',
@@ -1010,8 +1010,8 @@ export default function Delivery() {
                     padding: '16px',
                     border: 'none',
                     borderRadius: '12px',
-                    background: '#E53935',
-                    color: 'white',
+                    background: 'var(--k-primary)',
+                    color: 'var(--k-text)',
                     fontWeight: '700',
                     fontSize: '16px',
                     cursor: 'pointer'

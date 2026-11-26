@@ -4,16 +4,24 @@
 
 :root {
   /* ===== Paleta oficial ===== */
-  --k-bg: #F4F5F7;
+  --k-bg: #121212;
   --k-surface: #1E1E1E;
+  --k-surface-2: #242424;
+  --k-surface-3: #2d2d2d;
   --k-primary: #E53935;
-  --k-text: #1F2937;
-  --k-text-secondary: #6B7280;
-  --k-button-border: #121417;
+  --k-primary-hover: #EF5350;
+  --k-primary-active: #B71C1C;
+  --k-text: #FFFFFF;
+  --k-text-secondary: #AAAAAA;
+  --k-border: #383838;
+  --k-button-border: #383838;
   --k-success: #22C55E;
   --k-info: #3B82F6;
   --k-warning: #F59E0B;
-  --k-border: rgba(255, 255, 255, 0.08);
+  --k-danger: #E53935;
+  --k-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.24);
+  --k-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.32);
+  --k-focus-ring: 0 0 0 3px rgba(229, 57, 53, 0.18);
 
   /* Alias de compatibilidad con estilos existentes */
   --primary: var(--k-primary);
@@ -43,8 +51,16 @@
   --fs-kpi: 24px;           --fw-kpi: 700;
 
   /* ===== Radios ===== */
-  --radius: 12px;
-  --radius-sm: 10px;
+  --k-radius-8: 8px;
+  --k-radius-10: 10px;
+  --k-radius-12: 12px;
+  --k-radius-14: 14px;
+  --radius: var(--k-radius-12);
+  --radius-sm: var(--k-radius-10);
+
+  /* ===== Espaciado base ===== */
+  --k-space-2: 16px;
+  --k-space-3: 24px;
 }
 
 * {
@@ -53,19 +69,17 @@
   box-sizing: border-box;
 }
 
-/* ===== Estilo KaruApp: bordes suaves, minimalista, sin animaciones ===== */
-
-*,
-*::before,
-*::after {
-  animation: none !important;
-  transition: none !important;
-}
-
 * {
   border-radius: var(--radius);
-  box-shadow: none !important;
   text-shadow: none !important;
+}
+
+button,
+input,
+select,
+textarea,
+a {
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
 input,
@@ -75,13 +89,11 @@ select {
   border-radius: var(--radius-sm);
 }
 
-/* ===== Tipografía global ===== */
 html,
 body {
   font-family: var(--font-sans) !important;
 }
 
-/* Inter en todos los elementos de la interfaz, salvo los íconos. */
 body,
 body *:not(.material-icons) {
   font-family: var(--font-sans) !important;
@@ -99,15 +111,10 @@ body {
 }
 
 body.dark {
-  --k-bg: #121417;
-  --k-text: #FFFFFF;
-  --k-text-secondary: #A3A3A3;
-  --k-button-border: #F4F5F7;
   background-color: var(--k-bg);
   color: var(--k-text);
 }
 
-/* Jerarquía de títulos */
 h1 {
   font-size: var(--fs-h1) !important;
   font-weight: var(--fw-h1) !important;
@@ -123,38 +130,145 @@ h3 {
   font-weight: var(--fw-h3) !important;
 }
 
-/* Controles y tablas */
 button {
   font-size: var(--fs-button);
   font-weight: var(--fw-button);
+  color: var(--k-text);
+  background-color: var(--k-surface-2);
+  border: 1px solid var(--k-border) !important;
+  border-radius: var(--k-radius-10) !important;
+  cursor: pointer;
 }
 
-button,
+button:not(:disabled):hover {
+  border-color: var(--k-text-secondary) !important;
+  filter: brightness(1.12);
+}
+
+button:not(:disabled):active {
+  filter: brightness(0.88);
+}
+
 button:disabled,
-button *,
-[style*='cursor: pointer'],
-[style*='cursor:pointer'] {
-  opacity: 1 !important;
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
 }
 
-button,
-button:disabled {
-  border: 2px solid var(--k-button-border) !important;
-}
-
-input,
+input:not([type='checkbox']):not([type='radio']),
 select,
 textarea {
   font-size: var(--fs-body);
+  color: var(--k-text) !important;
+  background-color: var(--k-surface) !important;
+  border: 1px solid var(--k-border) !important;
+  border-radius: var(--k-radius-10) !important;
 }
 
-label {
-  font-size: var(--fs-label);
-  font-weight: var(--fw-label);
+input::placeholder,
+textarea::placeholder {
+  color: var(--k-text-secondary) !important;
+  opacity: 0.8;
+}
+
+input[type='checkbox'] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--k-border);
+  border-radius: 5px;
+  background: var(--k-surface);
+  cursor: pointer;
+}
+
+input[type='checkbox']:checked {
+  background: var(--k-primary);
+  border-color: var(--k-primary);
+}
+
+input[type='checkbox']:checked::after {
+  content: '✓';
+  display: block;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+input[type='radio'] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--k-border);
+  border-radius: 50%;
+  background: var(--k-surface);
+  cursor: pointer;
+}
+
+input[type='radio']:checked {
+  border: 2px solid var(--k-primary);
+  background: radial-gradient(circle, var(--k-primary) 40%, transparent 45%);
+}
+
+:where(button, input, select, textarea, a):focus-visible {
+  outline: none;
+  border-color: var(--k-primary) !important;
+  box-shadow: var(--k-focus-ring) !important;
+}
+
+header {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--k-surface) !important;
+  border-bottom: 1px solid var(--k-border) !important;
+  box-shadow: var(--k-shadow-sm);
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: -90px;
+  right: -60px;
+  width: 260px;
+  height: 200px;
+  background: linear-gradient(135deg, var(--k-primary) 0%, rgba(18, 18, 18, 0) 70%);
+  transform: rotate(32deg);
+  opacity: 0.32;
+  pointer-events: none;
+}
+
+header::after {
+  content: 'K';
+  position: absolute;
+  right: 24px;
+  top: -42px;
+  font-size: 132px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+}
+
+header > * {
+  position: relative;
+  z-index: 1;
 }
 
 table {
   font-size: var(--fs-table);
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--k-surface);
+  border-radius: var(--k-radius-12);
+  overflow: hidden;
+}
+
+thead th {
+  background: var(--k-surface-2);
+  color: var(--k-text);
+  font-weight: var(--fw-table-header);
 }
 
 th {
@@ -162,11 +276,20 @@ th {
   font-weight: var(--fw-table-header);
 }
 
-/* Importes, cantidades, estadísticas y horarios con números tabulares */
+th,
+td {
+  border-bottom: 1px solid var(--k-border) !important;
+  padding: 12px 16px;
+}
+
+tbody tr:hover {
+  background: var(--k-surface-2) !important;
+}
+
 table,
 th,
 td,
-input[type="number"],
+input[type='number'],
 .tnum,
 .tabular-nums,
 .k-numeric {
@@ -178,13 +301,11 @@ a {
   color: inherit;
 }
 
-/* Íconos Material (deben conservar su fuente) */
 .material-icons {
   font-family: 'Material Icons' !important;
   font-size: 24px;
 }
 
-/* ===== Utilidades tipográficas reutilizables ===== */
 .k-h1 { font-size: var(--fs-h1); font-weight: var(--fw-h1); }
 .k-h2 { font-size: var(--fs-h2); font-weight: var(--fw-h2); }
 .k-h3 { font-size: var(--fs-h3); font-weight: var(--fw-h3); }
@@ -201,7 +322,6 @@ a {
 .k-small { font-size: var(--fs-small); font-weight: var(--fw-small); }
 .k-kpi { font-size: var(--fs-kpi); font-weight: var(--fw-kpi); }
 
-/* Color de texto secundario reutilizable */
 .k-muted {
   color: var(--k-text-secondary);
 }
@@ -229,7 +349,38 @@ a {
   }
 }
 
-/* Ocultar las flechas nativas de los inputs numéricos */
+@media (min-width: 1280px) {
+  body {
+    padding-bottom: 24px;
+  }
+
+  #root::after {
+    content: 'KaruApp · Diseño que impulsa tu negocio';
+    position: fixed;
+    left: 16px;
+    bottom: 0;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--k-text-secondary);
+  }
+
+  #root::before {
+    content: 'v1.0 | Design System';
+    position: fixed;
+    right: 16px;
+    bottom: 0;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--k-primary);
+  }
+}
+
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -241,14 +392,14 @@ input[type='number'] {
   appearance: textfield;
 }
 
-/* Botón cuadrado de cantidad (flechas arriba/abajo) */
 .k-stepper-btn {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
+  border: 1px solid var(--k-border) !important;
   background: transparent;
+  color: var(--k-text);
   padding: 0;
   margin: 0;
   cursor: pointer;
@@ -256,11 +407,12 @@ input[type='number'] {
 }
 
 .k-stepper-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: var(--k-surface-3);
+  border-color: var(--k-primary) !important;
 }
 
 .k-stepper-btn:active {
-  background: rgba(0, 0, 0, 0.12);
+  background: var(--k-primary-active);
 }
 
 .k-stepper-btn:disabled {

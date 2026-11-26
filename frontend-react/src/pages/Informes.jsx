@@ -165,20 +165,20 @@ export default function Informes() {
     container: (dm) => ({
       minHeight: '100vh',
       background: 'transparent',
-      color: dm ? '#fff' : '#1a1a1a'
+      color: 'var(--k-text)'
     }),
     header: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       padding: '10px 20px',
-      background: '#1a1a1a',
-      color: 'white',
+      background: 'var(--k-surface)',
+      color: 'var(--k-text)',
       borderBottom: '1px solid rgba(229,57,53,0.2)',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
+      boxShadow: 'var(--k-shadow-sm)'
     },
     btn: {
-      width: '36px', height: '36px', border: '1px solid rgba(255,255,255,0.12)',
+      width: '36px', height: '36px', border: '1px solid var(--k-border)',
       borderRadius: '8px', background: 'rgba(255,255,255,0.06)',
       color: 'rgba(255,255,255,0.8)', fontSize: '18px', cursor: 'pointer',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -189,19 +189,19 @@ export default function Informes() {
       borderRadius: '14px',
       padding: '20px',
       textAlign: 'center',
-      border: `1px solid ${dm ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
-      background: dm ? '#1e1e1e' : 'white',
-      boxShadow: dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)',
+      border: `1px solid ${'var(--k-border)'}`,
+      background: 'var(--k-surface)',
+      boxShadow: 'var(--k-shadow-sm)',
       animationDelay: `${index * 0.1}s`,
     }),
     gridKpi: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', marginBottom: '24px' },
     gridGraficos: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px', marginBottom: '24px' },
-    sectionTitle: (dm) => ({ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: dm ? '#fff' : '#1a1a1a' }),
+    sectionTitle: (dm) => ({ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: 'var(--k-text)' }),
     filtro: (dm) => ({
       padding: '8px 14px',
-      border: '1px solid rgba(255,255,255,0.15)',
+      border: '1px solid var(--k-border)',
       borderRadius: '8px',
-      background: '#1a1a1a',
+      background: 'var(--k-surface)',
       color: 'rgba(255,255,255,0.8)',
       fontSize: '13px',
       cursor: 'pointer',
@@ -209,8 +209,8 @@ export default function Informes() {
     }),
   }
 
-  const textColor = darkMode ? '#fff' : '#333'
-  const gridColor = darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+  const textColor = '#fff'
+  const gridColor = 'rgba(255, 255, 255, 0.12)'
 
   const datosGraficoVentas = {
     labels: ventasDia.map(v => v.fecha ? new Date(v.fecha).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric' }) : ''),
@@ -308,10 +308,10 @@ export default function Informes() {
   }
 
   const kpis = [
-    { label: 'Ventas Totales', valor: resumen?.ventas_totales || 0, color: '#22C55E', icono: 'attach_money', formato: 'moneda' },
-    { label: 'Total Pedidos', valor: resumen?.total_pedidos || 0, color: '#3B82F6', icono: 'receipt_long', formato: 'numero' },
-    { label: 'Ticket Promedio', valor: resumen?.ticket_promedio || 0, color: '#E53935', icono: 'trending_up', formato: 'moneda' },
-    { label: 'Tasa Cancelación', valor: resumen?.tasa_cancelacion || 0, color: '#E53935', icono: 'cancel', formato: 'porcentaje' }
+    { label: 'Ventas Totales', valor: resumen?.ventas_totales || 0, color: 'var(--k-success)', icono: 'attach_money', formato: 'moneda' },
+    { label: 'Total Pedidos', valor: resumen?.total_pedidos || 0, color: 'var(--k-info)', icono: 'receipt_long', formato: 'numero' },
+    { label: 'Ticket Promedio', valor: resumen?.ticket_promedio || 0, color: 'var(--k-primary)', icono: 'trending_up', formato: 'moneda' },
+    { label: 'Tasa Cancelación', valor: resumen?.tasa_cancelacion || 0, color: 'var(--k-primary)', icono: 'cancel', formato: 'porcentaje' }
   ]
 
   const kpiColors = { '#22C55E': '#81C784', '#3B82F6': '#64B5F6', '#E53935': '#EF5350' }
@@ -372,10 +372,10 @@ export default function Informes() {
 
   const sHistoriasModal = {
     overlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.85)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' },
-    modal: { background: darkMode ? '#2d2d2d' : 'white', borderRadius: '20px', padding: '25px', width: '90%', maxWidth: '900px', maxHeight: '90vh', overflow: 'auto' },
-    input: { width: '100%', padding: '10px 14px', border: 'none', borderRadius: '10px', background: darkMode ? '#3a3a3a' : '#f5f5f5', color: darkMode ? '#fff' : '#333', fontSize: '14px', outline: 'none', boxSizing: 'border-box' },
+    modal: { background: 'var(--k-surface-2)', borderRadius: '14px', padding: '25px', width: '90%', maxWidth: '900px', maxHeight: '90vh', overflow: 'auto' },
+    input: { width: '100%', padding: '10px 14px', border: 'none', borderRadius: '10px', background: 'var(--k-surface-2)', color: 'var(--k-text)', fontSize: '14px', outline: 'none', boxSizing: 'border-box' },
     btn: { padding: '10px 20px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '14px', fontWeight: '600' },
-    btnPrimary: { padding: '12px 24px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white' },
+    btnPrimary: { padding: '12px 24px', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '16px', fontWeight: '700', background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'var(--k-text)' },
   }
 
   return (
@@ -396,7 +396,7 @@ export default function Informes() {
             <option value="mes">Mes</option>
           </select>
           <button onClick={() => setModalHistorial(true)} style={{
-            padding: '8px 14px', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '8px',
+            padding: '8px 14px', border: '1px solid var(--k-border)', borderRadius: '8px',
             background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.8)',
             cursor: 'pointer', fontSize: '13px', fontWeight: '600',
             display: 'flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap'
@@ -414,8 +414,8 @@ export default function Informes() {
 
         <div style={{ padding: isMobile ? '12px' : '25px', overflowY: 'auto', overflowX: 'hidden' }}>
           {cargando ? (
-            <div style={{ textAlign: 'center', padding: '100px', color: darkMode ? '#888' : '#666' }}>
-              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid #eee', borderTop: '4px solid #3B82F6', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+            <div style={{ textAlign: 'center', padding: '100px', color: 'var(--k-text-secondary)' }}>
+              <div style={{ width: '80px', height: '80px', margin: '0 auto', border: '4px solid var(--k-border)', borderTop: '4px solid var(--k-info)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
               <p style={{ marginTop: '25px', fontSize: '18px', fontWeight: '600' }}>Cargando estadísticas...</p>
               <p style={{ marginTop: '10px', fontSize: '14px', opacity: 0.7 }}>Analizando datos de ventas</p>
             </div>
@@ -441,8 +441,8 @@ export default function Informes() {
                       animation: 'bounce 2s infinite',
                       animationDelay: `${index * 0.3}s`
                     }}>{kpi.icono}</span>
-                    <p style={{ fontSize: '14px', color: darkMode ? '#aaa' : '#666', marginTop: '12px', fontWeight: '500' }}>{kpi.label}</p>
-                    <p style={{ fontSize: '28px', fontWeight: '700', color: kpi.color, margin: '8px 0 0' }}>{formatearNumero(kpi.valor, kpi.formato)}</p>
+                    <p style={{ fontSize: '14px', color: 'var(--k-text-secondary)', marginTop: '12px', fontWeight: '500' }}>{kpi.label}</p>
+                    <p style={{ fontSize: '24px', fontWeight: '700', color: kpi.color, margin: '8px 0 0' }}>{formatearNumero(kpi.valor, kpi.formato)}</p>
                     {index === 0 && (
                       <div style={{
                         position: 'absolute',
@@ -450,7 +450,7 @@ export default function Informes() {
                         right: '10px',
                         animation: 'pulse 2s infinite'
                       }}>
-                        <span className="material-icons" style={{ fontSize: '20px', color: '#22C55E' }}>arrow_upward</span>
+                        <span className="material-icons" style={{ fontSize: '20px', color: 'var(--k-success)' }}>arrow_upward</span>
                       </div>
                     )}
                   </div>
@@ -473,19 +473,19 @@ export default function Informes() {
                 <div style={{ overflowX: 'auto' }}>
                   <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                     <thead>
-                      <tr style={{ background: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>#Orden</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Fecha</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Ubicación</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Estado</th>
-                        <th style={{ padding: '18px', textAlign: 'left', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Método</th>
-                        <th style={{ padding: '18px', textAlign: 'right', color: darkMode ? '#aaa' : '#666', fontWeight: '700' }}>Total</th>
+                      <tr style={{ background: 'var(--k-surface-2)' }}>
+                        <th style={{ padding: '18px', textAlign: 'left', color: 'var(--k-text-secondary)', fontWeight: '700' }}>#Orden</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: 'var(--k-text-secondary)', fontWeight: '700' }}>Fecha</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: 'var(--k-text-secondary)', fontWeight: '700' }}>Ubicación</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: 'var(--k-text-secondary)', fontWeight: '700' }}>Estado</th>
+                        <th style={{ padding: '18px', textAlign: 'left', color: 'var(--k-text-secondary)', fontWeight: '700' }}>Método</th>
+                        <th style={{ padding: '18px', textAlign: 'right', color: 'var(--k-text-secondary)', fontWeight: '700' }}>Total</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pedidos.length === 0 ? (
                         <tr>
-                          <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: darkMode ? '#666' : '#999' }}>
+                          <td colSpan={6} style={{ padding: '40px', textAlign: 'center', color: 'var(--k-text-secondary)' }}>
                             <span className="material-icons" style={{ fontSize: '50px', opacity: 0.5 }}>inbox</span>
                             <p style={{ marginTop: '10px' }}>No hay pedidos en este período</p>
                           </td>
@@ -494,13 +494,13 @@ export default function Informes() {
                         <tr
                           key={pedido.id}
                           style={{
-                            borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            borderBottom: `1px solid ${'var(--k-border)'}`,
                           }}
                         >
                           <td style={{ padding: '15px' }}>
                             <span style={{
                               fontWeight: '700',
-                              color: '#3B82F6',
+                              color: 'var(--k-info)',
                               background: 'rgba(25, 118, 210, 0.1)',
                               padding: '5px 10px',
                               borderRadius: '8px'
@@ -508,16 +508,16 @@ export default function Informes() {
                               #{pedido.numero_orden}
                             </span>
                           </td>
-                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666' }}>
+                          <td style={{ padding: '15px', color: 'var(--k-text-secondary)' }}>
                             {pedido.created_at ? new Date(pedido.created_at).toLocaleString('es-ES', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '-'}
                           </td>
-                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666' }}>
+                          <td style={{ padding: '15px', color: 'var(--k-text-secondary)' }}>
                             {pedido.delivery ? 'Delivery' : ` Mesa ${pedido.mesa || '-'}`}
                           </td>
                           <td style={{ padding: '15px' }}>
                             <span style={{
                               padding: '6px 14px',
-                              borderRadius: '20px',
+                              borderRadius: '14px',
                               background: getEstadoColor(pedido.estado) + '20',
                               color: getEstadoColor(pedido.estado),
                               fontSize: '12px',
@@ -527,13 +527,13 @@ export default function Informes() {
                               {pedido.estado}
                             </span>
                           </td>
-                          <td style={{ padding: '15px', color: darkMode ? '#ccc' : '#666', textTransform: 'capitalize' }}>
+                          <td style={{ padding: '15px', color: 'var(--k-text-secondary)', textTransform: 'capitalize' }}>
                             {pedido.metodo_pago || '-'}
                           </td>
                           <td style={{ padding: '15px', textAlign: 'right' }}>
                             <span style={{
                               fontWeight: '700',
-                              color: '#22C55E',
+                              color: 'var(--k-success)',
                               fontSize: '16px'
                             }}>
                               {formatGuarani(pedido.total)}
@@ -560,8 +560,8 @@ export default function Informes() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Ventas Diarias</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#3B82F6' }}>show_chart</span>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--k-text)' }}>Ventas Diarias</p>
+                    <span className="material-icons animate-bounce" style={{ color: 'var(--k-info)' }}>show_chart</span>
                   </div>
                   <div style={{ height: '280px', position: 'relative' }}>
                     <Bar data={datosGraficoVentas} options={opcionesGrafico} />
@@ -577,8 +577,8 @@ export default function Informes() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Productos Más Vendidos</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#E53935' }}>emoji_events</span>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--k-text)' }}>Productos Más Vendidos</p>
+                    <span className="material-icons animate-bounce" style={{ color: 'var(--k-primary)' }}>emoji_events</span>
                   </div>
                   <div style={{ height: '280px', position: 'relative' }}>
                     <Bar data={datosGraficoProductos} options={opcionesProductos} />
@@ -596,8 +596,8 @@ export default function Informes() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>Métodos de Pago</p>
-                    <span className="material-icons animate-bounce" style={{ color: '#22C55E' }}>payment</span>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--k-text)' }}>Métodos de Pago</p>
+                    <span className="material-icons animate-bounce" style={{ color: 'var(--k-success)' }}>payment</span>
                   </div>
                   <div style={{ height: '220px', position: 'relative', display: 'flex', justifyContent: 'center' }}>
                     <Doughnut data={datosGraficoMetodos} options={opcionesDoughnut} />
@@ -613,10 +613,10 @@ export default function Informes() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--k-text)' }}>
                       Estado de Pedidos
                       {resumen?.cancelados_en_cocina > 0 && (
-                        <span style={{ fontSize: '12px', color: '#E53935', marginLeft: '8px', fontWeight: '400' }}>
+                        <span style={{ fontSize: '12px', color: 'var(--k-primary)', marginLeft: '8px', fontWeight: '400' }}>
                           ({resumen.cancelados_en_cocina} en cocina)
                         </span>
                       )}
@@ -631,12 +631,12 @@ export default function Informes() {
                       return (
                         <div key={estado}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                            <span style={{ textTransform: 'capitalize', color: darkMode ? '#ccc' : '#666', fontWeight: '600' }}>{estado}</span>
-                            <span style={{ fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{cantidad} ({porcentaje.toFixed(0)}%)</span>
+                            <span style={{ textTransform: 'capitalize', color: 'var(--k-text-secondary)', fontWeight: '600' }}>{estado}</span>
+                            <span style={{ fontWeight: '700', color: 'var(--k-text)' }}>{cantidad} ({porcentaje.toFixed(0)}%)</span>
                           </div>
                           <div style={{
                             height: '10px',
-                            background: darkMode ? '#333' : '#eee',
+                            background: '#333',
                             borderRadius: '10px',
                             overflow: 'hidden'
                           }}>
@@ -666,10 +666,10 @@ export default function Informes() {
                   }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                    <p style={{ fontSize: '18px', fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>
+                    <p style={{ fontSize: '18px', fontWeight: '700', color: 'var(--k-text)' }}>
                       Motivos de Cancelación
                     </p>
-                    <span className="material-icons" style={{ color: '#E53935' }}>report_problem</span>
+                    <span className="material-icons" style={{ color: 'var(--k-primary)' }}>report_problem</span>
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     {resumen.motivos_cancelacion.map((m, i) => {
@@ -678,10 +678,10 @@ export default function Informes() {
                       return (
                         <div key={i}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                            <span style={{ color: darkMode ? '#ccc' : '#666', fontWeight: '600' }}>{m.motivo_cancelacion}</span>
-                            <span style={{ fontWeight: '700', color: darkMode ? '#fff' : '#333' }}>{m.cantidad} ({pct.toFixed(0)}%)</span>
+                            <span style={{ color: 'var(--k-text-secondary)', fontWeight: '600' }}>{m.motivo_cancelacion}</span>
+                            <span style={{ fontWeight: '700', color: 'var(--k-text)' }}>{m.cantidad} ({pct.toFixed(0)}%)</span>
                           </div>
-                          <div style={{ height: '8px', background: darkMode ? '#333' : '#eee', borderRadius: '10px', overflow: 'hidden' }}>
+                          <div style={{ height: '8px', background: '#333', borderRadius: '10px', overflow: 'hidden' }}>
                             <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg, #E53935, #FF7043)', borderRadius: '10px', transition: 'width 1s ease-out' }}></div>
                           </div>
                         </div>
@@ -691,7 +691,7 @@ export default function Informes() {
                 </div>
               )}
 
-<div style={{ textAlign: 'center', padding: '30px', color: darkMode ? '#666' : '#999', fontSize: '14px' }}>
+<div style={{ textAlign: 'center', padding: '30px', color: 'var(--k-text-secondary)', fontSize: '14px' }}>
                 <span className="material-icons" style={{ verticalAlign: 'middle', fontSize: '18px' }}>auto_graph</span>
                 Datos actualizados en tiempo real
               </div>
@@ -705,8 +705,8 @@ export default function Informes() {
         <div style={sHistoriasModal.overlay} onClick={() => { setModalHistorial(false); limpiarFiltrosHistorial() }}>
           <div className="animate-scale" style={sHistoriasModal.modal} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ color: darkMode ? '#fff' : '#333', margin: 0 }}>Historial de Pedidos</h3>
-              <button onClick={() => { setModalHistorial(false); limpiarFiltrosHistorial() }} style={{ background: 'none', border: 'none', color: '#888', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
+              <h3 style={{ color: 'var(--k-text)', margin: 0 }}>Historial de Pedidos</h3>
+              <button onClick={() => { setModalHistorial(false); limpiarFiltrosHistorial() }} style={{ background: 'none', border: 'none', color: 'var(--k-text-secondary)', fontSize: '24px', cursor: 'pointer', padding: 0 }}>&times;</button>
             </div>
 
             {/* Filtros */}
@@ -722,20 +722,20 @@ export default function Informes() {
                 <button onClick={() => buscarHistorial(1)} disabled={buscandoHistorial} style={{ ...sHistoriasModal.btnPrimary, flex: 2, opacity: buscandoHistorial ? 0.5 : 1, padding: '10px', fontSize: '14px' }}>
                   {buscandoHistorial ? 'Buscando...' : 'Buscar'}
                 </button>
-                <button onClick={limpiarFiltrosHistorial} style={{ ...sHistoriasModal.btn, background: darkMode ? '#3a3a3a' : '#f0f0f0', color: darkMode ? '#ccc' : '#555', flex: 1, padding: '8px' }}>Limpiar</button>
+                <button onClick={limpiarFiltrosHistorial} style={{ ...sHistoriasModal.btn, background: 'var(--k-surface-2)', color: 'var(--k-text-secondary)', flex: 1, padding: '8px' }}>Limpiar</button>
               </div>
             </div>
 
             {/* Resultados */}
-            <div style={{ maxHeight: '420px', overflow: 'auto', borderRadius: '8px', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}` }}>
+            <div style={{ maxHeight: '420px', overflow: 'auto', borderRadius: '8px', border: `1px solid ${'var(--k-border)'}` }}>
               {resultadosBusqueda.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '40px', color: '#888', fontSize: '14px' }}>
+                <div style={{ textAlign: 'center', padding: '40px', color: 'var(--k-text-secondary)', fontSize: '14px' }}>
                   {buscandoHistorial ? 'Buscando...' : 'Use los filtros y haga clic en Buscar'}
                 </div>
               ) : (
                 <>
                   {/* Header tabla */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '80px 100px 1fr 100px 100px 50px', padding: '8px 12px', background: darkMode ? '#2a2a2a' : '#f5f5f5', fontSize: '11px', fontWeight: '700', color: darkMode ? '#aaa' : '#666', borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}` }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '80px 100px 1fr 100px 100px 50px', padding: '8px 12px', background: 'var(--k-surface-2)', fontSize: '11px', fontWeight: '700', color: 'var(--k-text-secondary)', borderBottom: `1px solid ${'var(--k-border)'}` }}>
                     <span>Fecha</span>
                     <span>N° Orden</span>
                     <span>Cliente</span>
@@ -746,16 +746,16 @@ export default function Informes() {
                   {resultadosBusqueda.map((p) => (
                     <div key={p.id}>
                       <div onClick={() => setResultadoExpandido(resultadoExpandido === p.id ? null : p.id)}
-                        style={{ display: 'grid', gridTemplateColumns: '80px 100px 1fr 100px 100px 50px', padding: '10px 12px', cursor: 'pointer', borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`, background: resultadoExpandido === p.id ? (darkMode ? '#2a2a2a' : '#f9f9f9') : 'transparent', alignItems: 'center' }}>
-                        <span style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#888' }}>{formatearFechaHistorial(p.created_at)}</span>
-                        <span style={{ fontSize: '13px', fontWeight: '600', color: darkMode ? '#fff' : '#333' }}>#{p.numero_orden}</span>
+                        style={{ display: 'grid', gridTemplateColumns: '80px 100px 1fr 100px 100px 50px', padding: '10px 12px', cursor: 'pointer', borderBottom: `1px solid ${'var(--k-border)'}`, background: resultadoExpandido === p.id ? ('#2a2a2a') : 'transparent', alignItems: 'center' }}>
+                        <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)' }}>{formatearFechaHistorial(p.created_at)}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '600', color: 'var(--k-text)' }}>#{p.numero_orden}</span>
                         <div>
-                          <span style={{ fontSize: '12px', color: darkMode ? '#ddd' : '#444' }}>{p.cliente_nombre}</span>
+                          <span style={{ fontSize: '12px', color: '#ddd' }}>{p.cliente_nombre}</span>
                           {p.cliente_ruc && p.cliente_ruc !== '44444444-7' && (
-                            <span style={{ fontSize: '11px', color: '#888', marginLeft: '6px' }}>({p.cliente_ruc})</span>
+                            <span style={{ fontSize: '11px', color: 'var(--k-text-secondary)', marginLeft: '6px' }}>({p.cliente_ruc})</span>
                           )}
                         </div>
-                        <span style={{ fontSize: '13px', fontWeight: '700', color: '#22C55E' }}>{formatGuarani(p.total)}</span>
+                        <span style={{ fontSize: '13px', fontWeight: '700', color: 'var(--k-success)' }}>{formatGuarani(p.total)}</span>
                         <span style={{ fontSize: '11px', color: p.factura?.numero ? '#E53935' : '#888' }}>{p.factura?.numero || '-'}</span>
                         <button onClick={(e) => { e.stopPropagation(); setPedidoPrint(p) }}
                           style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '18px', padding: '4px' }}>
@@ -764,21 +764,21 @@ export default function Informes() {
                       </div>
                       {/* Expandido: items y detalles */}
                       {resultadoExpandido === p.id && (
-                        <div style={{ padding: '12px 12px 12px 24px', background: darkMode ? '#222' : '#fafafa', borderBottom: `1px solid ${darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}` }}>
-                          <div style={{ fontSize: '12px', fontWeight: '600', color: darkMode ? '#ccc' : '#666', marginBottom: '6px' }}>Productos:</div>
+                        <div style={{ padding: '12px 12px 12px 24px', background: '#222', borderBottom: `1px solid ${'var(--k-border)'}` }}>
+                          <div style={{ fontSize: '12px', fontWeight: '600', color: 'var(--k-text-secondary)', marginBottom: '6px' }}>Productos:</div>
                           {(p.items || []).map((item, idx) => (
-                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: darkMode ? '#aaa' : '#555', padding: '2px 0' }}>
+                            <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: 'var(--k-text-secondary)', padding: '2px 0' }}>
                               <span>{item.cantidad || 1}x {item.producto_nombre || item.nombre || item.producto}</span>
                               <span>{formatGuarani((item.cantidad || 1) * (item.precio || 0))}</span>
                             </div>
                           ))}
                           {p.propina && parseFloat(p.propina) > 0 && (
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#E53935', padding: '2px 0', marginTop: '4px', borderTop: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`, paddingTop: '4px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--k-primary)', padding: '2px 0', marginTop: '4px', borderTop: `1px solid ${'var(--k-border)'}`, paddingTop: '4px' }}>
                               <span>Propina:</span>
                               <span>{formatGuarani(p.propina)}</span>
                             </div>
                           )}
-                          <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap', fontSize: '11px', color: darkMode ? '#999' : '#777' }}>
+                          <div style={{ display: 'flex', gap: '12px', marginTop: '8px', flexWrap: 'wrap', fontSize: '11px', color: 'var(--k-text-secondary)' }}>
                             <span>Método: {p.metodo_pago}</span>
                             {p.mesa && <span>Mesa: {p.mesa}</span>}
                             <span>Mesero: {p.mesero_nombre || '-'}</span>
@@ -797,7 +797,7 @@ export default function Informes() {
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '12px', marginTop: '12px' }}>
                 <button onClick={() => buscarHistorial(paginaActual - 1)} disabled={paginaActual <= 1 || buscandoHistorial}
                   style={{ ...sHistoriasModal.btn, padding: '6px 12px', fontSize: '12px', opacity: paginaActual <= 1 ? 0.4 : 1 }}>◀ Anterior</button>
-                <span style={{ fontSize: '13px', color: darkMode ? '#ccc' : '#555' }}>Página {paginaActual} de {totalPaginasHistorial}</span>
+                <span style={{ fontSize: '13px', color: 'var(--k-text-secondary)' }}>Página {paginaActual} de {totalPaginasHistorial}</span>
                 <button onClick={() => buscarHistorial(paginaActual + 1)} disabled={paginaActual >= totalPaginasHistorial || buscandoHistorial}
                   style={{ ...sHistoriasModal.btn, padding: '6px 12px', fontSize: '12px', opacity: paginaActual >= totalPaginasHistorial ? 0.4 : 1 }}>Siguiente ▶</button>
               </div>

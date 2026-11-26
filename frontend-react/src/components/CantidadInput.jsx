@@ -55,7 +55,7 @@ export default function CantidadInput({
           flexShrink: 0,
           borderRadius: '8px',
           overflow: 'hidden',
-          background: '#E53935',
+          background: 'var(--k-primary)',
           opacity: disabled ? 0.5 : 1,
         }}
       >
@@ -67,7 +67,7 @@ export default function CantidadInput({
           aria-label="Aumentar"
           tabIndex={-1}
         >
-          <span className="material-icons" style={{ fontSize: iconSize, color: '#fff' }}>keyboard_arrow_up</span>
+          <span className="material-icons" style={{ fontSize: iconSize, color: 'var(--k-text)' }}>keyboard_arrow_up</span>
         </button>
         <span style={{ height: '1px', background: 'rgba(255,255,255,0.4)' }} />
         <button
@@ -78,7 +78,7 @@ export default function CantidadInput({
           aria-label="Disminuir"
           tabIndex={-1}
         >
-          <span className="material-icons" style={{ fontSize: iconSize, color: '#fff' }}>keyboard_arrow_down</span>
+          <span className="material-icons" style={{ fontSize: iconSize, color: 'var(--k-text)' }}>keyboard_arrow_down</span>
         </button>
       </div>
     </div>

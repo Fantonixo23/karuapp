@@ -2,32 +2,32 @@ import { Link } from 'react-router-dom'
 
 const Page = ({ title, color, icon, children }) => (
   <div style={{ minHeight: '100vh', background: 'transparent' }}>
-    <header style={{ display: 'flex', alignItems: 'center', padding: '12px 20px', background: color, color: 'white' }}>
+    <header style={{ display: 'flex', alignItems: 'center', padding: '12px 20px', background: color, color: 'var(--k-text)' }}>
       <h1 style={{ flex: 1, fontSize: '22px' }}>{title}</h1>
-      <Link to="/app/inicio" style={{ width: '42px', height: '42px', border: '2px solid rgba(255,255,255,0.3)', background: 'rgba(255,255,255,0.15)', color: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Link to="/app/inicio" style={{ width: '42px', height: '42px', border: '2px solid var(--k-border)', background: 'rgba(255,255,255,0.15)', color: 'var(--k-text)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <span className="material-icons">home</span>
       </Link>
     </header>
     <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr', height: 'calc(100vh - 64px)' }}>
-      <div style={{ background: '#1a1a1a', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px', gap: '6px' }}>
-        <Link to="/app/mesas" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: '#999', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
+      <div style={{ background: 'var(--k-surface)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px', gap: '6px' }}>
+        <Link to="/app/mesas" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: 'var(--k-text-secondary)', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
           <span className="material-icons">add_shopping_cart</span>Nueva
         </Link>
-        <Link to="/app/cocina" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: '#999', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
+        <Link to="/app/cocina" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: 'var(--k-text-secondary)', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
           <span className="material-icons">restaurant</span>Cocina
         </Link>
-        <Link to="/app/caja" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: color, color: 'white', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
+        <Link to="/app/caja" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: color, color: 'var(--k-text)', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
           <span className="material-icons">point_of_sale</span>Caja
         </Link>
-        <Link to="/app/delivery" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: '#999', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
+        <Link to="/app/delivery" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: 'var(--k-text-secondary)', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
           <span className="material-icons">delivery_dining</span>Delivery
         </Link>
-        <Link to="/app/informes" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: '#999', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
+        <Link to="/app/informes" style={{ width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: 'none', background: 'none', color: 'var(--k-text-secondary)', fontSize: '8px', borderRadius: '8px', textDecoration: 'none' }}>
           <span className="material-icons">analytics</span>Informes
         </Link>
       </div>
       <div style={{ padding: '20px' }}>
-        {children || <div style={{ textAlign: 'center', padding: '60px', color: '#666' }}><span className="material-icons" style={{ fontSize: '60px', color: '#333' }}>{icon}</span><p style={{ marginTop: '16px' }}>Página en construcción</p></div>}
+        {children || <div style={{ textAlign: 'center', padding: '60px', color: 'var(--k-text-secondary)' }}><span className="material-icons" style={{ fontSize: '60px', color: 'var(--k-text-secondary)' }}>{icon}</span><p style={{ marginTop: '16px' }}>Página en construcción</p></div>}
       </div>
     </div>
   </div>

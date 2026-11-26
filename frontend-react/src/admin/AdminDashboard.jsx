@@ -5,14 +5,14 @@ import { getApiUrl } from '../utils/api'
 const API = getApiUrl()
 
 const ESTADO_STYLES = {
-  pendiente: { bg: 'rgba(229,57,53,0.15)', color: '#FFB74D', label: 'Pendiente' },
+  pendiente: { bg: 'rgba(229,57,53,0.15)', color: 'var(--k-warning)', label: 'Pendiente' },
   activo: { bg: 'rgba(76,175,80,0.15)', color: '#81C784', label: 'Activo' },
-  suspendido: { bg: 'rgba(229,57,53,0.15)', color: '#EF5350', label: 'Suspendido' },
+  suspendido: { bg: 'rgba(229,57,53,0.15)', color: 'var(--k-primary-hover)', label: 'Suspendido' },
 }
 
 const PLAN_STYLES = {
   basico: { bg: 'rgba(76,175,80,0.12)', color: '#81C784', label: 'Básico' },
-  estandar: { bg: 'rgba(229,57,53,0.12)', color: '#FFB74D', label: 'Estándar' },
+  estandar: { bg: 'rgba(229,57,53,0.12)', color: 'var(--k-warning)', label: 'Estándar' },
   pro: { bg: 'rgba(156,39,176,0.12)', color: '#CE93D8', label: 'Pro' },
 }
 const PLAN_OPTIONS = ['basico', 'estandar', 'pro']
@@ -111,11 +111,11 @@ export default function AdminDashboard() {
 
 function PantallaCarga() {
   return (
-    <div style={{ minHeight: '100vh', background: '#121212', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: 'var(--k-surface)', color: 'var(--k-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Inter', 'Roboto', sans-serif" }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{
           width: '36px', height: '36px', border: '3px solid rgba(229,57,53,0.2)',
-          borderTopColor: '#E53935', borderRadius: '50%',
+          borderTopColor: 'var(--k-primary)', borderRadius: '50%',
           animation: 'spin 0.8s linear infinite', margin: '0 auto 12px',
         }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
@@ -128,13 +128,13 @@ function PantallaCarga() {
 function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
   return (
     <header style={{
-      background: '#121212', borderBottom: '1px solid rgba(255,255,255,0.06)',
+      background: 'var(--k-surface)', borderBottom: '1px solid var(--k-border)',
       position: 'sticky', top: 0, zIndex: 100,
     }}>
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '14px 20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
           <div>
-            <span style={{ fontSize: '20px', fontWeight: '700', color: '#E53935' }}>KaruApp</span>
+            <span style={{ fontSize: '20px', fontWeight: '700', color: 'var(--k-primary)' }}>KaruApp</span>
             <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', marginLeft: '8px' }}>Admin Panel</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -146,7 +146,7 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
             }}>Usuarios</Link>
             <button onClick={logout} style={{
               padding: '7px 14px', borderRadius: '8px', border: '1px solid rgba(229,57,53,0.3)',
-              background: 'transparent', color: '#EF5350',
+              background: 'transparent', color: 'var(--k-primary-hover)',
               fontWeight: '600', fontSize: '12px', cursor: 'pointer',
             }}>Salir</button>
           </div>
@@ -161,8 +161,8 @@ function Header({ adminEmail, logout, busqueda, setBusqueda, total }) {
               placeholder="Buscar por nombre o email..."
               style={{
                 width: '100%', padding: '10px 14px 10px 38px', fontSize: '13px', borderRadius: '10px',
-                border: '1px solid rgba(255,255,255,0.08)', background: '#1a1a1a',
-                color: 'white', outline: 'none', boxSizing: 'border-box',
+                border: '1px solid var(--k-border)', background: 'var(--k-surface)',
+                color: 'var(--k-text)', outline: 'none', boxSizing: 'border-box',
               }} />
           </div>
           <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)', whiteSpace: 'nowrap' }}>
@@ -183,13 +183,13 @@ function Resumen({ restaurantes }) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', marginBottom: '24px' }}>
       {[
-        { label: 'Pendientes', count: counts.pendiente, color: '#FFB74D', bg: 'rgba(229,57,53,0.1)' },
+        { label: 'Pendientes', count: counts.pendiente, color: 'var(--k-warning)', bg: 'rgba(229,57,53,0.1)' },
         { label: 'Activos', count: counts.activo, color: '#81C784', bg: 'rgba(76,175,80,0.1)' },
-        { label: 'Suspendidos', count: counts.suspendido, color: '#EF5350', bg: 'rgba(229,57,53,0.1)' },
-        { label: 'Total', count: restaurantes.length, color: 'white', bg: 'rgba(255,255,255,0.04)' },
+        { label: 'Suspendidos', count: counts.suspendido, color: 'var(--k-primary-hover)', bg: 'rgba(229,57,53,0.1)' },
+        { label: 'Total', count: restaurantes.length, color: 'var(--k-text)', bg: 'rgba(255,255,255,0.04)' },
       ].map((item, i) => (
-        <div key={i} style={{ borderRadius: '12px', padding: '16px', background: item.bg, border: '1px solid rgba(255,255,255,0.04)', textAlign: 'center' }}>
-          <div style={{ fontSize: '26px', fontWeight: '700', color: item.color }}>{item.count}</div>
+        <div key={i} style={{ borderRadius: '12px', padding: '16px', background: item.bg, border: '1px solid var(--k-border)', textAlign: 'center' }}>
+          <div style={{ fontSize: '24px', fontWeight: '700', color: item.color }}>{item.count}</div>
           <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{item.label}</div>
         </div>
       ))}
@@ -212,8 +212,8 @@ function Seccion({ titulo, count, color, icon, children }) {
 
 function CardRestaurante({ r, onCambiarPlan }) {
   const navigate = useNavigate()
-  const es = ESTADO_STYLES[r.estado_licencia] || { bg: 'rgba(255,255,255,0.05)', color: '#999', label: r.estado_licencia }
-  const ps = PLAN_STYLES[r.plan] || { bg: 'rgba(255,255,255,0.05)', color: '#666', label: '—' }
+  const es = ESTADO_STYLES[r.estado_licencia] || { bg: 'rgba(255,255,255,0.05)', color: 'var(--k-text-secondary)', label: r.estado_licencia }
+  const ps = PLAN_STYLES[r.plan] || { bg: 'rgba(255,255,255,0.05)', color: 'var(--k-text-secondary)', label: '—' }
   const admin = r.usuarios?.[0]
   const diasRestantes = r.fecha_expiracion
     ? Math.ceil((new Date(r.fecha_expiracion) - new Date()) / (1000 * 60 * 60 * 24))
@@ -223,8 +223,8 @@ function CardRestaurante({ r, onCambiarPlan }) {
     <div onClick={() => navigate(`/admin/restaurantes/${r.id}`)} style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       padding: '14px 16px', borderRadius: '12px', cursor: 'pointer',
-      background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.06)',
-      transition: 'all 0.15s', color: 'white',
+      background: 'var(--k-surface)', border: '1px solid var(--k-border)',
+      transition: 'all 0.15s', color: 'var(--k-text)',
     }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
@@ -252,7 +252,7 @@ function CardRestaurante({ r, onCambiarPlan }) {
         </div>
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', marginTop: '4px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
           {r.estado_licencia === 'pendiente' && (
-            <span style={{ color: '#FFB74D', fontWeight: '700', fontSize: '13px', width: '100%' }}>
+            <span style={{ color: 'var(--k-warning)', fontWeight: '700', fontSize: '13px', width: '100%' }}>
                {r.nombre} quiere ingresar a KaruApp
             </span>
           )}
@@ -282,7 +282,7 @@ function CardRestaurante({ r, onCambiarPlan }) {
 
 const s = {
   container: {
-    minHeight: '100vh', background: '#121212', color: 'white',
+    minHeight: '100vh', background: 'var(--k-surface)', color: 'var(--k-text)',
     fontFamily: "'Inter', 'Roboto', sans-serif",
   },
   body: {

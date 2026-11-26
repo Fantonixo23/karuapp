@@ -42,12 +42,12 @@ function LoginDisabled() {
     }}>
       <div style={{
         width: '100%', maxWidth: '400px', padding: '40px 32px', textAlign: 'center',
-        background: '#1e1e1e', borderRadius: '20px',
-        border: '1px solid rgba(255,255,255,0.06)',
-        boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+        background: 'var(--k-surface)', borderRadius: '14px',
+        border: '1px solid var(--k-border)',
+        boxShadow: 'var(--k-shadow-sm)',
       }}>
         <img src="/logo.png" alt="KaruApp" style={{ width: '56px', height: '56px', borderRadius: '14px', marginBottom: '12px' }} />
-        <h1 style={{ color: '#fff', fontSize: '20px', margin: '0 0 12px' }}>Acceso temporalmente deshabilitado</h1>
+        <h1 style={{ color: 'var(--k-text)', fontSize: '20px', margin: '0 0 12px' }}>Acceso temporalmente deshabilitado</h1>
         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', margin: 0, lineHeight: 1.7 }}>
           El ingreso y la creación de cuentas están pausados temporalmente. Intentá de nuevo más tarde.
         </p>
@@ -69,12 +69,12 @@ export default function App() {
     return (
       <div style={{
         height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: '#1e1e1e', color: '#fff', fontFamily: 'system-ui, sans-serif',
+        background: 'var(--k-surface)', color: 'var(--k-text)', fontFamily: 'system-ui, sans-serif',
       }}>
         <div style={{ textAlign: 'center' }}>
           <div style={{
             width: '40px', height: '40px', border: '3px solid rgba(229,57,53,0.2)',
-            borderTopColor: '#E53935', borderRadius: '50%',
+            borderTopColor: 'var(--k-primary)', borderRadius: '50%',
             animation: 'spin 0.8s linear infinite', margin: '0 auto 16px',
           }} />
           <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>

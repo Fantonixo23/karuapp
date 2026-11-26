@@ -11,7 +11,7 @@ const createPage = (title, color, activeRoute) => {
       { path: '/app/productos', icon: 'inventory_2', label: 'Productos' },
     ]
     return (
-      <div style={{ background: '#1a1a1a', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px', gap: '6px' }}>
+      <div style={{ background: 'var(--k-surface)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px', gap: '6px' }}>
         {items.map((item, i) => (
           <Link key={i} to={item.path} style={{
             width: '54px', height: '54px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -28,17 +28,17 @@ const createPage = (title, color, activeRoute) => {
   return function Page() {
     return (
       <div style={{ minHeight: '100vh', background: 'transparent' }}>
-        <header style={{ display: 'flex', alignItems: 'center', padding: '12px 20px', background: color, color: 'white' }}>
+        <header style={{ display: 'flex', alignItems: 'center', padding: '12px 20px', background: color, color: 'var(--k-text)' }}>
           <h1 style={{ flex: 1, fontSize: '22px' }}>{title}</h1>
-          <Link to="/app/inicio" style={{ width: '42px', height: '42px', border: '2px solid rgba(255,255,255,0.3)', background: 'rgba(255,255,255,0.15)', color: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Link to="/app/inicio" style={{ width: '42px', height: '42px', border: '2px solid var(--k-border)', background: 'rgba(255,255,255,0.15)', color: 'var(--k-text)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <span className="material-icons">home</span>
           </Link>
         </header>
         <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr', height: 'calc(100vh - 64px)' }}>
           <Sidebar />
           <div style={{ padding: '20px' }}>
-            <div style={{ textAlign: 'center', padding: '60px', color: '#666' }}>
-              <span className="material-icons" style={{ fontSize: '60px', color: '#333' }}>build</span>
+            <div style={{ textAlign: 'center', padding: '60px', color: 'var(--k-text-secondary)' }}>
+              <span className="material-icons" style={{ fontSize: '60px', color: 'var(--k-text-secondary)' }}>build</span>
               <p style={{ marginTop: '16px' }}>Página en construcción</p>
             </div>
           </div>

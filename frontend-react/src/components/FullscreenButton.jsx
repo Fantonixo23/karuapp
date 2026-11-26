@@ -12,7 +12,7 @@ export default function FullscreenButton() {
         height: '42px',
         border: 'none',
         background: 'transparent',
-        color: 'white',
+        color: 'var(--k-text)',
         fontSize: '24px',
         cursor: 'pointer',
         display: 'flex',

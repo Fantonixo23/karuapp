@@ -13,22 +13,22 @@ const s = {
   container: (dm) => ({
     minHeight: '100vh',
     background: 'transparent',
-    color: dm ? '#fff' : '#1a1a1a',
+    color: 'var(--k-text)',
   }),
   header: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '10px 20px',
-    background: '#1a1a1a',
-    color: 'white',
+    background: 'var(--k-surface)',
+    color: 'var(--k-text)',
     borderBottom: '1px solid rgba(229,57,53,0.2)',
-    boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+    boxShadow: 'var(--k-shadow-sm)',
   },
   btnHeader: {
     width: '36px',
     height: '36px',
-    border: '1px solid rgba(255,255,255,0.12)',
+    border: '1px solid var(--k-border)',
     borderRadius: '8px',
     background: 'rgba(255,255,255,0.06)',
     color: 'rgba(255,255,255,0.8)',
@@ -41,18 +41,18 @@ const s = {
     transition: 'all 0.15s',
   },
   card: (dm) => ({
-    background: dm ? '#1e1e1e' : 'white',
+    background: 'var(--k-surface)',
     borderRadius: '14px',
     padding: '20px',
-    border: `1px solid ${dm ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)'}`,
+    border: `1px solid ${'var(--k-border)'}`,
   }),
   input: (dm) => ({
     width: '100%',
     padding: '10px 12px',
     borderRadius: '8px',
-    border: `1px solid ${dm ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
-    background: dm ? '#2a2a2a' : '#f8f8f8',
-    color: dm ? 'white' : '#1a1a1a',
+    border: `1px solid ${'var(--k-border)'}`,
+    background: 'var(--k-surface-2)',
+    color: 'var(--k-text)',
     fontSize: '14px',
     outline: 'none',
     boxSizing: 'border-box',
@@ -64,9 +64,9 @@ const s = {
   },
   overlayCard: {
     width: '90%', maxWidth: '380px',
-    background: '#1e1e1e', borderRadius: '20px',
+    background: 'var(--k-surface)', borderRadius: '14px',
     padding: '32px', textAlign: 'center',
-    border: '1px solid rgba(255,255,255,0.06)',
+    border: '1px solid var(--k-border)',
   },
 }
 
@@ -228,8 +228,8 @@ export default function Funcionarios() {
       {!verificado && (
         <div style={s.overlay}>
           <div style={s.overlayCard}>
-            <span className="material-icons" style={{ fontSize: '48px', color: '#E53935', marginBottom: '12px' }}>lock</span>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: '0 0 6px' }}>Verificación de seguridad</h2>
+            <span className="material-icons" style={{ fontSize: '48px', color: 'var(--k-primary)', marginBottom: '12px' }}>lock</span>
+            <h2 style={{ color: 'var(--k-text)', fontSize: '18px', margin: '0 0 6px' }}>Verificación de seguridad</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0 0 24px' }}>
               Para acceder a funcionarios, ingresá la clave de seguridad de 4 dígitos.
             </p>
@@ -237,21 +237,21 @@ export default function Funcionarios() {
             {error2FA && (
               <div style={{
                 padding: '10px 14px', borderRadius: '10px',
-                background: 'rgba(229,57,53,0.15)', color: '#ef5350',
+                background: 'rgba(229,57,53,0.15)', color: 'var(--k-primary-hover)',
                 fontSize: '13px', marginBottom: '16px', textAlign: 'center',
               }}>{error2FA}</div>
             )}
 
             {bloqueadoHasta && (
               <div>
-                <span className="material-icons" style={{ fontSize: '40px', color: '#ef5350', marginBottom: '8px' }}>gpp_bad</span>
-                <p style={{ color: '#ef5350', fontSize: '14px', margin: '0 0 16px' }}>
+                <span className="material-icons" style={{ fontSize: '40px', color: 'var(--k-primary-hover)', marginBottom: '8px' }}>gpp_bad</span>
+                <p style={{ color: 'var(--k-primary-hover)', fontSize: '14px', margin: '0 0 16px' }}>
                   Acceso bloqueado temporalmente por seguridad.
                 </p>
                 <button onClick={() => { setBloqueadoHasta(null); setError2FA(''); setCodigo2FA('') }}
                   style={{
                     padding: '10px 20px', borderRadius: '10px', border: 'none',
-                    background: '#E53935', color: '#fff', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
+                    background: 'var(--k-primary)', color: 'var(--k-text)', fontSize: '14px', fontWeight: 700, cursor: 'pointer',
                   }}>
                   Reintentar
                 </button>
@@ -262,7 +262,7 @@ export default function Funcionarios() {
               <div>
                 <button onClick={enviar2FA} style={{
                   width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
-                  background: '#E53935', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+                  background: 'var(--k-primary)', color: 'var(--k-text)', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
                 }}>
                   Continuar
                 </button>
@@ -284,8 +284,8 @@ export default function Funcionarios() {
                   maxLength={4}
                   style={{
                     width: '100%', padding: '12px 16px', borderRadius: '10px',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    background: 'rgba(255,255,255,0.04)', color: '#fff',
+                    border: '1px solid var(--k-border)',
+                    background: 'rgba(255,255,255,0.04)', color: 'var(--k-text)',
                     fontSize: '20px', textAlign: 'center', letterSpacing: '8px',
                     outline: 'none', boxSizing: 'border-box',
                     marginBottom: '12px',
@@ -294,7 +294,7 @@ export default function Funcionarios() {
                 />
                 <button onClick={verificar2FA} style={{
                   width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
-                  background: '#E53935', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
+                  background: 'var(--k-primary)', color: 'var(--k-text)', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
                 }}>
                   Verificar
                 </button>
@@ -324,7 +324,7 @@ export default function Funcionarios() {
             </button>
             {verificado && (
               <button onClick={bloquear} title="Bloquear acceso" style={{
-                ...s.btnHeader, color: '#E53935',
+                ...s.btnHeader, color: 'var(--k-primary)',
               }}>
                 <span className="material-icons" style={{ fontSize: '18px' }}>lock</span>
               </button>
@@ -339,7 +339,7 @@ export default function Funcionarios() {
               <h2 style={{ margin: 0, fontSize: '20px' }}>Empleados</h2>
               <button onClick={() => { setEditando(null); setForm({ nombre: '', rol: 'mesero', email: '', pin: '' }); setShowForm(true); setError('') }} style={{
                 padding: '10px 20px', borderRadius: '10px', border: 'none',
-                background: '#E53935', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer',
+                background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', fontSize: '13px', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', gap: '6px',
               }}>
                 <span className="material-icons" style={{ fontSize: '18px' }}>add</span>
@@ -369,11 +369,11 @@ export default function Funcionarios() {
                   <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
                     <button onClick={() => { setShowForm(false); setEditando(null); setError('') }} style={{
                       padding: '10px 20px', borderRadius: '8px', border: 'none',
-                      background: darkMode ? '#333' : '#e0e0e0', color: darkMode ? '#ccc' : '#333', cursor: 'pointer', fontWeight: '600',
+                      background: '#333', color: 'var(--k-text-secondary)', cursor: 'pointer', fontWeight: '600',
                     }}>Cancelar</button>
                     <button onClick={guardarFuncionario} disabled={loading} style={{
                       padding: '10px 20px', borderRadius: '8px', border: 'none',
-                      background: '#E53935', color: 'white', cursor: 'pointer', fontWeight: '600', opacity: loading ? 0.5 : 1,
+                      background: 'var(--k-primary)', color: 'var(--k-text)', cursor: 'pointer', fontWeight: '600', opacity: loading ? 0.5 : 1,
                     }}>{loading ? '...' : editando ? 'Guardar' : 'Crear'}</button>
                   </div>
                 </div>
@@ -382,8 +382,8 @@ export default function Funcionarios() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {funcionarios.length === 0 && !loading && (
-                <div style={{ textAlign: 'center', padding: '40px', color: darkMode ? '#666' : '#999' }}>
-                  <span className="material-icons" style={{ fontSize: '48px', color: '#E53935' }}>people</span>
+                <div style={{ textAlign: 'center', padding: '40px', color: 'var(--k-text-secondary)' }}>
+                  <span className="material-icons" style={{ fontSize: '48px', color: 'var(--k-primary)' }}>people</span>
                   <p style={{ marginTop: '12px' }}>No hay funcionarios registrados</p>
                 </div>
               )}
@@ -401,26 +401,26 @@ export default function Funcionarios() {
                           }}>{f.rol}</span>
                           {!f.activo && <span style={{ fontSize: '11px', color: '#ef4444' }}>(Inactivo)</span>}
                         </div>
-                        <div style={{ fontSize: '12px', color: darkMode ? '#aaa' : '#888', marginTop: '4px', display: 'flex', gap: '16px' }}>
+                        <div style={{ fontSize: '12px', color: 'var(--k-text-secondary)', marginTop: '4px', display: 'flex', gap: '16px' }}>
                           {f.email && <span>Email: {f.email}</span>}
                         </div>
                       </div>
                       <div style={{ display: 'flex', gap: '6px' }}>
                         <button onClick={() => regenerarPin(f)} title="Regenerar PIN" style={{
                           width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(229,57,53,0.3)',
-                          background: 'rgba(229,57,53,0.1)', color: '#E53935', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: 'rgba(229,57,53,0.1)', color: 'var(--k-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>refresh</span>
                         </button>
                         <button onClick={() => editar(f)} title="Editar" style={{
                           width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(33,150,243,0.3)',
-                          background: 'rgba(33,150,243,0.1)', color: '#3B82F6', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: 'rgba(33,150,243,0.1)', color: 'var(--k-info)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>edit</span>
                         </button>
                         <button onClick={() => eliminarFuncionario(f)} title="Eliminar" style={{
                           width: '34px', height: '34px', borderRadius: '8px', border: '1px solid rgba(229,57,53,0.3)',
-                          background: 'rgba(229,57,53,0.1)', color: '#E53935', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: 'rgba(229,57,53,0.1)', color: 'var(--k-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}>
                           <span className="material-icons" style={{ fontSize: '16px' }}>delete</span>
                         </button>

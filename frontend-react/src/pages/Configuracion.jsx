@@ -60,7 +60,7 @@ export default function Configuracion() {
   const [mensaje, setMensaje] = useState('')
 
   const [metodos, setMetodos] = useState([])
-  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: '#22C55E', activo: true, orden: 0 })
+  const [metodoForm, setMetodoForm] = useState({ nombre: '', etiqueta: '', icono: 'payments', color: 'var(--k-success)', activo: true, orden: 0 })
   const [editMetodoId, setEditMetodoId] = useState(null)
   const [showMetodoModal, setShowMetodoModal] = useState(false)
   const [metodoMsg, setMetodoMsg] = useState('')
@@ -99,7 +99,7 @@ export default function Configuracion() {
       })
       setEditMetodoId(metodo.id)
     } else {
-      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: '#22C55E', activo: true, orden: metodos.length + 1 })
+      setMetodoForm({ nombre: '', etiqueta: '', icono: 'payments', color: 'var(--k-success)', activo: true, orden: metodos.length + 1 })
       setEditMetodoId(null)
     }
     setMetodoMsg('')
@@ -204,12 +204,12 @@ export default function Configuracion() {
         .animate { animation: fadeIn 0.3s ease-out; }
         .cfg-input, .cfg-select, .cfg-textarea {
           width: 100%; padding: 11px 14px; font-size: 14px; border-radius: 10px;
-          border: 1px solid ${darkMode ? 'rgba(255,255,255,0.15)' : '#d0d0d0'};
-          background: ${darkMode ? '#2a2a2a' : '#f8f8f8'};
-          color: ${darkMode ? 'white' : '#1a1a1a'};
+          border: 1px solid var(--k-border);
+          background: var(--k-surface);
+          color: var(--k-text);
           outline: none; box-sizing: border-box; transition: border 0.15s;
         }
-        .cfg-input:focus, .cfg-select:focus, .cfg-textarea:focus { border-color: #E53935; }
+        .cfg-input:focus, .cfg-select:focus, .cfg-textarea:focus { border-color: var(--k-primary); }
       `}</style>
 
       <header style={{ ...s.header, flexShrink: 0 }}>
@@ -322,34 +322,34 @@ export default function Configuracion() {
             <h2 style={s.cardTitle(darkMode)}>Metodos de Pago</h2>
             <button onClick={() => abrirMetodoModal(null)} style={{
               padding: '8px 16px', border: 'none', borderRadius: '8px',
-              background: '#22C55E', color: 'white', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
+              background: 'var(--k-success)', color: 'var(--k-text)', fontWeight: '700', fontSize: '13px', cursor: 'pointer'
             }}>+ Agregar</button>
           </div>
           <p style={s.subtitle(darkMode)}>Estos metodos aparecen al cobrar en Caja</p>
 
           {metodos.length === 0 ? (
-            <p style={{ color: '#999', fontSize: '13px', textAlign: 'center', padding: '20px' }}>No hay metodos de pago configurados</p>
+            <p style={{ color: 'var(--k-text-secondary)', fontSize: '13px', textAlign: 'center', padding: '20px' }}>No hay metodos de pago configurados</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {metodos.map((m) => (
                 <div key={m.id} style={{
                   display: 'flex', alignItems: 'center', gap: '12px',
                   padding: '10px 14px', borderRadius: '10px',
-                  background: '#f9f9f9', border: '1px solid #eee',
+                  background: 'var(--k-surface)', border: '1px solid var(--k-border)',
                   opacity: m.activo ? 1 : 0.5
                 }}>
                   <span className="material-icons" style={{ color: m.color, fontSize: '24px' }}>{m.icono}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: '700', fontSize: '14px', color: '#333' }}>{m.etiqueta}</div>
-                    <div style={{ fontSize: '11px', color: '#999' }}>/{m.nombre} - Orden {m.orden}</div>
+                    <div style={{ fontWeight: '700', fontSize: '14px', color: 'var(--k-text-secondary)' }}>{m.etiqueta}</div>
+                    <div style={{ fontSize: '11px', color: 'var(--k-text-secondary)' }}>/{m.nombre} - Orden {m.orden}</div>
                   </div>
                   <button onClick={() => abrirMetodoModal(m)} style={{
-                    padding: '6px 10px', border: '2px solid #ddd', borderRadius: '8px',
-                    background: 'white', cursor: 'pointer', fontSize: '12px', color: '#666'
+                    padding: '6px 10px', border: '2px solid var(--k-border)', borderRadius: '8px',
+                    background: 'var(--k-surface)', cursor: 'pointer', fontSize: '12px', color: 'var(--k-text-secondary)'
                   }}>Editar</button>
                   <button onClick={() => eliminarMetodo(m.id)} style={{
-                    padding: '6px 10px', border: '2px solid #E53935', borderRadius: '8px',
-                    background: 'white', cursor: 'pointer', fontSize: '12px', color: '#E53935'
+                    padding: '6px 10px', border: '2px solid var(--k-primary)', borderRadius: '8px',
+                    background: 'var(--k-surface)', cursor: 'pointer', fontSize: '12px', color: 'var(--k-primary)'
                   }}>Eliminar</button>
                 </div>
               ))}
@@ -369,14 +369,14 @@ export default function Configuracion() {
                 <div key={a.modulo} style={{
                   display: 'flex', alignItems: 'center', gap: '12px',
                   padding: '10px 14px', borderRadius: '10px',
-                  background: darkMode ? '#2a2a2a' : '#f9f9f9',
-                  border: `1px solid ${darkMode ? 'rgba(255,255,255,0.08)' : '#eee'}`,
+                  background: 'var(--k-surface-2)',
+                  border: `1px solid ${'var(--k-border)'}`,
                   opacity: oculto ? 0.5 : 1,
                 }}>
-                  <span className="material-icons" style={{ color: '#E53935', fontSize: '22px' }}>{a.icon}</span>
+                  <span className="material-icons" style={{ color: 'var(--k-primary)', fontSize: '22px' }}>{a.icon}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: '700', fontSize: '14px', color: darkMode ? '#fff' : '#333' }}>{a.label}</div>
-                    <div style={{ fontSize: '11px', color: darkMode ? '#aaa' : '#999' }}>{a.desc}</div>
+                    <div style={{ fontWeight: '700', fontSize: '14px', color: 'var(--k-text)' }}>{a.label}</div>
+                    <div style={{ fontSize: '11px', color: 'var(--k-text-secondary)' }}>{a.desc}</div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span style={{ fontSize: '12px', fontWeight: '700', color: oculto ? '#ef5350' : '#22C55E' }}>
@@ -394,8 +394,8 @@ export default function Configuracion() {
                       }}
                     >
                       <span style={{
-                        width: '20px', height: '20px', borderRadius: '50%', background: 'white',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.3)', display: 'block',
+                        width: '20px', height: '20px', borderRadius: '50%', background: 'var(--k-surface)',
+                        boxShadow: 'var(--k-shadow-sm)', display: 'block',
                       }} />
                     </button>
                   </div>
@@ -411,11 +411,11 @@ export default function Configuracion() {
           <p style={s.subtitle(darkMode)}>Configura las impresoras de Caja (tickets/facturas) y Cocina (comandas)</p>
 
           {/* --- IMPRESORA DE CAJA --- */}
-          <div style={{ ...s.field, padding: '12px', borderRadius: '10px', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : '#e0e0e0'}`, marginBottom: '16px' }}>
-            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: darkMode ? '#FFB74D' : '#E65100', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ ...s.field, padding: '12px', borderRadius: '10px', border: `1px solid ${'var(--k-border)'}`, marginBottom: '16px' }}>
+            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: 'var(--k-warning)', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span className="material-icons" style={{ fontSize: '18px' }}>point_of_sale</span> Impresora de Caja
             </h3>
-            <p style={{ fontSize: '12px', color: '#999', margin: '0 0 12px 0' }}>Para tickets de factura, cuenta y delivery</p>
+            <p style={{ fontSize: '12px', color: 'var(--k-text-secondary)', margin: '0 0 12px 0' }}>Para tickets de factura, cuenta y delivery</p>
 
             <div style={s.field}>
               <label style={s.label(darkMode)}>Servidor de impresion (IP:Puerto)</label>
@@ -461,7 +461,7 @@ export default function Configuracion() {
                   }}
                   style={{
                     padding: '10px 14px', border: 'none', borderRadius: '10px',
-                    background: '#E53935', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
+                    background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
                   }}
                 >
                   Buscar
@@ -471,11 +471,11 @@ export default function Configuracion() {
           </div>
 
           {/* --- IMPRESORA DE COCINA --- */}
-          <div style={{ ...s.field, padding: '12px', borderRadius: '10px', border: `1px solid ${darkMode ? 'rgba(255,255,255,0.1)' : '#e0e0e0'}`, marginBottom: '16px' }}>
-            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: darkMode ? '#81C784' : '#2E7D32', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ ...s.field, padding: '12px', borderRadius: '10px', border: `1px solid ${'var(--k-border)'}`, marginBottom: '16px' }}>
+            <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', fontWeight: '700', color: '#81C784', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span className="material-icons" style={{ fontSize: '18px' }}>restaurant</span> Impresora de Cocina
             </h3>
-            <p style={{ fontSize: '12px', color: '#999', margin: '0 0 12px 0' }}>Para comandas de cocina</p>
+            <p style={{ fontSize: '12px', color: 'var(--k-text-secondary)', margin: '0 0 12px 0' }}>Para comandas de cocina</p>
 
             <div style={s.field}>
               <label style={s.label(darkMode)}>Servidor de impresion (IP:Puerto)</label>
@@ -521,7 +521,7 @@ export default function Configuracion() {
                   }}
                   style={{
                     padding: '10px 14px', border: 'none', borderRadius: '10px',
-                    background: '#E53935', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
+                    background: 'var(--k-primary)', color: 'var(--k-text)', fontWeight: '700', fontSize: '12px', cursor: 'pointer', whiteSpace: 'nowrap'
                   }}
                 >
                   Buscar
@@ -541,8 +541,8 @@ export default function Configuracion() {
                 }}
                 style={{
                   flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                  background: paperSize === '58mm' ? '#E53935' : (darkMode ? '#333' : '#e0e0e0'),
-                  color: paperSize === '58mm' ? 'white' : (darkMode ? '#ccc' : '#333'),
+                  background: paperSize === '58mm' ? '#E53935' : ('#333'),
+                  color: paperSize === '58mm' ? 'white' : ('#ccc'),
                   fontWeight: '700', fontSize: '13px', cursor: 'pointer',
                   transition: 'all 0.15s'
                 }}
@@ -556,8 +556,8 @@ export default function Configuracion() {
                 }}
                 style={{
                   flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                  background: paperSize === '80mm' ? '#E53935' : (darkMode ? '#333' : '#e0e0e0'),
-                  color: paperSize === '80mm' ? 'white' : (darkMode ? '#ccc' : '#333'),
+                  background: paperSize === '80mm' ? '#E53935' : ('#333'),
+                  color: paperSize === '80mm' ? 'white' : ('#ccc'),
                   fontWeight: '700', fontSize: '13px', cursor: 'pointer',
                   transition: 'all 0.15s'
                 }}
@@ -594,7 +594,7 @@ export default function Configuracion() {
               }}
               style={{
                 flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                background: '#E65100', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
+                background: '#E65100', color: 'var(--k-text)', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
               }}
             >
               Probar Caja
@@ -622,7 +622,7 @@ export default function Configuracion() {
               }}
               style={{
                 flex: 1, padding: '10px', border: 'none', borderRadius: '10px',
-                background: '#2E7D32', color: 'white', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
+                background: '#2E7D32', color: 'var(--k-text)', fontWeight: '700', fontSize: '12px', cursor: 'pointer'
               }}
             >
               Probar Cocina
@@ -639,33 +639,33 @@ export default function Configuracion() {
             backdropFilter: 'blur(10px)'
           }}>
             <div style={{
-              background: 'white', borderRadius: '20px', width: '92%', maxWidth: '450px',
+              background: 'var(--k-surface)', borderRadius: '14px', width: '92%', maxWidth: '450px',
               maxHeight: '85vh', overflow: 'auto', padding: '24px'
             }}>
-              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '700', color: '#333' }}>
+              <h3 style={{ margin: '0 0 16px 0', fontSize: '18px', fontWeight: '700', color: 'var(--k-text-secondary)' }}>
                 {editMetodoId ? 'Editar Metodo' : 'Nuevo Metodo de Pago'}
               </h3>
 
               {metodoMsg && (
-                <p style={{ color: '#E53935', fontSize: '12px', marginBottom: '12px', background: 'rgba(229,57,53,0.1)', padding: '8px', borderRadius: '8px' }}>
+                <p style={{ color: 'var(--k-primary)', fontSize: '12px', marginBottom: '12px', background: 'rgba(229,57,53,0.1)', padding: '8px', borderRadius: '8px' }}>
                   {metodoMsg}
                 </p>
               )}
 
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: '#333' }}>Nombre (clave)</label>
+                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>Nombre (clave)</label>
                 <input type="text" value={metodoForm.nombre} onChange={e => setMetodoForm({ ...metodoForm, nombre: e.target.value })}
-                  placeholder="efectivo, qr, etc." style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '2px solid #ddd', fontSize: '14px', boxSizing: 'border-box' }} />
+                  placeholder="efectivo, qr, etc." style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '2px solid var(--k-border)', fontSize: '14px', boxSizing: 'border-box' }} />
               </div>
 
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: '#333' }}>Etiqueta (visible)</label>
+                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>Etiqueta (visible)</label>
                 <input type="text" value={metodoForm.etiqueta} onChange={e => setMetodoForm({ ...metodoForm, etiqueta: e.target.value })}
-                  placeholder="Efectivo, QR, etc." style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '2px solid #ddd', fontSize: '14px', boxSizing: 'border-box' }} />
+                  placeholder="Efectivo, QR, etc." style={{ width: '100%', padding: '10px 12px', borderRadius: '8px', border: '2px solid var(--k-border)', fontSize: '14px', boxSizing: 'border-box' }} />
               </div>
 
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: '#333' }}>Icono</label>
+                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>Icono</label>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                   {ICONOS_DISPONIBLES.map(ic => (
                     <button key={ic} onClick={() => setMetodoForm({ ...metodoForm, icono: ic })} style={{
@@ -681,42 +681,42 @@ export default function Configuracion() {
               </div>
 
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: '#333' }}>Color</label>
+                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>Color</label>
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                   <input type="color" value={metodoForm.color} onChange={e => setMetodoForm({ ...metodoForm, color: e.target.value })}
                     style={{ width: '48px', height: '40px', border: 'none', borderRadius: '8px', cursor: 'pointer', padding: 0 }} />
                   <input type="text" value={metodoForm.color} onChange={e => setMetodoForm({ ...metodoForm, color: e.target.value })}
-                    style={{ flex: 1, padding: '10px 12px', borderRadius: '8px', border: '2px solid #ddd', fontSize: '14px', fontFamily: 'monospace' }} />
+                    style={{ flex: 1, padding: '10px 12px', borderRadius: '8px', border: '2px solid var(--k-border)', fontSize: '14px', fontFamily: 'monospace' }} />
                   <div style={{
                     width: '36px', height: '36px', borderRadius: '8px',
                     background: metodoForm.color,
                     display: 'flex', alignItems: 'center', justifyContent: 'center'
                   }}>
-                    <span className="material-icons" style={{ color: 'white', fontSize: '18px' }}>{metodoForm.icono}</span>
+                    <span className="material-icons" style={{ color: 'var(--k-text)', fontSize: '18px' }}>{metodoForm.icono}</span>
                   </div>
                 </div>
               </div>
 
               <div style={{ marginBottom: '12px' }}>
-                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: '#333' }}>Orden</label>
+                <label style={{ display: 'block', marginBottom: '4px', fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>Orden</label>
                 <input type="number" value={metodoForm.orden} onChange={e => setMetodoForm({ ...metodoForm, orden: Number(e.target.value) })}
-                  min={0} max={99} style={{ width: '80px', padding: '10px 12px', borderRadius: '8px', border: '2px solid #ddd', fontSize: '14px' }} />
+                  min={0} max={99} style={{ width: '80px', padding: '10px 12px', borderRadius: '8px', border: '2px solid var(--k-border)', fontSize: '14px' }} />
               </div>
 
               <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <input type="checkbox" checked={metodoForm.activo} onChange={e => setMetodoForm({ ...metodoForm, activo: e.target.checked })}
                   id="metodo-activo" style={{ width: '18px', height: '18px' }} />
-                <label htmlFor="metodo-activo" style={{ fontSize: '13px', fontWeight: '600', color: '#333' }}>Activo</label>
+                <label htmlFor="metodo-activo" style={{ fontSize: '13px', fontWeight: '600', color: 'var(--k-text-secondary)' }}>Activo</label>
               </div>
 
               <div style={{ display: 'flex', gap: '10px' }}>
                 <button onClick={() => setShowMetodoModal(false)} style={{
                   flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                  background: '#ccc', color: '#333', fontWeight: '600', cursor: 'pointer'
+                  background: '#ccc', color: 'var(--k-text-secondary)', fontWeight: '600', cursor: 'pointer'
                 }}>Cancelar</button>
                 <button onClick={guardarMetodo} style={{
                   flex: 1, padding: '12px', border: 'none', borderRadius: '10px',
-                  background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'white',
+                  background: 'linear-gradient(135deg, #E53935, #F57C00)', color: 'var(--k-text)',
                   fontWeight: '700', cursor: 'pointer'
                 }}>{editMetodoId ? 'Guardar' : 'Crear'}</button>
               </div>
@@ -759,7 +759,7 @@ const s = {
   container: (dm) => ({
     minHeight: '100vh',
     background: 'transparent',
-    color: dm ? '#fff' : '#1a1a1a',
+    color: 'var(--k-text)',
     overflow: 'hidden',
   }),
   header: {
@@ -767,15 +767,15 @@ const s = {
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '10px 20px',
-    background: '#1a1a1a',
-    color: 'white',
+    background: 'var(--k-surface)',
+    color: 'var(--k-text)',
     borderBottom: '1px solid rgba(229,57,53,0.2)',
-    boxShadow: '0 1px 4px rgba(0,0,0,0.3)'
+    boxShadow: 'var(--k-shadow-sm)'
   },
   btnHeader: {
     width: '36px',
     height: '36px',
-    border: '1px solid rgba(255,255,255,0.12)',
+    border: '1px solid var(--k-border)',
     borderRadius: '8px',
     background: 'rgba(255,255,255,0.06)',
     color: 'rgba(255,255,255,0.8)',
@@ -797,20 +797,20 @@ const s = {
     borderRadius: '14px',
     padding: '20px',
     marginBottom: '20px',
-    border: `1px solid ${dm ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
-    background: dm ? '#1e1e1e' : 'white',
-    boxShadow: dm ? 'none' : '0 1px 4px rgba(0,0,0,0.04)',
+    border: `1px solid ${'var(--k-border)'}`,
+    background: 'var(--k-surface)',
+    boxShadow: 'var(--k-shadow-sm)',
   }),
   cardTitle: (dm) => ({
     margin: '0 0 5px 0',
     fontSize: '16px',
     fontWeight: '700',
-    color: dm ? '#fff' : '#1a1a1a'
+    color: 'var(--k-text)'
   }),
   subtitle: (dm) => ({
     margin: '0 0 20px 0',
     fontSize: '13px',
-    color: dm ? 'rgba(255,255,255,0.5)' : '#888'
+    color: 'var(--k-text-secondary)'
   }),
   field: {
     marginBottom: '15px'
@@ -820,7 +820,7 @@ const s = {
     marginBottom: '5px',
     fontSize: '13px',
     fontWeight: '600',
-    color: dm ? '#ccc' : '#555'
+    color: 'var(--k-text-secondary)'
   }),
   mensaje: {
     padding: '12px',
@@ -836,7 +836,7 @@ const s = {
     border: 'none',
     borderRadius: '10px',
     background: 'linear-gradient(135deg, #22C55E, #388E3C)',
-    color: 'white',
+    color: 'var(--k-text)',
     fontSize: '14px',
     fontWeight: '700',
     cursor: 'pointer'
@@ -846,9 +846,9 @@ const s = {
     padding: '11px 14px',
     fontSize: '14px',
     borderRadius: '10px',
-    border: `1px solid ${dm ? 'rgba(255,255,255,0.15)' : '#d0d0d0'}`,
-    background: dm ? '#2a2a2a' : '#f8f8f8',
-    color: dm ? 'white' : '#1a1a1a',
+    border: `1px solid ${'var(--k-border)'}`,
+    background: 'var(--k-surface-2)',
+    color: 'var(--k-text)',
     outline: 'none',
     boxSizing: 'border-box',
     transition: 'border 0.15s',
