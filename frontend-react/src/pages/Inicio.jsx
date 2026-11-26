@@ -115,7 +115,7 @@ export default function Inicio() {
         <h2 style={{ fontSize: '22px', fontWeight: '700', margin: '20px 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>
           {saludo}
         </h2>
-        <p style={{ fontSize: '13px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', margin: '0 0 20px' }}>
+        <p style={{ fontSize: '13px', color: '#6B7280', margin: '0 0 20px' }}>
           Selecciona un area para comenzar
         </p>
 
@@ -124,7 +124,7 @@ export default function Inicio() {
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
               border: '1px solid rgba(76,175,80,0.25)',
-              background: darkMode ? 'rgba(76,175,80,0.1)' : 'rgba(76,175,80,0.06)',
+              background: darkMode ? '#1e1e1e' : 'rgba(76,175,80,0.06)',
             }}>
               <div style={{ fontSize: '20px', fontWeight: '700', color: '#22C55E' }}>{formatGuarani(stats.total_hoy)}</div>
               <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Ventas hoy</div>
@@ -132,7 +132,7 @@ export default function Inicio() {
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
               border: '1px solid rgba(229,57,53,0.25)',
-              background: darkMode ? 'rgba(229,57,53,0.1)' : 'rgba(229,57,53,0.06)',
+              background: darkMode ? '#1e1e1e' : 'rgba(229,57,53,0.06)',
             }}>
               <div style={{ fontSize: '20px', fontWeight: '700', color: '#E53935' }}>{stats.mesas_ocupadas}</div>
               <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Mesas ocupadas</div>
@@ -140,7 +140,7 @@ export default function Inicio() {
             <div style={{
               borderRadius: '14px', padding: '14px', textAlign: 'center',
               border: '1px solid rgba(33,150,243,0.25)',
-              background: darkMode ? 'rgba(33,150,243,0.1)' : 'rgba(33,150,243,0.06)',
+              background: darkMode ? '#1e1e1e' : 'rgba(33,150,243,0.06)',
             }}>
               <div style={{ fontSize: '20px', fontWeight: '700', color: '#3B82F6' }}>{stats.pedidos_pendientes}</div>
               <div style={{ fontSize: '11px', color: darkMode ? 'rgba(255,255,255,0.5)' : '#888', marginTop: '2px' }}>Pendientes</div>
@@ -171,7 +171,7 @@ export default function Inicio() {
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', padding: '40px 20px 80px', color: darkMode ? 'rgba(255,255,255,0.35)' : '#999' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px 80px', color: '#6B7280' }}>
           <p style={{ fontSize: '12px', margin: 0 }}>
             ¿Tienes dudas o sugerencias? Contáctenos al <strong>+0992609484</strong>
           </p>

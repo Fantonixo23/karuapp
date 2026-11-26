@@ -4,11 +4,11 @@
 
 :root {
   /* ===== Paleta oficial ===== */
-  --k-bg: #121212;
+  --k-bg: #F4F5F7;
   --k-surface: #1E1E1E;
   --k-primary: #E53935;
-  --k-text: #FFFFFF;
-  --k-text-secondary: #A3A3A3;
+  --k-text: #1F2937;
+  --k-text-secondary: #6B7280;
   --k-success: #22C55E;
   --k-info: #3B82F6;
   --k-warning: #F59E0B;
@@ -90,12 +90,7 @@ body {
   font-size: var(--fs-body);
   font-weight: var(--fw-body);
   line-height: 1.45;
-  background-color: #0b0806;
-  background-image: url('/fondo-karuapp-moderno.png');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-color: var(--k-bg);
   color: var(--k-text);
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
@@ -103,7 +98,7 @@ body {
 }
 
 body.dark {
-  background-color: #0b0806;
+  background-color: var(--k-bg);
   color: var(--k-text);
 }
 
@@ -127,6 +122,19 @@ h3 {
 button {
   font-size: var(--fs-button);
   font-weight: var(--fw-button);
+}
+
+button,
+button:disabled,
+button *,
+[style*='cursor: pointer'],
+[style*='cursor:pointer'] {
+  opacity: 1 !important;
+}
+
+button,
+button:disabled {
+  border: 2px solid var(--k-primary) !important;
 }
 
 input,
