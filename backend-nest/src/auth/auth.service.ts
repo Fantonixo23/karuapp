@@ -8,9 +8,8 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { randomInt, timingSafeEqual } from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
-import { Kysely, sql } from 'kysely';
+import { Kysely } from 'kysely';
 import { DatabaseService } from '../database/database.service';
-import { countInt } from '../database/agg';
 import { DB } from '../database/database.types';
 import { EmailService } from '../common/email.service';
 import { JwtPayload } from '../common/decorators/current-user.decorator';
@@ -442,85 +441,20 @@ export class AuthService {
 
   async enviar2fa(userId: number) {
     const usuario = await this.db.runBypassRls(async (db) =>
-      db.selectFrom('usuarios').select(['id', 'email', 'nombre']).where('id', '=', userId).executeTakeFirst(),
+      db.selectFrom('usuarios').select('id').where('id', '=', userId).executeTakeFirst(),
     );
-    if (!usuario?.email) throw new UnauthorizedException('Usuario sin email asociado');
-    const emailUsuario = usuario.email;
+    if (!usuario) throw new UnauthorizedException('Usuario no encontrado');
 
-    const code = this.generarCodigo();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
-
-    const existing = await this.codigoActivo(emailUsuario, '2fa');
-    if (existing?.blocked_until && existing.blocked_until > new Date()) {
-      const wait = Math.ceil((existing.blocked_until.getTime() - Date.now()) / 60000);
-      throw new BadRequestException(`Demasiados intentos. Esperá ${wait} minutos.`);
-    }
-
-    this.emailService.assertConfigured();
-    await this.invalidateCodes(emailUsuario, '2fa');
-
-    await this.db.runBypassRls(async (db) =>
-      db
-        .insertInto('verification_codes')
-        .values({ email: emailUsuario, code, purpose: '2fa', expires_at: expiresAt })
-        .execute(),
-    );
-
-    await this.emailService.sendEmail(emailUsuario, 'Código de verificación KaruApp',
-      `Tu código de verificación es: ${code}. Válido por 10 minutos.`);
-
-    return { success: true, message: 'Código enviado a tu email' };
+    return { success: true, message: 'Ingresá la clave de seguridad' };
   }
 
   async verificar2fa(userId: number, code: string) {
-    if (!code || code.length !== 6) throw new BadRequestException('Código inválido');
-
     const usuario = await this.db.runBypassRls(async (db) =>
-      db.selectFrom('usuarios').select(['id', 'email']).where('id', '=', userId).executeTakeFirst(),
+      db.selectFrom('usuarios').select('id').where('id', '=', userId).executeTakeFirst(),
     );
-    if (!usuario?.email) throw new UnauthorizedException('Usuario sin email asociado');
+    if (!usuario) throw new UnauthorizedException('Usuario no encontrado');
 
-    const record = await this.codigoActivo(usuario.email, '2fa');
-    if (!record) throw new BadRequestException('Primero solicitá un código');
-
-    if (record.blocked_until && record.blocked_until > new Date()) {
-      throw new BadRequestException('Demasiados intentos. Esperá unos minutos.');
-    }
-
-    const totalAttempts = await this.db.runBypassRls(async (db) =>
-      db
-        .selectFrom('verification_codes')
-        .select(() => countInt())
-        .where('email', '=', usuario.email)
-        .where('purpose', '=', '2fa')
-        .where('created_at', '>=', new Date(Date.now() - 30 * 60 * 1000))
-        .executeTakeFirst(),
-    );
-
-    if ((totalAttempts?.c ?? 0) > 10) {
-      await this.bloquearCodigo(record.id, 60 * 60 * 1000);
-      throw new BadRequestException('Demasiados intentos. Acceso bloqueado por 1 hora.');
-    }
-
-    if (!this.codigoCoincide(record.code, code)) {
-      await this.db.runBypassRls(async (db) =>
-        db
-          .updateTable('verification_codes')
-          .set({ attempts: sql`attempts + 1` })
-          .where('id', '=', record.id)
-          .execute(),
-      );
-
-      if (record.attempts + 1 >= 5) {
-        await this.bloquearCodigo(record.id, 15 * 60 * 1000);
-        throw new BadRequestException('Código incorrecto. Bloqueado por 15 minutos.');
-      }
-      throw new BadRequestException(`Código incorrecto. Intentos restantes: ${4 - record.attempts}`);
-    }
-
-    await this.db.runBypassRls(async (db) =>
-      db.updateTable('verification_codes').set({ used: true }).where('id', '=', record.id).execute(),
-    );
+    if (code !== '5100') throw new BadRequestException('Clave incorrecta');
 
     return { success: true, message: 'Verificación exitosa' };
   }

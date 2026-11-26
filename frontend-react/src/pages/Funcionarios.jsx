@@ -116,33 +116,16 @@ export default function Funcionarios() {
     setLoading(false)
   }
 
-  const enviar2FA = async () => {
+  const enviar2FA = () => {
     setError2FA('')
-    setEsperandoCodigo(false)
     setBloqueadoHasta(null)
-    try {
-      const r = await fetch(`${API_URL}/auth/enviar-2fa`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      })
-      const d = await r.json()
-      if (!r.ok) {
-        if (d.message?.toLowerCase().includes('bloqueado') || d.message?.toLowerCase().includes('esper')) {
-          setError2FA(d.message)
-        } else {
-          setError2FA(d.message || 'Error al enviar código')
-        }
-        return
-      }
-      setEsperandoCodigo(true)
-    } catch {
-      setError2FA('Error de conexión')
-    }
+    setCodigo2FA('')
+    setEsperandoCodigo(true)
   }
 
   const verificar2FA = async () => {
     setError2FA('')
-    if (codigo2FA.length !== 6) { setError2FA('El código debe tener 6 dígitos'); return }
+    if (codigo2FA.length !== 4) { setError2FA('La clave debe tener 4 dígitos'); return }
     try {
       const r = await fetch(`${API_URL}/auth/verificar-2fa`, {
         method: 'POST',
@@ -154,7 +137,7 @@ export default function Funcionarios() {
       })
       const d = await r.json()
       if (!r.ok) {
-        const msg = d.message || 'Código inválido'
+        const msg = d.message || d.error || 'Clave incorrecta'
         if (msg.toLowerCase().includes('bloqueado')) {
           setBloqueadoHasta(Date.now() + 15 * 60 * 1000)
         }
@@ -248,7 +231,7 @@ export default function Funcionarios() {
             <span className="material-icons" style={{ fontSize: '48px', color: '#E53935', marginBottom: '12px' }}>lock</span>
             <h2 style={{ color: '#fff', fontSize: '18px', margin: '0 0 6px' }}>Verificación de seguridad</h2>
             <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px', margin: '0 0 24px' }}>
-              Para acceder a funcionarios, primero verificá tu identidad con un código enviado a tu email.
+              Para acceder a funcionarios, ingresá la clave de seguridad de 4 dígitos.
             </p>
 
             {error2FA && (
@@ -281,7 +264,7 @@ export default function Funcionarios() {
                   width: '100%', padding: '12px', borderRadius: '10px', border: 'none',
                   background: '#E53935', color: '#fff', fontSize: '15px', fontWeight: 700, cursor: 'pointer',
                 }}>
-                  Enviar código
+                  Continuar
                 </button>
                 <p style={{ marginTop: '12px' }}>
                   <button onClick={() => navigate('/app/inicio')}
@@ -295,10 +278,10 @@ export default function Funcionarios() {
             {!bloqueadoHasta && esperandoCodigo && (
               <div>
                 <input
-                  placeholder="Ingresá el código de 6 dígitos"
+                  placeholder="Clave de 4 dígitos"
                   value={codigo2FA}
-                  onChange={e => setCodigo2FA(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  maxLength={6}
+                  onChange={e => setCodigo2FA(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                  maxLength={4}
                   style={{
                     width: '100%', padding: '12px 16px', borderRadius: '10px',
                     border: '1px solid rgba(255,255,255,0.1)',
@@ -316,11 +299,6 @@ export default function Funcionarios() {
                   Verificar
                 </button>
                 <p style={{ marginTop: '12px', color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
-                  <button onClick={enviar2FA}
-                    style={{ background: 'none', border: 'none', color: '#E53935', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: 'inherit' }}>
-                    Reenviar código
-                  </button>
-                  {' · '}
                   <button onClick={() => { setError2FA(''); setCodigo2FA(''); setEsperandoCodigo(false) }}
                     style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.4)', cursor: 'pointer', fontSize: '12px', fontFamily: 'inherit' }}>
                     Cancelar
