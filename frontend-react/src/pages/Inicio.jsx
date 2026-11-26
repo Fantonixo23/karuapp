@@ -115,7 +115,7 @@ export default function Inicio() {
         <h2 style={{ fontSize: '22px', fontWeight: '700', margin: '20px 0 4px', color: darkMode ? '#fff' : '#1a1a1a' }}>
           {saludo}
         </h2>
-        <p style={{ fontSize: '13px', color: '#6B7280', margin: '0 0 20px' }}>
+        <p style={{ fontSize: '13px', color: darkMode ? '#A3A3A3' : '#6B7280', margin: '0 0 20px' }}>
           Selecciona un area para comenzar
         </p>
 
@@ -171,7 +171,7 @@ export default function Inicio() {
           ))}
         </div>
 
-        <div style={{ textAlign: 'center', padding: '40px 20px 80px', color: '#6B7280' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px 80px', color: darkMode ? '#A3A3A3' : '#6B7280' }}>
           <p style={{ fontSize: '12px', margin: 0 }}>
             ¿Tienes dudas o sugerencias? Contáctenos al <strong>+0992609484</strong>
           </p>
