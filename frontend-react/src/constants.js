@@ -27,3 +27,5 @@ export const MODULOS_POR_ROL = {
 }
 
 export const MOBILE_HIDDEN_MODULES = ['caja', 'informes', 'configuracion', 'funcionarios']
+
+export const LOGIN_HABILITADO = false

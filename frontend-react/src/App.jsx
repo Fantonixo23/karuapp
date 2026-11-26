@@ -22,7 +22,7 @@ import RequireRole from './admin/RequireRole'
 import { Config, Mesero, ParaLlevar } from './pages/Placeholders'
 import { FullscreenProvider } from './hooks/useFullscreen.jsx'
 import { useMediaQuery } from './hooks/useMediaQuery'
-import { MOBILE_HIDDEN_MODULES } from './constants'
+import { MOBILE_HIDDEN_MODULES, LOGIN_HABILITADO } from './constants'
 import LicenseBanner from './components/LicenseBanner'
 import AuthGuard from './components/AuthGuard'
 
@@ -30,6 +30,30 @@ function MobileGuard({ children }) {
   const isMobile = useStore((s) => s.isMobile)
   if (isMobile) return <Navigate to="/app/inicio" replace />
   return children
+}
+
+function LoginDisabled() {
+  const user = useStore((s) => s.user)
+  if (user) return <Navigate to="/app/inicio" replace />
+  return (
+    <div style={{
+      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      backgroundColor: '#1e1e1e', fontFamily: "'Inter', 'Roboto', sans-serif",
+    }}>
+      <div style={{
+        width: '100%', maxWidth: '400px', padding: '40px 32px', textAlign: 'center',
+        background: '#1e1e1e', borderRadius: '20px',
+        border: '1px solid rgba(255,255,255,0.06)',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+      }}>
+        <img src="/logo.png" alt="KaruApp" style={{ width: '56px', height: '56px', borderRadius: '14px', marginBottom: '12px' }} />
+        <h1 style={{ color: '#fff', fontSize: '20px', margin: '0 0 12px' }}>Acceso temporalmente deshabilitado</h1>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '13px', margin: 0, lineHeight: 1.7 }}>
+          El ingreso y la creación de cuentas están pausados temporalmente. Intentá de nuevo más tarde.
+        </p>
+      </div>
+    </div>
+  )
 }
 
 export default function App() {
@@ -63,7 +87,7 @@ export default function App() {
   return (
     <FullscreenProvider>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={LOGIN_HABILITADO ? <Login /> : <LoginDisabled />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<RequireRole rol="superadmin"><AdminDashboard /></RequireRole>} />
         <Route path="/admin/restaurantes/:id" element={<RequireRole rol="superadmin"><AdminRestauranteDetalle /></RequireRole>} />
